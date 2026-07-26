@@ -1,0 +1,174 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Smooth scrolling ─── */
+html {
+  scroll-behavior: smooth;
+}
+
+@layer base {
+  body {
+    background-color: #F7F7F4;
+    color: #1E2422;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Selection highlight */
+  ::selection {
+    background-color: rgba(11, 95, 60, 0.15);
+    color: #07452A;
+  }
+
+  /* Focus-visible accessibility ring */
+  *:focus-visible {
+    outline: 2px solid rgba(11, 95, 60, 0.5);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #F7F7F4;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #b8c4be;
+    border-radius: 9999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #0B5F3C;
+  }
+}
+
+/* RTL Urdu Font adjustments */
+[dir="rtl"] {
+  font-family: 'Noto Nastaliq Urdu', 'Noto Sans Arabic', serif, sans-serif;
+  line-height: 1.8;
+}
+
+[dir="rtl"] input, [dir="rtl"] select, [dir="rtl"] textarea {
+  font-family: 'Noto Sans Arabic', sans-serif;
+}
+
+@layer components {
+  /* ─── Glass Card ─── */
+  .glass-card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+
+  /* ─── Shimmer skeleton ─── */
+  .skeleton {
+    background: linear-gradient(
+      90deg,
+      #e8eae9 25%,
+      #f2f3f2 50%,
+      #e8eae9 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s linear infinite;
+    border-radius: 8px;
+  }
+
+  /* ─── Premium card base ─── */
+  .card-premium {
+    background-color: white;
+    border-radius: 0.75rem;
+    border: 1px solid #E2E5E0;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+    transition: all 0.3s ease;
+  }
+  .card-premium:hover {
+    box-shadow: 0 10px 25px -5px rgba(0,0,0,0.08), 0 8px 10px -6px rgba(0,0,0,0.04);
+    transform: translateY(-2px);
+  }
+
+  /* ─── Gradient text utility ─── */
+  .text-gradient-emerald {
+    background: linear-gradient(135deg, #0B5F3C 0%, #1E7E44 50%, #C9A227 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* ─── Animated underline for links ─── */
+  .link-underline {
+    position: relative;
+  }
+  .link-underline::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #C9A227;
+    border-radius: 9999px;
+    transition: width 0.3s ease;
+  }
+  .link-underline:hover::after,
+  .link-underline.active::after {
+    width: 100%;
+  }
+
+  /* ─── Section alternating background ─── */
+  .section-alt {
+    background: linear-gradient(180deg, #F7F7F4 0%, #EFF1EE 100%);
+  }
+
+  /* ─── Stat counter glow ─── */
+  .stat-glow {
+    position: relative;
+  }
+  .stat-glow::before {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, rgba(11,95,60,0.12), rgba(201,162,39,0.12));
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .stat-glow:hover::before {
+    opacity: 1;
+  }
+}
+
+@layer utilities {
+  /* ─── Stagger children animation ─── */
+  .stagger-children > * {
+    animation: slideUp 0.4s ease-out both;
+  }
+  .stagger-children > *:nth-child(1) { animation-delay: 0ms; }
+  .stagger-children > *:nth-child(2) { animation-delay: 60ms; }
+  .stagger-children > *:nth-child(3) { animation-delay: 120ms; }
+  .stagger-children > *:nth-child(4) { animation-delay: 180ms; }
+  .stagger-children > *:nth-child(5) { animation-delay: 240ms; }
+  .stagger-children > *:nth-child(6) { animation-delay: 300ms; }
+  .stagger-children > *:nth-child(7) { animation-delay: 360ms; }
+  .stagger-children > *:nth-child(8) { animation-delay: 420ms; }
+
+  /* ─── Gradient border bottom ─── */
+  .border-b-gradient {
+    border-bottom: 3px solid transparent;
+    border-image: linear-gradient(90deg, #0B5F3C, #C9A227, #0B5F3C) 1;
+  }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes slideUp {
+  0% { opacity: 0; transform: translateY(16px); }
+  100% { opacity: 1; transform: translateY(0); }
+}

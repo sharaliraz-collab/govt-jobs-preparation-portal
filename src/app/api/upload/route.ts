@@ -1,5 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAuthUser } from '@/lib/auth';
+import fs from 'fs';
+import path from 'path';
+
+export const dynamic = 'force-dynamic';
 
 export async function POST(req: NextRequest) {
   try {
@@ -15,25 +19,34 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ message: 'No file provided' }, { status: 400 });
     }
 
-    // Validate file size (max ~12MB original = ~16MB base64, within MongoDB 16MB doc limit)
-    const MAX_SIZE = 12 * 1024 * 1024; // 12MB
+    const MAX_SIZE = 25 * 1024 * 1024; // 25MB limit
     if (file.size > MAX_SIZE) {
       return NextResponse.json(
-        { message: 'File too large. Maximum size is 12MB.' },
+        { message: 'File too large. Maximum size is 25MB.' },
         { status: 400 }
       );
     }
 
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
-    const base64 = buffer.toString('base64');
 
-    // Determine MIME type
-    const mimeType = file.type || 'application/octet-stream';
-    const dataUrl = `data:${mimeType};base64,${base64}`;
+    // Save to public/uploads directory
+    const uploadsDir = path.join(process.cwd(), 'public', 'uploads');
+    if (!fs.existsSync(uploadsDir)) {
+      fs.mkdirSync(uploadsDir, { recursive: true });
+    }
+
+    const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+    const filename = `${Date.now()}_${safeName}`;
+    const filePath = path.join(uploadsDir, filename);
+
+    fs.writeFileSync(filePath, buffer);
+
+    // Return forward-slash relative URL path served by Next.js static asset handler
+    const fileUrl = `/uploads/${filename}`;
 
     return NextResponse.json(
-      { url: dataUrl, filename: file.name, size: file.size },
+      { url: fileUrl, filename, size: file.size },
       { status: 201 }
     );
   } catch (error: any) {

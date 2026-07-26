@@ -101,7 +101,7 @@ export default function Home() {
             <span>Pakistan&apos;s #1 Government Jobs & Test Prep Portal</span>
           </div>
 
-          <h1 className={`text-3xl md:text-5xl font-extrabold leading-tight tracking-tight animate-slide-up ${isUr ? 'font-urdu' : ''}`}>
+          <h1 className={`text-xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight whitespace-nowrap overflow-hidden text-ellipsis animate-slide-up ${isUr ? 'font-urdu' : ''}`}>
             {t('home.heroTitle')}
           </h1>
 

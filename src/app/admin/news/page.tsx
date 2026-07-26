@@ -128,13 +128,18 @@ export default function ManageNewsPage() {
 
     setSubmitting(true);
     try {
+      const payload = {
+        ...formData,
+        coverImage: formData.coverImage ? formData.coverImage.replace(/\\/g, '/') : ''
+      };
+
       if (editingNews) {
-        await axios.put(`/api/news/${editingNews._id}`, formData, {
+        await axios.put(`/api/news/${editingNews._id}`, payload, {
           headers: { Authorization: `Bearer ${token}` }
         });
         showToast('News article updated!');
       } else {
-        await axios.post('/api/news', formData, {
+        await axios.post('/api/news', payload, {
           headers: { Authorization: `Bearer ${token}` }
         });
         showToast('New article published!');

@@ -170,7 +170,7 @@ export default function ManageJobsPage() {
       const payload = {
         ...formData,
         deadline: formData.deadline || new Date(Date.now() + 14 * 86400000).toISOString(),
-        adFile: adFileUrl
+        adFile: adFileUrl ? adFileUrl.replace(/\\/g, '/') : ''
       };
 
       if (editingJob) {

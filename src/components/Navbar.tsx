@@ -77,18 +77,17 @@ const Navbar = () => {
       }`}
     >
       {/* Top Banner Bar */}
-      <div className="bg-govt-emerald-dark px-4 py-1.5 text-xs border-b border-emerald-700/40">
+      <div className="bg-govt-emerald-dark px-4 py-1 text-xs border-b border-emerald-700/40">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <div className="flex items-center gap-2 font-medium text-emerald-200">
             <span className="inline-block w-2 h-2 rounded-full bg-govt-gold animate-pulse" />
-            <span className="hidden sm:inline">Government Recruitment & Entry Test Portal</span>
-            <span className="sm:hidden">GovtJobs.pk</span>
+            <span className="text-xs font-semibold text-emerald-200">GovtJobs.pk</span>
           </div>
 
           <button
             onClick={toggleLanguage}
             aria-label="Toggle language"
-            className="flex items-center gap-1.5 bg-emerald-800/60 hover:bg-emerald-700/80 px-2.5 py-1 rounded-md text-xs font-semibold tracking-wider transition-all duration-200 border border-emerald-600/50 text-white"
+            className="flex items-center gap-1.5 bg-emerald-800/60 hover:bg-emerald-700/80 px-2.5 py-0.5 rounded-md text-xs font-semibold tracking-wider transition-all duration-200 border border-emerald-600/50 text-white"
           >
             <Globe className="w-3.5 h-3.5" />
             <span>{isUr ? 'English' : 'اردو'}</span>
@@ -97,21 +96,18 @@ const Navbar = () => {
       </div>
 
       {/* Main Navbar */}
-      <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-3 group" aria-label="Go to homepage">
-          <div className="w-10 h-10 rounded-full border-2 border-govt-gold/80 shadow-glow-gold bg-gradient-to-br from-emerald-800 to-emerald-950 flex items-center justify-center font-extrabold text-white text-xs tracking-tighter transition-transform duration-300 group-hover:scale-105">
+      <div className="max-w-7xl mx-auto px-4 py-2.5 flex items-center justify-between">
+        <Link href="/" className="flex items-center gap-2.5 group shrink-0" aria-label="Go to homepage">
+          <div className="w-9 h-9 rounded-full border-2 border-govt-gold/80 shadow-glow-gold bg-gradient-to-br from-emerald-800 to-emerald-950 flex items-center justify-center font-extrabold text-white text-xs tracking-tighter transition-transform duration-300 group-hover:scale-105 shrink-0">
             GJ
           </div>
-          <div>
-            <h1 className={`text-lg font-extrabold leading-tight text-white ${isUr ? 'font-urdu' : ''}`}>
-              {t('nav.title')}
-            </h1>
-            <p className="text-[10px] text-emerald-300/80 font-medium tracking-wide">Official Govt Jobs & Preparation</p>
-          </div>
+          <span className={`text-lg xl:text-xl font-extrabold tracking-tight text-white whitespace-nowrap ${isUr ? 'font-urdu' : ''}`}>
+            {t('nav.title')}
+          </span>
         </Link>
 
         {/* Desktop Nav Links */}
-        <nav className="hidden lg:flex items-center gap-1 text-sm font-medium" aria-label="Main navigation">
+        <nav className="hidden lg:flex items-center gap-1 xl:gap-2 text-xs xl:text-sm font-medium whitespace-nowrap flex-nowrap" aria-label="Main navigation">
           {navLinks.map((link) => {
             const Icon = link.icon;
             const active = isActive(link.href);
@@ -119,31 +115,31 @@ const Navbar = () => {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`link-underline relative flex items-center gap-1.5 px-3 py-2 rounded-lg transition-all duration-200 text-white/90 hover:text-white hover:bg-white/10 ${
+                className={`link-underline relative flex items-center gap-1.5 px-2.5 py-1.5 xl:px-3 xl:py-2 rounded-lg transition-all duration-200 text-white/90 hover:text-white hover:bg-white/10 whitespace-nowrap shrink-0 ${
                   active ? 'active text-white bg-white/10' : ''
                 }`}
               >
-                {Icon && <Icon className="w-4 h-4" />}
-                <span>{t(link.labelKey)}</span>
+                {Icon && <Icon className="w-4 h-4 shrink-0" />}
+                <span className="whitespace-nowrap">{t(link.labelKey)}</span>
               </Link>
             );
           })}
 
           {/* Employees Corner Dropdown */}
           <div
-            className="relative"
+            className="relative shrink-0"
             onMouseEnter={() => setEmpDropdownOpen(true)}
             onMouseLeave={() => setEmpDropdownOpen(false)}
           >
             <Link
               href="/employees-corner"
-              className={`link-underline relative flex items-center gap-1.5 px-3 py-2 rounded-lg transition-all duration-200 text-white/90 hover:text-white hover:bg-white/10 ${
+              className={`link-underline relative flex items-center gap-1.5 px-2.5 py-1.5 xl:px-3 xl:py-2 rounded-lg transition-all duration-200 text-white/90 hover:text-white hover:bg-white/10 whitespace-nowrap shrink-0 ${
                 isActive('/employees-corner') ? 'active text-white bg-white/10' : ''
               }`}
             >
-              <Users className="w-4 h-4" />
-              <span>Employees</span>
-              <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${empDropdownOpen ? 'rotate-180' : ''}`} />
+              <Users className="w-4 h-4 shrink-0" />
+              <span className="whitespace-nowrap">Employees</span>
+              <ChevronDown className={`w-3.5 h-3.5 shrink-0 transition-transform duration-200 ${empDropdownOpen ? 'rotate-180' : ''}`} />
             </Link>
 
             {empDropdownOpen && (
@@ -156,10 +152,10 @@ const Navbar = () => {
                     key={sub.path}
                     href={sub.path}
                     onClick={() => setEmpDropdownOpen(false)}
-                    className="flex items-center gap-2 px-4 py-2.5 hover:bg-govt-emerald-light text-slate-700 hover:text-govt-emerald font-semibold transition-colors duration-150"
+                    className="flex items-center gap-2 px-4 py-2.5 hover:bg-govt-emerald-light text-slate-700 hover:text-govt-emerald font-semibold transition-colors duration-150 whitespace-nowrap"
                   >
-                    <span className="w-1.5 h-1.5 rounded-full bg-govt-emerald/40" />
-                    {sub.label}
+                    <span className="w-1.5 h-1.5 rounded-full bg-govt-emerald/40 shrink-0" />
+                    <span className="whitespace-nowrap">{sub.label}</span>
                   </Link>
                 ))}
               </div>
@@ -168,38 +164,38 @@ const Navbar = () => {
         </nav>
 
         {/* User / Admin Action Buttons */}
-        <div className="hidden lg:flex items-center gap-3">
+        <div className="hidden lg:flex items-center gap-2 xl:gap-3 shrink-0 whitespace-nowrap">
           {user ? (
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 shrink-0">
               <Link
                 href={isAdmin ? '/admin/dashboard' : '/my-account'}
-                className="flex items-center gap-1.5 bg-white/10 hover:bg-white/20 backdrop-blur px-3 py-2 rounded-lg text-xs font-bold border border-white/15 transition-all duration-200 text-white"
+                className="flex items-center gap-1.5 bg-white/10 hover:bg-white/20 backdrop-blur px-3 py-2 rounded-lg text-xs font-bold border border-white/15 transition-all duration-200 text-white whitespace-nowrap"
               >
-                {isAdmin ? <ShieldAlert className="w-4 h-4 text-govt-gold" /> : <UserCheck className="w-4 h-4" />}
-                <span>{user.name}</span>
+                {isAdmin ? <ShieldAlert className="w-4 h-4 text-govt-gold shrink-0" /> : <UserCheck className="w-4 h-4 shrink-0" />}
+                <span className="whitespace-nowrap">{user.name}</span>
               </Link>
               <button
                 onClick={handleLogout}
                 aria-label="Logout"
-                className="text-xs bg-red-500/20 hover:bg-red-500/30 px-3 py-2 rounded-lg font-bold transition-all duration-200 flex items-center gap-1.5 text-red-200 hover:text-white border border-red-400/20"
+                className="text-xs bg-red-500/20 hover:bg-red-500/30 px-3 py-2 rounded-lg font-bold transition-all duration-200 flex items-center gap-1.5 text-red-200 hover:text-white border border-red-400/20 whitespace-nowrap"
               >
-                <LogOut className="w-3.5 h-3.5" />
-                {t('nav.logout')}
+                <LogOut className="w-3.5 h-3.5 shrink-0" />
+                <span className="whitespace-nowrap">{t('nav.logout')}</span>
               </button>
             </div>
           ) : (
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 shrink-0">
               <Link
                 href="/login"
-                className="bg-white/10 hover:bg-white/20 px-4 py-2 rounded-lg text-xs font-bold border border-white/15 transition-all duration-200 text-white"
+                className="bg-white/10 hover:bg-white/20 px-3.5 py-2 rounded-lg text-xs font-bold border border-white/15 transition-all duration-200 text-white whitespace-nowrap"
               >
-                {t('nav.login')}
+                <span className="whitespace-nowrap">{t('nav.login')}</span>
               </Link>
               <Link
                 href="/register"
-                className="bg-govt-gold hover:bg-yellow-500 text-govt-emerald-dark px-4 py-2 rounded-lg text-xs font-extrabold transition-all duration-200 shadow-glow-gold"
+                className="bg-govt-gold hover:bg-yellow-500 text-govt-emerald-dark px-3.5 py-2 rounded-lg text-xs font-extrabold transition-all duration-200 shadow-glow-gold whitespace-nowrap"
               >
-                {t('nav.register')}
+                <span className="whitespace-nowrap">{t('nav.register')}</span>
               </Link>
             </div>
           )}

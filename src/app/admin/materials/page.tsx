@@ -148,7 +148,7 @@ export default function ManageMaterialsPage() {
 
       const payload = {
         ...formData,
-        file: fileUrl
+        file: fileUrl ? fileUrl.replace(/\\/g, '/') : ''
       };
 
       if (editingItem) {

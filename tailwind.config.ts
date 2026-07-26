@@ -10,18 +10,18 @@ const config: Config = {
     extend: {
       colors: {
         govt: {
-          emerald: '#0B5F3C',
-          'emerald-dark': '#07452A',
-          'emerald-light': '#E8F5EE',
-          bg: '#F7F7F4',
-          gold: '#C9A227',
-          'gold-light': '#FBF5E0',
-          charcoal: '#1E2422',
-          muted: '#5B6561',
-          border: '#E2E5E0',
-          red: '#B3261E',
-          open: '#1E7E44',
-          closing: '#D97706'
+          emerald: '#059669',
+          'emerald-dark': '#047857',
+          'emerald-light': '#ECFDF5',
+          bg: '#F8FAFC',
+          gold: '#F59E0B',
+          'gold-light': '#FEF3C7',
+          charcoal: '#0F172A',
+          muted: '#64748B',
+          border: '#E2E8F0',
+          red: '#EF4444',
+          open: '#10B981',
+          closing: '#F59E0B'
         }
       },
       fontFamily: {
@@ -29,12 +29,12 @@ const config: Config = {
         urdu: ['"Noto Nastaliq Urdu"', '"Noto Sans Arabic"', 'serif']
       },
       boxShadow: {
-        'glass': '0 8px 32px rgba(11, 95, 60, 0.08)',
+        'glass': '0 8px 32px rgba(16, 185, 129, 0.08)',
         'card': '0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04)',
         'card-hover': '0 10px 25px -5px rgba(0,0,0,0.08), 0 8px 10px -6px rgba(0,0,0,0.04)',
         'elevated': '0 20px 40px -12px rgba(0,0,0,0.12)',
-        'glow-emerald': '0 0 20px rgba(11, 95, 60, 0.15)',
-        'glow-gold': '0 0 20px rgba(201, 162, 39, 0.2)',
+        'glow-emerald': '0 0 20px rgba(16, 185, 129, 0.2)',
+        'glow-gold': '0 0 20px rgba(245, 158, 11, 0.2)',
       },
       keyframes: {
         fadeIn: {
@@ -62,8 +62,8 @@ const config: Config = {
           '50%': { transform: 'translateY(-6px)' },
         },
         pulseGlow: {
-          '0%, 100%': { boxShadow: '0 0 0 0 rgba(11, 95, 60, 0.3)' },
-          '50%': { boxShadow: '0 0 0 8px rgba(11, 95, 60, 0)' },
+          '0%, 100%': { boxShadow: '0 0 0 0 rgba(16, 185, 129, 0.3)' },
+          '50%': { boxShadow: '0 0 0 8px rgba(16, 185, 129, 0)' },
         },
         gradientShift: {
           '0%': { backgroundPosition: '0% 50%' },

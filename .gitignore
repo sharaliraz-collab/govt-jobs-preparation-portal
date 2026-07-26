@@ -36,3 +36,8 @@ next-env.d.ts
 
 # uploads (not needed in repo)
 public/uploads/
+
+# legacy folders
+Jobs-test-prep/
+vulearning/
+

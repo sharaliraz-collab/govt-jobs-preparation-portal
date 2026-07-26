@@ -16,23 +16,17 @@ if (!global.mongooseCache) {
 }
 
 export async function connectDB() {
-  if (cached.conn) {
+  if (cached.conn && mongoose.connection.readyState === 1) {
     return cached.conn;
   }
 
   if (!cached.promise) {
-    const mongoUri = process.env.MONGO_URI;
-
-    if (!mongoUri) {
-      throw new Error(
-        'MONGO_URI environment variable is not set. Please add it to your Vercel environment variables.'
-      );
-    }
+    const mongoUri = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/govt_portal';
 
     const opts = {
       bufferCommands: false,
-      serverSelectionTimeoutMS: 10000,
-      connectTimeoutMS: 10000,
+      serverSelectionTimeoutMS: 5000,
+      connectTimeoutMS: 5000,
     };
 
     cached.promise = mongoose
@@ -41,10 +35,20 @@ export async function connectDB() {
         console.log(`MongoDB Connected: ${mongooseInstance.connection.host}`);
         return mongooseInstance;
       })
-      .catch((error) => {
-        console.error(`MongoDB Connection Error: ${error.message}`);
-        cached.promise = null;
-        throw error;
+      .catch(async (error) => {
+        console.warn(`Primary MONGO_URI failed (${error.message}). Attempting memory server fallback...`);
+        try {
+          const { MongoMemoryServer } = await import('mongodb-memory-server');
+          const mongod = await MongoMemoryServer.create();
+          const memoryUri = mongod.getUri();
+          console.log(`Starting MongoDB Memory Server at ${memoryUri}`);
+          const memConn = await mongoose.connect(memoryUri, opts);
+          return memConn;
+        } catch (fallbackErr: any) {
+          console.error('Fallback MongoDB Error:', fallbackErr.message);
+          cached.promise = null;
+          throw fallbackErr;
+        }
       });
   }
 
@@ -55,7 +59,7 @@ export async function connectDB() {
     throw e;
   }
 
-  // Trigger auto-seeding once connected if in server context
+  // Trigger auto-seeding once connected
   try {
     const { seedAllData } = await import('./seed');
     await seedAllData();

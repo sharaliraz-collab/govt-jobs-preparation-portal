@@ -148,7 +148,7 @@ export default function ManageFormsPage() {
 
       const payload = {
         ...formData,
-        file: fileUrl
+        file: fileUrl ? fileUrl.replace(/\\/g, '/') : ''
       };
 
       if (editingForm) {

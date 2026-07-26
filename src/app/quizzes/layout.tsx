@@ -1,22 +1,17 @@
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://govtjobs.pk';
 
 export const metadata: Metadata = {
-  title: 'Online MCQ Quizzes & Entry Test Practice — FPSC, PPSC, NTS',
-  description: 'Practice timed online MCQ tests for General Knowledge, Pakistan Studies, Islamic Studies, English, Computer Science, and Mathematics with instant scoring.',
+  title: 'Online MCQ Practice Tests & Quizzes — FPSC, PPSC, NTS Prep',
+  description: 'Test your knowledge with timed online MCQ practice quizzes for FPSC, PPSC, NTS, SPSC, and CSS/PMS examinations with instant scoring & answer review.',
   openGraph: {
-    title: 'Online MCQ Quizzes & Entry Test Practice — FPSC, PPSC, NTS',
-    description: 'Test your knowledge with authentic timed MCQ quizzes for recruitment and admission tests in Pakistan.',
+    title: 'Online MCQ Practice Quizzes — Pakistan Govt Recruitment Prep',
+    description: 'Timed online MCQ tests for FPSC, PPSC, NTS, and competitive exams.',
     url: `${siteUrl}/quizzes`,
-    siteName: 'GovtJobs.pk',
-    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Online MCQ Quizzes and Practice Tests' }],
   },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Online Timed MCQ Quizzes & Entry Test Practice',
-    description: 'Practice timed online MCQ tests with detailed answer keys and performance history.',
-    images: ['/og-image.png'],
+  alternates: {
+    canonical: `${siteUrl}/quizzes`,
   },
 };
 

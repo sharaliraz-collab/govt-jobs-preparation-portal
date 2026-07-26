@@ -84,8 +84,40 @@ export default function JobDetailPage({ params }: { params: { id: string } }) {
     day: 'numeric'
   });
 
+  const jsonLdJob = {
+    '@context': 'https://schema.org/',
+    '@type': 'JobPosting',
+    title: job.titleEn,
+    description: job.descriptionEn || job.titleEn,
+    identifier: {
+      '@type': 'PropertyValue',
+      name: job.department,
+      value: job._id,
+    },
+    datePosted: job.createdAt || new Date().toISOString(),
+    validThrough: job.deadline,
+    employmentType: 'FULL_TIME',
+    hiringOrganization: {
+      '@type': 'Organization',
+      name: job.department,
+      sameAs: 'https://govtjobs.pk',
+    },
+    jobLocation: {
+      '@type': 'Place',
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: job.location,
+        addressCountry: 'PK',
+      },
+    },
+  };
+
   return (
     <div className="max-w-4xl mx-auto px-4 py-8 space-y-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdJob) }}
+      />
       {/* Back Link */}
       <Link href="/jobs" className="inline-flex items-center gap-1 text-xs font-bold text-govt-emerald hover:underline">
         <ArrowLeft className="w-4 h-4" />

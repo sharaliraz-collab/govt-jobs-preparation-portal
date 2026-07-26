@@ -1,22 +1,17 @@
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://govtjobs.pk';
 
 export const metadata: Metadata = {
-  title: 'Test Prep Study Materials & Past Papers PDF — FPSC, PPSC, NTS',
-  description: 'Free download authentic past papers, syllabus guides, preparation notes for General Knowledge, Pakistan Studies, Islamic Studies, English, and CS.',
+  title: 'FPSC & PPSC Past Papers PDF Download — Test Preparation Materials',
+  description: 'Download past papers, syllabus PDFs, CSS/PMS exam study notes, general knowledge MCQs, and subject preparation guides for Pakistan competitive exams.',
   openGraph: {
-    title: 'Test Prep Study Materials & Past Papers PDF — FPSC, PPSC, NTS',
-    description: 'Download solved past papers and preparation materials for Pakistan competitive exams.',
+    title: 'FPSC & PPSC Past Papers PDF — Test Prep Study Materials',
+    description: 'Download solved past papers, syllabus PDFs, and study notes.',
     url: `${siteUrl}/materials`,
-    siteName: 'GovtJobs.pk',
-    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Study Materials and Past Papers' }],
   },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Free Test Prep Materials & Solved Past Papers PDF',
-    description: 'Authentic syllabus guides, solved past papers, and preparation notes for competitive exams.',
-    images: ['/og-image.png'],
+  alternates: {
+    canonical: `${siteUrl}/materials`,
   },
 };
 

@@ -1,22 +1,17 @@
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://govtjobs.pk';
 
 export const metadata: Metadata = {
-  title: 'Official News & Exam Notifications — FPSC, PPSC, NTS Gazette',
-  description: 'Latest official government news, test schedules, answer keys, merit lists, and recruitment policy updates in Pakistan.',
+  title: 'Pakistan Government Job News, Roll No Slips & Exam Updates 2026',
+  description: 'Stay updated with official recruitment news, FPSC/PPSC exam dates, interview schedules, roll number slip releases, and merit list announcements.',
   openGraph: {
-    title: 'Official News & Exam Notifications — FPSC, PPSC, NTS Gazette',
-    description: 'Stay updated with official exam timetables, test results, and recruitment notifications in Pakistan.',
+    title: 'Pakistan Govt Recruitment News & Roll No Slip Alerts 2026',
+    description: 'Official test dates, interview schedules, and merit list news.',
     url: `${siteUrl}/news`,
-    siteName: 'GovtJobs.pk',
-    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Government News & Notifications' }],
   },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Official News & Exam Notifications — GovtJobs.pk',
-    description: 'Latest official government news, test schedules, answer keys, merit lists, and recruitment policy updates.',
-    images: ['/og-image.png'],
+  alternates: {
+    canonical: `${siteUrl}/news`,
   },
 };
 

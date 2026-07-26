@@ -98,9 +98,11 @@ const Navbar = () => {
       {/* Main Navbar */}
       <div className="max-w-7xl mx-auto px-4 py-2.5 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2.5 group shrink-0" aria-label="Go to homepage">
-          <div className="w-9 h-9 rounded-full border-2 border-govt-gold/80 shadow-glow-gold bg-gradient-to-br from-emerald-800 to-emerald-950 flex items-center justify-center font-extrabold text-white text-xs tracking-tighter transition-transform duration-300 group-hover:scale-105 shrink-0">
-            GJ
-          </div>
+          <img
+            src="/logo.png"
+            alt="GovtJobs.pk Logo"
+            className="w-9 h-9 rounded-full border-2 border-govt-gold/80 shadow-glow-gold object-cover transition-transform duration-300 group-hover:scale-105 shrink-0"
+          />
           <span className={`text-lg xl:text-xl font-extrabold tracking-tight text-white whitespace-nowrap ${isUr ? 'font-urdu' : ''}`}>
             {t('nav.title')}
           </span>

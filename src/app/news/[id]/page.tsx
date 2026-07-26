@@ -52,8 +52,34 @@ export default function NewsDetailPage({ params }: { params: { id: string } }) {
     day: 'numeric'
   });
 
+  const jsonLdNews = {
+    '@context': 'https://schema.org',
+    '@type': 'NewsArticle',
+    headline: news.titleEn,
+    description: news.bodyEn ? news.bodyEn.substring(0, 160) : news.titleEn,
+    datePublished: news.publishedAt || news.createdAt || new Date().toISOString(),
+    dateModified: news.updatedAt || news.createdAt || new Date().toISOString(),
+    author: {
+      '@type': 'Organization',
+      name: 'GovtJobs.pk Editorial Team',
+      url: 'https://govtjobs.pk',
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'GovtJobs.pk',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://govtjobs.pk/logo.png',
+      },
+    },
+  };
+
   return (
     <div className="max-w-3xl mx-auto px-4 py-8 space-y-6">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdNews) }}
+      />
       <Link href="/news" className="inline-flex items-center gap-1 text-xs font-bold text-govt-emerald hover:underline">
         <ArrowLeft className="w-4 h-4" />
         <span>{t('news.title')}</span>

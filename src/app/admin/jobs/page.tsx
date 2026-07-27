@@ -138,7 +138,8 @@ export default function ManageJobsPage() {
       setFormData(prev => ({ ...prev, adFile: res.data.url }));
       showToast('Advertisement file attached!');
     } catch (err: any) {
-      console.warn('Auto upload delayed to form submission');
+      console.error('Upload failed:', err);
+      showToast(err.response?.data?.message || 'Image/file upload failed', 'error');
     } finally {
       setUploadingFile(false);
     }

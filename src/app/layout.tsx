@@ -1,8 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { Providers } from './providers';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
+import AppShell from '@/components/AppShell';
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://govtjobs.pk';
 
@@ -152,11 +151,7 @@ export default function RootLayout({
         </a>
 
         <Providers>
-          <Navbar />
-          <main id="main-content" className="flex-grow">
-            {children}
-          </main>
-          <Footer />
+          <AppShell>{children}</AppShell>
         </Providers>
       </body>
     </html>

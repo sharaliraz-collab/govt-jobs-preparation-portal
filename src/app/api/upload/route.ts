@@ -30,11 +30,11 @@ export async function POST(req: NextRequest) {
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
-    // Save to public/uploads directory
-    const uploadsDir = path.join(process.cwd(), 'public', 'uploads');
-    if (!fs.existsSync(uploadsDir)) {
-      fs.mkdirSync(uploadsDir, { recursive: true });
-    }
+    const uploadsDir = path.resolve(process.cwd(), 'public', 'uploads');
+    const publicDir = path.resolve(process.cwd(), 'public');
+
+    fs.mkdirSync(publicDir, { recursive: true });
+    fs.mkdirSync(uploadsDir, { recursive: true });
 
     const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
     const filename = `${Date.now()}_${safeName}`;
@@ -42,7 +42,6 @@ export async function POST(req: NextRequest) {
 
     fs.writeFileSync(filePath, buffer);
 
-    // Return forward-slash relative URL path served by Next.js static asset handler
     const fileUrl = `/uploads/${filename}`;
 
     return NextResponse.json(
@@ -50,6 +49,10 @@ export async function POST(req: NextRequest) {
       { status: 201 }
     );
   } catch (error: any) {
-    return NextResponse.json({ message: error.message || 'Server error' }, { status: 500 });
+    console.error('Upload failed:', error);
+    return NextResponse.json(
+      { message: error?.message || 'File upload failed. Please try again.' },
+      { status: 500 }
+    );
   }
 }

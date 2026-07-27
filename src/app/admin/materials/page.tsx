@@ -113,7 +113,8 @@ export default function ManageMaterialsPage() {
       setFormData(prev => ({ ...prev, file: res.data.url }));
       showToast('File attached successfully!');
     } catch (err: any) {
-      console.warn('Auto upload delayed to form submission');
+      console.error('Upload failed:', err);
+      showToast(err.response?.data?.message || 'File upload failed', 'error');
     } finally {
       setUploadingFile(false);
     }

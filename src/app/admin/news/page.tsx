@@ -113,7 +113,8 @@ export default function ManageNewsPage() {
       setFormData(prev => ({ ...prev, coverImage: res.data.url }));
       showToast('Cover image uploaded!');
     } catch (err: any) {
-      showToast('Failed to upload image', 'error');
+      console.error('Image upload failed:', err);
+      showToast(err.response?.data?.message || 'Failed to upload image', 'error');
     } finally {
       setUploadingImage(false);
     }

@@ -86,6 +86,25 @@ const JobCard: React.FC<JobCardProps> = ({ job, onSaveToggle }) => {
           </button>
         </div>
 
+        {/* Optional Advertisement Image Thumbnail */}
+        {job.adFile && (
+          <Link href={`/jobs/${job._id}`} className="block mb-3.5 group/adImg overflow-hidden rounded-lg border border-slate-200 bg-slate-100 relative">
+            <div className="aspect-[16/9] w-full relative overflow-hidden bg-slate-900/5">
+              <img
+                src={job.adFile.startsWith('/uploads') || job.adFile.startsWith('http') ? job.adFile : `/uploads/${job.adFile}`}
+                alt={`${title} Official Ad`}
+                className="w-full h-full object-cover object-top group-hover/adImg:scale-105 transition-transform duration-300"
+                onError={(e) => {
+                  (e.target as HTMLElement).parentElement!.style.display = 'none';
+                }}
+              />
+              <div className="absolute top-2 right-2 bg-slate-900/80 backdrop-blur-xs text-white text-[9px] font-extrabold px-2 py-0.5 rounded shadow">
+                📰 Official Ad Clipping
+              </div>
+            </div>
+          </Link>
+        )}
+
         {/* Title */}
         <Link href={`/jobs/${job._id}`} className="block group/title">
           <h3 className={`text-base font-bold text-govt-charcoal group-hover/title:text-govt-emerald transition-colors duration-200 line-clamp-2 ${isUr ? 'font-urdu' : ''}`}>

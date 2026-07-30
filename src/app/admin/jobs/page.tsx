@@ -59,6 +59,7 @@ export default function ManageJobsPage() {
     adFile: ''
   });
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string>('');
   const [uploadingFile, setUploadingFile] = useState(false);
 
   useEffect(() => {
@@ -99,6 +100,7 @@ export default function ManageJobsPage() {
         featured: job.featured || false,
         adFile: job.adFile || ''
       });
+      setPreviewUrl(job.adFile || '');
     } else {
       setEditingJob(null);
       setFormData({
@@ -114,6 +116,7 @@ export default function ManageJobsPage() {
         featured: false,
         adFile: ''
       });
+      setPreviewUrl('');
     }
     setSelectedFile(null);
     setModalOpen(true);
@@ -123,6 +126,7 @@ export default function ManageJobsPage() {
     const selected = e.target.files?.[0];
     if (!selected) return;
     setSelectedFile(selected);
+    setPreviewUrl(URL.createObjectURL(selected));
 
     const data = new FormData();
     data.append('file', selected);
@@ -136,6 +140,7 @@ export default function ManageJobsPage() {
         }
       });
       setFormData(prev => ({ ...prev, adFile: res.data.url }));
+      setPreviewUrl(res.data.url);
       showToast('Advertisement file attached!');
     } catch (err: any) {
       console.error('Upload failed:', err);
@@ -482,7 +487,7 @@ export default function ManageJobsPage() {
                     type="file"
                     accept=".pdf,.png,.jpg,.jpeg"
                     onChange={handleFileUpload}
-                    className="text-xs text-slate-500 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-emerald-50 file:text-govt-emerald hover:file:bg-emerald-100"
+                    className="text-xs text-slate-500 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-emerald-50 file:text-govt-emerald hover:file:bg-emerald-100 cursor-pointer"
                   />
                   {uploadingFile && <span className="text-xs text-emerald-600 animate-pulse font-bold">Uploading...</span>}
                   {(formData.adFile || selectedFile) && (
@@ -491,6 +496,38 @@ export default function ManageJobsPage() {
                     </span>
                   )}
                 </div>
+
+                {/* Instant Live Image Preview Box */}
+                {(previewUrl || formData.adFile) && (
+                  <div className="mt-3 p-3 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="font-bold text-[11px] text-slate-700 flex items-center gap-1">
+                        <span>📷 Live Advertisement Image Preview:</span>
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setFormData({ ...formData, adFile: '' });
+                          setSelectedFile(null);
+                          setPreviewUrl('');
+                        }}
+                        className="text-[10px] text-red-600 hover:underline font-bold"
+                      >
+                        Remove Attachment
+                      </button>
+                    </div>
+                    <div className="relative rounded-lg overflow-hidden border border-slate-200 bg-white max-h-48 flex items-center justify-center p-2">
+                      <img
+                        src={previewUrl.startsWith('blob:') || previewUrl.startsWith('http') || previewUrl.startsWith('/uploads') ? previewUrl : `/uploads/${previewUrl}`}
+                        alt="Advertisement Live Preview"
+                        className="max-h-44 w-auto object-contain rounded shadow-xs"
+                        onError={(e) => {
+                          (e.target as HTMLElement).style.display = 'none';
+                        }}
+                      />
+                    </div>
+                  </div>
+                )}
               </div>
 
               <div className="flex justify-end gap-3 pt-4 border-t border-slate-100">

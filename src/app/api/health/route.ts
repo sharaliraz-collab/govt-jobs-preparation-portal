@@ -1,10 +1,31 @@
 import { NextResponse } from 'next/server';
+import { prisma } from '@/lib/prisma';
 
 export async function GET() {
-  return NextResponse.json({
-    status: 'ok',
-    message: 'Government Jobs & Test Prep Portal Next.js API is operational',
-    environment: process.env.NODE_ENV || 'development',
-    timestamp: new Date().toISOString()
-  });
+  try {
+    const [jobCount, questionCount, userCount] = await Promise.all([
+      prisma.job.count(),
+      prisma.question.count(),
+      prisma.user.count()
+    ]);
+
+    return NextResponse.json({
+      status: 'ok',
+      database: 'connected',
+      neonPostgres: true,
+      dataCounts: {
+        jobs: jobCount,
+        questions: questionCount,
+        users: userCount
+      },
+      timestamp: new Date().toISOString()
+    });
+  } catch (error: any) {
+    return NextResponse.json({
+      status: 'error',
+      database: 'disconnected',
+      error: error.message || 'Failed to connect to database',
+      timestamp: new Date().toISOString()
+    }, { status: 500 });
+  }
 }

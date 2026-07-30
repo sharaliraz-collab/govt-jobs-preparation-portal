@@ -1,10 +1,25 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAuthUser } from '@/lib/auth';
+import { v2 as cloudinary } from 'cloudinary';
 import fs from 'fs';
 import path from 'path';
-import crypto from 'crypto';
 
 export const dynamic = 'force-dynamic';
+
+// Configure Cloudinary SDK
+if (process.env.CLOUDINARY_URL) {
+  cloudinary.config({
+    cloudinary_url: process.env.CLOUDINARY_URL,
+    secure: true,
+  });
+} else if (process.env.CLOUDINARY_CLOUD_NAME && process.env.CLOUDINARY_API_KEY && process.env.CLOUDINARY_API_SECRET) {
+  cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+    secure: true,
+  });
+}
 
 export async function POST(req: NextRequest) {
   try {
@@ -23,68 +38,35 @@ export async function POST(req: NextRequest) {
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
-    let cloudName = process.env.CLOUDINARY_CLOUD_NAME;
-    let apiKey = process.env.CLOUDINARY_API_KEY;
-    let apiSecret = process.env.CLOUDINARY_API_SECRET;
+    const hasCloudinary =
+      Boolean(process.env.CLOUDINARY_URL) ||
+      Boolean(process.env.CLOUDINARY_CLOUD_NAME && process.env.CLOUDINARY_API_KEY && process.env.CLOUDINARY_API_SECRET);
 
-    if ((!cloudName || !apiKey || !apiSecret) && process.env.CLOUDINARY_URL) {
+    // 1. Primary Option: Cloudinary Official SDK Upload (Permanent 25GB Cloud Storage)
+    if (hasCloudinary) {
       try {
-        // format: cloudinary://<api_key>:<api_secret>@<cloud_name>
-        const cleanUrl = process.env.CLOUDINARY_URL.trim();
-        const match = cleanUrl.match(/cloudinary:\/\/([^:]+):([^@]+)@(.+)/);
-        if (match) {
-          apiKey = apiKey || match[1];
-          apiSecret = apiSecret || match[2];
-          cloudName = cloudName || match[3];
-        }
-      } catch (e) {
-        console.warn('Failed parsing CLOUDINARY_URL:', e);
-      }
-    }
-
-    // 1. Cloudinary Cloud Storage (Free 25 GB Permanent CDN Storage)
-    if (cloudName && apiKey && apiSecret) {
-      try {
-        const timestamp = Math.floor(Date.now() / 1000).toString();
-        const strToSign = `timestamp=${timestamp}${apiSecret}`;
-        const signature = crypto.createHash('sha1').update(strToSign).digest('hex');
-
-        let mimeType = file.type;
-        if (!mimeType) {
-          const lowerName = file.name.toLowerCase();
-          if (lowerName.endsWith('.pdf')) mimeType = 'application/pdf';
-          else if (lowerName.endsWith('.png')) mimeType = 'image/png';
-          else if (lowerName.endsWith('.jpg') || lowerName.endsWith('.jpeg')) mimeType = 'image/jpeg';
-          else if (lowerName.endsWith('.webp')) mimeType = 'image/webp';
-          else mimeType = 'application/octet-stream';
-        }
-
-        const base64Data = buffer.toString('base64');
-        const dataUri = `data:${mimeType};base64,${base64Data}`;
-
-        const cdnFormData = new FormData();
-        cdnFormData.append('file', dataUri);
-        cdnFormData.append('api_key', apiKey);
-        cdnFormData.append('timestamp', timestamp);
-        cdnFormData.append('signature', signature);
-
-        const cdnRes = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/auto/upload`, {
-          method: 'POST',
-          body: cdnFormData,
+        const result = await new Promise<any>((resolve, reject) => {
+          const uploadStream = cloudinary.uploader.upload_stream(
+            {
+              folder: 'govt_jobs_portal',
+              resource_type: 'auto',
+            },
+            (error, result) => {
+              if (error) reject(error);
+              else resolve(result);
+            }
+          );
+          uploadStream.end(buffer);
         });
 
-        if (cdnRes.ok) {
-          const cdnData = await cdnRes.json();
+        if (result && result.secure_url) {
           return NextResponse.json(
-            { url: cdnData.secure_url, filename: file.name, size: file.size, provider: 'cloudinary' },
+            { url: result.secure_url, filename: file.name, size: file.size, provider: 'cloudinary' },
             { status: 201 }
           );
-        } else {
-          const errText = await cdnRes.text();
-          console.warn('Cloudinary upload returned non-200 status:', cdnRes.status, errText);
         }
-      } catch (cdnErr) {
-        console.warn('Cloudinary upload fallback to local/data-url:', cdnErr);
+      } catch (cloudErr: any) {
+        console.warn('Cloudinary SDK upload failed, attempting fallbacks:', cloudErr?.message || cloudErr);
       }
     }
 

@@ -79,6 +79,9 @@ export async function POST(req: NextRequest) {
             { url: cdnData.secure_url, filename: file.name, size: file.size, provider: 'cloudinary' },
             { status: 201 }
           );
+        } else {
+          const errText = await cdnRes.text();
+          console.warn('Cloudinary upload returned non-200 status:', cdnRes.status, errText);
         }
       } catch (cdnErr) {
         console.warn('Cloudinary upload fallback to local/data-url:', cdnErr);

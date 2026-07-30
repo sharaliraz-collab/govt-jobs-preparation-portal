@@ -23,9 +23,24 @@ export async function POST(req: NextRequest) {
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
-    const cloudName = process.env.CLOUDINARY_CLOUD_NAME;
-    const apiKey = process.env.CLOUDINARY_API_KEY;
-    const apiSecret = process.env.CLOUDINARY_API_SECRET;
+    let cloudName = process.env.CLOUDINARY_CLOUD_NAME;
+    let apiKey = process.env.CLOUDINARY_API_KEY;
+    let apiSecret = process.env.CLOUDINARY_API_SECRET;
+
+    if ((!cloudName || !apiKey || !apiSecret) && process.env.CLOUDINARY_URL) {
+      try {
+        // format: cloudinary://<api_key>:<api_secret>@<cloud_name>
+        const cleanUrl = process.env.CLOUDINARY_URL.trim();
+        const match = cleanUrl.match(/cloudinary:\/\/([^:]+):([^@]+)@(.+)/);
+        if (match) {
+          apiKey = apiKey || match[1];
+          apiSecret = apiSecret || match[2];
+          cloudName = cloudName || match[3];
+        }
+      } catch (e) {
+        console.warn('Failed parsing CLOUDINARY_URL:', e);
+      }
+    }
 
     // 1. Cloudinary Cloud Storage (Free 25 GB Permanent CDN Storage)
     if (cloudName && apiKey && apiSecret) {

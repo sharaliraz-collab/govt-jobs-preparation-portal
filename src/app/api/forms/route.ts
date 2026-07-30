@@ -1,32 +1,34 @@
 import { NextRequest, NextResponse } from 'next/server';
-import connectDB from '@/lib/db';
-import FormDoc from '@/models/FormDoc';
+import { prisma } from '@/lib/prisma';
 import { getAuthUser } from '@/lib/auth';
 
 export const dynamic = 'force-dynamic';
 
 export async function GET(req: NextRequest) {
   try {
-    await connectDB();
     const { searchParams } = new URL(req.url);
     const category = searchParams.get('category');
     const search = searchParams.get('search');
 
-    const query: any = {};
-    if (category) query.category = category;
+    const where: any = {};
+    if (category) where.category = category;
 
     if (search) {
-      query.$or = [
-        { titleEn: { $regex: search, $options: 'i' } },
-        { titleUr: { $regex: search, $options: 'i' } },
-        { descriptionEn: { $regex: search, $options: 'i' } },
-        { descriptionUr: { $regex: search, $options: 'i' } },
-        { relatedTo: { $regex: search, $options: 'i' } }
+      where.OR = [
+        { titleEn: { contains: search, mode: 'insensitive' } },
+        { titleUr: { contains: search, mode: 'insensitive' } },
+        { descriptionEn: { contains: search, mode: 'insensitive' } },
+        { descriptionUr: { contains: search, mode: 'insensitive' } },
+        { relatedTo: { contains: search, mode: 'insensitive' } }
       ];
     }
 
-    const forms = await FormDoc.find(query).sort({ createdAt: -1 });
-    return NextResponse.json(forms);
+    const forms = await prisma.formDoc.findMany({
+      where,
+      orderBy: { createdAt: 'desc' }
+    });
+
+    return NextResponse.json(forms.map(f => ({ ...f, _id: f.id })));
   } catch (error: any) {
     return NextResponse.json({ message: error.message || 'Server error' }, { status: 500 });
   }
@@ -34,7 +36,6 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
-    await connectDB();
     const authUser = await getAuthUser(req);
     if (!authUser || authUser.role !== 'admin') {
       return NextResponse.json({ message: 'Not authorized as admin' }, { status: 403 });
@@ -51,17 +52,19 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ message: 'Please upload a PDF/Document form file.' }, { status: 400 });
     }
 
-    const form = await FormDoc.create({
-      titleEn,
-      titleUr: titleUr || titleEn,
-      descriptionEn: descriptionEn || '',
-      descriptionUr: descriptionUr || descriptionEn || '',
-      category: category || 'Application',
-      file,
-      relatedTo
+    const form = await prisma.formDoc.create({
+      data: {
+        titleEn,
+        titleUr: titleUr || titleEn,
+        descriptionEn: descriptionEn || '',
+        descriptionUr: descriptionUr || descriptionEn || '',
+        category: category || 'Application',
+        file,
+        relatedTo
+      }
     });
 
-    return NextResponse.json(form, { status: 201 });
+    return NextResponse.json({ ...form, _id: form.id }, { status: 201 });
   } catch (error: any) {
     return NextResponse.json({ message: error.message || 'Server error' }, { status: 500 });
   }

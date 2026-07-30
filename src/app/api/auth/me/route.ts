@@ -1,24 +1,50 @@
 import { NextRequest, NextResponse } from 'next/server';
-import connectDB from '@/lib/db';
-import User from '@/models/User';
-import Job from '@/models/Job'; // Ensure Job model registered for populate
+import { prisma } from '@/lib/prisma';
 import { getAuthUser } from '@/lib/auth';
 
 export const dynamic = 'force-dynamic';
 
 export async function GET(req: NextRequest) {
   try {
-    await connectDB();
     const authUser = await getAuthUser(req);
     if (!authUser) {
       return NextResponse.json({ message: 'Not authorized' }, { status: 401 });
     }
 
-    const user = await User.findById(authUser._id)
-      .select('-password')
-      .populate('savedJobs');
+    const user = await prisma.user.findUnique({
+      where: { id: authUser._id },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        role: true,
+        createdAt: true,
+        updatedAt: true,
+        savedJobs: {
+          include: {
+            postedBy: {
+              select: { id: true, name: true, email: true }
+            }
+          }
+        }
+      }
+    });
 
-    return NextResponse.json(user);
+    if (!user) {
+      return NextResponse.json({ message: 'User not found' }, { status: 404 });
+    }
+
+    const formatted = {
+      ...user,
+      _id: user.id,
+      savedJobs: user.savedJobs.map(j => ({
+        ...j,
+        _id: j.id,
+        postedBy: j.postedBy ? { ...j.postedBy, _id: j.postedBy.id } : null,
+      })),
+    };
+
+    return NextResponse.json(formatted);
   } catch (error: any) {
     return NextResponse.json({ message: error.message || 'Server error' }, { status: 500 });
   }

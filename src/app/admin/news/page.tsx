@@ -41,10 +41,17 @@ export default function ManageNewsPage() {
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
 
   // Form Data (No Urdu fields)
-  const [formData, setFormData] = useState({
+  type NewsCategory = 'Result' | 'Notification' | 'Deadline Extension' | 'General';
+  const [formData, setFormData] = useState<{
+    titleEn: string;
+    bodyEn: string;
+    category: NewsCategory;
+    coverImage: string;
+    pinned: boolean;
+  }>({
     titleEn: '',
     bodyEn: '',
-    category: 'General' as 'Result' | 'Notification' | 'Deadline Extension' | 'General',
+    category: 'General',
     coverImage: '',
     pinned: false
   });
@@ -78,7 +85,7 @@ export default function ManageNewsPage() {
       setFormData({
         titleEn: item.titleEn || '',
         bodyEn: item.bodyEn || '',
-        category: item.category || 'General',
+        category: (item.category as NewsCategory) || 'General',
         coverImage: item.coverImage || '',
         pinned: item.pinned || false
       });

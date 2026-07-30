@@ -1,11 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import connectDB from '@/lib/db';
-import Question from '@/models/Question';
+import { prisma } from '@/lib/prisma';
 import { getAuthUser } from '@/lib/auth';
 
 export async function POST(req: NextRequest) {
   try {
-    await connectDB();
     const authUser = await getAuthUser(req);
     if (!authUser || authUser.role !== 'admin') {
       return NextResponse.json({ message: 'Not authorized as admin' }, { status: 403 });
@@ -17,11 +15,32 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ message: 'Please provide an array of question objects.' }, { status: 400 });
     }
 
-    const createdQuestions = await Question.insertMany(questions);
+    const processedQuestions = questions.map((q: any) => ({
+      textEn: q.textEn,
+      textUr: q.textUr,
+      optionsEn: q.optionsEn,
+      optionsUr: q.optionsUr,
+      correctIndex: typeof q.correctIndex === 'number' ? q.correctIndex : parseInt(q.correctIndex, 10),
+      subject: q.subject,
+      difficulty: q.difficulty || 'medium',
+      explanationEn: q.explanationEn,
+      explanationUr: q.explanationUr,
+    }));
+
+    await prisma.question.createMany({
+      data: processedQuestions
+    });
+
+    const createdQuestions = await prisma.question.findMany({
+      orderBy: { createdAt: 'desc' },
+      take: questions.length
+    });
+
+    const questionsWithId = createdQuestions.map(q => ({ ...q, _id: q.id }));
     return NextResponse.json({
       message: `Successfully created ${createdQuestions.length} questions.`,
       count: createdQuestions.length,
-      questions: createdQuestions
+      questions: questionsWithId
     }, { status: 201 });
   } catch (error: any) {
     return NextResponse.json({ message: error.message || 'Server error' }, { status: 500 });

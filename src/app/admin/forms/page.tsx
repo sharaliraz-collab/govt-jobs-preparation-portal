@@ -41,8 +41,14 @@ export default function ManageFormsPage() {
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
 
   // Form Data
-  const [formData, setFormData] = useState({
-    category: 'Application' as 'Admission' | 'Scholarship' | 'Verification' | 'Application' | 'General',
+  type FormCategory = 'Admission' | 'Scholarship' | 'Verification' | 'Application' | 'General';
+  const [formData, setFormData] = useState<{
+    category: FormCategory;
+    titleEn: string;
+    descriptionEn: string;
+    file: string;
+  }>({
+    category: 'Application',
     titleEn: '',
     descriptionEn: '',
     file: ''
@@ -76,7 +82,7 @@ export default function ManageFormsPage() {
     if (doc) {
       setEditingForm(doc);
       setFormData({
-        category: doc.category || 'Application',
+        category: (doc.category as FormCategory) || 'Application',
         titleEn: doc.titleEn || '',
         descriptionEn: doc.descriptionEn || '',
         file: doc.file || ''

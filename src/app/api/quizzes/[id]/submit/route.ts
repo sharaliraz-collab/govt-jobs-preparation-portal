@@ -1,13 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import connectDB from '@/lib/db';
-import Quiz from '@/models/Quiz';
-import Question from '@/models/Question';
-import QuizAttempt from '@/models/QuizAttempt';
+import { prisma } from '@/lib/prisma';
 import { getAuthUser } from '@/lib/auth';
 
 export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
   try {
-    await connectDB();
     const authUser = await getAuthUser(req);
     if (!authUser) {
       return NextResponse.json({ message: 'Not authorized' }, { status: 401 });
@@ -20,7 +16,10 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
       return NextResponse.json({ message: 'Please provide an array of answers.' }, { status: 400 });
     }
 
-    const quiz = await Quiz.findById(quizId).populate('questions');
+    const quiz = await prisma.quiz.findUnique({
+      where: { id: quizId },
+      include: { questions: true }
+    });
     if (!quiz) {
       return NextResponse.json({ message: 'Quiz not found.' }, { status: 404 });
     }
@@ -33,7 +32,7 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
 
     validQuestions.forEach((question: any) => {
       const userSubmission = answers.find(
-        (a: any) => a.questionId === question._id.toString() || a.question === question._id.toString()
+        (a: any) => a.questionId === question.id || a.question === question.id
       );
 
       const selectedIndex =
@@ -45,13 +44,13 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
       if (isCorrect) score += 1;
 
       attemptAnswers.push({
-        question: question._id,
+        question: question.id,
         selectedIndex,
         correct: isCorrect
       });
 
       detailedResults.push({
-        questionId: question._id,
+        questionId: question.id,
         textEn: question.textEn,
         textUr: question.textUr,
         optionsEn: question.optionsEn,
@@ -67,18 +66,20 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
     const percentage = totalQuestions > 0 ? Math.round((score / totalQuestions) * 100) : 0;
     const passed = percentage >= quiz.passPercentage;
 
-    const quizAttempt = await QuizAttempt.create({
-      user: authUser._id,
-      quiz: quiz._id,
-      score,
-      totalQuestions,
-      percentage,
-      passed,
-      answers: attemptAnswers
+    const quizAttempt = await prisma.quizAttempt.create({
+      data: {
+        userId: authUser.id,
+        quizId: quiz.id,
+        score,
+        totalQuestions,
+        percentage,
+        passed,
+        answers: attemptAnswers
+      }
     });
 
     return NextResponse.json({
-      attemptId: quizAttempt._id,
+      attemptId: quizAttempt.id,
       quizTitleEn: quiz.titleEn,
       quizTitleUr: quiz.titleUr,
       score,

@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import connectDB from '@/lib/db';
-import Job from '@/models/Job';
-import User from '@/models/User';
+import { prisma } from '@/lib/prisma';
 import { getAuthUser } from '@/lib/auth';
 
 const calculateStatus = (deadline: Date | string) => {
@@ -16,19 +14,49 @@ const calculateStatus = (deadline: Date | string) => {
 
 export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
   try {
-    await connectDB();
-    const job = await Job.findById(params.id).populate('postedBy', 'name email');
+    const { id } = params;
+    const job = await prisma.job.findUnique({
+      where: { id },
+      include: {
+        postedBy: {
+          select: {
+            id: true,
+            name: true,
+            email: true
+          }
+        }
+      }
+    });
+
     if (!job) {
       return NextResponse.json({ message: 'Job posting not found.' }, { status: 404 });
     }
 
-    const computedStatus = calculateStatus(job.deadline);
+    const computedStatus = calculateStatus(job.deadline) as any;
     if (job.status !== computedStatus) {
+      await prisma.job.update({
+        where: { id: job.id },
+        data: { status: computedStatus }
+      });
       job.status = computedStatus;
-      await job.save();
     }
 
-    return NextResponse.json(job);
+    const response: any = {
+      ...job,
+      _id: job.id,
+      deadline: job.deadline.toISOString(),
+      createdAt: job.createdAt.toISOString(),
+      updatedAt: job.updatedAt.toISOString()
+    };
+
+    if (job.postedBy) {
+      response.postedBy = {
+        ...job.postedBy,
+        _id: job.postedBy.id
+      };
+    }
+
+    return NextResponse.json(response);
   } catch (error: any) {
     return NextResponse.json({ message: error.message || 'Server error' }, { status: 500 });
   }
@@ -36,18 +64,19 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
 
 export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
   try {
-    await connectDB();
+    const { id } = params;
     const authUser = await getAuthUser(req);
     if (!authUser || authUser.role !== 'admin') {
       return NextResponse.json({ message: 'Not authorized as admin' }, { status: 403 });
     }
 
-    const job = await Job.findById(params.id);
-    if (!job) {
+    const existingJob = await prisma.job.findUnique({ where: { id } });
+    if (!existingJob) {
       return NextResponse.json({ message: 'Job posting not found.' }, { status: 404 });
     }
 
     const body = await req.json();
+    const updateData: any = {};
     const fields = [
       'titleEn', 'titleUr', 'department', 'descriptionEn', 'descriptionUr',
       'location', 'category', 'qualification', 'vacancies', 'deadline',
@@ -56,18 +85,34 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
 
     fields.forEach((field) => {
       if (body[field] !== undefined) {
-        if (field === 'vacancies') job.vacancies = parseInt(body.vacancies, 10);
-        else if (field === 'featured') job.featured = body.featured === 'true' || body.featured === true;
-        else job[field] = body[field];
+        if (field === 'vacancies') {
+          updateData.vacancies = parseInt(body.vacancies, 10);
+        } else if (field === 'featured') {
+          updateData.featured = body.featured === 'true' || body.featured === true;
+        } else if (field === 'deadline') {
+          updateData.deadline = new Date(body.deadline);
+        } else {
+          updateData[field] = body[field];
+        }
       }
     });
 
     if (body.deadline) {
-      job.status = calculateStatus(body.deadline);
+      updateData.status = calculateStatus(body.deadline) as any;
     }
 
-    const updatedJob = await job.save();
-    return NextResponse.json(updatedJob);
+    const updatedJob = await prisma.job.update({
+      where: { id },
+      data: updateData
+    });
+
+    return NextResponse.json({
+      ...updatedJob,
+      _id: updatedJob.id,
+      deadline: updatedJob.deadline.toISOString(),
+      createdAt: updatedJob.createdAt.toISOString(),
+      updatedAt: updatedJob.updatedAt.toISOString()
+    });
   } catch (error: any) {
     return NextResponse.json({ message: error.message || 'Server error' }, { status: 500 });
   }
@@ -75,18 +120,18 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
 
 export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
   try {
-    await connectDB();
+    const { id } = params;
     const authUser = await getAuthUser(req);
     if (!authUser || authUser.role !== 'admin') {
       return NextResponse.json({ message: 'Not authorized as admin' }, { status: 403 });
     }
 
-    const job = await Job.findById(params.id);
-    if (!job) {
+    const existingJob = await prisma.job.findUnique({ where: { id } });
+    if (!existingJob) {
       return NextResponse.json({ message: 'Job posting not found.' }, { status: 404 });
     }
 
-    await job.deleteOne();
+    await prisma.job.delete({ where: { id } });
     return NextResponse.json({ message: 'Job posting deleted successfully.' });
   } catch (error: any) {
     return NextResponse.json({ message: error.message || 'Server error' }, { status: 500 });

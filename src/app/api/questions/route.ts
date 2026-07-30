@@ -1,13 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
-import connectDB from '@/lib/db';
-import Question from '@/models/Question';
+import { prisma } from '@/lib/prisma';
 import { getAuthUser } from '@/lib/auth';
 
 export const dynamic = 'force-dynamic';
 
 export async function GET(req: NextRequest) {
   try {
-    await connectDB();
     const authUser = await getAuthUser(req);
     if (!authUser || authUser.role !== 'admin') {
       return NextResponse.json({ message: 'Not authorized as admin' }, { status: 403 });
@@ -18,19 +16,24 @@ export async function GET(req: NextRequest) {
     const difficulty = searchParams.get('difficulty');
     const search = searchParams.get('search');
 
-    const query: any = {};
-    if (subject) query.subject = { $regex: subject, $options: 'i' };
-    if (difficulty) query.difficulty = difficulty;
+    const where: any = {};
+    if (subject) where.subject = { contains: subject, mode: 'insensitive' };
+    if (difficulty) where.difficulty = difficulty;
     if (search) {
-      query.$or = [
-        { textEn: { $regex: search, $options: 'i' } },
-        { textUr: { $regex: search, $options: 'i' } },
-        { subject: { $regex: search, $options: 'i' } }
+      where.OR = [
+        { textEn: { contains: search, mode: 'insensitive' } },
+        { textUr: { contains: search, mode: 'insensitive' } },
+        { subject: { contains: search, mode: 'insensitive' } }
       ];
     }
 
-    const questions = await Question.find(query).sort({ createdAt: -1 });
-    return NextResponse.json(questions);
+    const questions = await prisma.question.findMany({
+      where,
+      orderBy: { createdAt: 'desc' }
+    });
+
+    const questionsWithId = questions.map(q => ({ ...q, _id: q.id }));
+    return NextResponse.json(questionsWithId);
   } catch (error: any) {
     return NextResponse.json({ message: error.message || 'Server error' }, { status: 500 });
   }
@@ -38,7 +41,6 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
-    await connectDB();
     const authUser = await getAuthUser(req);
     if (!authUser || authUser.role !== 'admin') {
       return NextResponse.json({ message: 'Not authorized as admin' }, { status: 403 });
@@ -71,19 +73,22 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const question = await Question.create({
-      textEn,
-      textUr,
-      optionsEn,
-      optionsUr,
-      correctIndex: parseInt(correctIndex, 10),
-      subject,
-      difficulty: difficulty || 'medium',
-      explanationEn,
-      explanationUr
+    const question = await prisma.question.create({
+      data: {
+        textEn,
+        textUr,
+        optionsEn,
+        optionsUr,
+        correctIndex: parseInt(correctIndex, 10),
+        subject,
+        difficulty: difficulty || 'medium',
+        explanationEn,
+        explanationUr
+      }
     });
 
-    return NextResponse.json(question, { status: 201 });
+    const questionWithId = { ...question, _id: question.id };
+    return NextResponse.json(questionWithId, { status: 201 });
   } catch (error: any) {
     return NextResponse.json({ message: error.message || 'Server error' }, { status: 500 });
   }

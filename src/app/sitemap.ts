@@ -1,9 +1,5 @@
 import { MetadataRoute } from 'next';
-import connectDB from '@/lib/db';
-import Job from '@/models/Job';
-import NewsDoc from '@/models/News';
-import MaterialDoc from '@/models/Material';
-import QuizDoc from '@/models/Quiz';
+import { prisma } from '@/lib/prisma';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://govtjobs.pk';
@@ -21,38 +17,36 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ];
 
   try {
-    await connectDB();
-
     const [jobs, news, materials, quizzes] = await Promise.all([
-      Job.find({}, '_id updatedAt').lean(),
-      NewsDoc.find({}, '_id updatedAt').lean(),
-      MaterialDoc.find({}, '_id updatedAt').lean(),
-      QuizDoc.find({}, '_id updatedAt').lean(),
+      prisma.job.findMany({ select: { id: true, updatedAt: true } }),
+      prisma.news.findMany({ select: { id: true, updatedAt: true } }),
+      prisma.material.findMany({ select: { id: true, updatedAt: true } }),
+      prisma.quiz.findMany({ select: { id: true, updatedAt: true } }),
     ]);
 
-    const jobUrls: MetadataRoute.Sitemap = jobs.map((j: any) => ({
-      url: `${siteUrl}/jobs/${j._id}`,
+    const jobUrls: MetadataRoute.Sitemap = jobs.map((j) => ({
+      url: `${siteUrl}/jobs/${j.id}`,
       lastModified: j.updatedAt || new Date(),
       changeFrequency: 'weekly',
       priority: 0.8,
     }));
 
-    const newsUrls: MetadataRoute.Sitemap = news.map((n: any) => ({
-      url: `${siteUrl}/news/${n._id}`,
+    const newsUrls: MetadataRoute.Sitemap = news.map((n) => ({
+      url: `${siteUrl}/news/${n.id}`,
       lastModified: n.updatedAt || new Date(),
       changeFrequency: 'weekly',
       priority: 0.7,
     }));
 
-    const materialUrls: MetadataRoute.Sitemap = materials.map((m: any) => ({
-      url: `${siteUrl}/materials/${m._id}`,
+    const materialUrls: MetadataRoute.Sitemap = materials.map((m) => ({
+      url: `${siteUrl}/materials/${m.id}`,
       lastModified: m.updatedAt || new Date(),
       changeFrequency: 'monthly',
       priority: 0.7,
     }));
 
-    const quizUrls: MetadataRoute.Sitemap = quizzes.map((q: any) => ({
-      url: `${siteUrl}/quizzes/${q._id}`,
+    const quizUrls: MetadataRoute.Sitemap = quizzes.map((q) => ({
+      url: `${siteUrl}/quizzes/${q.id}`,
       lastModified: q.updatedAt || new Date(),
       changeFrequency: 'weekly',
       priority: 0.7,

@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import connectDB from '@/lib/db';
-import Job from '@/models/Job';
+import { prisma } from '@/lib/prisma';
 import { getAuthUser } from '@/lib/auth';
 
 export const dynamic = 'force-dynamic';
@@ -17,7 +16,6 @@ const calculateStatus = (deadline: Date | string) => {
 
 export async function GET(req: NextRequest) {
   try {
-    await connectDB();
     const { searchParams } = new URL(req.url);
     const category = searchParams.get('category');
     const location = searchParams.get('location');
@@ -25,33 +23,44 @@ export async function GET(req: NextRequest) {
     const status = searchParams.get('status');
     const featured = searchParams.get('featured');
 
-    const query: any = {};
+    const where: any = {};
 
-    if (category) query.category = { $regex: category, $options: 'i' };
-    if (location) query.location = { $regex: location, $options: 'i' };
-    if (status) query.status = status;
-    if (featured === 'true') query.featured = true;
+    if (category) where.category = { contains: category, mode: 'insensitive' };
+    if (location) where.location = { contains: location, mode: 'insensitive' };
+    if (status) where.status = status;
+    if (featured === 'true') where.featured = true;
 
     if (search) {
-      query.$or = [
-        { titleEn: { $regex: search, $options: 'i' } },
-        { titleUr: { $regex: search, $options: 'i' } },
-        { department: { $regex: search, $options: 'i' } },
-        { descriptionEn: { $regex: search, $options: 'i' } },
-        { descriptionUr: { $regex: search, $options: 'i' } }
+      where.OR = [
+        { titleEn: { contains: search, mode: 'insensitive' } },
+        { titleUr: { contains: search, mode: 'insensitive' } },
+        { department: { contains: search, mode: 'insensitive' } },
+        { descriptionEn: { contains: search, mode: 'insensitive' } },
+        { descriptionUr: { contains: search, mode: 'insensitive' } }
       ];
     }
 
-    const jobs = await Job.find(query).sort({ createdAt: -1 });
+    const jobs = await prisma.job.findMany({
+      where,
+      orderBy: { createdAt: 'desc' }
+    });
 
     const updatedJobs = await Promise.all(
       jobs.map(async (job) => {
-        const computedStatus = calculateStatus(job.deadline);
+        const computedStatus = calculateStatus(job.deadline) as any;
         if (job.status !== computedStatus) {
-          job.status = computedStatus;
-          await job.save();
+          await prisma.job.update({
+            where: { id: job.id },
+            data: { status: computedStatus }
+          });
         }
-        return job;
+        return {
+          ...job,
+          _id: job.id,
+          deadline: job.deadline.toISOString(),
+          createdAt: job.createdAt.toISOString(),
+          updatedAt: job.updatedAt.toISOString()
+        };
       })
     );
 
@@ -63,7 +72,6 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
-    await connectDB();
     const authUser = await getAuthUser(req);
     if (!authUser || authUser.role !== 'admin') {
       return NextResponse.json({ message: 'Not authorized as admin' }, { status: 403 });
@@ -93,27 +101,38 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const initialStatus = calculateStatus(deadline);
+    const initialStatus = calculateStatus(deadline) as any;
 
-    const job = await Job.create({
-      titleEn,
-      titleUr: titleUr || titleEn,
-      department,
-      descriptionEn: descriptionEn || '',
-      descriptionUr: descriptionUr || descriptionEn || '',
-      location: location || 'Islamabad',
-      category: category || 'General',
-      qualification: qualification || 'Bachelor',
-      vacancies: vacancies ? parseInt(vacancies, 10) : 1,
-      deadline,
-      adFile: adFile || '',
-      source,
-      status: initialStatus,
-      featured: featured === true || featured === 'true',
-      postedBy: authUser._id
+    const job = await prisma.job.create({
+      data: {
+        titleEn,
+        titleUr: titleUr || titleEn,
+        department,
+        descriptionEn: descriptionEn || '',
+        descriptionUr: descriptionUr || descriptionEn || '',
+        location: location || 'Islamabad',
+        category: category || 'General',
+        qualification: qualification || 'Bachelor',
+        vacancies: vacancies ? parseInt(vacancies, 10) : 1,
+        deadline: new Date(deadline),
+        adFile: adFile || '',
+        source: source || null,
+        status: initialStatus,
+        featured: featured === true || featured === 'true',
+        postedById: authUser.id
+      }
     });
 
-    return NextResponse.json(job, { status: 201 });
+    return NextResponse.json(
+      {
+        ...job,
+        _id: job.id,
+        deadline: job.deadline.toISOString(),
+        createdAt: job.createdAt.toISOString(),
+        updatedAt: job.updatedAt.toISOString()
+      },
+      { status: 201 }
+    );
   } catch (error: any) {
     return NextResponse.json({ message: error.message || 'Server error' }, { status: 500 });
   }

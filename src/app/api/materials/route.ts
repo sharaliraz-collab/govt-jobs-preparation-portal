@@ -1,35 +1,38 @@
 import { NextRequest, NextResponse } from 'next/server';
-import connectDB from '@/lib/db';
-import Material from '@/models/Material';
+import { prisma } from '@/lib/prisma';
 import { getAuthUser } from '@/lib/auth';
 
 export const dynamic = 'force-dynamic';
 
 export async function GET(req: NextRequest) {
   try {
-    await connectDB();
     const { searchParams } = new URL(req.url);
     const subject = searchParams.get('subject');
     const search = searchParams.get('search');
     const relatedCategory = searchParams.get('relatedCategory');
 
-    const query: any = {};
+    const where: any = {};
 
-    if (subject) query.subject = { $regex: subject, $options: 'i' };
-    if (relatedCategory) query.relatedCategory = { $regex: relatedCategory, $options: 'i' };
+    if (subject) where.subject = { contains: subject, mode: 'insensitive' };
+    if (relatedCategory) where.relatedCategory = { contains: relatedCategory, mode: 'insensitive' };
 
     if (search) {
-      query.$or = [
-        { titleEn: { $regex: search, $options: 'i' } },
-        { titleUr: { $regex: search, $options: 'i' } },
-        { descriptionEn: { $regex: search, $options: 'i' } },
-        { descriptionUr: { $regex: search, $options: 'i' } },
-        { subject: { $regex: search, $options: 'i' } }
+      where.OR = [
+        { titleEn: { contains: search, mode: 'insensitive' } },
+        { titleUr: { contains: search, mode: 'insensitive' } },
+        { descriptionEn: { contains: search, mode: 'insensitive' } },
+        { descriptionUr: { contains: search, mode: 'insensitive' } },
+        { subject: { contains: search, mode: 'insensitive' } }
       ];
     }
 
-    const materials = await Material.find(query).sort({ createdAt: -1 });
-    return NextResponse.json(materials);
+    const materials = await prisma.material.findMany({
+      where,
+      orderBy: { createdAt: 'desc' }
+    });
+
+    const result = materials.map(m => ({ ...m, _id: m.id }));
+    return NextResponse.json(result);
   } catch (error: any) {
     return NextResponse.json({ message: error.message || 'Server error' }, { status: 500 });
   }
@@ -37,7 +40,6 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
-    await connectDB();
     const authUser = await getAuthUser(req);
     if (!authUser || authUser.role !== 'admin') {
       return NextResponse.json({ message: 'Not authorized as admin' }, { status: 403 });
@@ -54,17 +56,20 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ message: 'Please upload a PDF/Document file.' }, { status: 400 });
     }
 
-    const material = await Material.create({
-      titleEn,
-      titleUr: titleUr || titleEn,
-      subject,
-      descriptionEn: descriptionEn || '',
-      descriptionUr: descriptionUr || descriptionEn || '',
-      file,
-      relatedCategory
+    const material = await prisma.material.create({
+      data: {
+        titleEn,
+        titleUr: titleUr || titleEn,
+        subject,
+        descriptionEn: descriptionEn || '',
+        descriptionUr: descriptionUr || descriptionEn || '',
+        file,
+        relatedCategory
+      }
     });
 
-    return NextResponse.json(material, { status: 201 });
+    const result = { ...material, _id: material.id };
+    return NextResponse.json(result, { status: 201 });
   } catch (error: any) {
     return NextResponse.json({ message: error.message || 'Server error' }, { status: 500 });
   }

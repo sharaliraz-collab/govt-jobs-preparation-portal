@@ -26,6 +26,7 @@ export default function ManageQuestionsPage() {
 
   // Bulk Import State
   const [bulkText, setBulkText] = useState('');
+  const [bulkSubject, setBulkSubject] = useState('General Knowledge');
   const [parsedQuestions, setParsedQuestions] = useState<any[]>([]);
   const [parseError, setParseError] = useState('');
 
@@ -177,7 +178,7 @@ export default function ManageQuestionsPage() {
     try {
       const parsed = JSON.parse(bulkText);
       if (Array.isArray(parsed) && parsed.length > 0) {
-        setParsedQuestions(parsed);
+        setParsedQuestions(parsed.map(q => ({ ...q, subject: q.subject || bulkSubject })));
         return;
       }
     } catch (e) {
@@ -218,7 +219,7 @@ export default function ManageQuestionsPage() {
             optionsEn: [...currentOpts],
             optionsUr: [...currentOpts],
             correctIndex: currentAnsIndex,
-            subject: 'General Knowledge',
+            subject: bulkSubject,
             difficulty: 'medium'
           });
         }
@@ -235,7 +236,7 @@ export default function ManageQuestionsPage() {
             optionsEn: [parts[2], parts[4], parts[6], parts[8]],
             optionsUr: [parts[3], parts[5], parts[7], parts[9]],
             correctIndex: parseInt(parts[10], 10) || 0,
-            subject: parts[11] || 'General Knowledge',
+            subject: parts[11] || bulkSubject,
             difficulty: parts[12] || 'medium'
           });
         }
@@ -408,11 +409,11 @@ export default function ManageQuestionsPage() {
                             q.difficulty === 'easy' ? 'bg-emerald-100 text-emerald-800' :
                             q.difficulty === 'medium' ? 'bg-amber-100 text-amber-800' : 'bg-red-100 text-red-800'
                           }`}>
-                            {q.difficulty.toUpperCase()}
+                            {(q.difficulty || 'medium').toUpperCase()}
                           </span>
                         </td>
                         <td className="p-4 font-bold text-emerald-700">
-                          {q.optionsEn && q.optionsEn[q.correctIndex] ? q.optionsEn[q.correctIndex] : `Option #${q.correctIndex + 1}`}
+                          {q.optionsEn && q.correctIndex !== undefined && q.optionsEn[q.correctIndex] ? q.optionsEn[q.correctIndex] : `Option #${(q.correctIndex ?? 0) + 1}`}
                         </td>
                         <td className="p-4 text-right">
                           <div className="flex items-center justify-end gap-2">
@@ -510,36 +511,40 @@ export default function ManageQuestionsPage() {
                   </div>
                 </div>
 
-                {/* 4 Options Grid */}
-                <div className="space-y-3 pt-2 border-t border-slate-100">
+                {/* 4 Options Grid (Horizontal 2x2) */}
+                <div className="pt-2 border-t border-slate-100 space-y-2">
                   <label className="font-bold text-slate-800 block">MCQ Answer Options (Select radio for correct answer) *</label>
-                  {formData.optionsEn.map((opt, idx) => (
-                    <div key={idx} className="flex items-center gap-3 bg-slate-50 p-2.5 rounded-lg border border-slate-200">
-                      <input
-                        type="radio"
-                        name="correctOption"
-                        checked={formData.correctIndex === idx}
-                        onChange={() => setFormData({ ...formData, correctIndex: idx })}
-                        className="w-4 h-4 text-govt-emerald focus:ring-emerald-500 cursor-pointer"
-                      />
-                      <span className="font-bold text-slate-500 w-5">#{idx + 1}</span>
-                      <input
-                        type="text"
-                        required
-                        placeholder={`Option ${idx + 1} (English)`}
-                        value={opt}
-                        onChange={(e) => handleOptionChange(idx, e.target.value, 'en')}
-                        className="flex-1 p-2 bg-white border border-slate-200 rounded text-xs focus:outline-none focus:border-govt-emerald"
-                      />
-                      <input
-                        type="text"
-                        placeholder={`آپشن ${idx + 1} (اردو)`}
-                        value={formData.optionsUr[idx]}
-                        onChange={(e) => handleOptionChange(idx, e.target.value, 'ur')}
-                        className="flex-1 p-2 bg-white border border-slate-200 rounded font-urdu text-right text-xs focus:outline-none focus:border-govt-emerald"
-                      />
-                    </div>
-                  ))}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {formData.optionsEn.map((opt, idx) => (
+                      <div key={idx} className="flex items-center gap-2 bg-slate-50 p-2.5 rounded-lg border border-slate-200">
+                        <input
+                          type="radio"
+                          name="correctOption"
+                          checked={formData.correctIndex === idx}
+                          onChange={() => setFormData({ ...formData, correctIndex: idx })}
+                          className="w-4 h-4 text-govt-emerald focus:ring-emerald-500 cursor-pointer shrink-0"
+                        />
+                        <span className="font-bold text-slate-500 shrink-0">#{String.fromCharCode(65 + idx)}</span>
+                        <div className="flex-1 space-y-1.5">
+                          <input
+                            type="text"
+                            required
+                            placeholder={`Option ${String.fromCharCode(65 + idx)} (English)`}
+                            value={opt}
+                            onChange={(e) => handleOptionChange(idx, e.target.value, 'en')}
+                            className="w-full p-1.5 bg-white border border-slate-200 rounded text-xs focus:outline-none focus:border-govt-emerald"
+                          />
+                          <input
+                            type="text"
+                            placeholder={`آپشن ${String.fromCharCode(65 + idx)} (اردو)`}
+                            value={formData.optionsUr[idx]}
+                            onChange={(e) => handleOptionChange(idx, e.target.value, 'ur')}
+                            className="w-full p-1.5 bg-white border border-slate-200 rounded font-urdu text-right text-xs focus:outline-none focus:border-govt-emerald"
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
 
                 <div className="flex justify-end gap-3 pt-4 border-t border-slate-100">
@@ -592,6 +597,24 @@ export default function ManageQuestionsPage() {
                 )}
 
                 <div>
+                  <label className="block font-bold text-slate-800 mb-1">Target Section / Subject *</label>
+                  <select
+                    value={bulkSubject}
+                    onChange={(e) => setBulkSubject(e.target.value)}
+                    className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg font-semibold text-xs focus:outline-none focus:border-govt-emerald mb-3"
+                  >
+                    <option value="General Knowledge">General Knowledge</option>
+                    <option value="Pakistan Studies">Pakistan Studies</option>
+                    <option value="Islamic Studies">Islamic Studies</option>
+                    <option value="English">English</option>
+                    <option value="Mathematics">Mathematics</option>
+                    <option value="General Ability">General Ability</option>
+                    <option value="Everyday Science">Everyday Science</option>
+                    <option value="Computer Science">Computer Science</option>
+                  </select>
+                </div>
+
+                <div>
                   <label className="block font-bold text-slate-800 mb-1">Paste Questions Block:</label>
                   <textarea
                     rows={8}
@@ -630,7 +653,7 @@ export default function ManageQuestionsPage() {
                           <span>C) {q.optionsEn?.[2]}</span>
                           <span>D) {q.optionsEn?.[3]}</span>
                         </div>
-                        <p className="text-emerald-700 font-bold pt-1">Correct Answer: Option #{q.correctIndex + 1} ({q.optionsEn?.[q.correctIndex]})</p>
+                        <p className="text-emerald-700 font-bold pt-1">Correct Answer: Option #{(q.correctIndex ?? 0) + 1} ({q.optionsEn && q.correctIndex !== undefined ? q.optionsEn[q.correctIndex] : ''})</p>
                       </div>
                     ))}
                   </div>

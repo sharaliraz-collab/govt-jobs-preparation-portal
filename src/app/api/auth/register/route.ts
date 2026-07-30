@@ -1,13 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
-import connectDB from '@/lib/db';
-import User from '@/models/User';
+import { prisma } from '@/lib/prisma';
 import { generateToken, hashPassword } from '@/lib/auth';
 
 export const dynamic = 'force-dynamic';
 
 export async function POST(req: NextRequest) {
   try {
-    await connectDB();
     const { name, email, password } = await req.json();
 
     if (!name || !email || !password) {
@@ -17,7 +15,9 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const userExists = await User.findOne({ email: email.toLowerCase() });
+    const userExists = await prisma.user.findUnique({
+      where: { email: email.toLowerCase() },
+    });
     if (userExists) {
       return NextResponse.json(
         { message: 'An account with this email already exists.' },
@@ -27,24 +27,28 @@ export async function POST(req: NextRequest) {
 
     const hashedPassword = await hashPassword(password);
 
-    const user = await User.create({
-      name,
-      email: email.toLowerCase(),
-      password: hashedPassword,
-      role: 'user'
+    const user = await prisma.user.create({
+      data: {
+        name,
+        email: email.toLowerCase(),
+        password: hashedPassword,
+        role: 'user',
+      },
+      include: { savedJobs: true },
     });
 
-    const token = generateToken(user._id.toString(), user.role);
+    const token = generateToken(user.id, user.role);
 
     return NextResponse.json(
       {
         token,
         user: {
-          id: user._id,
+          id: user.id,
+          _id: user.id,
           name: user.name,
           email: user.email,
           role: user.role,
-          savedJobs: user.savedJobs
+          savedJobs: user.savedJobs.map(j => j.id),
         }
       },
       { status: 201 }

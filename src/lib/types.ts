@@ -26,7 +26,7 @@ export interface IJob {
   source?: string;
   status: 'open' | 'closing_soon' | 'closed';
   featured: boolean;
-  postedBy?: string | IUser;
+  postedBy?: string | IUser | Partial<IUser>;
   createdAt?: string;
   updatedAt?: string;
 }
@@ -38,8 +38,8 @@ export interface INews {
   titleUr: string;
   bodyEn: string;
   bodyUr: string;
-  category: 'Result' | 'Notification' | 'Deadline Extension' | 'General';
-  coverImage?: string;
+  category: string;
+  coverImage?: string | null;
   pinned: boolean;
   publishedAt: string;
   createdAt?: string;
@@ -51,11 +51,11 @@ export interface IFormDoc {
   id?: string;
   titleEn: string;
   titleUr: string;
-  descriptionEn?: string;
-  descriptionUr?: string;
-  category: 'Admission' | 'Scholarship' | 'Verification' | 'Application' | 'General';
+  descriptionEn?: string | null;
+  descriptionUr?: string | null;
+  category: string;
   file: string;
-  relatedTo?: string;
+  relatedTo?: string | null;
   downloadCount: number;
   createdAt?: string;
   updatedAt?: string;
@@ -83,9 +83,9 @@ export interface IQuestion {
   textUr: string;
   optionsEn: string[];
   optionsUr: string[];
-  correctIndex: number;
-  subject: string;
-  difficulty: 'easy' | 'medium' | 'hard';
+  correctIndex?: number;
+  subject?: string;
+  difficulty?: 'easy' | 'medium' | 'hard';
   explanationEn?: string;
   explanationUr?: string;
   createdAt?: string;

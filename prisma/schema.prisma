@@ -1,0 +1,207 @@
+// Prisma schema for Government Jobs Portal
+// Migrated from MongoDB/Mongoose to PostgreSQL
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ===== Enums =====
+
+enum Role {
+  admin
+  user
+}
+
+enum JobStatus {
+  open
+  closing_soon
+  closed
+}
+
+enum Difficulty {
+  easy
+  medium
+  hard
+}
+
+// ===== Core Models =====
+
+model User {
+  id         String   @id @default(uuid())
+  name       String
+  email      String   @unique @db.VarChar(255)
+  password   String
+  role       Role     @default(user)
+  savedJobs  Job[]    @relation("SavedJobs")
+  postedJobs Job[]    @relation("PostedJobs")
+  attempts   QuizAttempt[]
+  employeePosts EmployeePost[]
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([email])
+  @@index([role])
+}
+
+model Job {
+  id            String   @id @default(uuid())
+  titleEn       String
+  titleUr       String
+  department    String
+  descriptionEn String   @db.Text
+  descriptionUr String   @db.Text
+  location      String
+  category      String
+  qualification String
+  vacancies     Int      @default(1)
+  deadline      DateTime
+  source        String?
+  adFile        String?
+  status        JobStatus @default(open)
+  featured      Boolean  @default(false)
+  postedById    String?
+  postedBy      User?    @relation("PostedJobs", fields: [postedById], references: [id])
+  savedByUsers  User[]   @relation("SavedJobs")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([status])
+  @@index([deadline])
+  @@index([category])
+  @@index([featured])
+  @@index([postedById])
+}
+
+model News {
+  id          String   @id @default(uuid())
+  titleEn     String
+  titleUr     String
+  category    String   @default("General")
+  bodyEn      String   @db.Text
+  bodyUr      String   @db.Text
+  pinned      Boolean  @default(false)
+  publishedAt DateTime @default(now())
+  coverImage  String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([category])
+  @@index([pinned])
+  @@index([publishedAt])
+}
+
+model Material {
+  id              String   @id @default(uuid())
+  titleEn         String
+  titleUr         String
+  subject         String
+  descriptionEn   String?  @db.Text
+  descriptionUr   String?  @db.Text
+  file            String
+  relatedCategory String?
+  downloadCount   Int      @default(0)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([subject])
+  @@index([downloadCount])
+}
+
+model FormDoc {
+  id            String   @id @default(uuid())
+  titleEn       String
+  titleUr       String
+  category      String   @default("General")
+  descriptionEn String?  @db.Text
+  descriptionUr String?  @db.Text
+  file          String
+  relatedTo     String?
+  downloadCount Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([category])
+  @@index([downloadCount])
+}
+
+model Question {
+  id            String     @id @default(uuid())
+  textEn        String
+  textUr        String
+  optionsEn     String[]
+  optionsUr     String[]
+  correctIndex  Int
+  subject       String
+  difficulty    Difficulty @default(medium)
+  explanationEn String?    @db.Text
+  explanationUr String?    @db.Text
+  quizzes       Quiz[]     @relation("QuizQuestions")
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+
+  @@index([subject])
+  @@index([difficulty])
+}
+
+model Quiz {
+  id               String          @id @default(uuid())
+  titleEn          String
+  titleUr          String
+  subject          String
+  questions        Question[]      @relation("QuizQuestions")
+  timeLimitMinutes Int             @default(15)
+  passPercentage   Int             @default(50)
+  attempts         QuizAttempt[]
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+
+  @@index([subject])
+}
+
+model QuizAttempt {
+  id             String   @id @default(uuid())
+  userId         String
+  quizId         String
+  user           User     @relation(fields: [userId], references: [id])
+  quiz           Quiz     @relation(fields: [quizId], references: [id])
+  score          Int
+  totalQuestions Int
+  percentage     Float
+  passed         Boolean
+  answers        Json[]
+  attemptedAt    DateTime @default(now())
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([userId])
+  @@index([quizId])
+  @@index([attemptedAt])
+  @@index([passed])
+}
+
+model EmployeePost {
+  id          String   @id @default(uuid())
+  titleEn     String
+  titleUr     String?
+  tab         String   @default("notifications")
+  bodyEn      String?  @db.Text
+  bodyUr      String?  @db.Text
+  fileUrl     String?
+  coverImage  String?
+  pinned      Boolean  @default(false)
+  publishedAt DateTime @default(now())
+  authorId    String?
+  author      User?    @relation(fields: [authorId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([tab])
+  @@index([pinned])
+  @@index([publishedAt])
+  @@index([authorId])
+}

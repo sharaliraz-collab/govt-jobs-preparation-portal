@@ -1,7 +1,4 @@
-import connectDB from '@/lib/db';
-import Job from '@/models/Job';
-import NewsDoc from '@/models/News';
-import QuizDoc from '@/models/Quiz';
+import { prisma } from '@/lib/prisma';
 
 const calculateJobStatus = (deadline: Date | string) => {
   const diffDays = (new Date(deadline).getTime() - Date.now()) / (1000 * 60 * 60 * 24);
@@ -10,35 +7,78 @@ const calculateJobStatus = (deadline: Date | string) => {
   return 'open';
 };
 
+const toISO = (v: Date | string | null | undefined): string =>
+  v ? (v instanceof Date ? v.toISOString() : v) : '';
+
 export async function getJobById(id: string) {
-  await connectDB();
-  const job = await Job.findById(id).lean();
-  if (!job) return null;
-  return JSON.parse(JSON.stringify(job));
+  try {
+    const job = await prisma.job.findUnique({
+      where: { id },
+      include: { postedBy: { select: { id: true, name: true, email: true } } },
+    });
+    if (!job) return null;
+    return {
+      ...job,
+      _id: job.id,
+      deadline: toISO(job.deadline),
+      createdAt: toISO(job.createdAt),
+      updatedAt: toISO(job.updatedAt),
+      postedBy: job.postedBy ? { ...job.postedBy, _id: job.postedBy.id } : null,
+    };
+  } catch (e) {
+    return null;
+  }
 }
 
 export async function getNewsById(id: string) {
-  await connectDB();
-  const article = await NewsDoc.findById(id).lean();
-  if (!article) return null;
-  return JSON.parse(JSON.stringify(article));
+  try {
+    const article = await prisma.news.findUnique({ where: { id } });
+    if (!article) return null;
+    return {
+      ...article,
+      _id: article.id,
+      publishedAt: toISO(article.publishedAt),
+      createdAt: toISO(article.createdAt),
+      updatedAt: toISO(article.updatedAt),
+    };
+  } catch (e) {
+    return null;
+  }
 }
 
 export async function getQuizById(id: string) {
-  await connectDB();
-  const quiz = await QuizDoc.findById(id)
-    .populate('questions', 'textEn textUr optionsEn optionsUr')
-    .lean();
-  if (!quiz) return null;
-
-  const sanitized = JSON.parse(JSON.stringify(quiz));
-  if (sanitized.questions) {
-    sanitized.questions = sanitized.questions.map((q: Record<string, unknown>) => {
-      const { correctIndex, explanationEn, explanationUr, ...rest } = q;
-      return rest;
+  try {
+    const quiz = await prisma.quiz.findUnique({
+      where: { id },
+      include: {
+        questions: {
+          select: {
+            id: true,
+            textEn: true,
+            textUr: true,
+            optionsEn: true,
+            optionsUr: true,
+          },
+        },
+      },
     });
+    if (!quiz) return null;
+
+    const sanitizedQuestions = quiz.questions.map((q) => ({
+      ...q,
+      _id: q.id,
+    }));
+
+    return {
+      ...quiz,
+      _id: quiz.id,
+      createdAt: toISO(quiz.createdAt),
+      updatedAt: toISO(quiz.updatedAt),
+      questions: sanitizedQuestions,
+    };
+  } catch (e) {
+    return null;
   }
-  return sanitized;
 }
 
 export { calculateJobStatus };

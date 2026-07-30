@@ -1,16 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
-import connectDB from '@/lib/db';
-import FormDoc from '@/models/FormDoc';
+import { prisma } from '@/lib/prisma';
 import { getAuthUser } from '@/lib/auth';
 
 export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
   try {
-    await connectDB();
-    const form = await FormDoc.findById(params.id);
+    const form = await prisma.formDoc.findUnique({
+      where: { id: params.id }
+    });
     if (!form) {
       return NextResponse.json({ message: 'Form document not found.' }, { status: 404 });
     }
-    return NextResponse.json(form);
+    return NextResponse.json({ ...form, _id: form.id });
   } catch (error: any) {
     return NextResponse.json({ message: error.message || 'Server error' }, { status: 500 });
   }
@@ -18,28 +18,34 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
 
 export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
   try {
-    await connectDB();
     const authUser = await getAuthUser(req);
     if (!authUser || authUser.role !== 'admin') {
       return NextResponse.json({ message: 'Not authorized as admin' }, { status: 403 });
     }
 
-    const form = await FormDoc.findById(params.id);
-    if (!form) {
+    const existing = await prisma.formDoc.findUnique({
+      where: { id: params.id }
+    });
+    if (!existing) {
       return NextResponse.json({ message: 'Form document not found.' }, { status: 404 });
     }
 
     const body = await req.json();
     const fields = ['titleEn', 'titleUr', 'descriptionEn', 'descriptionUr', 'category', 'file', 'relatedTo'];
+    const data: any = {};
 
     fields.forEach((field) => {
       if (body[field] !== undefined) {
-        form[field] = body[field];
+        data[field] = body[field];
       }
     });
 
-    const updatedForm = await form.save();
-    return NextResponse.json(updatedForm);
+    const updatedForm = await prisma.formDoc.update({
+      where: { id: params.id },
+      data
+    });
+
+    return NextResponse.json({ ...updatedForm, _id: updatedForm.id });
   } catch (error: any) {
     return NextResponse.json({ message: error.message || 'Server error' }, { status: 500 });
   }
@@ -47,18 +53,21 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
 
 export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
   try {
-    await connectDB();
     const authUser = await getAuthUser(req);
     if (!authUser || authUser.role !== 'admin') {
       return NextResponse.json({ message: 'Not authorized as admin' }, { status: 403 });
     }
 
-    const form = await FormDoc.findById(params.id);
-    if (!form) {
+    const existing = await prisma.formDoc.findUnique({
+      where: { id: params.id }
+    });
+    if (!existing) {
       return NextResponse.json({ message: 'Form document not found.' }, { status: 404 });
     }
 
-    await form.deleteOne();
+    await prisma.formDoc.delete({
+      where: { id: params.id }
+    });
     return NextResponse.json({ message: 'Form document deleted successfully.' });
   } catch (error: any) {
     return NextResponse.json({ message: error.message || 'Server error' }, { status: 500 });

@@ -1,19 +1,23 @@
 import { NextRequest, NextResponse } from 'next/server';
-import connectDB from '@/lib/db';
-import FormDoc from '@/models/FormDoc';
+import { prisma } from '@/lib/prisma';
 
 export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
   try {
-    await connectDB();
-    const form = await FormDoc.findById(params.id);
+    const form = await prisma.formDoc.findUnique({
+      where: { id: params.id }
+    });
     if (!form) {
       return NextResponse.json({ message: 'Form document not found.' }, { status: 404 });
     }
 
-    form.downloadCount += 1;
-    await form.save();
+    const updated = await prisma.formDoc.update({
+      where: { id: params.id },
+      data: {
+        downloadCount: { increment: 1 }
+      }
+    });
 
-    return NextResponse.json({ fileUrl: form.file, downloadCount: form.downloadCount });
+    return NextResponse.json({ fileUrl: updated.file, downloadCount: updated.downloadCount });
   } catch (error: any) {
     return NextResponse.json({ message: error.message || 'Server error' }, { status: 500 });
   }

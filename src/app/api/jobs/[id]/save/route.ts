@@ -1,34 +1,48 @@
 import { NextRequest, NextResponse } from 'next/server';
-import connectDB from '@/lib/db';
-import User from '@/models/User';
+import { prisma } from '@/lib/prisma';
 import { getAuthUser } from '@/lib/auth';
 
 export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
   try {
-    await connectDB();
+    const { id: jobId } = params;
     const authUser = await getAuthUser(req);
     if (!authUser) {
       return NextResponse.json({ message: 'Not authorized' }, { status: 401 });
     }
 
-    const jobId = params.id;
-    const user = await User.findById(authUser._id);
+    const user = await prisma.user.findUnique({
+      where: { id: authUser.id },
+      include: { savedJobs: { select: { id: true } } }
+    });
+
     if (!user) {
       return NextResponse.json({ message: 'User not found' }, { status: 404 });
     }
 
-    const isSaved = user.savedJobs.some((id: any) => id.toString() === jobId);
+    const isSaved = user.savedJobs.some((job) => job.id === jobId);
 
     if (isSaved) {
-      user.savedJobs = user.savedJobs.filter((id: any) => id.toString() !== jobId);
+      await prisma.user.update({
+        where: { id: authUser.id },
+        data: { savedJobs: { disconnect: { id: jobId } } }
+      });
     } else {
-      user.savedJobs.push(jobId);
+      await prisma.user.update({
+        where: { id: authUser.id },
+        data: { savedJobs: { connect: { id: jobId } } }
+      });
     }
 
-    await user.save();
+    const updatedUser = await prisma.user.findUnique({
+      where: { id: authUser.id },
+      include: { savedJobs: { select: { id: true } } }
+    });
+
+    const savedJobs = updatedUser?.savedJobs.map((job) => job.id) || [];
+
     return NextResponse.json({
       message: isSaved ? 'Job removed from saved list.' : 'Job saved successfully.',
-      savedJobs: user.savedJobs
+      savedJobs
     });
   } catch (error: any) {
     return NextResponse.json({ message: error.message || 'Server error' }, { status: 500 });

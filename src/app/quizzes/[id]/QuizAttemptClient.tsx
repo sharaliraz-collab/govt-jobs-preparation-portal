@@ -259,7 +259,7 @@ export default function QuizAttemptClient({ id, initialQuiz }: { id: string; ini
                 Q{currentIndex + 1}. {isUr && currentQuestion.textUr ? currentQuestion.textUr : currentQuestion.textEn}
               </h2>
 
-              <div className="space-y-2.5 pt-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
                 {(isUr && currentQuestion.optionsUr?.length === 4 ? currentQuestion.optionsUr : currentQuestion.optionsEn).map((optionText: string, optIdx: number) => {
                   const isSelected = selectedAnswers[currentQuestion._id] === optIdx;
 
@@ -270,11 +270,11 @@ export default function QuizAttemptClient({ id, initialQuiz }: { id: string; ini
                       onClick={() => handleSelectOption(currentQuestion._id, optIdx)}
                       className={`w-full text-left p-3.5 rounded-lg border text-xs md:text-sm transition flex items-center gap-3 ${
                         isSelected
-                          ? 'border-govt-emerald bg-emerald-50 text-govt-emerald-dark font-bold shadow-sm'
-                          : 'border-gray-200 hover:border-gray-300 bg-white text-govt-charcoal'
+                          ? 'border-govt-emerald bg-emerald-50 text-govt-emerald-dark font-bold shadow-sm ring-1 ring-govt-emerald'
+                          : 'border-gray-200 hover:border-gray-300 bg-white text-govt-charcoal hover:bg-slate-50'
                       }`}
                     >
-                      <div className={`w-5 h-5 rounded-full border flex items-center justify-center text-xs font-bold ${isSelected ? 'border-govt-emerald bg-govt-emerald text-white' : 'border-gray-400 text-gray-500'}`}>
+                      <div className={`w-5 h-5 rounded-full border shrink-0 flex items-center justify-center text-xs font-bold ${isSelected ? 'border-govt-emerald bg-govt-emerald text-white' : 'border-gray-400 text-gray-500'}`}>
                         {String.fromCharCode(65 + optIdx)}
                       </div>
                       <span className={isUr ? 'font-urdu' : ''}>{optionText}</span>

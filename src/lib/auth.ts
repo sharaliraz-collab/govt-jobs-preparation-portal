@@ -1,8 +1,7 @@
 import { NextRequest } from 'next/server';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
-import User from '@/models/User';
-import connectDB from '@/lib/db';
+import { prisma } from '@/lib/prisma';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'govt_jobs_secret_key_super_secure_123!';
 
@@ -23,7 +22,6 @@ export async function comparePassword(enteredPassword: string, hashedPassword: s
 
 export async function getAuthUser(req: NextRequest) {
   try {
-    await connectDB();
     const authHeader = req.headers.get('authorization');
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
       return null;
@@ -32,8 +30,24 @@ export async function getAuthUser(req: NextRequest) {
     const token = authHeader.split(' ')[1];
     const decoded = jwt.verify(token, JWT_SECRET) as { id: string; role: string };
 
-    const user = await User.findById(decoded.id).select('-password');
-    return user || null;
+    const user = await prisma.user.findUnique({
+      where: { id: decoded.id },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        role: true,
+        createdAt: true,
+        updatedAt: true,
+      }
+    });
+
+    if (!user) return null;
+
+    return {
+      ...user,
+      _id: user.id,
+    };
   } catch (error) {
     return null;
   }

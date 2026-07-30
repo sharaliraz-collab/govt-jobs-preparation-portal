@@ -262,7 +262,7 @@ export default function AdminDashboardPage() {
                   <span>Database Engine Status</span>
                 </div>
                 <p className="text-xs text-emerald-200 leading-relaxed">
-                  MongoDB database connection is healthy with automatic memory-server failover fallback active.
+                  PostgreSQL database connection is healthy and active.
                 </p>
               </div>
             </div>

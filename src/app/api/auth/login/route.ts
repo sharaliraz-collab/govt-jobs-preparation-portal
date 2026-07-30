@@ -1,13 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
-import connectDB from '@/lib/db';
-import User from '@/models/User';
+import { prisma } from '@/lib/prisma';
 import { generateToken, comparePassword } from '@/lib/auth';
 
 export const dynamic = 'force-dynamic';
 
 export async function POST(req: NextRequest) {
   try {
-    await connectDB();
     const { email, password } = await req.json();
 
     if (!email || !password) {
@@ -17,7 +15,11 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const user = await User.findOne({ email: email.toLowerCase() });
+    const user = await prisma.user.findUnique({
+      where: { email: email.toLowerCase() },
+      include: { savedJobs: true },
+    });
+
     if (!user) {
       return NextResponse.json(
         { message: 'Invalid email or password credentials.' },
@@ -33,16 +35,17 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const token = generateToken(user._id.toString(), user.role);
+    const token = generateToken(user.id, user.role);
 
     return NextResponse.json({
       token,
       user: {
-        id: user._id,
+        id: user.id,
+        _id: user.id,
         name: user.name,
         email: user.email,
         role: user.role,
-        savedJobs: user.savedJobs
+        savedJobs: user.savedJobs.map(j => j.id),
       }
     });
   } catch (error: any) {

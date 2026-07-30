@@ -205,6 +205,38 @@ export default function JobDetailClient({ id, initialJob }: { id: string; initia
           </div>
         )}
 
+        {/* Official Job Advertisement Image Preview */}
+        {job.adFile && (
+          <div className="space-y-3 pt-4 border-t border-slate-100">
+            <div className="flex items-center justify-between">
+              <h2 className="text-base font-bold text-govt-charcoal flex items-center gap-2">
+                <span>📰 Official Job Newspaper Advertisement / Gazette</span>
+              </h2>
+              <a
+                href={job.adFile.startsWith('/uploads') || job.adFile.startsWith('http') ? job.adFile : `/uploads/${job.adFile}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs bg-govt-emerald hover:bg-govt-emerald-dark text-white px-3.5 py-1.5 rounded-lg font-bold transition flex items-center gap-1.5 shadow-xs"
+              >
+                <FileDown className="w-3.5 h-3.5" />
+                <span>{t('jobs.downloadAd')}</span>
+              </a>
+            </div>
+
+            <div className="relative border border-slate-200 rounded-xl overflow-hidden bg-slate-900/5 group shadow-inner">
+              <img
+                src={job.adFile.startsWith('/uploads') || job.adFile.startsWith('http') ? job.adFile : `/uploads/${job.adFile}`}
+                alt={`${job.titleEn} Official Advertisement`}
+                className="w-full h-auto max-h-[650px] object-contain mx-auto bg-white"
+                onError={(e) => {
+                  // Fallback for PDF or broken image link
+                  (e.target as HTMLElement).style.display = 'none';
+                }}
+              />
+            </div>
+          </div>
+        )}
+
         <ShareButtons
           url={shareUrl}
           title={shareTitle}
@@ -229,7 +261,7 @@ export default function JobDetailClient({ id, initialJob }: { id: string; initia
 
           {job.adFile && (
             <a
-              href={job.adFile.startsWith('/uploads') ? job.adFile : `/uploads/${job.adFile}`}
+              href={job.adFile.startsWith('/uploads') || job.adFile.startsWith('http') ? job.adFile : `/uploads/${job.adFile}`}
               target="_blank"
               rel="noopener noreferrer"
               className="bg-govt-emerald hover:bg-govt-emerald-dark text-white px-5 py-2.5 rounded-lg text-xs font-bold transition flex items-center gap-2 shadow-md"

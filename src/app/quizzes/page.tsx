@@ -250,8 +250,17 @@ export default function QuizzesPage() {
                 </div>
 
                 <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-govt-emerald group-hover:translate-x-0.5 transition-transform">
-                  <span>{isSelected ? '✓ Subject Filter Active' : 'Attempt MCQs'}</span>
-                  <ArrowRight className="w-4 h-4" />
+                  {subj.id === 'english' ? (
+                    <Link href="/quizzes/english-grammar" className="hover:underline flex items-center gap-1.5 w-full justify-between">
+                      <span>Practice 100 MCQs (25 Per Page)</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </Link>
+                  ) : (
+                    <>
+                      <span>{isSelected ? '✓ Subject Filter Active' : 'Attempt MCQs'}</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </>
+                  )}
                 </div>
               </div>
             );

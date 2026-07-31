@@ -204,3 +204,36 @@ model EmployeePost {
   @@index([publishedAt])
   @@index([authorId])
 }
+
+model SolarApplication {
+  id               String   @id @default(uuid())
+  applicationNo    String   @unique
+  fullName         String
+  surname          String
+  fatherHusband    String
+  relation         String   @default("Father")
+  cnic             String
+  dateOfBirth      String
+  gender           String   @default("Male")
+  mobile           String
+  email            String?
+  address          String   @db.Text
+  district         String
+  tehsil           String
+  unionCouncil     String?
+  village          String?
+  consumerNo       String?
+  discoCompany     String   @default("HESCO")
+  connectionType   String   @default("Domestic")
+  capacity         String   @default("3 KW")
+  photoUrl         String?
+  status           String   @default("Pending")
+  submittedAt      DateTime @default(now())
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@index([cnic])
+  @@index([district])
+  @@index([status])
+  @@index([submittedAt])
+}

@@ -18,6 +18,7 @@ import {
   ShieldCheck,
   Menu,
   X,
+  Sun,
   UserCheck
 } from 'lucide-react';
 
@@ -46,6 +47,7 @@ export default function AdminLayout({
     { label: 'Job Postings', path: '/admin/jobs', icon: Briefcase },
     { label: 'News & Alerts', path: '/admin/news', icon: Newspaper },
     { label: 'Application Forms', path: '/admin/forms', icon: FileText },
+    { label: 'Solar Applications', path: '/admin/solar-applications', icon: Sun },
     { label: 'Study Materials', path: '/admin/materials', icon: BookOpen },
     { label: 'Quizzes & Tests', path: '/admin/quizzes', icon: Award },
     { label: 'Question Bank', path: '/admin/questions', icon: HelpCircle },

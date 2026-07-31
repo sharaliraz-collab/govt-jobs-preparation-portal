@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Lateef:wght@400;500;600;700;800&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Noto+Nastaliq+Urdu:wght@400;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -53,6 +55,12 @@ html {
 
 [dir="rtl"] input, [dir="rtl"] select, [dir="rtl"] textarea {
   font-family: 'Noto Sans Arabic', sans-serif;
+}
+
+/* Sindhi Font Utility Classes */
+.font-sindhi, .font-sd, [lang="sd"], .lang-sd {
+  font-family: 'Lateef', 'Noto Naskh Arabic', 'MB Lateef', 'Noto Sans Arabic', serif, sans-serif;
+  line-height: 1.9;
 }
 
 @layer components {

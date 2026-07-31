@@ -26,7 +26,8 @@ const config: Config = {
       },
       fontFamily: {
         sans: ['"Plus Jakarta Sans"', 'Inter', 'Noto Sans', 'system-ui', 'sans-serif'],
-        urdu: ['"Noto Nastaliq Urdu"', '"Noto Sans Arabic"', 'serif']
+        urdu: ['"Noto Nastaliq Urdu"', '"Noto Sans Arabic"', 'serif'],
+        sindhi: ['Lateef', '"Noto Naskh Arabic"', '"MB Lateef"', '"Noto Sans Arabic"', 'serif']
       },
       boxShadow: {
         'glass': '0 8px 32px rgba(16, 185, 129, 0.08)',

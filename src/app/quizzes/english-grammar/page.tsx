@@ -38,9 +38,16 @@ export default function EnglishGrammarMCQsPage() {
   const fetchEnglishQuestions = async () => {
     setLoading(true);
     try {
-      const res = await axios.get('/api/questions?subject=English Grammar & Composition');
+      const targetSub = encodeURIComponent('English');
+      const res = await axios.get(`/api/questions?subject=${targetSub}`);
       if (res.data && res.data.length > 0) {
         setQuestions(res.data);
+      } else {
+        const fallbackRes = await axios.get('/api/questions');
+        const englishOnly = fallbackRes.data.filter((q: any) =>
+          q.subject?.toLowerCase().includes('english')
+        );
+        setQuestions(englishOnly.length > 0 ? englishOnly : fallbackRes.data);
       }
     } catch (err) {
       console.error('Error fetching English questions:', err);

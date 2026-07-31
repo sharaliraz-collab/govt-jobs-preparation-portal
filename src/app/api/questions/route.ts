@@ -6,10 +6,6 @@ export const dynamic = 'force-dynamic';
 
 export async function GET(req: NextRequest) {
   try {
-    const authUser = await getAuthUser(req);
-    if (!authUser || authUser.role !== 'admin') {
-      return NextResponse.json({ message: 'Not authorized as admin' }, { status: 403 });
-    }
 
     const { searchParams } = new URL(req.url);
     const subject = searchParams.get('subject');

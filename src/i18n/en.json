@@ -5,7 +5,7 @@
     "home": "Home",
     "jobs": "Job Postings",
     "materials": "Test Materials",
-    "quizzes": "MCQ Quizzes",
+    "quizzes": "MCQs Prep",
     "news": "News & Notifications",
     "forms": "Download Forms",
     "myAccount": "My Saved Jobs & History",
@@ -56,8 +56,8 @@
     "noMaterials": "No preparation materials uploaded yet for this category."
   },
   "quizzes": {
-    "title": "Interactive MCQ Practice Quizzes",
-    "subtitle": "Test your knowledge with timed subject-wise multiple choice tests and instant auto-grading.",
+    "title": "MCQs Prep — Subject-Wise Practice Quizzes",
+    "subtitle": "Select a subject below to attempt timed FPSC, PPSC & NTS pattern multiple choice quizzes.",
     "startQuiz": "Attempt Practice Test",
     "timeLimit": "Time Limit",
     "passPercentage": "Passing Mark",

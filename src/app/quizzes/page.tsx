@@ -152,11 +152,6 @@ export default function QuizzesPage() {
       setSelectedSubject('');
     } else {
       setSelectedSubject(alias);
-      // Smooth scroll to quizzes section
-      const element = document.getElementById('quizzes-list-section');
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-      }
     }
   };
 
@@ -199,35 +194,23 @@ export default function QuizzesPage() {
             <h2 className="text-lg md:text-xl font-extrabold text-govt-charcoal flex items-center gap-2">
               <span>📚 Browse MCQs by Subject</span>
             </h2>
-            <p className="text-xs text-slate-500 mt-0.5">Click any subject card to filter matching past paper practice tests</p>
+            <p className="text-xs text-slate-500 mt-0.5">Click a subject card to open its dedicated practice page</p>
           </div>
-
-          {selectedSubject && (
-            <button
-              onClick={() => setSelectedSubject('')}
-              className="text-xs font-bold text-govt-emerald hover:underline flex items-center gap-1 bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-200"
-            >
-              <span>Showing: {selectedSubject}</span>
-              <span className="text-red-500 font-bold ml-1">× Reset</span>
-            </button>
-          )}
         </div>
 
-        {/* 9 Subject Grid Cards */}
+        {/* 9 Subject Grid Cards — each navigates to its own page */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {PREP_SUBJECTS.map((subj) => {
             const Icon = subj.icon;
-            const isSelected = selectedSubject.toLowerCase() === subj.alias.toLowerCase();
+            const href = subj.id === 'english'
+              ? '/quizzes/english-grammar'
+              : `/quizzes/subject/${subj.id}`;
 
             return (
-              <div
+              <Link
                 key={subj.id}
-                onClick={() => handleSubjectClick(subj.alias)}
-                className={`cursor-pointer rounded-2xl border transition-all duration-300 p-5 flex flex-col justify-between group relative overflow-hidden ${
-                  isSelected
-                    ? 'border-govt-emerald ring-2 ring-govt-emerald/30 shadow-lg bg-emerald-50/40'
-                    : 'border-slate-200 bg-white hover:border-govt-emerald/50 hover:shadow-md'
-                }`}
+                href={href}
+                className="rounded-2xl border border-slate-200 bg-white hover:border-govt-emerald/60 hover:shadow-md transition-all duration-300 p-5 flex flex-col justify-between group relative overflow-hidden"
               >
                 <div>
                   <div className="flex items-center justify-between gap-3 mb-3">
@@ -250,19 +233,14 @@ export default function QuizzesPage() {
                 </div>
 
                 <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-govt-emerald group-hover:translate-x-0.5 transition-transform">
-                  {subj.id === 'english' ? (
-                    <Link href="/quizzes/english-grammar" className="hover:underline flex items-center gap-1.5 w-full justify-between">
-                      <span>Practice MCQs — 8 Sections (20 Per Page)</span>
-                      <ArrowRight className="w-4 h-4" />
-                    </Link>
-                  ) : (
-                    <>
-                      <span>{isSelected ? '✓ Subject Filter Active' : 'Attempt MCQs'}</span>
-                      <ArrowRight className="w-4 h-4" />
-                    </>
-                  )}
+                  <span>
+                    {subj.id === 'english'
+                      ? 'Practice MCQs — 4 Sections Available'
+                      : 'Open Practice Page'}
+                  </span>
+                  <ArrowRight className="w-4 h-4" />
                 </div>
-              </div>
+              </Link>
             );
           })}
         </div>

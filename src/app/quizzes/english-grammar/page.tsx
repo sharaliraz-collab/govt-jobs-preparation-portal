@@ -17,56 +17,81 @@ import {
   ChevronRight,
   Award,
   Lock,
-  Send
+  Send,
+  BookMarked,
+  Clock,
 } from 'lucide-react';
 import { IQuestion } from '@/lib/types';
+
+// ─── Section Definitions ────────────────────────────────────────────────
+interface SectionDef {
+  id: number;
+  label: string;
+  subject: string;
+  available: boolean;
+}
+
+const SECTIONS: SectionDef[] = [
+  { id: 1, label: 'Section 1', subject: 'English Grammar Section 1', available: true },
+  { id: 2, label: 'Section 2', subject: 'English Grammar Section 2', available: true },
+  { id: 3, label: 'Section 3', subject: 'English Grammar Section 3', available: true },
+  { id: 4, label: 'Section 4', subject: 'English Grammar Section 4', available: false },
+  { id: 5, label: 'Section 5', subject: 'English Grammar Section 5', available: false },
+  { id: 6, label: 'Section 6', subject: 'English Grammar Section 6', available: false },
+  { id: 7, label: 'Section 7', subject: 'English Grammar Section 7', available: false },
+  { id: 8, label: 'Section 8', subject: 'English Grammar Section 8', available: false },
+];
+
+const ITEMS_PER_PAGE = 20;
 
 export default function EnglishGrammarMCQsPage() {
   const { i18n } = useTranslation();
 
+  const [activeSection, setActiveSection] = useState<SectionDef>(SECTIONS[0]);
   const [questions, setQuestions] = useState<IQuestion[]>([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [userAnswers, setUserAnswers] = useState<{ [questionId: string]: number }>({});
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const itemsPerPage = 25;
-
   useEffect(() => {
-    fetchEnglishQuestions();
-  }, []);
+    if (activeSection.available) {
+      fetchSectionQuestions(activeSection.subject);
+    }
+  }, [activeSection]);
 
-  const fetchEnglishQuestions = async () => {
+  const fetchSectionQuestions = async (subject: string) => {
     setLoading(true);
+    setQuestions([]);
+    setUserAnswers({});
+    setIsSubmitted(false);
+    setCurrentPage(1);
     try {
-      const targetSub = encodeURIComponent('English');
-      const res = await axios.get(`/api/questions?subject=${targetSub}`);
+      const res = await axios.get(`/api/questions?subject=${encodeURIComponent(subject)}`);
       if (res.data && res.data.length > 0) {
         setQuestions(res.data);
       } else {
-        const fallbackRes = await axios.get('/api/questions');
-        const englishOnly = fallbackRes.data.filter((q: any) =>
-          q.subject?.toLowerCase().includes('english')
-        );
-        setQuestions(englishOnly.length > 0 ? englishOnly : fallbackRes.data);
+        setQuestions([]);
       }
     } catch (err) {
-      console.error('Error fetching English questions:', err);
+      console.error('Error fetching questions:', err);
     } finally {
       setLoading(false);
     }
   };
 
-  const totalPages = Math.ceil(questions.length / itemsPerPage) || 4;
+  const handleSectionChange = (section: SectionDef) => {
+    if (!section.available || section.id === activeSection.id) return;
+    setActiveSection(section);
+  };
+
+  const totalPages = Math.ceil(questions.length / ITEMS_PER_PAGE) || 1;
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const currentQuestions = questions.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
   const handleOptionSelect = (questionId: string, optionIndex: number) => {
-    // If test is submitted or question answer is already locked, prevent changes
     if (isSubmitted || userAnswers[questionId] !== undefined) return;
-
-    setUserAnswers(prev => ({
-      ...prev,
-      [questionId]: optionIndex
-    }));
+    setUserAnswers(prev => ({ ...prev, [questionId]: optionIndex }));
   };
 
   const handlePageChange = (newPage: number) => {
@@ -78,9 +103,7 @@ export default function EnglishGrammarMCQsPage() {
 
   const handleSubmitTest = () => {
     if (Object.keys(userAnswers).length === 0) {
-      if (!confirm('You have not selected any answers yet. Are you sure you want to submit?')) {
-        return;
-      }
+      if (!confirm('You have not selected any answers yet. Are you sure you want to submit?')) return;
     }
     setIsSubmitted(true);
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -93,25 +116,20 @@ export default function EnglishGrammarMCQsPage() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const currentQuestions = questions.slice(startIndex, startIndex + itemsPerPage);
-
-  // Score calculation
+  // Score
   const totalQuestionsCount = questions.length || 100;
   const answeredCount = Object.keys(userAnswers).length;
   let correctCount = 0;
   questions.forEach(q => {
-    if (userAnswers[q._id] === q.correctIndex) {
-      correctCount++;
-    }
+    if (userAnswers[q._id] === q.correctIndex) correctCount++;
   });
-
   const scorePercentage = Math.round((correctCount / totalQuestionsCount) * 100);
   const isPassed = scorePercentage >= 50;
 
   return (
-    <div className="max-w-4xl mx-auto px-3 sm:px-4 py-6 space-y-6">
-      {/* Header Banner - Compact & Premium */}
+    <div className="max-w-4xl mx-auto px-3 sm:px-4 py-6 space-y-5">
+
+      {/* ── Header Banner ── */}
       <div className="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white rounded-xl p-5 sm:p-6 shadow-md border border-slate-800 relative overflow-hidden">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative z-10">
           <div className="space-y-1">
@@ -124,24 +142,85 @@ export default function EnglishGrammarMCQsPage() {
             </Link>
 
             <h1 className="text-lg sm:text-2xl font-black tracking-tight flex items-center gap-2">
-              <BookOpen className="w-5 h-5 text-govt-gold shrink-0" />
-              <span>100 English Grammar & Composition MCQs</span>
+              <BookOpen className="w-5 h-5 text-yellow-400 shrink-0" />
+              <span>English Grammar &amp; Composition MCQs</span>
             </h1>
 
             <p className="text-xs text-slate-300 leading-relaxed max-w-xl">
-              Parts of Speech, Synonyms, Antonyms, Error Detection & Reading Comprehension.
+              {activeSection.label} — 100 Questions &nbsp;·&nbsp; 20 per page &nbsp;·&nbsp; 8 Sections Total
             </p>
           </div>
 
-          {/* Test Status Indicator */}
           <div className="bg-white/10 backdrop-blur-md px-4 py-2.5 rounded-lg border border-white/15 text-center shrink-0 min-w-[140px]">
             <span className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">Attempt Status</span>
-            <span className="text-sm font-extrabold text-govt-gold">{answeredCount} / {totalQuestionsCount} Answered</span>
+            <span className="text-sm font-extrabold text-yellow-400">
+              {answeredCount} / {totalQuestionsCount} Answered
+            </span>
           </div>
         </div>
       </div>
 
-      {/* Submitted Results Breakdown Banner */}
+      {/* ── Section Tabs Bar ── */}
+      <div className="bg-white rounded-xl border border-slate-200 shadow-xs overflow-hidden">
+        <div className="px-4 pt-3 pb-0">
+          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 flex items-center gap-1.5">
+            <BookMarked className="w-3 h-3" />
+            Select Section
+          </p>
+        </div>
+        <div className="flex overflow-x-auto gap-1 px-4 pb-0 scrollbar-hide">
+          {SECTIONS.map((sec) => {
+            const isActive = sec.id === activeSection.id;
+            const isLocked = !sec.available;
+            return (
+              <button
+                key={sec.id}
+                onClick={() => handleSectionChange(sec)}
+                disabled={isLocked}
+                title={isLocked ? 'Coming Soon' : `${sec.label} — 100 Questions`}
+                className={`
+                  relative shrink-0 px-4 py-2.5 text-[11px] font-bold rounded-t-lg border-b-2 transition-all duration-200
+                  ${isActive
+                    ? 'border-b-2 border-indigo-600 bg-indigo-50 text-indigo-700'
+                    : isLocked
+                    ? 'border-transparent text-slate-300 cursor-not-allowed bg-slate-50'
+                    : 'border-transparent text-slate-500 hover:text-slate-800 hover:bg-slate-50 hover:border-slate-300'
+                  }
+                `}
+              >
+                <span className="flex items-center gap-1.5">
+                  {isLocked ? (
+                    <span className="text-slate-300">🔒</span>
+                  ) : isActive ? (
+                    <span className="w-1.5 h-1.5 rounded-full bg-indigo-600 inline-block" />
+                  ) : null}
+                  {sec.label}
+                  {isLocked && (
+                    <span className="text-[9px] font-semibold text-slate-300 ml-0.5">Soon</span>
+                  )}
+                </span>
+                {isActive && (
+                  <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-indigo-600 rounded-t-full" />
+                )}
+              </button>
+            );
+          })}
+        </div>
+        <div className="h-px bg-slate-100 mt-0" />
+        {/* Section info strip */}
+        <div className="flex items-center justify-between px-4 py-2 bg-slate-50 text-[11px]">
+          <span className="font-semibold text-slate-600 flex items-center gap-1.5">
+            <Sparkles className="w-3 h-3 text-indigo-500" />
+            {activeSection.label}: 100 Questions &nbsp;|&nbsp; {ITEMS_PER_PAGE} per page &nbsp;|&nbsp; {totalPages} pages
+          </span>
+          <span className="text-slate-400 font-medium flex items-center gap-1">
+            <Clock className="w-3 h-3" />
+            Sections 4–8 Coming Soon
+          </span>
+        </div>
+      </div>
+
+      {/* ── Score Result Banner (after submit) ── */}
       {isSubmitted && (
         <div className={`p-5 rounded-xl border shadow-sm text-center space-y-3 animate-fade-in ${
           isPassed ? 'bg-emerald-50 border-emerald-300 text-emerald-950' : 'bg-red-50 border-red-300 text-red-950'
@@ -150,7 +229,6 @@ export default function EnglishGrammarMCQsPage() {
           <h2 className="text-lg font-black tracking-wide">
             {isPassed ? '🎉 TEST PASSED!' : '⚠️ TEST NOT PASSED — REVIEW ANSWERS'}
           </h2>
-
           <div className="flex justify-center items-center gap-6 text-xs font-bold pt-1">
             <div>
               <p className="text-[11px] text-slate-500 font-medium">Final Score</p>
@@ -162,75 +240,73 @@ export default function EnglishGrammarMCQsPage() {
               <p className="text-xl font-black">{scorePercentage}%</p>
             </div>
           </div>
-
           <p className="text-xs font-medium text-slate-600">
-            Scroll down below to inspect correct answers, options breakdown, and explanations for each question.
+            Scroll down to inspect correct answers and explanations for each question.
           </p>
-
           <button
             onClick={handleRetake}
             className="inline-flex items-center gap-1.5 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold px-4 py-2 rounded-lg transition shadow-xs"
           >
             <RotateCcw className="w-3.5 h-3.5" />
-            <span>Retake 100 MCQs Test</span>
+            <span>Retake {activeSection.label}</span>
           </button>
         </div>
       )}
 
-      {/* Compact Top Navigation Bar */}
-      <div className="flex flex-wrap items-center justify-between gap-3 bg-white px-4 py-3 rounded-xl border border-slate-200 shadow-2xs text-xs">
-        <div className="flex items-center gap-2 text-slate-800 font-bold text-xs">
-          <Sparkles className="w-3.5 h-3.5 text-govt-emerald shrink-0" />
-          <span>Page {currentPage} of {totalPages}</span>
-          <span className="text-slate-400 font-normal text-[11px]">
-            (Q{startIndex + 1} - Q{Math.min(startIndex + itemsPerPage, questions.length || 100)})
-          </span>
-        </div>
-
-        <div className="flex items-center gap-1.5">
-          <button
-            onClick={() => handlePageChange(currentPage - 1)}
-            disabled={currentPage === 1}
-            className="px-2.5 py-1.5 rounded-lg border border-slate-200 bg-slate-50 hover:bg-slate-100 disabled:opacity-30 text-[11px] font-bold flex items-center gap-1 transition"
-          >
-            <ChevronLeft className="w-3.5 h-3.5" />
-            <span>Prev</span>
-          </button>
-
-          <div className="flex gap-1">
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
-              <button
-                key={pageNum}
-                onClick={() => handlePageChange(pageNum)}
-                className={`w-6 h-6 rounded-md text-[11px] font-bold transition ${
-                  pageNum === currentPage
-                    ? 'bg-govt-emerald text-white'
-                    : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
-                }`}
-              >
-                {pageNum}
-              </button>
-            ))}
+      {/* ── Top Pagination Bar ── */}
+      {!loading && questions.length > 0 && (
+        <div className="flex flex-wrap items-center justify-between gap-3 bg-white px-4 py-3 rounded-xl border border-slate-200 shadow-2xs text-xs">
+          <div className="flex items-center gap-2 text-slate-800 font-bold text-xs">
+            <Sparkles className="w-3.5 h-3.5 text-indigo-500 shrink-0" />
+            <span>Page {currentPage} of {totalPages}</span>
+            <span className="text-slate-400 font-normal text-[11px]">
+              (Q{startIndex + 1} – Q{Math.min(startIndex + ITEMS_PER_PAGE, questions.length)})
+            </span>
           </div>
-
-          <button
-            onClick={() => handlePageChange(currentPage + 1)}
-            disabled={currentPage === totalPages}
-            className="px-2.5 py-1.5 rounded-lg border border-slate-200 bg-slate-50 hover:bg-slate-100 disabled:opacity-30 text-[11px] font-bold flex items-center gap-1 transition"
-          >
-            <span>Next</span>
-            <ChevronRight className="w-3.5 h-3.5" />
-          </button>
+          <div className="flex items-center gap-1.5">
+            <button
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+              className="px-2.5 py-1.5 rounded-lg border border-slate-200 bg-slate-50 hover:bg-slate-100 disabled:opacity-30 text-[11px] font-bold flex items-center gap-1 transition"
+            >
+              <ChevronLeft className="w-3.5 h-3.5" />
+              <span>Prev</span>
+            </button>
+            <div className="flex gap-1 flex-wrap justify-center">
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
+                <button
+                  key={pageNum}
+                  onClick={() => handlePageChange(pageNum)}
+                  className={`w-7 h-7 rounded-md text-[11px] font-bold transition ${
+                    pageNum === currentPage
+                      ? 'bg-indigo-600 text-white shadow-xs'
+                      : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
+                  }`}
+                >
+                  {pageNum}
+                </button>
+              ))}
+            </div>
+            <button
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
+              className="px-2.5 py-1.5 rounded-lg border border-slate-200 bg-slate-50 hover:bg-slate-100 disabled:opacity-30 text-[11px] font-bold flex items-center gap-1 transition"
+            >
+              <span>Next</span>
+              <ChevronRight className="w-3.5 h-3.5" />
+            </button>
+          </div>
         </div>
-      </div>
+      )}
 
-      {/* Compact Questions List (25 per page) */}
+      {/* ── Questions List ── */}
       {loading ? (
         <Loader />
       ) : questions.length === 0 ? (
         <div className="bg-white p-10 rounded-xl text-center border border-slate-200 space-y-2">
           <HelpCircle className="w-10 h-10 text-slate-300 mx-auto" />
-          <p className="text-xs text-slate-500 font-semibold">No questions loaded.</p>
+          <p className="text-xs text-slate-500 font-semibold">No questions loaded for {activeSection.label}.</p>
+          <p className="text-xs text-slate-400">Please ensure the seed script has been run.</p>
         </div>
       ) : (
         <div className="space-y-4">
@@ -256,21 +332,20 @@ export default function EnglishGrammarMCQsPage() {
                 {/* Question Header */}
                 <div className="flex items-start justify-between gap-2">
                   <div className="flex items-start gap-2.5">
-                    <span className="w-6 h-6 rounded-md bg-slate-900 text-white font-black text-xs flex items-center justify-center shrink-0 mt-0.5 shadow-2xs">
+                    <span className="w-7 h-7 rounded-md bg-indigo-700 text-white font-black text-xs flex items-center justify-center shrink-0 mt-0.5 shadow-2xs">
                       {actualIndex}
                     </span>
-                    <h3 className="text-xs sm:text-sm font-bold text-slate-900 leading-snug">
+                    <h3 className="text-xs sm:text-sm font-bold text-slate-900 leading-snug pt-0.5">
                       {q.textEn}
                     </h3>
                   </div>
 
-                  {/* Status Badges */}
                   {isSubmitted ? (
                     <span className={`px-2 py-0.5 rounded-full text-[10px] font-extrabold flex items-center gap-1 shrink-0 ${
                       isCorrect ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800'
                     }`}>
                       {isCorrect ? <CheckCircle2 className="w-3 h-3" /> : <XCircle className="w-3 h-3" />}
-                      <span>{isCorrect ? 'Correct' : 'Incorrect'}</span>
+                      <span>{isCorrect ? 'Correct' : 'Wrong'}</span>
                     </span>
                   ) : isLocked ? (
                     <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-200 flex items-center gap-1 shrink-0">
@@ -280,7 +355,7 @@ export default function EnglishGrammarMCQsPage() {
                   ) : null}
                 </div>
 
-                {/* Compact 2-Column Options Grid */}
+                {/* Options Grid */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
                   {q.optionsEn.map((optText, optIdx) => {
                     const isSelected = selectedOpt === optIdx;
@@ -289,7 +364,6 @@ export default function EnglishGrammarMCQsPage() {
                     let optionStyle = 'border-slate-200 bg-white text-slate-800 hover:bg-slate-50 hover:border-slate-300';
 
                     if (isSubmitted) {
-                      // Show answers after submission
                       if (isRightOption) {
                         optionStyle = 'border-emerald-500 bg-emerald-100/90 text-emerald-950 font-bold shadow-2xs';
                       } else if (isSelected && !isCorrect) {
@@ -298,7 +372,6 @@ export default function EnglishGrammarMCQsPage() {
                         optionStyle = 'border-slate-200 bg-slate-50 text-slate-400 opacity-60';
                       }
                     } else if (isLocked) {
-                      // Selected & Locked (NO correct/incorrect revealed during test)
                       if (isSelected) {
                         optionStyle = 'border-blue-600 bg-blue-50 text-blue-950 font-bold shadow-2xs ring-1 ring-blue-500';
                       } else {
@@ -320,7 +393,7 @@ export default function EnglishGrammarMCQsPage() {
                             : isSubmitted && isSelected && !isCorrect
                             ? 'border-red-600 bg-red-600 text-white'
                             : isSelected
-                            ? 'border-blue-600 bg-blue-600 text-white'
+                            ? 'border-indigo-600 bg-indigo-600 text-white'
                             : 'border-slate-300 text-slate-500'
                         }`}>
                           {String.fromCharCode(65 + optIdx)}
@@ -336,66 +409,67 @@ export default function EnglishGrammarMCQsPage() {
         </div>
       )}
 
-      {/* Submit Test Button Banner */}
-      {!isSubmitted && (
+      {/* ── Submit Test Button ── */}
+      {!isSubmitted && !loading && questions.length > 0 && (
         <div className="bg-slate-900 text-white p-5 rounded-xl border border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-md">
           <div>
-            <h4 className="text-xs font-bold text-slate-200">Finished answering questions?</h4>
-            <p className="text-[11px] text-slate-400 mt-0.5">Click submit below to calculate your final percentage score and view full answer key.</p>
+            <h4 className="text-xs font-bold text-slate-200">Finished answering {activeSection.label}?</h4>
+            <p className="text-[11px] text-slate-400 mt-0.5">
+              Click submit to calculate your final percentage score and view the full answer key.
+            </p>
           </div>
-
           <button
             onClick={handleSubmitTest}
-            className="w-full sm:w-auto bg-govt-emerald hover:bg-emerald-700 text-white text-xs font-extrabold px-6 py-2.5 rounded-lg transition shadow flex items-center justify-center gap-2 shrink-0"
+            className="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-extrabold px-6 py-2.5 rounded-lg transition shadow flex items-center justify-center gap-2 shrink-0"
           >
             <Send className="w-4 h-4" />
-            <span>Submit & Grade My Test</span>
+            <span>Submit &amp; Grade My Test</span>
           </button>
         </div>
       )}
 
-      {/* Compact Bottom Controls */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-4 rounded-xl border border-slate-200 shadow-2xs text-xs font-medium">
-        <div className="text-slate-700 font-bold text-xs">
-          Page <span className="text-govt-emerald">{currentPage}</span> of {totalPages}
-        </div>
-
-        <div className="flex items-center gap-1.5">
-          <button
-            onClick={() => handlePageChange(currentPage - 1)}
-            disabled={currentPage === 1}
-            className="px-3 py-1.5 rounded-lg border border-slate-200 bg-slate-50 hover:bg-slate-100 disabled:opacity-30 text-[11px] font-bold flex items-center gap-1 transition"
-          >
-            <ChevronLeft className="w-3.5 h-3.5" />
-            <span>Previous Page</span>
-          </button>
-
-          <div className="flex gap-1">
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
-              <button
-                key={pageNum}
-                onClick={() => handlePageChange(pageNum)}
-                className={`w-7 h-7 rounded-md text-[11px] font-bold transition ${
-                  pageNum === currentPage
-                    ? 'bg-govt-emerald text-white shadow-2xs'
-                    : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
-                }`}
-              >
-                {pageNum}
-              </button>
-            ))}
+      {/* ── Bottom Pagination ── */}
+      {!loading && questions.length > 0 && (
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-4 rounded-xl border border-slate-200 shadow-2xs text-xs font-medium">
+          <div className="text-slate-700 font-bold text-xs">
+            Page <span className="text-indigo-600">{currentPage}</span> of {totalPages}
+            &nbsp;·&nbsp; {activeSection.label}
           </div>
-
-          <button
-            onClick={() => handlePageChange(currentPage + 1)}
-            disabled={currentPage === totalPages}
-            className="px-3 py-1.5 rounded-lg border border-slate-200 bg-slate-50 hover:bg-slate-100 disabled:opacity-30 text-[11px] font-bold flex items-center gap-1 transition"
-          >
-            <span>Next Page</span>
-            <ChevronRight className="w-3.5 h-3.5" />
-          </button>
+          <div className="flex items-center gap-1.5">
+            <button
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+              className="px-3 py-1.5 rounded-lg border border-slate-200 bg-slate-50 hover:bg-slate-100 disabled:opacity-30 text-[11px] font-bold flex items-center gap-1 transition"
+            >
+              <ChevronLeft className="w-3.5 h-3.5" />
+              <span>Previous</span>
+            </button>
+            <div className="flex gap-1 flex-wrap justify-center">
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
+                <button
+                  key={pageNum}
+                  onClick={() => handlePageChange(pageNum)}
+                  className={`w-7 h-7 rounded-md text-[11px] font-bold transition ${
+                    pageNum === currentPage
+                      ? 'bg-indigo-600 text-white shadow-2xs'
+                      : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
+                  }`}
+                >
+                  {pageNum}
+                </button>
+              ))}
+            </div>
+            <button
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
+              className="px-3 py-1.5 rounded-lg border border-slate-200 bg-slate-50 hover:bg-slate-100 disabled:opacity-30 text-[11px] font-bold flex items-center gap-1 transition"
+            >
+              <span>Next</span>
+              <ChevronRight className="w-3.5 h-3.5" />
+            </button>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

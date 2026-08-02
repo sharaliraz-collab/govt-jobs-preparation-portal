@@ -11,18 +11,40 @@ interface Props {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const job = await getJobById(params.id);
   if (!job) {
-    return { title: 'Job Not Found' };
+    return { title: 'Government Job Posting Not Found' };
   }
 
+  const deadlineFormatted = job.deadline
+    ? new Date(job.deadline).toLocaleDateString('en-PK', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+      })
+    : 'Open';
+
+  const title = `📢 ${job.titleEn} — ${job.department} (${job.location})`;
+
   const description = truncate(
-    job.descriptionEn ||
-      `${job.titleEn} at ${job.department}, ${job.location}. ${job.vacancies} vacancies. Qualification: ${job.qualification}. Apply before ${new Date(job.deadline).toLocaleDateString('en-PK')}.`
+    job.descriptionEn && job.descriptionEn.length > 20
+      ? `🏛️ ${job.department} Announcement: ${job.descriptionEn} · Location: ${job.location} · Vacancies: ${job.vacancies} Position(s) · Qualification: ${job.qualification} · Deadline: ${deadlineFormatted}. Apply now online!`
+      : `🏛️ ${job.department} has announced new job recruitment for ${job.titleEn} in ${job.location}. Total Seats: ${job.vacancies}. Required Qualification: ${job.qualification}. Last Date to Apply: ${deadlineFormatted}. Check official advertisement details & apply!`
   );
 
+  let image: string | undefined = undefined;
+  if (job.adFile) {
+    const isPdf = job.adFile.toLowerCase().includes('.pdf');
+    if (!isPdf) {
+      image = job.adFile.startsWith('/uploads') || job.adFile.startsWith('http')
+        ? job.adFile
+        : `/uploads/${job.adFile}`;
+    }
+  }
+
   return buildPageMetadata({
-    title: `${job.titleEn} — ${job.department}`,
+    title,
     description,
     path: `/jobs/${params.id}`,
+    image,
     type: 'article',
     publishedTime: job.createdAt,
     keywords: [
@@ -31,6 +53,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       job.location,
       job.category,
       'government jobs Pakistan',
+      'Sindh government jobs 2026',
       `${job.category} jobs`,
     ],
   });

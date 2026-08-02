@@ -1,7 +1,24 @@
 import type { Metadata } from 'next';
 
-export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://govtjobs.pk';
-export const SITE_NAME = 'GovtJobs.pk';
+const getSiteUrl = (): string => {
+  if (process.env.NEXT_PUBLIC_SITE_URL) {
+    let u = process.env.NEXT_PUBLIC_SITE_URL.trim();
+    if (!u.startsWith('http://') && !u.startsWith('https://')) {
+      u = `https://${u}`;
+    }
+    return u.replace(/\/$/, '');
+  }
+  if (process.env.VERCEL_PROJECT_PRODUCTION_URL) {
+    return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL.replace(/\/$/, '')}`;
+  }
+  if (process.env.VERCEL_URL) {
+    return `https://${process.env.VERCEL_URL.replace(/\/$/, '')}`;
+  }
+  return 'https://govt-jobs-preparation-portal.vercel.app';
+};
+
+export const SITE_URL = getSiteUrl();
+export const SITE_NAME = 'GovtJobs.pk — Sindh Government Jobs Portal';
 export const DEFAULT_OG_IMAGE = '/og-image.png';
 
 export function truncate(text: string, maxLength = 160): string {
@@ -11,14 +28,16 @@ export function truncate(text: string, maxLength = 160): string {
 }
 
 export function absoluteUrl(path: string): string {
-  if (path.startsWith('http')) return path;
-  return `${SITE_URL}${path.startsWith('/') ? path : `/${path}`}`;
+  if (path.startsWith('http://') || path.startsWith('https://')) return path;
+  const cleanPath = path.startsWith('/') ? path : `/${path}`;
+  return `${SITE_URL}${cleanPath}`;
 }
 
 export function resolveImageUrl(image?: string): string {
   if (!image) return absoluteUrl(DEFAULT_OG_IMAGE);
-  if (image.startsWith('http')) return image;
-  return absoluteUrl(image.startsWith('/') ? image : `/uploads/${image}`);
+  if (image.startsWith('http://') || image.startsWith('https://')) return image;
+  const cleanPath = image.startsWith('/') ? image : `/uploads/${image}`;
+  return absoluteUrl(cleanPath);
 }
 
 interface PageMetadataOptions {
@@ -44,7 +63,7 @@ export function buildPageMetadata({
 }: PageMetadataOptions): Metadata {
   const url = absoluteUrl(path);
   const ogImage = resolveImageUrl(image);
-  const fullTitle = title.includes(SITE_NAME) ? title : `${title} | ${SITE_NAME}`;
+  const fullTitle = title.includes('GovtJobs') ? title : `${title} | ${SITE_NAME}`;
 
   return {
     title,

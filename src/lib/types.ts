@@ -26,6 +26,8 @@ export interface IJob {
   source?: string;
   status: 'open' | 'closing_soon' | 'closed';
   featured: boolean;
+  viewsCount?: number;
+  views?: number;
   postedBy?: string | IUser | Partial<IUser>;
   createdAt?: string;
   updatedAt?: string;
@@ -41,6 +43,8 @@ export interface INews {
   category: string;
   coverImage?: string | null;
   pinned: boolean;
+  viewsCount?: number;
+  views?: number;
   publishedAt: string;
   createdAt?: string;
   updatedAt?: string;
@@ -57,6 +61,8 @@ export interface IFormDoc {
   file: string;
   relatedTo?: string | null;
   downloadCount: number;
+  viewsCount?: number;
+  views?: number;
   createdAt?: string;
   updatedAt?: string;
 }

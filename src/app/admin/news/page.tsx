@@ -14,7 +14,8 @@ import {
   Pin,
   CheckCircle,
   AlertTriangle,
-  Upload
+  Upload,
+  Eye
 } from 'lucide-react';
 import { INews } from '@/lib/types';
 
@@ -274,6 +275,7 @@ export default function ManageNewsPage() {
                 <tr>
                   <th className="p-4">Article Title</th>
                   <th className="p-4">Category</th>
+                  <th className="p-4">Reads / Views</th>
                   <th className="p-4">Published Date</th>
                   <th className="p-4 text-center">Pinned</th>
                   <th className="p-4 text-right">Actions</th>
@@ -282,13 +284,13 @@ export default function ManageNewsPage() {
               <tbody className="divide-y divide-slate-100 font-medium">
                 {filteredNews.length === 0 ? (
                   <tr>
-                    <td colSpan={5} className="p-8 text-center text-slate-400 italic">
+                    <td colSpan={6} className="p-8 text-center text-slate-400 italic">
                       No matching news articles found.
                     </td>
                   </tr>
                 ) : (
                   filteredNews.map((item) => (
-                    <tr key={item._id} className="hover:bg-slate-50/80 transition">
+                    <tr key={item.id || item._id} className="hover:bg-slate-50/80 transition">
                       <td className="p-4">
                         <div className="font-bold text-slate-900 flex items-center gap-2">
                           {item.pinned && (
@@ -303,6 +305,12 @@ export default function ManageNewsPage() {
                       <td className="p-4">
                         <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-slate-100 text-slate-700 border border-slate-200">
                           {item.category}
+                        </span>
+                      </td>
+                      <td className="p-4">
+                        <span className="inline-flex items-center gap-1 text-[11px] font-extrabold text-purple-900 bg-purple-50 border border-purple-200 px-2.5 py-0.5 rounded-full">
+                          <Eye className="w-3.5 h-3.5 text-purple-600" />
+                          <span>{item.viewsCount || item.views || 0} reads</span>
                         </span>
                       </td>
                       <td className="p-4 text-slate-600">

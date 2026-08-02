@@ -63,6 +63,7 @@ model Job {
   adFile        String?
   status        JobStatus @default(open)
   featured      Boolean  @default(false)
+  viewsCount    Int      @default(0)
   postedById    String?
   postedBy      User?    @relation("PostedJobs", fields: [postedById], references: [id])
   savedByUsers  User[]   @relation("SavedJobs")
@@ -84,6 +85,7 @@ model News {
   bodyEn      String   @db.Text
   bodyUr      String   @db.Text
   pinned      Boolean  @default(false)
+  viewsCount  Int      @default(0)
   publishedAt DateTime @default(now())
   coverImage  String?
   createdAt   DateTime @default(now())
@@ -104,6 +106,7 @@ model Material {
   file            String
   relatedCategory String?
   downloadCount   Int      @default(0)
+  viewsCount      Int      @default(0)
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 
@@ -121,6 +124,7 @@ model FormDoc {
   file          String
   relatedTo     String?
   downloadCount Int      @default(0)
+  viewsCount    Int      @default(0)
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
@@ -193,6 +197,7 @@ model EmployeePost {
   fileUrl     String?
   coverImage  String?
   pinned      Boolean  @default(false)
+  viewsCount  Int      @default(0)
   publishedAt DateTime @default(now())
   authorId    String?
   author      User?    @relation(fields: [authorId], references: [id])
@@ -237,3 +242,15 @@ model SolarApplication {
   @@index([status])
   @@index([submittedAt])
 }
+
+model PageViewLog {
+  id        String   @id @default(uuid())
+  path      String
+  title     String?
+  userAgent String?
+  createdAt DateTime @default(now())
+
+  @@index([path])
+  @@index([createdAt])
+}
+

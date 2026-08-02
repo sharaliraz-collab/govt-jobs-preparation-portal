@@ -131,6 +131,8 @@ const jsonLdWebsite = {
   },
 };
 
+import AnalyticsTracker from '@/components/AnalyticsTracker';
+
 export default function RootLayout({
   children,
 }: {
@@ -167,6 +169,7 @@ export default function RootLayout({
         </a>
 
         <Providers>
+          <AnalyticsTracker />
           <AppShell>{children}</AppShell>
         </Providers>
       </body>

@@ -17,7 +17,8 @@ import {
   FileDown,
   Bookmark,
   BookmarkCheck,
-  ArrowLeft
+  ArrowLeft,
+  Printer
 } from 'lucide-react';
 import { IJob } from '@/lib/types';
 import { absoluteUrl } from '@/lib/seo';
@@ -271,10 +272,19 @@ export default function JobDetailClient({ id, initialJob }: { id: string; initia
         />
 
         <div className="pt-4 border-t border-govt-border flex flex-wrap items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
+            <button
+              onClick={() => window.print()}
+              className="px-4 py-2 rounded-lg text-xs font-bold transition flex items-center gap-1.5 bg-yellow-50 text-yellow-900 border border-yellow-300 hover:bg-yellow-100 no-print"
+              title="Print out or save as PDF"
+            >
+              <Printer className="w-4 h-4 text-yellow-700" />
+              <span>Print / Save PDF</span>
+            </button>
+
             <button
               onClick={handleSaveToggle}
-              className={`px-4 py-2 rounded-lg text-xs font-bold transition flex items-center gap-1.5 border ${
+              className={`px-4 py-2 rounded-lg text-xs font-bold transition flex items-center gap-1.5 border no-print ${
                 isSaved
                   ? 'bg-yellow-50 text-yellow-800 border-yellow-400'
                   : 'bg-white text-govt-charcoal border-gray-300 hover:bg-gray-50'

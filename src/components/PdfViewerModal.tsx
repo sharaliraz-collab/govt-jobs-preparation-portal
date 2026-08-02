@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Eye, X, FileDown, ExternalLink, Maximize2, Minimize2, FileText } from 'lucide-react';
+import { Eye, X, FileDown, ExternalLink, Maximize2, Minimize2, FileText, Printer } from 'lucide-react';
 
 interface PdfViewerModalProps {
   fileUrl: string;
@@ -19,8 +19,22 @@ export default function PdfViewerModal({ fileUrl, title, isOpen, onClose }: PdfV
     ? fileUrl
     : `/uploads/${fileUrl}`;
 
+  const handlePrint = () => {
+    const win = window.open(formattedUrl, '_blank');
+    if (win) {
+      win.focus();
+      setTimeout(() => {
+        try {
+          win.print();
+        } catch (e) {
+          // If cross-origin print fails, user uses browser print
+        }
+      }, 800);
+    }
+  };
+
   return (
-    <div className="fixed inset-0 z-[100] bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-2 sm:p-4 overflow-y-auto animate-fade-in">
+    <div className="fixed inset-0 z-[100] bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-2 sm:p-4 overflow-y-auto animate-fade-in no-print">
       <div
         className={`bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden transition-all duration-300 ${
           isExpanded
@@ -38,11 +52,20 @@ export default function PdfViewerModal({ fileUrl, title, isOpen, onClose }: PdfV
               <h3 className="text-xs sm:text-sm font-bold text-white truncate leading-snug">
                 {title}
               </h3>
-              <p className="text-[10px] text-emerald-300 font-mono truncate">PDF Document Viewer</p>
+              <p className="text-[10px] text-emerald-300 font-mono truncate">PDF Document Viewer &amp; Printable Gazette</p>
             </div>
           </div>
 
           <div className="flex items-center gap-2 shrink-0">
+            <button
+              onClick={handlePrint}
+              className="inline-flex items-center gap-1.5 bg-yellow-500 hover:bg-yellow-400 text-slate-950 text-xs font-black px-3 py-1.5 rounded-lg transition shadow-xs"
+              title="Print document or Save as PDF"
+            >
+              <Printer className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">Print / Save PDF</span>
+            </button>
+
             <a
               href={formattedUrl}
               download
@@ -93,16 +116,15 @@ export default function PdfViewerModal({ fileUrl, title, isOpen, onClose }: PdfV
 
         {/* Modal Footer */}
         <div className="bg-slate-50 border-t border-slate-200 px-4 py-2.5 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-500 shrink-0">
-          <span>Having trouble viewing? Open or download the PDF file directly.</span>
+          <span>Having trouble viewing? Print or download the PDF file directly.</span>
           <div className="flex items-center gap-2">
-            <a
-              href={formattedUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-slate-700 hover:text-emerald-700 font-bold underline text-[11px]"
+            <button
+              onClick={handlePrint}
+              className="bg-yellow-500 hover:bg-yellow-400 text-slate-950 text-[11px] font-bold px-3 py-1.5 rounded-lg transition inline-flex items-center gap-1"
             >
-              Open original file
-            </a>
+              <Printer className="w-3.5 h-3.5" />
+              <span>Print Out PDF</span>
+            </button>
             <a
               href={formattedUrl}
               download

@@ -205,37 +205,63 @@ export default function JobDetailClient({ id, initialJob }: { id: string; initia
           </div>
         )}
 
-        {/* Official Job Advertisement Image Preview */}
-        {job.adFile && (
-          <div className="space-y-3 pt-4 border-t border-slate-100">
-            <div className="flex items-center justify-between">
-              <h2 className="text-base font-bold text-govt-charcoal flex items-center gap-2">
-                <span>📰 Official Job Newspaper Advertisement / Gazette</span>
-              </h2>
-              <a
-                href={job.adFile.startsWith('/uploads') || job.adFile.startsWith('http') ? job.adFile : `/uploads/${job.adFile}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-xs bg-govt-emerald hover:bg-govt-emerald-dark text-white px-3.5 py-1.5 rounded-lg font-bold transition flex items-center gap-1.5 shadow-xs"
-              >
-                <FileDown className="w-3.5 h-3.5" />
-                <span>{t('jobs.downloadAd')}</span>
-              </a>
-            </div>
+        {/* Official Job Advertisement Preview (Image or PDF) */}
+        {job.adFile && (() => {
+          const adUrl = job.adFile.startsWith('/uploads') || job.adFile.startsWith('http') ? job.adFile : `/uploads/${job.adFile}`;
+          const isPdf = job.adFile.toLowerCase().includes('.pdf');
 
-            <div className="relative border border-slate-200 rounded-xl overflow-hidden bg-slate-900/5 group shadow-inner">
-              <img
-                src={job.adFile.startsWith('/uploads') || job.adFile.startsWith('http') ? job.adFile : `/uploads/${job.adFile}`}
-                alt={`${job.titleEn} Official Advertisement`}
-                className="w-full h-auto max-h-[650px] object-contain mx-auto bg-white"
-                onError={(e) => {
-                  // Fallback for PDF or broken image link
-                  (e.target as HTMLElement).style.display = 'none';
-                }}
-              />
+          return (
+            <div className="space-y-3 pt-4 border-t border-slate-100">
+              <div className="flex items-center justify-between flex-wrap gap-2">
+                <h2 className="text-base font-bold text-govt-charcoal flex items-center gap-2">
+                  <span>📰 Official Job Newspaper Advertisement / Gazette</span>
+                </h2>
+                <div className="flex items-center gap-2">
+                  <a
+                    href={adUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs bg-govt-emerald hover:bg-govt-emerald-dark text-white px-3.5 py-1.5 rounded-lg font-bold transition flex items-center gap-1.5 shadow-xs"
+                  >
+                    <FileDown className="w-3.5 h-3.5" />
+                    <span>{t('jobs.downloadAd')}</span>
+                  </a>
+                </div>
+              </div>
+
+              <div className="relative border border-slate-200 rounded-xl overflow-hidden bg-slate-900/5 shadow-inner">
+                {isPdf ? (
+                  <div className="w-full space-y-2">
+                    <iframe
+                      src={`${adUrl}#toolbar=1`}
+                      className="w-full h-[600px] border-0 rounded-xl bg-white"
+                      title={`${job.titleEn} Official Gazette`}
+                    />
+                    <div className="p-3 bg-slate-100 border-t border-slate-200 flex justify-between items-center text-xs">
+                      <span className="text-slate-600 font-medium">Viewing PDF Official Gazette</span>
+                      <a href={adUrl} target="_blank" rel="noopener noreferrer" className="text-emerald-700 font-bold hover:underline">
+                        Open PDF in New Window ↗
+                      </a>
+                    </div>
+                  </div>
+                ) : (
+                  <img
+                    src={adUrl}
+                    alt={`${job.titleEn} Official Advertisement`}
+                    className="w-full h-auto max-h-[650px] object-contain mx-auto bg-white"
+                    onError={(e) => {
+                      // Fallback: If image fails to load (might be a pdf without extension), display iframe
+                      const container = (e.target as HTMLElement).parentElement;
+                      if (container) {
+                        container.innerHTML = `<iframe src="${adUrl}" class="w-full h-[600px] border-0 bg-white" title="Official Gazette PDF"></iframe>`;
+                      }
+                    }}
+                  />
+                )}
+              </div>
             </div>
-          </div>
-        )}
+          );
+        })()}
 
         <ShareButtons
           url={shareUrl}

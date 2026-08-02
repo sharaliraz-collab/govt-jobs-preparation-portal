@@ -114,15 +114,34 @@ export default function NewsDetailClient({ id, initialNews }: { id: string; init
           </div>
         </div>
 
-        {news.coverImage && (
-          <div className="overflow-hidden rounded-lg border border-gray-200">
-            <img
-              src={news.coverImage.startsWith('/uploads') ? news.coverImage : `/uploads/${news.coverImage}`}
-              alt={title}
-              className="w-full h-auto max-h-96 object-cover"
-            />
-          </div>
-        )}
+        {news.coverImage && (() => {
+          const imgUrl = news.coverImage.startsWith('/uploads') || news.coverImage.startsWith('http') ? news.coverImage : `/uploads/${news.coverImage}`;
+          const isPdf = news.coverImage.toLowerCase().includes('.pdf');
+
+          return isPdf ? (
+            <div className="space-y-2">
+              <div className="flex items-center justify-between bg-slate-100 p-3 rounded-t-lg border border-slate-200 text-xs">
+                <span className="font-bold text-slate-800">📜 Attached Official PDF Gazette / Gazette Notice</span>
+                <a href={imgUrl} target="_blank" rel="noopener noreferrer" className="text-emerald-700 font-bold hover:underline">
+                  Download / Open PDF ↗
+                </a>
+              </div>
+              <iframe
+                src={`${imgUrl}#toolbar=1`}
+                className="w-full h-[550px] border border-slate-200 rounded-b-lg bg-white"
+                title={title}
+              />
+            </div>
+          ) : (
+            <div className="overflow-hidden rounded-lg border border-gray-200">
+              <img
+                src={imgUrl}
+                alt={title}
+                className="w-full h-auto max-h-96 object-cover"
+              />
+            </div>
+          );
+        })()}
 
         <div className={`text-sm md:text-base text-slate-700 leading-relaxed whitespace-pre-line ${isUr ? 'font-urdu' : ''}`}>
           {body}

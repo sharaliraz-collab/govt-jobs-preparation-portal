@@ -6,7 +6,7 @@ import axios from 'axios';
 import Loader from '@/components/Loader';
 import {
   Landmark, ArrowLeft, HelpCircle, CheckCircle2, XCircle, ChevronLeft, ChevronRight,
-  Award, Lock, Send, RotateCcw, Sparkles, AlertCircle, BookMarked, Clock
+  Award, Lock, Send, RotateCcw, Sparkles, AlertCircle, BookMarked, Clock, Languages
 } from 'lucide-react';
 import { IQuestion } from '@/lib/types';
 
@@ -14,7 +14,7 @@ interface SectionDef {
   id: number;
   label: string;
   title: string;
-  range: [number, number]; // 0-based indices into all 364 questions array
+  range: [number, number];
   available: boolean;
 }
 
@@ -39,6 +39,8 @@ const SECTIONS: SectionDef[] = [
 const ITEMS_PER_PAGE = 20;
 const SUBJECT = 'Pakistan Studies';
 
+type LangMode = 'en' | 'sd' | 'both';
+
 export default function PakStudiesMCQsPage() {
   const [activeSection, setActiveSection] = useState<SectionDef>(SECTIONS[0]);
   const [allQuestions, setAllQuestions] = useState<IQuestion[]>([]);
@@ -47,6 +49,7 @@ export default function PakStudiesMCQsPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [userAnswers, setUserAnswers] = useState<{ [qId: string]: number }>({});
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [langMode, setLangMode] = useState<LangMode>('en');
 
   useEffect(() => {
     fetchAllQuestions();
@@ -58,7 +61,6 @@ export default function PakStudiesMCQsPage() {
     try {
       const res = await axios.get(`/api/questions?subject=${encodeURIComponent(SUBJECT)}`);
       const data: IQuestion[] = Array.isArray(res.data) ? res.data : [];
-      // Sort by createdAt ascending so index matches exact order seeded
       data.sort((a: any, b: any) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
       setAllQuestions(data);
     } catch (err) {
@@ -141,7 +143,7 @@ export default function PakStudiesMCQsPage() {
             </Link>
             <h1 className="text-lg sm:text-2xl font-black tracking-tight flex items-center gap-2">
               <Landmark className="w-6 h-6 text-yellow-400 shrink-0" />
-              <span>Pakistan Studies MCQs (پاکستان اسٹڈیز)</span>
+              <span>Pakistan Studies MCQs (پاکستان اسٽڊيز)</span>
             </h1>
             <p className="text-xs text-emerald-100/90 leading-relaxed">
               {activeSection.label}: <span className="text-yellow-300 font-semibold">{activeSection.title}</span>
@@ -154,6 +156,42 @@ export default function PakStudiesMCQsPage() {
               {answeredCount} / {sectionTotal} Answered
             </span>
           </div>
+        </div>
+      </div>
+
+      {/* Prominent Sindhi Language Toggle Banner */}
+      <div className="bg-gradient-to-r from-emerald-800 via-teal-800 to-emerald-900 text-white rounded-xl p-3.5 sm:p-4 shadow-sm border border-emerald-700 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div className="flex items-center gap-2.5 text-xs font-bold">
+          <Languages className="w-5 h-5 text-yellow-300 shrink-0" />
+          <span className="font-sindhi font-lateefi text-sm sm:text-base leading-relaxed text-yellow-200" dir="rtl">
+            سنڌي ٻولي ۾ سوالن لاءِ ھتي ڪلڪ ڪريو 🌸
+          </span>
+        </div>
+        <div className="flex items-center gap-1 bg-black/30 p-1 rounded-lg border border-white/10 w-full sm:w-auto justify-center">
+          <button
+            onClick={() => setLangMode('en')}
+            className={`px-3 py-1.5 rounded-md text-[11px] font-bold transition ${
+              langMode === 'en' ? 'bg-white text-emerald-950 shadow-sm' : 'text-emerald-100 hover:text-white'
+            }`}
+          >
+            🇬🇧 English
+          </button>
+          <button
+            onClick={() => setLangMode('sd')}
+            className={`px-3 py-1.5 rounded-md text-xs font-bold transition font-sindhi font-lateefi ${
+              langMode === 'sd' ? 'bg-yellow-400 text-emerald-950 shadow-sm' : 'text-emerald-100 hover:text-white'
+            }`}
+          >
+            🇸🇩 سنڌي
+          </button>
+          <button
+            onClick={() => setLangMode('both')}
+            className={`px-3 py-1.5 rounded-md text-[11px] font-bold transition ${
+              langMode === 'both' ? 'bg-emerald-500 text-white shadow-sm' : 'text-emerald-100 hover:text-white'
+            }`}
+          >
+            🔄 Both (ٻئي ٻوليون)
+          </button>
         </div>
       </div>
 
@@ -277,9 +315,6 @@ export default function PakStudiesMCQsPage() {
         <div className="bg-white p-10 rounded-xl text-center border border-slate-200 space-y-2">
           <HelpCircle className="w-10 h-10 text-slate-300 mx-auto" />
           <p className="text-sm text-slate-700 font-bold">No Pakistan Studies questions found.</p>
-          <p className="text-xs text-slate-400">
-            Please run <code className="bg-slate-100 px-1 rounded">node seed_pak_studies.js</code> to populate these questions.
-          </p>
         </div>
       ) : (
         <div className="space-y-4">
@@ -289,6 +324,15 @@ export default function PakStudiesMCQsPage() {
             const selectedOpt = userAnswers[q._id];
             const isAnswered = selectedOpt !== undefined;
             const isCorrect = selectedOpt === q.correctIndex;
+
+            const isSdOnly = langMode === 'sd';
+            const isBoth = langMode === 'both';
+            const hasSindhi = Array.isArray(q.optionsUr) && q.optionsUr.length > 0 && q.textUr;
+
+            const questionTextEn = q.textEn;
+            const questionTextSd = hasSindhi ? q.textUr : q.textEn;
+
+            const displayOptions = isSdOnly && hasSindhi ? q.optionsUr : q.optionsEn;
 
             return (
               <div
@@ -305,14 +349,26 @@ export default function PakStudiesMCQsPage() {
                     : 'border-slate-200 hover:border-slate-300'
                 }`}
               >
+                {/* Question Text */}
                 <div className="flex items-start justify-between gap-2">
-                  <div className="flex items-start gap-2.5">
+                  <div className="flex items-start gap-2.5 flex-1">
                     <span className="w-8 h-8 rounded-lg bg-emerald-800 text-white font-black text-xs flex items-center justify-center shrink-0 mt-0.5 shadow-sm leading-none">
                       {displayNumber}
                     </span>
-                    <h3 className="text-xs sm:text-sm font-bold text-slate-900 leading-snug pt-1">
-                      {q.textEn}
-                    </h3>
+                    <div className="space-y-1 pt-0.5 flex-1">
+                      {/* English text if not sd-only */}
+                      {langMode !== 'sd' && (
+                        <h3 className="text-xs sm:text-sm font-bold text-slate-900 leading-snug">
+                          {questionTextEn}
+                        </h3>
+                      )}
+                      {/* Sindhi text if sd-only or both */}
+                      {(isSdOnly || isBoth) && hasSindhi && (
+                        <h3 className="text-sm sm:text-base font-bold font-sindhi font-lateefi text-emerald-950 leading-relaxed" dir="rtl">
+                          {questionTextSd}
+                        </h3>
+                      )}
+                    </div>
                   </div>
 
                   {isSubmitted ? (
@@ -329,10 +385,12 @@ export default function PakStudiesMCQsPage() {
                   ) : null}
                 </div>
 
+                {/* Options Grid */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
-                  {q.optionsEn.map((optText, optIdx) => {
+                  {displayOptions.map((optText, optIdx) => {
                     const isSelected = selectedOpt === optIdx;
                     const isRightOption = optIdx === q.correctIndex;
+                    const sdOptText = hasSindhi && Array.isArray(q.optionsUr) && q.optionsUr[optIdx] ? q.optionsUr[optIdx] : null;
 
                     let optionStyle = 'border-slate-200 bg-white text-slate-800 hover:bg-slate-50 cursor-pointer';
 
@@ -371,7 +429,16 @@ export default function PakStudiesMCQsPage() {
                         }`}>
                           {String.fromCharCode(65 + optIdx)}
                         </div>
-                        <span className="font-medium leading-normal">{optText}</span>
+                        <div className="flex-1 min-w-0">
+                          {langMode !== 'sd' && (
+                            <span className="font-medium leading-normal block">{q.optionsEn[optIdx]}</span>
+                          )}
+                          {(isSdOnly || isBoth) && sdOptText && (
+                            <span className="font-sindhi font-lateefi font-bold text-sm text-emerald-950 block text-right" dir="rtl">
+                              {sdOptText}
+                            </span>
+                          )}
+                        </div>
                       </button>
                     );
                   })}

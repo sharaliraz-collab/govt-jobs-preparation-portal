@@ -23,7 +23,8 @@ import {
   Search,
   Filter,
   ArrowRight,
-  CheckCircle2
+  CheckCircle2,
+  Globe
 } from 'lucide-react';
 import { IQuiz } from '@/lib/types';
 
@@ -118,6 +119,15 @@ const PREP_SUBJECTS: SubjectCard[] = [
     gradient: 'from-orange-600 to-amber-700',
     badgeBg: 'bg-orange-50 text-orange-800 border-orange-200',
     description: 'Algebra, Basic Arithmetic, Geometry, Ratios, Percentages & Problem Solving.'
+  },
+  {
+    id: 'world-info',
+    name: 'World Info — Capitals, Currencies & Leaders',
+    alias: 'World',
+    icon: Globe,
+    gradient: 'from-blue-500 to-indigo-600',
+    badgeBg: 'bg-blue-50 text-blue-800 border-blue-200',
+    description: '🏛️ 195 World Capitals · 💰 195 World Currencies · 👑 30 Current World Leaders — All organised by continent.'
   }
 ];
 
@@ -204,6 +214,8 @@ export default function QuizzesPage() {
             const Icon = subj.icon;
             const href = subj.id === 'english'
               ? '/quizzes/english-grammar'
+              : subj.id === 'world-info'
+              ? '/quizzes/world-info'
               : `/quizzes/subject/${subj.id}`;
 
             return (
@@ -236,6 +248,8 @@ export default function QuizzesPage() {
                   <span>
                     {subj.id === 'english'
                       ? 'Practice MCQs — 4 Sections Available'
+                      : subj.id === 'world-info'
+                      ? '420 MCQs — Capitals, Currencies & Leaders'
                       : 'Open Practice Page'}
                   </span>
                   <ArrowRight className="w-4 h-4" />

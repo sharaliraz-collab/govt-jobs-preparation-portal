@@ -1,6 +1,6 @@
 const { Client } = require('pg');
 
-const connectionString = 'postgresql://neondb_owner:npg_wkeHO3sTxiE6@ep-rough-rice-ax0e6jfa-pooler.c-4.us-east-2.aws.neon.tech/neondb?sslmode=require';
+const connectionString = 'postgresql://neondb_owner:npg_wkeHO3sTxiE6@ep-rough-rice-ax0e6jfa.c-4.us-east-2.aws.neon.tech/neondb?sslmode=require';
 
 const pakStudiesQuestions = [
   { t: "History Is The Study Of ______, Particularly People, Places And Historical Events.", o: ["Present", "Past", "Future", "Culture"], c: 1 },
@@ -377,14 +377,28 @@ async function seedPakStudies() {
   try {
     await client.query('BEGIN');
 
-    for (let i = 0; i < pakStudiesQuestions.length; i++) {
-      const q = pakStudiesQuestions[i];
-      const qId = `pak-std-q-${i + 1}`;
-      await client.query(`
+    const BATCH_SIZE = 50;
+    for (let i = 0; i < pakStudiesQuestions.length; i += BATCH_SIZE) {
+      const chunk = pakStudiesQuestions.slice(i, i + BATCH_SIZE);
+      const values = [];
+      const valueStrings = [];
+
+      chunk.forEach((q, idx) => {
+        const qNum = i + idx + 1;
+        const qId = `pak-std-q-${qNum}`;
+        const offset = idx * 6;
+        valueStrings.push(`($${offset + 1}, $${offset + 2}, $${offset + 3}, $${offset + 4}, $${offset + 5}, $${offset + 6}, 'Pakistan Studies', 'medium', NOW(), NOW())`);
+        values.push(qId, q.t, q.t, q.o, q.o, q.c);
+      });
+
+      const sql = `
         INSERT INTO "Question" (id, "textEn", "textUr", "optionsEn", "optionsUr", "correctIndex", subject, difficulty, "createdAt", "updatedAt")
-        VALUES ($1, $2, $3, $4, $5, $6, 'Pakistan Studies', 'medium', NOW(), NOW())
+        VALUES ${valueStrings.join(', ')}
         ON CONFLICT (id) DO UPDATE SET "textEn"=EXCLUDED."textEn", "optionsEn"=EXCLUDED."optionsEn", "correctIndex"=EXCLUDED."correctIndex", subject=EXCLUDED.subject
-      `, [qId, q.t, q.t, q.o, q.o, q.c]);
+      `;
+
+      await client.query(sql, values);
+      console.log(`  ✅ Inserted batch ${Math.floor(i / BATCH_SIZE) + 1} (${chunk.length} questions)`);
     }
 
     await client.query('COMMIT');

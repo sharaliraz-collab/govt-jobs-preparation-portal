@@ -32,14 +32,14 @@ const CONTINENTS: Record<CategoryId, Continent[]> = {
   capitals: [
     { id: 'asia',     label: 'Asia',     emoji: '🌏', subject: 'World Capitals - Asia',       count: 47 },
     { id: 'africa',   label: 'Africa',   emoji: '🌍', subject: 'World Capitals - Africa',     count: 54 },
-    { id: 'europe',   label: 'Europe',   emoji: '🇪🇺', subject: 'World Capitals - Europe',     count: 45 },
+    { id: 'europe',   label: 'Europe',   emoji: '🏛️', subject: 'World Capitals - Europe',     count: 45 },
     { id: 'americas', label: 'Americas', emoji: '🌎', subject: 'World Capitals - Americas',   count: 35 },
     { id: 'oceania',  label: 'Oceania',  emoji: '🏝️', subject: 'World Capitals - Oceania',    count: 14 },
   ],
   currencies: [
     { id: 'asia',     label: 'Asia',     emoji: '🌏', subject: 'World Currencies - Asia',     count: 47 },
     { id: 'africa',   label: 'Africa',   emoji: '🌍', subject: 'World Currencies - Africa',   count: 54 },
-    { id: 'europe',   label: 'Europe',   emoji: '🇪🇺', subject: 'World Currencies - Europe',   count: 45 },
+    { id: 'europe',   label: 'Europe',   emoji: '🏛️', subject: 'World Currencies - Europe',   count: 45 },
     { id: 'americas', label: 'Americas', emoji: '🌎', subject: 'World Currencies - Americas', count: 35 },
     { id: 'oceania',  label: 'Oceania',  emoji: '🏝️', subject: 'World Currencies - Oceania',  count: 14 },
   ],

@@ -57,9 +57,9 @@ html {
   font-family: 'Noto Sans Arabic', sans-serif;
 }
 
-/* Sindhi Font Utility Classes */
-.font-sindhi, .font-sd, [lang="sd"], .lang-sd {
-  font-family: 'Lateef', 'Noto Naskh Arabic', 'MB Lateef', 'Noto Sans Arabic', serif, sans-serif;
+/* Sindhi Font Utility Classes — MB Lateefi & Lateef */
+.font-sindhi, .font-sd, .font-lateefi, [lang="sd"], .lang-sd {
+  font-family: 'MB Lateefi', 'MB Lateef', 'Lateef', 'Noto Naskh Arabic', 'Noto Sans Arabic', serif, sans-serif;
   line-height: 1.9;
 }
 

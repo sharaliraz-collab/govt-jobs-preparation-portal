@@ -69,10 +69,10 @@ const Footer = () => {
           </h4>
           <ul className="space-y-2.5 text-xs">
             {[
-              { href: '/jobs', icon: Briefcase, label: 'Federal & Provincial Jobs' },
-              { href: '/materials', icon: BookOpen, label: 'Solved Test Materials (PDF)' },
+              { href: '/jobs', icon: Briefcase, label: 'Jobs' },
+              { href: '/materials', icon: BookOpen, label: 'Past Papers' },
               { href: '/quizzes', icon: FileCheck, label: 'MCQ Practice Tests' },
-              { href: '/news', icon: Newspaper, label: 'Results & Exam Gazettes' },
+              { href: '/news', icon: Newspaper, label: 'Mock Papers' },
               { href: '/forms', icon: FileText, label: 'Challan & Application Forms' },
             ].map((link) => (
               <li key={link.href}>

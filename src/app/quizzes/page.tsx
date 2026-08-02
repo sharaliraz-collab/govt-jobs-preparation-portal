@@ -216,6 +216,8 @@ export default function QuizzesPage() {
               ? '/quizzes/english-grammar'
               : subj.id === 'world-info'
               ? '/quizzes/world-info'
+              : subj.id === 'pak-studies'
+              ? '/quizzes/pak-studies'
               : `/quizzes/subject/${subj.id}`;
 
             return (
@@ -250,11 +252,14 @@ export default function QuizzesPage() {
                       ? 'Practice MCQs — 4 Sections Available'
                       : subj.id === 'world-info'
                       ? '420 MCQs — Capitals, Currencies & Leaders'
+                      : subj.id === 'pak-studies'
+                      ? '364 MCQs — 15 Sections (20 per page)'
                       : 'Open Practice Page'}
                   </span>
                   <ArrowRight className="w-4 h-4" />
                 </div>
               </Link>
+
             );
           })}
         </div>

@@ -58,6 +58,13 @@ const TOPICS = [
 
 const QUESTIONS_PER_PAGE = 20;
 
+const cleanQuestionText = (text: string) => {
+  if (!text) return '';
+  return text
+    .replace(/^(Physics\s+|Electricity\s+|Work\s+&\s+Energy\s+|Optics\s+|Electromagnetism\s+|Kinematics\s+|Dynamics\s+|Thermodynamics\s+|Electrostatics\s+)?(Concept\s+)?Q\d+(\s*\([^)]*\))?:\s*/i, '')
+    .replace(/^(فزڪس\s+|ڪرنٽ\s+اليڪٽرسٽي\s+|آپٽڪس\s+)?سوال\s*\d+(\s*\([^)]*\))?:\s*/i, '');
+};
+
 export default function PhysicsQuizPage() {
   const { i18n } = useTranslation();
   const isUr = i18n.language === 'ur';
@@ -291,12 +298,12 @@ export default function PhysicsQuizPage() {
                       </span>
 
                       <h3 className="text-sm sm:text-base font-extrabold text-slate-900 leading-relaxed">
-                        {q.textEn}
+                        {cleanQuestionText(q.textEn)}
                       </h3>
 
                       {showSindhi && q.textUr && (
                         <p className="text-base font-sindhi font-lateefi text-right text-cyan-950 pt-1 font-bold" dir="rtl">
-                          {q.textUr}
+                          {cleanQuestionText(q.textUr)}
                         </p>
                       )}
                     </div>

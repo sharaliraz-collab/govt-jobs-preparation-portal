@@ -220,8 +220,6 @@ export default function QuizzesPage() {
               ? '/quizzes/pak-studies'
               : subj.id === 'physics'
               ? '/quizzes/physics'
-              : subj.id === 'biology'
-              ? '/quizzes/biology'
               : `/quizzes/subject/${subj.id}`;
 
             return (
@@ -259,8 +257,6 @@ export default function QuizzesPage() {
                       : subj.id === 'pak-studies'
                       ? '364 MCQs — 15 Sections (20 per page)'
                       : subj.id === 'physics'
-                      ? '1000 MCQs — Sindh, Punjab & Federal Boards'
-                      : subj.id === 'biology'
                       ? '1000 MCQs — Sindh, Punjab & Federal Boards'
                       : 'Open Practice Page'}
                   </span>

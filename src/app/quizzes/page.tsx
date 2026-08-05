@@ -218,6 +218,8 @@ export default function QuizzesPage() {
               ? '/quizzes/world-info'
               : subj.id === 'pak-studies'
               ? '/quizzes/pak-studies'
+              : subj.id === 'physics'
+              ? '/quizzes/physics'
               : `/quizzes/subject/${subj.id}`;
 
             return (
@@ -254,6 +256,8 @@ export default function QuizzesPage() {
                       ? '420 MCQs — Capitals, Currencies & Leaders'
                       : subj.id === 'pak-studies'
                       ? '364 MCQs — 15 Sections (20 per page)'
+                      : subj.id === 'physics'
+                      ? '1000 MCQs — Sindh, Punjab & Federal Boards'
                       : 'Open Practice Page'}
                   </span>
                   <ArrowRight className="w-4 h-4" />

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 import NewsCard from '@/components/NewsCard';
@@ -122,15 +123,21 @@ export default function NewsPage() {
             </div>
           </div>
 
-          <div className="flex flex-col gap-3 shrink-0 justify-center">
-            <button
-              onClick={() => setShowPoliceMock(true)}
+          <div className="flex flex-col gap-2.5 shrink-0 justify-center">
+            <Link
+              href="/mock-papers/police-constable"
               className="bg-gradient-to-r from-amber-400 to-yellow-400 hover:from-amber-300 hover:to-yellow-300 text-slate-950 text-xs sm:text-sm font-black px-7 py-3.5 rounded-xl transition shadow-lg flex items-center justify-center gap-2 group whitespace-nowrap"
             >
               <Sparkles className="w-4 h-4 text-slate-950 group-hover:rotate-12 transition transform" />
               <span>Start Police Constable Mock Test →</span>
-            </button>
-            <span className="text-[10px] text-slate-300 text-center font-medium">Free Access · No Login Required</span>
+            </Link>
+            <Link
+              href="/mock-papers/police-constable"
+              className="bg-white/10 hover:bg-white/20 text-white text-xs font-bold px-4 py-2 rounded-xl border border-white/20 transition flex items-center justify-center gap-1.5"
+            >
+              <span>🔗 Open Direct Link / Share Paper</span>
+            </Link>
+            <span className="text-[10px] text-slate-300 text-center font-medium">Free Access · Optimized for WhatsApp &amp; Social Share</span>
           </div>
         </div>
 

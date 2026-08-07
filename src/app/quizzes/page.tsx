@@ -220,6 +220,8 @@ export default function QuizzesPage() {
               ? '/quizzes/pak-studies'
               : subj.id === 'physics'
               ? '/quizzes/physics'
+              : subj.id === 'islamic-studies' || subj.id === 'islamic'
+              ? '/quizzes/islamic-studies'
               : `/quizzes/subject/${subj.id}`;
 
             return (
@@ -258,6 +260,8 @@ export default function QuizzesPage() {
                       ? '364 MCQs — 15 Sections (20 per page)'
                       : subj.id === 'physics'
                       ? '1000 MCQs — Sindh, Punjab & Federal Boards'
+                      : subj.id === 'islamic-studies' || subj.id === 'islamic'
+                      ? '160+ MCQs — 9 Categories (PPSC & FPSC Aligned)'
                       : 'Open Practice Page'}
                   </span>
                   <ArrowRight className="w-4 h-4" />

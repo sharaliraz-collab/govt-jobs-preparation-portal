@@ -144,6 +144,73 @@ export default function NewsPage() {
         <div style={{ height: 4, background: 'repeating-linear-gradient(90deg, #C9A227 0 20px, transparent 20px 40px)' }} />
       </div>
 
+      {/* FEATURED SOFT GRADIENT CARD: Ministry of Defence (MOD) Mock Paper */}
+      <div className="relative overflow-hidden rounded-2xl border border-emerald-900/40 shadow-xl transition-all duration-300 hover:shadow-2xl"
+        style={{
+          background: 'linear-gradient(135deg, #1a3c5e 0%, #0d6b3e 60%, #1a3c5e 100%)'
+        }}>
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute -top-12 -right-12 w-64 h-64 rounded-full opacity-20 bg-amber-400 blur-3xl" />
+          <div className="absolute -bottom-10 -left-10 w-48 h-48 rounded-full opacity-10 bg-emerald-400 blur-2xl" />
+        </div>
+
+        <div className="relative z-10 p-6 sm:p-8 flex flex-col lg:flex-row lg:items-center justify-between gap-6 text-white">
+          <div className="space-y-3 max-w-2xl">
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="inline-flex items-center gap-1.5 bg-amber-400/20 border border-amber-400/40 text-amber-300 text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest">
+                <Shield className="w-3.5 h-3.5 text-amber-300" />
+                Featured Federal Defence Exam
+              </span>
+              <span className="bg-white/10 text-emerald-300 text-[10px] font-bold px-2.5 py-1 rounded-full border border-white/15">
+                Past Papers Syllabus
+              </span>
+            </div>
+
+            <h2 className="text-xl sm:text-3xl font-black tracking-tight text-white leading-tight">
+              🇵🇰 Ministry of Defence (MOD) — Mock Test
+            </h2>
+
+            <p className="text-xs sm:text-sm text-slate-200 leading-relaxed">
+              Full-length 100-Question Written Practice Exam covering English (20), Pakistan Studies (20), Islamiat (15), General Knowledge &amp; Current Affairs (15), Everyday Science (15), and Mathematics (15).
+            </p>
+
+            <div className="flex flex-wrap items-center gap-4 text-xs font-semibold text-slate-300 pt-1">
+              <div className="flex items-center gap-1.5 text-amber-300">
+                <FileCheck className="w-4 h-4" />
+                <span>100 MCQs (6 Sections)</span>
+              </div>
+              <div className="flex items-center gap-1.5 text-amber-300">
+                <Clock className="w-4 h-4" />
+                <span>90 Minutes Timer</span>
+              </div>
+              <div className="flex items-center gap-1.5 text-amber-300">
+                <Award className="w-4 h-4" />
+                <span>Instant Grading &amp; Review Key</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-2.5 shrink-0 justify-center">
+            <Link
+              href="/mock-papers/ministry-of-defence"
+              className="bg-gradient-to-r from-amber-400 to-yellow-400 hover:from-amber-300 hover:to-yellow-300 text-slate-950 text-xs sm:text-sm font-black px-7 py-3.5 rounded-xl transition shadow-lg flex items-center justify-center gap-2 group whitespace-nowrap"
+            >
+              <Sparkles className="w-4 h-4 text-slate-950 group-hover:rotate-12 transition transform" />
+              <span>Start Ministry of Defence Mock Test →</span>
+            </Link>
+            <Link
+              href="/mock-papers/ministry-of-defence"
+              className="bg-white/10 hover:bg-white/20 text-white text-xs font-bold px-4 py-2 rounded-xl border border-white/20 transition flex items-center justify-center gap-1.5"
+            >
+              <span>🔗 Open Direct Link / Share Paper</span>
+            </Link>
+            <span className="text-[10px] text-slate-300 text-center font-medium">Free Access · Optimized for WhatsApp &amp; Social Share</span>
+          </div>
+        </div>
+
+        <div style={{ height: 4, background: 'repeating-linear-gradient(90deg, #0d6b3e 0 20px, transparent 20px 40px)' }} />
+      </div>
+
       {/* Search and Filters */}
       <form onSubmit={handleSearchSubmit} className="bg-white p-4 rounded-xl border border-govt-border shadow-sm flex flex-col md:flex-row items-center gap-3">
         <div className="relative w-full md:w-1/2">

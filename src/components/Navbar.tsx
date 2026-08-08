@@ -27,7 +27,7 @@ const navLinks = [
   { href: '/jobs', labelKey: 'nav.jobs', icon: Briefcase },
   { href: '/materials', labelKey: 'nav.materials', icon: BookOpen },
   { href: '/quizzes', labelKey: 'nav.quizzes', icon: FileCheck },
-  { href: '/news', labelKey: 'nav.news', icon: Newspaper },
+  { href: '/mock-tests', labelKey: 'nav.news', icon: Newspaper },
   { href: '/forms', labelKey: 'nav.forms', icon: FileText },
 ];
 

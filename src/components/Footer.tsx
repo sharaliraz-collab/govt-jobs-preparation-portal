@@ -72,7 +72,7 @@ const Footer = () => {
               { href: '/jobs', icon: Briefcase, label: 'Jobs' },
               { href: '/materials', icon: BookOpen, label: 'Past Papers' },
               { href: '/quizzes', icon: FileCheck, label: 'MCQ Practice Tests' },
-              { href: '/news', icon: Newspaper, label: 'Mock Papers' },
+              { href: '/mock-tests', icon: Newspaper, label: 'Mock Tests' },
               { href: '/forms', icon: FileText, label: 'Challan & Application Forms' },
             ].map((link) => (
               <li key={link.href}>

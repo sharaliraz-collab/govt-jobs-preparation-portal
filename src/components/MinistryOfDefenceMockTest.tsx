@@ -13,13 +13,9 @@ import {
   ChevronLeft,
   ChevronRight,
   Sparkles,
-  HelpCircle,
   Award,
-  BookOpen,
-  ArrowLeft,
-  X
+  BookOpen
 } from 'lucide-react';
-import Link from 'next/link';
 
 export interface MODQuestion {
   id: number;
@@ -144,10 +140,12 @@ const MOD_QUESTIONS: MODQuestion[] = [
 ];
 
 const TOTAL_QUESTIONS = MOD_QUESTIONS.length; // 100
+const QUESTIONS_PER_PAGE = 25; // 25 per page
+const TOTAL_PAGES = 4; // 4 pages total
 const TOTAL_TIME_SEC = 90 * 60; // 90 minutes
 
 export default function MinistryOfDefenceMockTest() {
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
   const [userAnswers, setUserAnswers] = useState<(number | null)[]>(new Array(TOTAL_QUESTIONS).fill(null));
   const [testSubmitted, setTestSubmitted] = useState(false);
   const [timeRemaining, setTimeRemaining] = useState(TOTAL_TIME_SEC);
@@ -179,20 +177,20 @@ export default function MinistryOfDefenceMockTest() {
     setShowModal(true);
   };
 
-  const handleOptionSelect = (optIndex: number) => {
+  const handleOptionSelect = (qIdx: number, optIdx: number) => {
     if (testSubmitted) return;
     setUserAnswers(prev => {
       const copy = [...prev];
-      copy[currentIndex] = optIndex;
+      copy[qIdx] = optIdx;
       return copy;
     });
   };
 
-  const handleClearSelection = () => {
+  const handleClearSelection = (qIdx: number) => {
     if (testSubmitted) return;
     setUserAnswers(prev => {
       const copy = [...prev];
-      copy[currentIndex] = null;
+      copy[qIdx] = null;
       return copy;
     });
   };
@@ -211,11 +209,18 @@ export default function MinistryOfDefenceMockTest() {
     }
   };
 
+  const handlePageChange = (p: number) => {
+    if (p >= 1 && p <= TOTAL_PAGES) {
+      setCurrentPage(p);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
   const handleRetry = () => {
     setUserAnswers(new Array(TOTAL_QUESTIONS).fill(null));
     setTestSubmitted(false);
     setShowModal(false);
-    setCurrentIndex(0);
+    setCurrentPage(1);
     setTimeRemaining(TOTAL_TIME_SEC);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -224,25 +229,9 @@ export default function MinistryOfDefenceMockTest() {
     window.print();
   };
 
-  // Keyboard navigation
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (showModal) return;
-      if (e.key === 'ArrowLeft' && currentIndex > 0) {
-        setCurrentIndex(prev => prev - 1);
-      } else if (e.key === 'ArrowRight' && currentIndex < TOTAL_QUESTIONS - 1) {
-        setCurrentIndex(prev => prev + 1);
-      } else if (e.key === 'c' || e.key === 'C') {
-        handleClearSelection();
-      } else if (e.key >= '1' && e.key <= '4') {
-        handleOptionSelect(parseInt(e.key) - 1);
-      } else if (e.key >= 'a' && e.key <= 'd') {
-        handleOptionSelect(e.key.charCodeAt(0) - 'a'.charCodeAt(0));
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [currentIndex, showModal, testSubmitted]);
+  // Current page 25 questions
+  const startIndex = (currentPage - 1) * QUESTIONS_PER_PAGE;
+  const pageQuestions = MOD_QUESTIONS.slice(startIndex, startIndex + QUESTIONS_PER_PAGE);
 
   // Calculations
   const answeredCount = userAnswers.filter(a => a !== null).length;
@@ -270,10 +259,9 @@ export default function MinistryOfDefenceMockTest() {
     return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
   };
 
-  const currentQ = MOD_QUESTIONS[currentIndex];
   const shareUrl = absoluteUrl('/mock-papers/ministry-of-defence');
-  const shareTitle = 'Ministry of Defence Pakistan (MOD) Mock Written Test — 100 MCQs';
-  const shareDescription = 'Attempt free 100-question Ministry of Defence (MOD) written practice exam. 90-min timer, instant scoring, section breakdown, and full answer key!';
+  const shareTitle = 'Ministry of Defence Pakistan (MOD) Mock Written Test — 100 MCQs (4 Pages)';
+  const shareDescription = 'Attempt free 100-question Ministry of Defence (MOD) written practice exam. 25 MCQs per page, 90-min timer, instant scoring, & full answer key!';
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">
@@ -288,31 +276,29 @@ export default function MinistryOfDefenceMockTest() {
               Official Ministry of Defence Model Paper
             </span>
             <span className="bg-white/10 text-emerald-300 text-xs font-bold px-3 py-1 rounded-full border border-white/20">
-              100 MCQs • 90 Minutes
+              100 MCQs • 25 Per Page • 4 Pages
             </span>
           </div>
 
           <div>
             <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
-              🇵🇰 Ministry of Defence (MOD) — Written Test Paper
+              🇵🇰 Ministry of Defence (MOD) — Mock Test
             </h1>
             <p className="text-xs sm:text-sm text-emerald-100/90 mt-1 leading-relaxed">
-              Full-length 100-Question Written Practice Exam based on Past Papers Syllabus: English, Pakistan Studies, Islamiat, General Knowledge/Current Affairs, Everyday Science, and Mathematics.
+              Full-length 100-Question Written Practice Exam formatted into 4 pages (25 questions per page). Aligned to Past Papers Syllabus: English, Pakistan Studies, Islamiat, General Knowledge, Everyday Science, and Mathematics.
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center gap-4 text-xs text-slate-200 pt-1 font-semibold">
-            <span>Section A: English (1-20)</span> •
-            <span>Section B: Pak Studies (21-40)</span> •
-            <span>Section C: Islamiat (41-55)</span> •
-            <span>Section D: GK (56-70)</span> •
-            <span>Section E: Science (71-85)</span> •
-            <span>Section F: Maths (86-100)</span>
+          <div className="flex flex-wrap items-center gap-3 text-xs text-slate-200 pt-1 font-semibold">
+            <span>Page 1: Q1–25</span> •
+            <span>Page 2: Q26–50</span> •
+            <span>Page 3: Q51–75</span> •
+            <span>Page 4: Q76–100</span>
           </div>
         </div>
       </div>
 
-      {/* Live Stats Toolbar */}
+      {/* Live Stats & Timer Toolbar */}
       <div className="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-wrap items-center justify-between gap-4 text-xs font-bold no-print">
         <div className="flex items-center gap-4 flex-wrap">
           <span className="text-slate-600">
@@ -340,7 +326,7 @@ export default function MinistryOfDefenceMockTest() {
 
           <button
             onClick={handlePrint}
-            className="bg-slate-100 hover:bg-slate-200 text-slate-800 px-3 py-1.5 rounded-xl transition flex items-center gap-1 text-xs font-bold"
+            className="bg-slate-100 hover:bg-slate-200 text-slate-800 px-3.5 py-1.5 rounded-xl transition flex items-center gap-1 text-xs font-bold"
             title="Print test or save review PDF"
           >
             <Printer className="w-3.5 h-3.5" />
@@ -349,150 +335,186 @@ export default function MinistryOfDefenceMockTest() {
         </div>
       </div>
 
-      {/* Question Card */}
-      <div className={`bg-white p-6 sm:p-8 rounded-3xl border shadow-md space-y-6 transition page-break-inside-avoid ${
-        userAnswers[currentIndex] !== null ? 'border-slate-400' : 'border-slate-200'
-      }`}>
-        <div className="flex items-center justify-between gap-4 border-b border-slate-100 pb-3">
-          <span className="bg-sky-50 text-sky-800 border border-sky-200 text-xs font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">
-            {currentQ.section}
-          </span>
-          <span className="text-xs font-bold text-slate-500">
-            Question {currentQ.id} of {TOTAL_QUESTIONS}
+      {/* Page Tabs Navigation Bar (Top) */}
+      <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4 text-xs no-print">
+        <div className="flex items-center gap-2 font-bold text-slate-800">
+          <BookOpen className="w-4 h-4 text-emerald-700" />
+          <span>Page {currentPage} of {TOTAL_PAGES}</span>
+          <span className="text-slate-500 font-normal text-[11px]">
+            (Questions {startIndex + 1} – {startIndex + pageQuestions.length})
           </span>
         </div>
 
-        <h2 className="text-base sm:text-lg font-black text-slate-900 leading-snug">
-          {currentQ.q}
-        </h2>
+        {/* 4 Page Tab Buttons */}
+        <div className="flex items-center gap-1.5 flex-wrap">
+          <button
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+            className="px-3 py-1.5 rounded-lg border border-slate-200 bg-slate-50 hover:bg-slate-100 disabled:opacity-30 text-[11px] font-bold flex items-center gap-1 transition"
+          >
+            <ChevronLeft className="w-3.5 h-3.5" />
+            <span>Prev Page</span>
+          </button>
 
-        {/* Options List */}
-        <div className="space-y-3">
-          {currentQ.opts.map((optText, optIdx) => {
-            const isSelected = userAnswers[currentIndex] === optIdx;
-            const isCorrect = optIdx === currentQ.ans;
-
-            let optStyle = 'bg-slate-50 hover:bg-slate-100 border-slate-200 text-slate-800';
-
-            if (testSubmitted) {
-              if (isCorrect) {
-                optStyle = 'bg-emerald-600 text-white border-emerald-600 font-bold shadow-xs';
-              } else if (isSelected) {
-                optStyle = 'bg-red-600 text-white border-red-600 font-bold';
-              }
-            } else if (isSelected) {
-              optStyle = 'bg-sky-50 border-sky-600 text-sky-950 font-extrabold shadow-xs';
-            }
-
-            return (
-              <button
-                key={optIdx}
-                type="button"
-                disabled={testSubmitted}
-                onClick={() => handleOptionSelect(optIdx)}
-                className={`w-full text-left p-3.5 rounded-2xl border text-xs sm:text-sm transition flex items-center gap-3 ${optStyle}`}
-              >
-                <span className={`w-7 h-7 rounded-full border shrink-0 flex items-center justify-center text-xs font-extrabold ${
-                  testSubmitted && isCorrect
-                    ? 'bg-white text-emerald-950 border-white'
-                    : testSubmitted && isSelected && !isCorrect
-                    ? 'bg-white text-red-950 border-white'
-                    : isSelected
-                    ? 'bg-sky-700 text-white border-sky-700'
-                    : 'bg-white border-slate-300 text-slate-700'
-                }`}>
-                  {String.fromCharCode(65 + optIdx)}
-                </span>
-                <span className="flex-1 font-medium">{optText}</span>
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Control Buttons */}
-        <div className="flex flex-wrap items-center justify-between gap-3 pt-2 no-print">
-          <div className="flex items-center gap-2">
+          {[1, 2, 3, 4].map(p => (
             <button
-              onClick={() => setCurrentIndex(prev => Math.max(0, prev - 1))}
-              disabled={currentIndex === 0}
-              className="px-4 py-2 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 disabled:opacity-30 text-xs font-bold flex items-center gap-1 transition"
+              key={p}
+              onClick={() => handlePageChange(p)}
+              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1 ${
+                p === currentPage
+                  ? 'bg-emerald-800 text-white shadow-xs'
+                  : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
+              }`}
             >
-              <ChevronLeft className="w-4 h-4" />
-              <span>Prev</span>
+              <span>Page {p}</span>
+              <span className="text-[10px] opacity-80">({(p - 1) * 25 + 1}–{p * 25})</span>
             </button>
+          ))}
 
-            <button
-              onClick={() => setCurrentIndex(prev => Math.min(TOTAL_QUESTIONS - 1, prev + 1))}
-              disabled={currentIndex === TOTAL_QUESTIONS - 1}
-              className="px-4 py-2 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 disabled:opacity-30 text-xs font-bold flex items-center gap-1 transition"
-            >
-              <span>Next</span>
-              <ChevronRight className="w-4 h-4" />
-            </button>
-
-            {!testSubmitted && (
-              <button
-                onClick={handleClearSelection}
-                className="px-3 py-2 rounded-xl border border-slate-200 hover:bg-slate-100 text-xs font-bold text-slate-600 transition"
-              >
-                ✕ Clear
-              </button>
-            )}
-          </div>
-
-          {!testSubmitted && (
-            <button
-              onClick={handleSubmit}
-              className="bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-black px-6 py-2.5 rounded-xl transition shadow-md flex items-center gap-1.5"
-            >
-              <CheckCircle2 className="w-4 h-4" />
-              <span>Submit Test</span>
-            </button>
-          )}
+          <button
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === TOTAL_PAGES}
+            className="px-3 py-1.5 rounded-lg border border-slate-200 bg-slate-50 hover:bg-slate-100 disabled:opacity-30 text-[11px] font-bold flex items-center gap-1 transition"
+          >
+            <span>Next Page</span>
+            <ChevronRight className="w-3.5 h-3.5" />
+          </button>
         </div>
       </div>
 
-      {/* Question Dots Grid Navigator */}
-      <div className="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm space-y-3 no-print">
-        <div className="flex items-center justify-between text-xs font-bold text-slate-700">
-          <span>Question Matrix Navigator (1–100)</span>
-          <span className="text-[11px] text-slate-500 font-normal">Click any dot to jump</span>
+      {/* 25 Questions Page List */}
+      <div className="space-y-4">
+        {pageQuestions.map((q, idx) => {
+          const globalIdx = startIndex + idx;
+          const userSelected = userAnswers[globalIdx];
+          const isAnswered = userSelected !== null;
+
+          return (
+            <div
+              key={q.id}
+              className={`p-5 sm:p-6 rounded-2xl border transition shadow-xs space-y-4 bg-white page-break-inside-avoid ${
+                isAnswered ? 'border-slate-300' : 'border-slate-200 hover:border-slate-300'
+              }`}
+            >
+              <div className="flex items-start justify-between gap-3">
+                <div className="flex items-start gap-3 flex-1">
+                  <span className="w-8 h-8 rounded-lg bg-sky-900 text-white font-black text-xs flex items-center justify-center shrink-0 mt-0.5 shadow-xs">
+                    {q.id}
+                  </span>
+                  <div className="space-y-1 flex-1">
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-sky-800 bg-sky-50 px-2.5 py-0.5 rounded-full border border-sky-200">
+                      {q.section}
+                    </span>
+                    <h3 className="text-sm sm:text-base font-extrabold text-slate-900 leading-relaxed">
+                      {q.q}
+                    </h3>
+                  </div>
+                </div>
+
+                {!testSubmitted && isAnswered && (
+                  <button
+                    onClick={() => handleClearSelection(globalIdx)}
+                    className="text-[11px] font-bold text-slate-500 hover:text-slate-800 bg-slate-100 hover:bg-slate-200 px-2.5 py-1 rounded-md transition shrink-0 no-print"
+                    title="Clear selection for this question"
+                  >
+                    ✕ Clear
+                  </button>
+                )}
+              </div>
+
+              {/* Options List (Clean presentation without question keys) */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
+                {q.opts.map((optText, optIdx) => {
+                  const isSelected = userSelected === optIdx;
+                  const isCorrect = optIdx === q.ans;
+
+                  let optStyle = 'bg-slate-50 hover:bg-slate-100 border-slate-200 text-slate-800';
+
+                  if (testSubmitted) {
+                    if (isCorrect) {
+                      optStyle = 'bg-emerald-600 text-white border-emerald-600 font-bold shadow-xs';
+                    } else if (isSelected) {
+                      optStyle = 'bg-red-600 text-white border-red-600 font-bold';
+                    }
+                  } else if (isSelected) {
+                    optStyle = 'bg-sky-50 border-sky-600 text-sky-950 font-extrabold shadow-xs';
+                  }
+
+                  return (
+                    <button
+                      key={optIdx}
+                      type="button"
+                      disabled={testSubmitted}
+                      onClick={() => handleOptionSelect(globalIdx, optIdx)}
+                      className={`w-full text-left p-3.5 rounded-xl border text-xs transition flex items-center gap-3 ${optStyle}`}
+                    >
+                      <span className={`w-4 h-4 rounded-full border shrink-0 flex items-center justify-center ${
+                        testSubmitted && isCorrect
+                          ? 'bg-white border-white'
+                          : testSubmitted && isSelected && !isCorrect
+                          ? 'bg-white border-white'
+                          : isSelected
+                          ? 'bg-sky-700 border-sky-700'
+                          : 'border-slate-400 bg-white'
+                      }`}>
+                        {isSelected && <span className="w-1.5 h-1.5 rounded-full bg-white" />}
+                      </span>
+
+                      <span className="flex-1 font-medium">{optText}</span>
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Show correct answer status after test submission */}
+              {testSubmitted && (
+                <div className="p-3 bg-emerald-50 rounded-xl border border-emerald-200 text-xs text-emerald-950 flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                  <span>
+                    <strong>Correct Answer:</strong> {q.opts[q.ans]}
+                  </span>
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Bottom Pagination & Submit Bar */}
+      <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4 no-print">
+        <div className="flex items-center gap-1.5">
+          <button
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+            className="px-4 py-2 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 disabled:opacity-30 text-xs font-bold flex items-center gap-1 transition"
+          >
+            <ChevronLeft className="w-4 h-4" />
+            <span>Previous Page</span>
+          </button>
+
+          <span className="text-xs font-bold text-slate-700 px-3">
+            Page {currentPage} of {TOTAL_PAGES}
+          </span>
+
+          <button
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === TOTAL_PAGES}
+            className="px-4 py-2 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 disabled:opacity-30 text-xs font-bold flex items-center gap-1 transition"
+          >
+            <span>Next Page</span>
+            <ChevronRight className="w-4 h-4" />
+          </button>
         </div>
 
-        <div className="flex flex-wrap gap-1.5 max-h-48 overflow-y-auto p-1">
-          {MOD_QUESTIONS.map((q, idx) => {
-            const isCurrent = idx === currentIndex;
-            const isAnswered = userAnswers[idx] !== null;
-
-            let dotStyle = 'bg-slate-100 text-slate-700 border-slate-200';
-
-            if (testSubmitted) {
-              if (userAnswers[idx] === q.ans) {
-                dotStyle = 'bg-emerald-100 text-emerald-800 border-emerald-400 font-bold';
-              } else if (userAnswers[idx] !== null) {
-                dotStyle = 'bg-red-100 text-red-800 border-red-400 font-bold';
-              } else {
-                dotStyle = 'bg-slate-100 text-slate-400 border-slate-200';
-              }
-            } else if (isAnswered) {
-              dotStyle = 'bg-emerald-100 text-emerald-800 border-emerald-400 font-bold';
-            }
-
-            if (isCurrent) {
-              dotStyle += ' ring-2 ring-sky-600 ring-offset-1 font-black';
-            }
-
-            return (
-              <button
-                key={q.id}
-                onClick={() => setCurrentIndex(idx)}
-                className={`w-8 h-8 rounded-xl border text-[11px] flex items-center justify-center transition ${dotStyle}`}
-              >
-                {q.id}
-              </button>
-            );
-          })}
-        </div>
+        {!testSubmitted && (
+          <button
+            onClick={handleSubmit}
+            className="w-full sm:w-auto bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-black px-7 py-3 rounded-xl transition shadow-md flex items-center justify-center gap-1.5"
+          >
+            <CheckCircle2 className="w-4 h-4" />
+            <span>Submit Full Test (100 MCQs)</span>
+          </button>
+        )}
       </div>
 
       {/* Result Modal Overlay */}
@@ -505,7 +527,7 @@ export default function MinistryOfDefenceMockTest() {
 
             <div>
               <h2 className="text-xl font-black text-slate-900">Ministry of Defence Test Completed!</h2>
-              <p className="text-xs text-slate-500 mt-1">Written Exam Practice Result</p>
+              <p className="text-xs text-slate-500 mt-1">Written Exam Practice Result (100 MCQs)</p>
             </div>
 
             <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-1">
@@ -535,7 +557,7 @@ export default function MinistryOfDefenceMockTest() {
                 onClick={() => setShowModal(false)}
                 className="flex-1 bg-emerald-700 hover:bg-emerald-800 text-white font-extrabold text-xs py-3 rounded-xl transition shadow"
               >
-                🔍 Review All Answers
+                🔍 Review All 4 Pages
               </button>
               <button
                 onClick={handleRetry}

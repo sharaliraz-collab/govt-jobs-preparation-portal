@@ -77,138 +77,348 @@ export default function NewsPage() {
         </p>
       </div>
 
-      {/* FEATURED SOFT GRADIENT CARD: Police Constable Mock Paper */}
-      <div className="relative overflow-hidden rounded-2xl border border-indigo-900/40 shadow-xl transition-all duration-300 hover:shadow-2xl"
-        style={{
-          background: 'linear-gradient(135deg, #0B2545 0%, #133A6F 45%, #1C4D8D 85%, #0B2545 100%)'
-        }}>
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute -top-12 -right-12 w-64 h-64 rounded-full opacity-20 bg-amber-400 blur-3xl" />
-          <div className="absolute -bottom-10 -left-10 w-48 h-48 rounded-full opacity-10 bg-cyan-400 blur-2xl" />
-        </div>
-
-        <div className="relative z-10 p-6 sm:p-8 flex flex-col lg:flex-row lg:items-center justify-between gap-6 text-white">
-          <div className="space-y-3 max-w-2xl">
-            <div className="flex items-center gap-2 flex-wrap">
-              <span className="inline-flex items-center gap-1.5 bg-amber-400/20 border border-amber-400/40 text-amber-300 text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest">
-                <Shield className="w-3.5 h-3.5 text-amber-300" />
-                Featured Official Written Test
-              </span>
-              <span className="bg-white/10 text-emerald-300 text-[10px] font-bold px-2.5 py-1 rounded-full border border-white/15">
-                STS SIBA Pattern
-              </span>
-            </div>
-
-            <h2 className="text-xl sm:text-3xl font-black tracking-tight text-white leading-tight">
-              Police Constable (BPS-07) — Mock Paper
+      {/* FEATURED MOCK PAPERS GRID MATRIX — 6 PREMIUM CARDS */}
+      <div className="space-y-4">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Sparkles className="w-5 h-5 text-amber-500" />
+            <h2 className="text-lg md:text-xl font-extrabold text-slate-900">
+              Featured Official Mock Written Tests (6 Master Papers)
             </h2>
+          </div>
+          <span className="text-xs font-bold text-slate-500 hidden sm:inline-block">
+            6 Full-Length Practice Exams Available
+          </span>
+        </div>
 
-            <p className="text-xs sm:text-sm text-slate-200 leading-relaxed">
-              Complete 100-Question Written Practice Exam aligned to SIBA Testing Services (STS) Matriculation Level Syllabus: English (10%), Sindhi (20%), Mathematics (20%), Gen. Awareness/IQ (20%), Reasoning (30%).
-            </p>
+        {/* 6 CARDS GRID MATRIX (3 Columns Desktop, 2 Columns Tablet, 1 Column Mobile) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
-            <div className="flex flex-wrap items-center gap-4 text-xs font-semibold text-slate-300 pt-1">
-              <div className="flex items-center gap-1.5 text-amber-300">
-                <FileCheck className="w-4 h-4" />
-                <span>100 MCQs (20 per page)</span>
+          {/* CARD 1: Police Constable (BPS-07) */}
+          <div className="relative overflow-hidden rounded-3xl border border-indigo-900/40 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1.5 flex flex-col justify-between"
+            style={{ background: 'linear-gradient(135deg, #0B2545 0%, #133A6F 60%, #1C4D8D 100%)' }}>
+            <div className="absolute top-0 right-0 w-36 h-36 bg-amber-400/10 rounded-full blur-2xl pointer-events-none" />
+
+            <div className="p-6 space-y-4 text-white relative z-10">
+              <div className="flex items-center justify-between gap-2 flex-wrap">
+                <span className="inline-flex items-center gap-1 bg-amber-400/20 border border-amber-400/40 text-amber-300 text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full">
+                  <Shield className="w-3 h-3 text-amber-300" />
+                  Sindh Police
+                </span>
+                <span className="bg-white/10 text-emerald-300 text-[10px] font-bold px-2 py-0.5 rounded-full border border-white/15">
+                  STS SIBA Pattern
+                </span>
               </div>
-              <div className="flex items-center gap-1.5 text-amber-300">
-                <Clock className="w-4 h-4" />
-                <span>80 Minutes</span>
+
+              <div>
+                <h3 className="text-lg font-black text-white leading-snug">
+                  Police Constable (BPS-07)
+                </h3>
+                <p className="text-xs text-slate-200 mt-1.5 line-clamp-3 leading-relaxed">
+                  100-Question Written Practice Exam aligned to SIBA Testing Services (STS): English (10%), Sindhi (20%), Maths (20%), GK/IQ (20%), Reasoning (30%).
+                </p>
               </div>
-              <div className="flex items-center gap-1.5 text-amber-300">
-                <Award className="w-4 h-4" />
-                <span>Instant Grading &amp; Section Breakdown</span>
+
+              <div className="grid grid-cols-2 gap-2 text-[11px] font-semibold text-slate-200 pt-1">
+                <div className="flex items-center gap-1 text-amber-300">
+                  <FileCheck className="w-3.5 h-3.5" />
+                  <span>100 MCQs</span>
+                </div>
+                <div className="flex items-center gap-1 text-amber-300">
+                  <Clock className="w-3.5 h-3.5" />
+                  <span>80 Minutes</span>
+                </div>
               </div>
+            </div>
+
+            <div className="p-6 pt-0 relative z-10 space-y-2">
+              <Link
+                href="/mock-papers/police-constable"
+                className="w-full bg-gradient-to-r from-amber-400 to-yellow-400 hover:from-amber-300 hover:to-yellow-300 text-slate-950 text-xs font-black py-3 rounded-xl transition shadow-md flex items-center justify-center gap-1.5 group"
+              >
+                <Sparkles className="w-3.5 h-3.5 text-slate-950 group-hover:rotate-12 transition transform" />
+                <span>Start Police Constable Test →</span>
+              </Link>
+              <Link
+                href="/mock-papers/police-constable"
+                className="w-full bg-white/10 hover:bg-white/20 text-white text-[11px] font-bold py-1.5 rounded-lg border border-white/15 transition flex items-center justify-center gap-1"
+              >
+                <span>🔗 Open Direct Link / Share</span>
+              </Link>
             </div>
           </div>
 
-          <div className="flex flex-col gap-2.5 shrink-0 justify-center">
-            <Link
-              href="/mock-papers/police-constable"
-              className="bg-gradient-to-r from-amber-400 to-yellow-400 hover:from-amber-300 hover:to-yellow-300 text-slate-950 text-xs sm:text-sm font-black px-7 py-3.5 rounded-xl transition shadow-lg flex items-center justify-center gap-2 group whitespace-nowrap"
-            >
-              <Sparkles className="w-4 h-4 text-slate-950 group-hover:rotate-12 transition transform" />
-              <span>Start Police Constable Mock Test →</span>
-            </Link>
-            <Link
-              href="/mock-papers/police-constable"
-              className="bg-white/10 hover:bg-white/20 text-white text-xs font-bold px-4 py-2 rounded-xl border border-white/20 transition flex items-center justify-center gap-1.5"
-            >
-              <span>🔗 Open Direct Link / Share Paper</span>
-            </Link>
-            <span className="text-[10px] text-slate-300 text-center font-medium">Free Access · Optimized for WhatsApp &amp; Social Share</span>
-          </div>
-        </div>
+          {/* CARD 2: Ministry of Defence (MOD) */}
+          <div className="relative overflow-hidden rounded-3xl border border-emerald-900/40 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1.5 flex flex-col justify-between"
+            style={{ background: 'linear-gradient(135deg, #1a3c5e 0%, #0d6b3e 60%, #1a3c5e 100%)' }}>
+            <div className="absolute top-0 right-0 w-36 h-36 bg-emerald-400/10 rounded-full blur-2xl pointer-events-none" />
 
-        <div style={{ height: 4, background: 'repeating-linear-gradient(90deg, #C9A227 0 20px, transparent 20px 40px)' }} />
-      </div>
+            <div className="p-6 space-y-4 text-white relative z-10">
+              <div className="flex items-center justify-between gap-2 flex-wrap">
+                <span className="inline-flex items-center gap-1 bg-amber-400/20 border border-amber-400/40 text-amber-300 text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full">
+                  <Shield className="w-3 h-3 text-amber-300" />
+                  Federal Defence
+                </span>
+                <span className="bg-white/10 text-emerald-300 text-[10px] font-bold px-2 py-0.5 rounded-full border border-white/15">
+                  Past Papers Syllabus
+                </span>
+              </div>
 
-      {/* FEATURED SOFT GRADIENT CARD: Ministry of Defence (MOD) Mock Paper */}
-      <div className="relative overflow-hidden rounded-2xl border border-emerald-900/40 shadow-xl transition-all duration-300 hover:shadow-2xl"
-        style={{
-          background: 'linear-gradient(135deg, #1a3c5e 0%, #0d6b3e 60%, #1a3c5e 100%)'
-        }}>
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute -top-12 -right-12 w-64 h-64 rounded-full opacity-20 bg-amber-400 blur-3xl" />
-          <div className="absolute -bottom-10 -left-10 w-48 h-48 rounded-full opacity-10 bg-emerald-400 blur-2xl" />
-        </div>
+              <div>
+                <h3 className="text-lg font-black text-white leading-snug">
+                  🇵🇰 Ministry of Defence (MOD)
+                </h3>
+                <p className="text-xs text-slate-200 mt-1.5 line-clamp-3 leading-relaxed">
+                  Full-length 100-Question Written Practice Exam covering English, Pak Studies, Islamiat, GK/Current Affairs, Everyday Science &amp; Mathematics (25 MCQs per page).
+                </p>
+              </div>
 
-        <div className="relative z-10 p-6 sm:p-8 flex flex-col lg:flex-row lg:items-center justify-between gap-6 text-white">
-          <div className="space-y-3 max-w-2xl">
-            <div className="flex items-center gap-2 flex-wrap">
-              <span className="inline-flex items-center gap-1.5 bg-amber-400/20 border border-amber-400/40 text-amber-300 text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest">
-                <Shield className="w-3.5 h-3.5 text-amber-300" />
-                Featured Federal Defence Exam
-              </span>
-              <span className="bg-white/10 text-emerald-300 text-[10px] font-bold px-2.5 py-1 rounded-full border border-white/15">
-                Past Papers Syllabus
-              </span>
+              <div className="grid grid-cols-2 gap-2 text-[11px] font-semibold text-slate-200 pt-1">
+                <div className="flex items-center gap-1 text-amber-300">
+                  <FileCheck className="w-3.5 h-3.5" />
+                  <span>100 MCQs (4 Pages)</span>
+                </div>
+                <div className="flex items-center gap-1 text-amber-300">
+                  <Clock className="w-3.5 h-3.5" />
+                  <span>90 Minutes</span>
+                </div>
+              </div>
             </div>
 
-            <h2 className="text-xl sm:text-3xl font-black tracking-tight text-white leading-tight">
-              🇵🇰 Ministry of Defence (MOD) — Mock Test
-            </h2>
-
-            <p className="text-xs sm:text-sm text-slate-200 leading-relaxed">
-              Full-length 100-Question Written Practice Exam covering English (20), Pakistan Studies (20), Islamiat (15), General Knowledge &amp; Current Affairs (15), Everyday Science (15), and Mathematics (15).
-            </p>
-
-            <div className="flex flex-wrap items-center gap-4 text-xs font-semibold text-slate-300 pt-1">
-              <div className="flex items-center gap-1.5 text-amber-300">
-                <FileCheck className="w-4 h-4" />
-                <span>100 MCQs (6 Sections)</span>
-              </div>
-              <div className="flex items-center gap-1.5 text-amber-300">
-                <Clock className="w-4 h-4" />
-                <span>90 Minutes Timer</span>
-              </div>
-              <div className="flex items-center gap-1.5 text-amber-300">
-                <Award className="w-4 h-4" />
-                <span>Instant Grading &amp; Review Key</span>
-              </div>
+            <div className="p-6 pt-0 relative z-10 space-y-2">
+              <Link
+                href="/mock-papers/ministry-of-defence"
+                className="w-full bg-gradient-to-r from-amber-400 to-yellow-400 hover:from-amber-300 hover:to-yellow-300 text-slate-950 text-xs font-black py-3 rounded-xl transition shadow-md flex items-center justify-center gap-1.5 group"
+              >
+                <Sparkles className="w-3.5 h-3.5 text-slate-950 group-hover:rotate-12 transition transform" />
+                <span>Start MOD Mock Test →</span>
+              </Link>
+              <Link
+                href="/mock-papers/ministry-of-defence"
+                className="w-full bg-white/10 hover:bg-white/20 text-white text-[11px] font-bold py-1.5 rounded-lg border border-white/15 transition flex items-center justify-center gap-1"
+              >
+                <span>🔗 Open Direct Link / Share</span>
+              </Link>
             </div>
           </div>
 
-          <div className="flex flex-col gap-2.5 shrink-0 justify-center">
-            <Link
-              href="/mock-papers/ministry-of-defence"
-              className="bg-gradient-to-r from-amber-400 to-yellow-400 hover:from-amber-300 hover:to-yellow-300 text-slate-950 text-xs sm:text-sm font-black px-7 py-3.5 rounded-xl transition shadow-lg flex items-center justify-center gap-2 group whitespace-nowrap"
-            >
-              <Sparkles className="w-4 h-4 text-slate-950 group-hover:rotate-12 transition transform" />
-              <span>Start Ministry of Defence Mock Test →</span>
-            </Link>
-            <Link
-              href="/mock-papers/ministry-of-defence"
-              className="bg-white/10 hover:bg-white/20 text-white text-xs font-bold px-4 py-2 rounded-xl border border-white/20 transition flex items-center justify-center gap-1.5"
-            >
-              <span>🔗 Open Direct Link / Share Paper</span>
-            </Link>
-            <span className="text-[10px] text-slate-300 text-center font-medium">Free Access · Optimized for WhatsApp &amp; Social Share</span>
-          </div>
-        </div>
+          {/* CARD 3: SPSC Town Officer & BMO (BPS-16/17) */}
+          <div className="relative overflow-hidden rounded-3xl border border-purple-900/40 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1.5 flex flex-col justify-between"
+            style={{ background: 'linear-gradient(135deg, #3b0764 0%, #581c87 60%, #3b0764 100%)' }}>
+            <div className="absolute top-0 right-0 w-36 h-36 bg-purple-400/10 rounded-full blur-2xl pointer-events-none" />
 
-        <div style={{ height: 4, background: 'repeating-linear-gradient(90deg, #0d6b3e 0 20px, transparent 20px 40px)' }} />
+            <div className="p-6 space-y-4 text-white relative z-10">
+              <div className="flex items-center justify-between gap-2 flex-wrap">
+                <span className="inline-flex items-center gap-1 bg-amber-400/20 border border-amber-400/40 text-amber-300 text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full">
+                  <Award className="w-3 h-3 text-amber-300" />
+                  SPSC Written Test
+                </span>
+                <span className="bg-white/10 text-purple-200 text-[10px] font-bold px-2 py-0.5 rounded-full border border-white/15">
+                  BPS-16/17 Cadre
+                </span>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-black text-white leading-snug">
+                  SPSC Town Officer &amp; BMO
+                </h3>
+                <p className="text-xs text-slate-200 mt-1.5 line-clamp-3 leading-relaxed">
+                  Sindh Public Service Commission written exam model paper covering Municipal Law, Pakistan Affairs, General Knowledge, and Current Affairs.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-2 gap-2 text-[11px] font-semibold text-slate-200 pt-1">
+                <div className="flex items-center gap-1 text-amber-300">
+                  <FileCheck className="w-3.5 h-3.5" />
+                  <span>100 MCQs</span>
+                </div>
+                <div className="flex items-center gap-1 text-amber-300">
+                  <Clock className="w-3.5 h-3.5" />
+                  <span>90 Minutes</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="p-6 pt-0 relative z-10 space-y-2">
+              <Link
+                href="/quizzes/world-info"
+                className="w-full bg-gradient-to-r from-amber-400 to-yellow-400 hover:from-amber-300 hover:to-yellow-300 text-slate-950 text-xs font-black py-3 rounded-xl transition shadow-md flex items-center justify-center gap-1.5 group"
+              >
+                <Sparkles className="w-3.5 h-3.5 text-slate-950 group-hover:rotate-12 transition transform" />
+                <span>Start SPSC Town Officer Test →</span>
+              </Link>
+              <Link
+                href="/quizzes/world-info"
+                className="w-full bg-white/10 hover:bg-white/20 text-white text-[11px] font-bold py-1.5 rounded-lg border border-white/15 transition flex items-center justify-center gap-1"
+              >
+                <span>🔗 Open Direct Link / Share</span>
+              </Link>
+            </div>
+          </div>
+
+          {/* CARD 4: FPSC Assistant Director (BPS-17) */}
+          <div className="relative overflow-hidden rounded-3xl border border-slate-700/60 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1.5 flex flex-col justify-between"
+            style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 60%, #0f172a 100%)' }}>
+            <div className="absolute top-0 right-0 w-36 h-36 bg-cyan-400/10 rounded-full blur-2xl pointer-events-none" />
+
+            <div className="p-6 space-y-4 text-white relative z-10">
+              <div className="flex items-center justify-between gap-2 flex-wrap">
+                <span className="inline-flex items-center gap-1 bg-amber-400/20 border border-amber-400/40 text-amber-300 text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full">
+                  <Shield className="w-3 h-3 text-amber-300" />
+                  FPSC Federal Exam
+                </span>
+                <span className="bg-white/10 text-cyan-300 text-[10px] font-bold px-2 py-0.5 rounded-full border border-white/15">
+                  BPS-17 Officer
+                </span>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-black text-white leading-snug">
+                  FPSC Assistant Director (BPS-17)
+                </h3>
+                <p className="text-xs text-slate-200 mt-1.5 line-clamp-3 leading-relaxed">
+                  Federal Public Service Commission screening test covering English Vocabulary, Grammar, Basic Arithmetic, Everyday Science &amp; Current Affairs.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-2 gap-2 text-[11px] font-semibold text-slate-200 pt-1">
+                <div className="flex items-center gap-1 text-amber-300">
+                  <FileCheck className="w-3.5 h-3.5" />
+                  <span>100 MCQs</span>
+                </div>
+                <div className="flex items-center gap-1 text-amber-300">
+                  <Clock className="w-3.5 h-3.5" />
+                  <span>100 Minutes</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="p-6 pt-0 relative z-10 space-y-2">
+              <Link
+                href="/quizzes/english-grammar"
+                className="w-full bg-gradient-to-r from-amber-400 to-yellow-400 hover:from-amber-300 hover:to-yellow-300 text-slate-950 text-xs font-black py-3 rounded-xl transition shadow-md flex items-center justify-center gap-1.5 group"
+              >
+                <Sparkles className="w-3.5 h-3.5 text-slate-950 group-hover:rotate-12 transition transform" />
+                <span>Start FPSC AD Test →</span>
+              </Link>
+              <Link
+                href="/quizzes/english-grammar"
+                className="w-full bg-white/10 hover:bg-white/20 text-white text-[11px] font-bold py-1.5 rounded-lg border border-white/15 transition flex items-center justify-center gap-1"
+              >
+                <span>🔗 Open Direct Link / Share</span>
+              </Link>
+            </div>
+          </div>
+
+          {/* CARD 5: PST & JEST School Teacher (BPS-14) */}
+          <div className="relative overflow-hidden rounded-3xl border border-teal-900/40 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1.5 flex flex-col justify-between"
+            style={{ background: 'linear-gradient(135deg, #042f2e 0%, #0f766e 60%, #042f2e 100%)' }}>
+            <div className="absolute top-0 right-0 w-36 h-36 bg-emerald-400/10 rounded-full blur-2xl pointer-events-none" />
+
+            <div className="p-6 space-y-4 text-white relative z-10">
+              <div className="flex items-center justify-between gap-2 flex-wrap">
+                <span className="inline-flex items-center gap-1 bg-amber-400/20 border border-amber-400/40 text-amber-300 text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full">
+                  <Award className="w-3 h-3 text-amber-300" />
+                  School Education Dept
+                </span>
+                <span className="bg-white/10 text-teal-300 text-[10px] font-bold px-2 py-0.5 rounded-full border border-white/15">
+                  PST &amp; JEST (BPS-14)
+                </span>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-black text-white leading-snug">
+                  PST &amp; JEST Teacher Test
+                </h3>
+                <p className="text-xs text-slate-200 mt-1.5 line-clamp-3 leading-relaxed">
+                  School Education Department written test paper covering Pedagogy, Elementary General Science, Mathematics, Social Studies &amp; English.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-2 gap-2 text-[11px] font-semibold text-slate-200 pt-1">
+                <div className="flex items-center gap-1 text-amber-300">
+                  <FileCheck className="w-3.5 h-3.5" />
+                  <span>100 MCQs</span>
+                </div>
+                <div className="flex items-center gap-1 text-amber-300">
+                  <Clock className="w-3.5 h-3.5" />
+                  <span>90 Minutes</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="p-6 pt-0 relative z-10 space-y-2">
+              <Link
+                href="/quizzes/physics"
+                className="w-full bg-gradient-to-r from-amber-400 to-yellow-400 hover:from-amber-300 hover:to-yellow-300 text-slate-950 text-xs font-black py-3 rounded-xl transition shadow-md flex items-center justify-center gap-1.5 group"
+              >
+                <Sparkles className="w-3.5 h-3.5 text-slate-950 group-hover:rotate-12 transition transform" />
+                <span>Start PST &amp; JEST Test →</span>
+              </Link>
+              <Link
+                href="/quizzes/physics"
+                className="w-full bg-white/10 hover:bg-white/20 text-white text-[11px] font-bold py-1.5 rounded-lg border border-white/15 transition flex items-center justify-center gap-1"
+              >
+                <span>🔗 Open Direct Link / Share</span>
+              </Link>
+            </div>
+          </div>
+
+          {/* CARD 6: Islamic Studies & Pak Affairs Solved Bank */}
+          <div className="relative overflow-hidden rounded-3xl border border-emerald-950/40 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1.5 flex flex-col justify-between"
+            style={{ background: 'linear-gradient(135deg, #0b3d2e 0%, #125c43 60%, #0b3d2e 100%)' }}>
+            <div className="absolute top-0 right-0 w-36 h-36 bg-amber-400/10 rounded-full blur-2xl pointer-events-none" />
+
+            <div className="p-6 space-y-4 text-white relative z-10">
+              <div className="flex items-center justify-between gap-2 flex-wrap">
+                <span className="inline-flex items-center gap-1 bg-amber-400/20 border border-amber-400/40 text-amber-300 text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full">
+                  <Shield className="w-3 h-3 text-amber-300" />
+                  Islamic Studies Bank
+                </span>
+                <span className="bg-white/10 text-emerald-300 text-[10px] font-bold px-2 py-0.5 rounded-full border border-white/15">
+                  9 Categories
+                </span>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-black text-white leading-snug">
+                  🕌 Islamic Studies (اسلاميات)
+                </h3>
+                <p className="text-xs text-slate-200 mt-1.5 line-clamp-3 leading-relaxed">
+                  Comprehensive 164 Solved MCQs Bank covering Aqaid, Quran, Hadith, Seerah, Khulafa-e-Rashideen, History &amp; Fiqh with Sindhi language toggle.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-2 gap-2 text-[11px] font-semibold text-slate-200 pt-1">
+                <div className="flex items-center gap-1 text-amber-300">
+                  <FileCheck className="w-3.5 h-3.5" />
+                  <span>164 MCQs</span>
+                </div>
+                <div className="flex items-center gap-1 text-amber-300">
+                  <Clock className="w-3.5 h-3.5" />
+                  <span>Untimed Practice</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="p-6 pt-0 relative z-10 space-y-2">
+              <Link
+                href="/quizzes/islamic-studies"
+                className="w-full bg-gradient-to-r from-amber-400 to-yellow-400 hover:from-amber-300 hover:to-yellow-300 text-slate-950 text-xs font-black py-3 rounded-xl transition shadow-md flex items-center justify-center gap-1.5 group"
+              >
+                <Sparkles className="w-3.5 h-3.5 text-slate-950 group-hover:rotate-12 transition transform" />
+                <span>Start Islamic Studies Test →</span>
+              </Link>
+              <Link
+                href="/quizzes/islamic-studies"
+                className="w-full bg-white/10 hover:bg-white/20 text-white text-[11px] font-bold py-1.5 rounded-lg border border-white/15 transition flex items-center justify-center gap-1"
+              >
+                <span>🔗 Open Direct Link / Share</span>
+              </Link>
+            </div>
+          </div>
+
+        </div>
       </div>
 
       {/* Search and Filters */}

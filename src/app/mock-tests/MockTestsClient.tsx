@@ -94,6 +94,59 @@ export default function MockTestsClient() {
         {/* 6 CARDS GRID MATRIX (3 Columns Desktop, 2 Columns Tablet, 1 Column Mobile) */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
+          {/* CARD 0: MDCAT Mock Test (200 Questions - SIBA Pattern) */}
+          <div className="relative overflow-hidden rounded-3xl border border-teal-400/30 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1.5 flex flex-col justify-between backdrop-blur-xl"
+            style={{ background: 'linear-gradient(135deg, rgba(13, 148, 136, 0.95) 0%, rgba(26, 60, 94, 0.95) 100%)' }}>
+            <div className="absolute top-0 right-0 w-36 h-36 bg-amber-400/10 rounded-full blur-2xl pointer-events-none" />
+
+            <div className="p-6 space-y-4 text-white relative z-10">
+              <div className="flex items-center justify-between gap-2 flex-wrap">
+                <span className="inline-flex items-center gap-1 bg-amber-400/20 border border-amber-400/40 text-amber-300 text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full">
+                  🩺 SIBA Testing Service
+                </span>
+                <span className="bg-white/10 text-teal-200 text-[10px] font-bold px-2 py-0.5 rounded-full border border-white/15">
+                  MDCAT 2026 Model
+                </span>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-black text-white leading-snug">
+                  MDCAT Mock Test (200 MCQs)
+                </h3>
+                <p className="text-xs text-slate-100 mt-1.5 line-clamp-3 leading-relaxed">
+                  Full 200-Question Medical Entry Test: Biology (80), Chemistry (60), Physics (40), and English (20) with 3-Hour Timer &amp; Subject Breakdown.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-2 gap-2 text-[11px] font-semibold text-slate-200 pt-1">
+                <div className="flex items-center gap-1 text-amber-300">
+                  <FileCheck className="w-3.5 h-3.5" />
+                  <span>200 MCQs (8 Pages)</span>
+                </div>
+                <div className="flex items-center gap-1 text-amber-300">
+                  <Clock className="w-3.5 h-3.5" />
+                  <span>3 Hours (180 Mins)</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="p-6 pt-0 relative z-10 space-y-2">
+              <Link
+                href="/mock-papers/mdcat"
+                className="w-full bg-gradient-to-r from-amber-400 to-yellow-400 hover:from-amber-300 hover:to-yellow-300 text-slate-950 text-xs font-black py-3 rounded-xl transition shadow-md flex items-center justify-center gap-1.5 group"
+              >
+                <Sparkles className="w-3.5 h-3.5 text-slate-950 group-hover:rotate-12 transition transform" />
+                <span>Start MDCAT Mock Test →</span>
+              </Link>
+              <Link
+                href="/mock-papers/mdcat"
+                className="w-full bg-white/10 hover:bg-white/20 text-white text-[11px] font-bold py-1.5 rounded-lg border border-white/15 transition flex items-center justify-center gap-1"
+              >
+                <span>🔗 Open Direct Link / Share</span>
+              </Link>
+            </div>
+          </div>
+
           {/* CARD 1: Police Constable (BPS-07) */}
           <div className="relative overflow-hidden rounded-3xl border border-white/20 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1.5 flex flex-col justify-between backdrop-blur-xl"
             style={{ background: 'linear-gradient(135deg, rgba(11, 37, 69, 0.95) 0%, rgba(19, 58, 111, 0.9) 60%, rgba(28, 77, 141, 0.95) 100%)' }}>

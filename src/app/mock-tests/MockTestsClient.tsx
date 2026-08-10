@@ -95,8 +95,8 @@ export default function MockTestsClient() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
           {/* CARD 1: Police Constable (BPS-07) */}
-          <div className="relative overflow-hidden rounded-3xl border border-indigo-900/40 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1.5 flex flex-col justify-between"
-            style={{ background: 'linear-gradient(135deg, #0B2545 0%, #133A6F 60%, #1C4D8D 100%)' }}>
+          <div className="relative overflow-hidden rounded-3xl border border-white/20 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1.5 flex flex-col justify-between backdrop-blur-xl"
+            style={{ background: 'linear-gradient(135deg, rgba(11, 37, 69, 0.95) 0%, rgba(19, 58, 111, 0.9) 60%, rgba(28, 77, 141, 0.95) 100%)' }}>
             <div className="absolute top-0 right-0 w-36 h-36 bg-amber-400/10 rounded-full blur-2xl pointer-events-none" />
 
             <div className="p-6 space-y-4 text-white relative z-10">

@@ -82,55 +82,52 @@ export default function Home() {
     <div className="space-y-0 pb-0">
       {/* ───── Hero Section ───── */}
       <section
-        className="relative overflow-hidden bg-gradient-to-br from-govt-emerald-dark via-govt-emerald to-emerald-800 text-white"
+        className="relative overflow-hidden bg-gradient-to-br from-slate-950 via-emerald-950 to-slate-900 text-white border-b border-white/10"
         aria-label="Hero banner"
       >
-        {/* Animated background pattern */}
-        <div className="absolute inset-0 opacity-[0.04]" style={{
-          backgroundImage: 'radial-gradient(circle at 25% 25%, white 1px, transparent 1px), radial-gradient(circle at 75% 75%, white 1px, transparent 1px)',
-          backgroundSize: '40px 40px',
-        }} />
-        {/* Floating gradient orbs */}
-        <div className="absolute -top-32 -right-32 w-96 h-96 bg-govt-gold/10 rounded-full blur-3xl animate-float" />
-        <div className="absolute -bottom-32 -left-32 w-96 h-96 bg-emerald-400/10 rounded-full blur-3xl animate-float" style={{ animationDelay: '1.5s' }} />
+        {/* Animated ambient liquid blobs */}
+        <div className="absolute inset-0 pointer-events-none opacity-30">
+          <div className="absolute -top-32 -right-32 w-96 h-96 bg-emerald-500/20 rounded-full blur-3xl animate-pulse" />
+          <div className="absolute -bottom-32 -left-32 w-96 h-96 bg-amber-400/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1.5s' }} />
+        </div>
 
         <div className="relative max-w-5xl mx-auto px-4 py-16 md:py-24 text-center space-y-8">
-          {/* Tagline */}
-          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/15 px-4 py-1.5 rounded-full text-xs font-bold animate-fade-in">
-            <Star className="w-3.5 h-3.5 text-govt-gold fill-govt-gold" />
-            <span>Pakistan&apos;s #1 Government Jobs & Test Prep Portal</span>
+          {/* Liquid Badge Tagline */}
+          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 px-4 py-1.5 rounded-full text-xs font-bold shadow-lg animate-fade-in">
+            <Star className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
+            <span className="text-slate-100">Pakistan&apos;s #1 Government Jobs &amp; Test Prep Portal</span>
           </div>
 
-          <h1 className={`text-xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight whitespace-nowrap overflow-hidden text-ellipsis animate-slide-up ${isUr ? 'font-urdu' : ''}`}>
+          <h1 className={`text-xl sm:text-3xl md:text-4xl lg:text-5xl font-black tracking-tight whitespace-nowrap overflow-hidden text-ellipsis text-white drop-shadow-md animate-slide-up ${isUr ? 'font-urdu' : ''}`}>
             {t('home.heroTitle')}
           </h1>
 
-          <p className="text-sm md:text-lg text-emerald-100/80 max-w-2xl mx-auto leading-relaxed animate-slide-up" style={{ animationDelay: '100ms' }}>
+          <p className="text-sm md:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed animate-slide-up" style={{ animationDelay: '100ms' }}>
             {t('home.heroSubtitle')}
           </p>
 
-          {/* Search Box */}
+          {/* Liquid Glass Search Box */}
           <form
             onSubmit={handleSearchSubmit}
-            className="max-w-2xl mx-auto flex items-center bg-white rounded-2xl shadow-elevated p-1.5 border-2 border-govt-gold/40 animate-scale-in"
+            className="max-w-2xl mx-auto flex items-center bg-white/15 backdrop-blur-2xl rounded-2xl shadow-2xl p-2 border border-white/30 animate-scale-in"
             style={{ animationDelay: '200ms' }}
             id="hero-search-form"
           >
-            <div className="pl-4 text-gray-400">
-              <Search className="w-5 h-5 text-govt-emerald" />
+            <div className="pl-4 text-emerald-400">
+              <Search className="w-5 h-5" />
             </div>
             <input
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder={t('home.searchJobs')}
-              className="w-full px-3 py-3 text-sm text-govt-charcoal bg-transparent focus:outline-none"
+              className="w-full px-3 py-3 text-sm text-white placeholder-slate-300 bg-transparent focus:outline-none"
               id="hero-search-input"
               aria-label="Search government jobs"
             />
             <button
               type="submit"
-              className="bg-govt-emerald hover:bg-govt-emerald-dark text-white font-extrabold px-6 py-3 rounded-xl text-sm transition-all duration-200 shadow-sm hover:shadow-glow-emerald whitespace-nowrap"
+              className="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white font-extrabold px-7 py-3 rounded-xl text-sm transition-all duration-300 shadow-lg border border-white/20 whitespace-nowrap"
               id="hero-search-btn"
             >
               {t('common.search')}
@@ -140,13 +137,13 @@ export default function Home() {
           {/* Stats Row */}
           <div className="flex flex-wrap justify-center gap-6 md:gap-10 pt-4 animate-fade-in" style={{ animationDelay: '350ms' }}>
             {stats.map((stat) => (
-              <div key={stat.label} className="flex items-center gap-2.5 stat-glow px-3 py-2 rounded-xl">
-                <div className="w-9 h-9 rounded-lg bg-white/10 backdrop-blur flex items-center justify-center">
-                  <stat.icon className="w-4 h-4 text-govt-gold" />
+              <div key={stat.label} className="flex items-center gap-2.5 bg-white/10 backdrop-blur-md border border-white/15 px-4 py-2.5 rounded-2xl shadow-sm">
+                <div className="w-9 h-9 rounded-xl bg-amber-400/20 border border-amber-400/30 flex items-center justify-center">
+                  <stat.icon className="w-4 h-4 text-amber-300" />
                 </div>
                 <div className="text-left">
                   <div className="text-lg md:text-xl font-extrabold text-white">{stat.value}</div>
-                  <div className="text-[10px] text-emerald-200/70 font-medium">{stat.label}</div>
+                  <div className="text-[10px] text-slate-300 font-medium">{stat.label}</div>
                 </div>
               </div>
             ))}
@@ -155,15 +152,15 @@ export default function Home() {
       </section>
 
       {/* ───── Trust Bar ───── */}
-      <section className="bg-white border-b border-govt-border py-4" aria-label="Trusted commissions">
+      <section className="bg-white/60 backdrop-blur-md border-b border-slate-200 py-4" aria-label="Trusted commissions">
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-8">
-          <span className="text-[10px] text-govt-muted font-bold uppercase tracking-widest flex items-center gap-1.5">
-            <Shield className="w-3.5 h-3.5" />
+          <span className="text-[10px] text-slate-500 font-bold uppercase tracking-widest flex items-center gap-1.5">
+            <Shield className="w-3.5 h-3.5 text-emerald-600" />
             Data from official commissions
           </span>
           <div className="flex items-center gap-4 md:gap-6 flex-wrap justify-center">
             {commissions.map((name) => (
-              <span key={name} className="text-xs font-extrabold text-slate-400 hover:text-govt-emerald transition-colors duration-200 cursor-default">
+              <span key={name} className="text-xs font-extrabold text-slate-600 hover:text-emerald-600 transition-colors duration-200 cursor-default">
                 {name}
               </span>
             ))}
@@ -174,7 +171,7 @@ export default function Home() {
       {/* ───── Main Content ───── */}
       <div className="max-w-7xl mx-auto px-4 space-y-16 py-12">
 
-        {/* Quick Resource Cards */}
+        {/* Quick Resource Cards — Liquid Glass */}
         <section className="grid grid-cols-2 md:grid-cols-4 gap-4 stagger-children" aria-label="Quick navigation">
           {quickLinks.map((link) => {
             const Icon = link.icon;
@@ -182,14 +179,14 @@ export default function Home() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="card-premium p-5 group flex flex-col items-center text-center"
+                className="liquid-glass-card p-5 group flex flex-col items-center text-center"
                 id={`quick-link-${link.href.replace('/', '')}`}
               >
                 <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${link.color} text-white flex items-center justify-center mb-3 shadow-md group-hover:scale-110 group-hover:shadow-lg transition-all duration-300`}>
                   <Icon className="w-6 h-6" />
                 </div>
-                <h3 className="font-bold text-sm text-govt-charcoal">{t(link.labelKey)}</h3>
-                <p className="text-[11px] text-govt-muted mt-0.5">{link.desc}</p>
+                <h3 className="font-extrabold text-sm text-slate-900">{t(link.labelKey)}</h3>
+                <p className="text-[11px] text-slate-500 mt-0.5 font-medium">{link.desc}</p>
               </Link>
             );
           })}

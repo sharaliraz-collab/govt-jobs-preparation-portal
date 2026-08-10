@@ -72,24 +72,24 @@ const Navbar = () => {
     <header
       className={`sticky top-0 z-50 transition-all duration-300 ${
         scrolled
-          ? 'bg-govt-emerald/95 backdrop-blur-lg shadow-elevated'
-          : 'bg-govt-emerald shadow-md'
+          ? 'bg-slate-950/85 backdrop-blur-2xl border-b border-white/10 shadow-2xl'
+          : 'bg-slate-900/95 backdrop-blur-xl border-b border-white/10 shadow-lg'
       }`}
     >
       {/* Top Banner Bar */}
-      <div className="bg-govt-emerald-dark px-4 py-1 text-xs border-b border-emerald-700/40">
+      <div className="bg-emerald-950/80 backdrop-blur-md px-4 py-1 text-xs border-b border-white/10">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <div className="flex items-center gap-2 font-medium text-emerald-200">
-            <span className="inline-block w-2 h-2 rounded-full bg-govt-gold animate-pulse" />
-            <span className="text-xs font-semibold text-emerald-200">GovtJobs.pk</span>
+            <span className="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-glow-gold" />
+            <span className="text-xs font-bold text-emerald-200 tracking-wide">GovtJobs.pk</span>
           </div>
 
           <button
             onClick={toggleLanguage}
             aria-label="Toggle language"
-            className="flex items-center gap-1.5 bg-emerald-800/60 hover:bg-emerald-700/80 px-2.5 py-0.5 rounded-md text-xs font-semibold tracking-wider transition-all duration-200 border border-emerald-600/50 text-white"
+            className="flex items-center gap-1.5 bg-white/10 hover:bg-white/20 text-white text-xs font-extrabold px-3 py-1 rounded-full transition-all duration-200 border border-white/20 shadow-xs backdrop-blur-md"
           >
-            <Globe className="w-3.5 h-3.5" />
+            <Globe className="w-3.5 h-3.5 text-emerald-300" />
             <span>{isUr ? 'English' : 'اردو'}</span>
           </button>
         </div>
@@ -101,15 +101,15 @@ const Navbar = () => {
           <img
             src="/logo.png"
             alt="GovtJobs.pk Logo"
-            className="w-9 h-9 rounded-full border-2 border-govt-gold/80 shadow-glow-gold object-cover transition-transform duration-300 group-hover:scale-105 shrink-0"
+            className="w-9 h-9 rounded-full border-2 border-amber-400/90 shadow-glow-gold object-cover transition-transform duration-300 group-hover:scale-105 shrink-0"
           />
-          <span className={`text-lg xl:text-xl font-extrabold tracking-tight text-white whitespace-nowrap ${isUr ? 'font-urdu' : ''}`}>
+          <span className={`text-lg xl:text-xl font-extrabold tracking-tight text-white whitespace-nowrap drop-shadow-md ${isUr ? 'font-urdu' : ''}`}>
             {t('nav.title')}
           </span>
         </Link>
 
         {/* Desktop Nav Links */}
-        <nav className="hidden lg:flex items-center gap-1 xl:gap-2 text-xs xl:text-sm font-medium whitespace-nowrap flex-nowrap" aria-label="Main navigation">
+        <nav className="hidden lg:flex items-center gap-1.5 xl:gap-2 text-xs xl:text-sm font-semibold whitespace-nowrap flex-nowrap" aria-label="Main navigation">
           {navLinks.map((link) => {
             const Icon = link.icon;
             const active = isActive(link.href);
@@ -117,11 +117,13 @@ const Navbar = () => {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`link-underline relative flex items-center gap-1.5 px-2.5 py-1.5 xl:px-3 xl:py-2 rounded-lg transition-all duration-200 text-white/90 hover:text-white hover:bg-white/10 whitespace-nowrap shrink-0 ${
-                  active ? 'active text-white bg-white/10' : ''
+                className={`relative flex items-center gap-1.5 px-3 py-1.5 xl:px-3.5 xl:py-2 rounded-xl transition-all duration-300 whitespace-nowrap shrink-0 border ${
+                  active
+                    ? 'bg-gradient-to-r from-emerald-500/30 to-teal-500/30 border-emerald-400/60 text-white shadow-sm backdrop-blur-md'
+                    : 'bg-white/5 hover:bg-white/15 border-white/10 text-slate-200 hover:text-white'
                 }`}
               >
-                {Icon && <Icon className="w-4 h-4 shrink-0" />}
+                {Icon && <Icon className={`w-4 h-4 shrink-0 ${active ? 'text-emerald-300' : 'text-slate-300'}`} />}
                 <span className="whitespace-nowrap">{t(link.labelKey)}</span>
               </Link>
             );
@@ -135,8 +137,10 @@ const Navbar = () => {
           >
             <Link
               href="/employees-corner"
-              className={`link-underline relative flex items-center gap-1.5 px-2.5 py-1.5 xl:px-3 xl:py-2 rounded-lg transition-all duration-200 text-white/90 hover:text-white hover:bg-white/10 whitespace-nowrap shrink-0 ${
-                isActive('/employees-corner') ? 'active text-white bg-white/10' : ''
+              className={`relative flex items-center gap-1.5 px-3 py-1.5 xl:px-3.5 xl:py-2 rounded-xl transition-all duration-300 whitespace-nowrap shrink-0 border ${
+                isActive('/employees-corner')
+                  ? 'bg-gradient-to-r from-emerald-500/30 to-teal-500/30 border-emerald-400/60 text-white shadow-sm backdrop-blur-md'
+                  : 'bg-white/5 hover:bg-white/15 border-white/10 text-slate-200 hover:text-white'
               }`}
             >
               <Users className="w-4 h-4 shrink-0" />

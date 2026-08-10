@@ -58,7 +58,7 @@ const JobCard: React.FC<JobCardProps> = ({ job, onSaveToggle }) => {
 
   return (
     <div
-      className={`card-premium border-l-4 ${borderClass} p-5 flex flex-col justify-between group`}
+      className={`liquid-glass-card border-l-4 ${borderClass} p-5 flex flex-col justify-between group`}
       id={`job-card-${job._id}`}
     >
       {/* Header Info */}

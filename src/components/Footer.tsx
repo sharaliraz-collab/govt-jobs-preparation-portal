@@ -14,9 +14,9 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-govt-charcoal text-gray-300 mt-16 text-sm relative" role="contentinfo">
-      {/* Gradient top border */}
-      <div className="h-1 bg-gradient-to-r from-govt-emerald via-govt-gold to-govt-emerald" />
+    <footer className="bg-slate-950/90 backdrop-blur-2xl border-t border-white/10 text-slate-300 mt-16 text-sm relative overflow-hidden" role="contentinfo">
+      {/* Liquid Gradient Top Border */}
+      <div className="h-1 bg-gradient-to-r from-emerald-500 via-amber-400 to-teal-500 opacity-90" />
 
       {/* Main Footer Grid */}
       <div className="max-w-7xl mx-auto px-4 py-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">

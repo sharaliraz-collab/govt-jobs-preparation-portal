@@ -7,7 +7,7 @@ import axios from 'axios';
 import NewsCard from '@/components/NewsCard';
 import Loader from '@/components/Loader';
 import PoliceConstableMockTest from '@/components/PoliceConstableMockTest';
-import { Search, FileCheck, Shield, Sparkles, Award, Clock } from 'lucide-react';
+import { Search, FileCheck, Shield, Sparkles, Award, Clock, GraduationCap } from 'lucide-react';
 import { INews } from '@/lib/types';
 
 export default function MockTestsClient() {
@@ -68,31 +68,86 @@ export default function MockTestsClient() {
       {/* Header Banner - Mock Tests */}
       <div className="border-b border-govt-border pb-4">
         <h1 className={`text-2xl md:text-3xl font-extrabold text-govt-charcoal ${isUr ? 'font-urdu' : ''}`}>
-          {isUr ? 'ماک ٹیسٹ و مشقی پرچا جات' : 'Mock Tests'}
+          {isUr ? 'ماک ٹیسٹ و مشقی پرچا جات' : 'Mock Tests & Entry Papers'}
         </h1>
         <p className="text-xs md:text-sm text-govt-muted mt-1">
           {isUr
-            ? 'سرکاری ملازمتی امتحانات، سندھ پولیس، منسٽري آف ڊيفينس ۽ اينٽري ٽيسٽ جا آن لائن مڪمل ماڪ ٽيسٽ ڏيو'
-            : 'Practice full-length recruitment mock tests, official model papers, and solved entry test exam papers.'}
+            ? 'سرکاری ملازمتی امتحانات، سندھ پولیس، شاہ عبداللطیف یونیورسٹی خیرپور، منسٽري آف ڊيفينس ۽ اينٽري ٽيسٽ جا آن لائن مڪمل ماڪ ٽيسٽ ڏيو'
+            : 'Practice full-length recruitment mock tests, official university model papers, and solved entry test exam papers.'}
         </p>
       </div>
 
-      {/* FEATURED MOCK TESTS GRID MATRIX — 6 PREMIUM CARDS */}
+      {/* FEATURED MOCK TESTS GRID MATRIX */}
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Sparkles className="w-5 h-5 text-amber-500" />
             <h2 className="text-lg md:text-xl font-extrabold text-slate-900">
-              Featured Official Mock Tests (6 Master Papers)
+              Featured Official Mock Tests &amp; Entry Papers
             </h2>
           </div>
           <span className="text-xs font-bold text-slate-500 hidden sm:inline-block">
-            6 Full-Length Practice Exams Available
+            Full-Length Practice Exams &amp; Model Papers
           </span>
         </div>
 
-        {/* 6 CARDS GRID MATRIX (3 Columns Desktop, 2 Columns Tablet, 1 Column Mobile) */}
+        {/* CARDS GRID MATRIX */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+          {/* CARD: SALU Khairpur Entry Test (50 MCQs) */}
+          <div className="relative overflow-hidden rounded-3xl border border-sky-400/40 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1.5 flex flex-col justify-between backdrop-blur-xl"
+            style={{ background: 'linear-gradient(135deg, rgba(12, 43, 76, 0.98) 0%, rgba(14, 73, 115, 0.95) 50%, rgba(20, 95, 140, 0.98) 100%)' }}>
+            <div className="absolute top-0 right-0 w-36 h-36 bg-sky-300/10 rounded-full blur-2xl pointer-events-none" />
+            <div className="absolute -bottom-8 -left-8 w-28 h-28 bg-amber-400/10 rounded-full blur-xl pointer-events-none" />
+
+            <div className="p-6 space-y-4 text-white relative z-10">
+              <div className="flex items-center justify-between gap-2 flex-wrap">
+                <span className="inline-flex items-center gap-1 bg-amber-400/20 border border-amber-400/40 text-amber-300 text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full">
+                  <GraduationCap className="w-3 h-3 text-amber-300" />
+                  SALU Khairpur
+                </span>
+                <span className="bg-white/10 text-sky-200 text-[10px] font-bold px-2 py-0.5 rounded-full border border-white/15">
+                  Entry Test 2026
+                </span>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-black text-white leading-snug">
+                  📘 SALU Entry Test (50 MCQs)
+                </h3>
+                <p className="text-xs text-slate-100 mt-1.5 line-clamp-3 leading-relaxed">
+                  Shah Abdul Latif University Khairpur model admission paper: English (10), General Knowledge (10), Islamic Studies (10), Biology (10), Physics (10). 60-min timer &amp; full answer key.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-2 gap-2 text-[11px] font-semibold text-slate-200 pt-1">
+                <div className="flex items-center gap-1 text-amber-300">
+                  <FileCheck className="w-3.5 h-3.5" />
+                  <span>50 MCQs (5 Subjects)</span>
+                </div>
+                <div className="flex items-center gap-1 text-amber-300">
+                  <Clock className="w-3.5 h-3.5" />
+                  <span>60 Minutes (50 Marks)</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="p-6 pt-0 relative z-10 space-y-2">
+              <Link
+                href="/mock-papers/salu-entry-test"
+                className="w-full bg-gradient-to-r from-amber-400 to-yellow-400 hover:from-amber-300 hover:to-yellow-300 text-slate-950 text-xs font-black py-3 rounded-xl transition shadow-md flex items-center justify-center gap-1.5 group"
+              >
+                <Sparkles className="w-3.5 h-3.5 text-slate-950 group-hover:rotate-12 transition transform" />
+                <span>Start SALU Entry Test →</span>
+              </Link>
+              <Link
+                href="/mock-papers/salu-entry-test"
+                className="w-full bg-white/10 hover:bg-white/20 text-white text-[11px] font-bold py-1.5 rounded-lg border border-white/15 transition flex items-center justify-center gap-1"
+              >
+                <span>🔗 Open Direct Link / Share</span>
+              </Link>
+            </div>
+          </div>
 
           {/* CARD 0: MDCAT Mock Test (200 Questions - SIBA Pattern) */}
           <div className="relative overflow-hidden rounded-3xl border border-teal-400/30 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1.5 flex flex-col justify-between backdrop-blur-xl"

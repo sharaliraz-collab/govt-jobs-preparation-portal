@@ -70,23 +70,23 @@ function EmployeesCornerContent() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8 space-y-8">
-      {/* Header Banner */}
-      <div className="bg-gradient-to-r from-govt-emerald-dark to-govt-emerald text-white rounded-xl p-6 md:p-8 shadow-md border-b-4 border-govt-gold flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+      {/* Header Banner — Soft White & Pastel */}
+      <div className="bg-gradient-to-br from-white via-emerald-50/50 to-sky-50/40 text-slate-900 rounded-2xl p-6 md:p-8 shadow-xs border border-slate-200/90 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2 mb-2">
-            <ShieldCheck className="w-5 h-5 text-govt-gold" />
-            <span className="text-xs font-bold uppercase tracking-wider text-govt-gold">Public Sector Portal</span>
+          <div className="inline-flex items-center gap-2 mb-2 bg-emerald-50 border border-emerald-200 px-3 py-1 rounded-full">
+            <ShieldCheck className="w-4 h-4 text-emerald-600" strokeWidth={2.25} />
+            <span className="text-xs font-bold uppercase tracking-wider text-emerald-800">Public Sector Portal</span>
           </div>
-          <h1 className={`text-2xl md:text-3xl font-extrabold ${isUr ? 'font-urdu' : ''}`}>
+          <h1 className={`text-2xl md:text-3xl font-extrabold text-slate-900 ${isUr ? 'font-urdu' : ''}`}>
             {isUr ? 'ایمپلائز کارنر' : 'Employees Corner'}
           </h1>
-          <p className="text-xs md:text-sm text-emerald-100 mt-1 max-w-2xl">
+          <p className="text-xs md:text-sm text-slate-600 mt-1 max-w-2xl">
             Official service desk for serving civil servants, pensioners, field office circulars, downloadable service forms, and government welfare subsidies.
           </p>
         </div>
 
-        <div className="bg-white/10 backdrop-blur px-4 py-2.5 rounded-lg border border-white/20 text-xs flex items-center gap-2">
-          <Building className="w-4 h-4 text-govt-gold" />
+        <div className="bg-white px-4 py-2.5 rounded-xl border border-slate-200 text-slate-700 font-semibold text-xs flex items-center gap-2 shadow-xs">
+          <Building className="w-4 h-4 text-emerald-600" strokeWidth={2.25} />
           <span>Establishment Division Service Desk</span>
         </div>
       </div>

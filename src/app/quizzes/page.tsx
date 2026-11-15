@@ -177,21 +177,19 @@ export default function QuizzesPage() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8 space-y-10">
-      {/* Header Banner */}
-      <div className="bg-gradient-to-r from-govt-emerald-dark via-govt-emerald to-emerald-900 text-white rounded-2xl p-6 md:p-10 shadow-elevated relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none" />
-
+      {/* Header Banner — Soft White & Pastel */}
+      <div className="bg-gradient-to-br from-white via-emerald-50/50 to-amber-50/40 text-slate-900 border border-slate-200/90 rounded-2xl p-6 md:p-10 shadow-xs relative overflow-hidden">
         <div className="max-w-3xl space-y-3 relative z-10">
-          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md px-3.5 py-1 rounded-full text-xs font-bold text-govt-gold border border-white/15">
-            <CheckCircle2 className="w-4 h-4 text-govt-gold" />
-            <span>FPSC, PPSC, SPSC, NTS & CSS Exam Prep</span>
+          <div className="inline-flex items-center gap-2 bg-emerald-50 px-3.5 py-1 rounded-full text-xs font-bold text-emerald-800 border border-emerald-200">
+            <CheckCircle2 className="w-4 h-4 text-emerald-600" strokeWidth={2.25} />
+            <span>FPSC, PPSC, SPSC, NTS &amp; CSS Exam Prep</span>
           </div>
 
-          <h1 className={`text-2xl md:text-4xl font-extrabold tracking-tight ${isUr ? 'font-urdu' : ''}`}>
+          <h1 className={`text-2xl md:text-4xl font-extrabold tracking-tight text-slate-900 ${isUr ? 'font-urdu' : ''}`}>
             {t('quizzes.title')}
           </h1>
 
-          <p className="text-xs md:text-base text-emerald-100/90 leading-relaxed">
+          <p className="text-xs md:text-base text-slate-600 leading-relaxed">
             {t('quizzes.subtitle')}
           </p>
         </div>
@@ -234,8 +232,8 @@ export default function QuizzesPage() {
               >
                 <div>
                   <div className="flex items-center justify-between gap-3 mb-3">
-                    <div className={`p-3 rounded-xl bg-gradient-to-br ${subj.gradient} text-white shadow-sm group-hover:scale-105 transition-transform duration-200`}>
-                      <Icon className="w-6 h-6" />
+                    <div className={`p-3 rounded-xl border ${subj.badgeBg} shadow-xs group-hover:scale-105 transition-transform duration-200`}>
+                      <Icon className="w-6 h-6" strokeWidth={2.25} />
                     </div>
 
                     <span className={`text-[11px] font-bold px-2.5 py-1 rounded-full border ${subj.badgeBg}`}>

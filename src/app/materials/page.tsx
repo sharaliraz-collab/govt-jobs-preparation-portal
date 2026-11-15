@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 import MaterialCard from '@/components/MaterialCard';
+import AdSlot from '@/components/AdSlot';
 import Loader from '@/components/Loader';
 import { Search, BookOpen, RefreshCw } from 'lucide-react';
 import { IMaterial } from '@/lib/types';
@@ -71,15 +72,15 @@ export default function MaterialsPage() {
       </div>
 
       {/* Filter bar */}
-      <form onSubmit={handleSearchSubmit} className="bg-white p-4 rounded-xl border border-govt-border shadow-sm flex flex-col md:flex-row items-center gap-3">
+      <form onSubmit={handleSearchSubmit} className="bg-white p-4 sm:p-5 rounded-2xl border border-govt-border shadow-sm flex flex-col md:flex-row items-stretch md:items-center gap-3">
         <div className="relative w-full md:w-1/2">
-          <Search className="w-4 h-4 text-gray-400 absolute left-3 top-3" />
+          <Search className="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5" />
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search material title, past paper..."
-            className="w-full pl-9 pr-3 py-2 text-xs border border-gray-300 rounded-lg focus:outline-none focus:border-govt-emerald"
+            className="w-full pl-9 pr-3 py-2.5 text-xs sm:text-sm border border-gray-300 rounded-xl focus:outline-none focus:border-govt-emerald"
           />
         </div>
 
@@ -87,7 +88,8 @@ export default function MaterialsPage() {
           <select
             value={subject}
             onChange={(e) => setSubject(e.target.value)}
-            className="w-full px-3 py-2 text-xs border border-gray-300 rounded-lg focus:outline-none focus:border-govt-emerald bg-white"
+            aria-label="Filter by subject"
+            className="w-full px-3 py-2.5 text-xs sm:text-sm border border-gray-300 rounded-xl focus:outline-none focus:border-govt-emerald bg-white"
           >
             <option value="">{t('materials.filterSubject')}</option>
             {subjects.map((sub) => (
@@ -100,19 +102,21 @@ export default function MaterialsPage() {
           <button
             type="button"
             onClick={handleClear}
-            className="text-xs text-govt-muted hover:text-govt-red font-medium flex items-center gap-1 px-3 py-2 rounded"
+            className="text-xs sm:text-sm text-govt-muted hover:text-govt-red font-semibold flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl"
           >
             <RefreshCw className="w-3.5 h-3.5" />
             Reset
           </button>
           <button
             type="submit"
-            className="text-xs bg-govt-emerald hover:bg-govt-emerald-dark text-white font-bold px-5 py-2 rounded-lg transition"
+            className="text-xs sm:text-sm bg-govt-emerald hover:bg-govt-emerald-dark text-white font-bold px-5 py-2.5 rounded-xl transition"
           >
             Search
           </button>
         </div>
       </form>
+
+      <AdSlot format="horizontal" />
 
       {/* Materials List */}
       {loading ? (

@@ -22,6 +22,8 @@ export async function GET(req: NextRequest) {
     const search = searchParams.get('search');
     const status = searchParams.get('status');
     const featured = searchParams.get('featured');
+    const limitParam = searchParams.get('limit');
+    const limit = limitParam ? Math.min(Math.max(parseInt(limitParam, 10) || 0, 1), 100) : undefined;
 
     const where: any = {};
 
@@ -42,27 +44,45 @@ export async function GET(req: NextRequest) {
 
     const jobs = await prisma.job.findMany({
       where,
-      orderBy: { createdAt: 'desc' }
+      orderBy: [{ featured: 'desc' }, { createdAt: 'desc' }],
+      ...(limit ? { take: limit } : {}),
     });
 
-    const updatedJobs = await Promise.all(
-      jobs.map(async (job) => {
-        const computedStatus = calculateStatus(job.deadline) as any;
-        if (job.status !== computedStatus) {
-          await prisma.job.update({
-            where: { id: job.id },
-            data: { status: computedStatus }
-          });
-        }
-        return {
-          ...job,
-          _id: job.id,
-          deadline: job.deadline.toISOString(),
-          createdAt: job.createdAt.toISOString(),
-          updatedAt: job.updatedAt.toISOString()
-        };
-      })
-    );
+    const staleByStatus: Record<'open' | 'closing_soon' | 'closed', string[]> = {
+      open: [],
+      closing_soon: [],
+      closed: [],
+    };
+
+    const updatedJobs = jobs.map((job) => {
+      const computedStatus = calculateStatus(job.deadline);
+      if (job.status !== computedStatus) {
+        staleByStatus[computedStatus].push(job.id);
+      }
+      return {
+        ...job,
+        status: computedStatus,
+        _id: job.id,
+        deadline: job.deadline.toISOString(),
+        createdAt: job.createdAt.toISOString(),
+        updatedAt: job.updatedAt.toISOString(),
+      };
+    });
+
+    // Batch-sync any expired job statuses in the background without N+1 queries
+    const batchUpdates = (['open', 'closing_soon', 'closed'] as const)
+      .filter((s) => staleByStatus[s].length > 0)
+      .map((s) =>
+        prisma.job.updateMany({
+          where: { id: { in: staleByStatus[s] } },
+          data: { status: s },
+        })
+      );
+    if (batchUpdates.length > 0) {
+      Promise.all(batchUpdates).catch((err) =>
+        console.error('Background job status sync error:', err)
+      );
+    }
 
     return NextResponse.json(updatedJobs);
   } catch (error: any) {

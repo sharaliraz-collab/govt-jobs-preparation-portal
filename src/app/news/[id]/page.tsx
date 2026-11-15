@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getNewsById } from '@/lib/data/content';
-import { buildPageMetadata, truncate } from '@/lib/seo';
+import { buildPageMetadata, truncate, absoluteUrl, resolveImageUrl } from '@/lib/seo';
 import NewsDetailClient from './NewsDetailClient';
 
 interface Props {
@@ -36,5 +36,39 @@ export default async function NewsDetailPage({ params }: Props) {
   const article = await getNewsById(params.id);
   if (!article) notFound();
 
-  return <NewsDetailClient id={params.id} initialNews={article} />;
+  const jsonLdNews = {
+    '@context': 'https://schema.org',
+    '@type': 'NewsArticle',
+    headline: article.titleEn,
+    description: truncate(article.bodyEn || article.titleEn, 160),
+    image: [resolveImageUrl(article.coverImage || undefined)],
+    datePublished: article.publishedAt || article.createdAt,
+    dateModified: article.updatedAt || article.publishedAt || article.createdAt,
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': absoluteUrl(`/news/${article.id}`),
+    },
+    author: {
+      '@type': 'Organization',
+      name: 'GovtJobs.pk Editorial Team',
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'GovtJobs.pk',
+      logo: {
+        '@type': 'ImageObject',
+        url: absoluteUrl('/og-image.png'),
+      },
+    },
+  };
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdNews) }}
+      />
+      <NewsDetailClient id={params.id} initialNews={article} />
+    </>
+  );
 }

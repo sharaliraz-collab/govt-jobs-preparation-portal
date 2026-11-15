@@ -76,13 +76,13 @@ const JobCard: React.FC<JobCardProps> = ({ job, onSaveToggle }) => {
             onClick={handleSave}
             title={isSaved ? t('jobs.unsaveJob') : t('jobs.saveJob')}
             aria-label={isSaved ? 'Remove from saved jobs' : 'Save this job'}
-            className={`p-2 rounded-lg transition-all duration-200 ${
+            className={`p-2 rounded-xl border transition-all duration-200 ${
               isSaved
-                ? 'text-govt-gold bg-govt-gold-light shadow-sm'
-                : 'text-gray-300 hover:text-govt-emerald hover:bg-govt-emerald-light'
+                ? 'text-amber-600 bg-amber-50 border-amber-200 shadow-xs'
+                : 'text-slate-500 bg-slate-50 border-slate-200/80 hover:text-emerald-700 hover:bg-emerald-50 hover:border-emerald-200'
             }`}
           >
-            {isSaved ? <BookmarkCheck className="w-5 h-5 fill-current" /> : <Bookmark className="w-5 h-5" />}
+            {isSaved ? <BookmarkCheck className="w-4 h-4 fill-current" strokeWidth={2.25} /> : <Bookmark className="w-4 h-4" strokeWidth={2.25} />}
           </button>
         </div>
 
@@ -113,19 +113,19 @@ const JobCard: React.FC<JobCardProps> = ({ job, onSaveToggle }) => {
         </Link>
 
         {/* Department & Location */}
-        <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 mt-2.5 text-xs text-govt-muted">
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 mt-2.5 text-xs text-slate-600">
           <div className="flex items-center gap-1.5">
-            <Building2 className="w-3.5 h-3.5 text-govt-emerald/70" />
-            <span className="font-semibold">{job.department}</span>
+            <Building2 className="w-4 h-4 text-emerald-600 shrink-0" strokeWidth={2.25} />
+            <span className="font-semibold text-slate-700">{job.department}</span>
           </div>
           <div className="flex items-center gap-1.5">
-            <MapPin className="w-3.5 h-3.5 text-govt-emerald/70" />
+            <MapPin className="w-4 h-4 text-blue-600 shrink-0" strokeWidth={2.25} />
             <span>{job.location}</span>
           </div>
           {job.vacancies > 0 && (
             <div className="flex items-center gap-1.5">
-              <Users className="w-3.5 h-3.5 text-govt-emerald/70" />
-              <span>{job.vacancies} {job.vacancies === 1 ? 'Post' : 'Posts'}</span>
+              <Users className="w-4 h-4 text-amber-600 shrink-0" strokeWidth={2.25} />
+              <span className="font-medium">{job.vacancies} {job.vacancies === 1 ? 'Post' : 'Posts'}</span>
             </div>
           )}
         </div>
@@ -137,18 +137,18 @@ const JobCard: React.FC<JobCardProps> = ({ job, onSaveToggle }) => {
       </div>
 
       {/* Footer Info */}
-      <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
-        <div className="flex items-center gap-1.5 text-govt-red font-semibold">
-          <Calendar className="w-3.5 h-3.5" />
-          <span>{t('jobs.deadline')}: {deadlineFormatted}</span>
+      <div className="mt-4 pt-3 border-t border-slate-100 flex flex-wrap items-center justify-between gap-2 text-xs">
+        <div className="flex items-center gap-1.5 text-govt-red font-semibold min-w-0">
+          <Calendar className="w-3.5 h-3.5 shrink-0" />
+          <span className="truncate">{t('jobs.deadline')}: {deadlineFormatted}</span>
         </div>
 
         <Link
           href={`/jobs/${job._id}`}
-          className="text-xs bg-govt-emerald hover:bg-govt-emerald-dark text-white px-3.5 py-2 rounded-lg font-bold transition-all duration-200 flex items-center gap-1.5 shadow-sm hover:shadow-md group-hover:shadow-glow-emerald"
+          className="text-xs bg-govt-emerald hover:bg-govt-emerald-dark text-white px-3.5 py-2.5 sm:py-2 rounded-lg font-bold transition-all duration-200 flex items-center justify-center gap-1.5 shadow-sm hover:shadow-md group-hover:shadow-glow-emerald shrink-0"
           id={`apply-btn-${job._id}`}
         >
-          <FileText className="w-3.5 h-3.5" />
+          <FileText className="w-3.5 h-3.5 shrink-0" />
           <span>{t('jobs.applyDetails')}</span>
         </Link>
       </div>

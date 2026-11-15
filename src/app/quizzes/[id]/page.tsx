@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getQuizById } from '@/lib/data/content';
-import { buildPageMetadata } from '@/lib/seo';
+import { buildPageMetadata, absoluteUrl } from '@/lib/seo';
 import QuizAttemptClient from './QuizAttemptClient';
 
 interface Props {
@@ -29,5 +29,32 @@ export default async function QuizDetailPage({ params }: Props) {
   const quiz = await getQuizById(params.id);
   if (!quiz) notFound();
 
-  return <QuizAttemptClient id={params.id} initialQuiz={quiz} />;
+  const jsonLdQuiz = {
+    '@context': 'https://schema.org',
+    '@type': 'Quiz',
+    name: quiz.titleEn,
+    about: {
+      '@type': 'Thing',
+      name: quiz.subject,
+    },
+    educationalLevel: 'Competitive Examination (FPSC, PPSC, SPSC, NTS)',
+    numberOfQuestions: quiz.questions?.length || 0,
+    timeRequired: `PT${quiz.timeLimitMinutes || 15}M`,
+    url: absoluteUrl(`/quizzes/${quiz.id}`),
+    provider: {
+      '@type': 'Organization',
+      name: 'GovtJobs.pk',
+      url: absoluteUrl('/'),
+    },
+  };
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdQuiz) }}
+      />
+      <QuizAttemptClient id={params.id} initialQuiz={quiz} />
+    </>
+  );
 }

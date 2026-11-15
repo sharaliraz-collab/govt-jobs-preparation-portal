@@ -12,16 +12,33 @@ html {
 
 @layer base {
   body {
-    background-color: #f1f5f9;
+    background-color: #f8fafc;
     background-image: 
-      radial-gradient(at 0% 0%, rgba(16, 185, 129, 0.08) 0px, transparent 50%),
-      radial-gradient(at 100% 0%, rgba(245, 158, 11, 0.07) 0px, transparent 50%),
-      radial-gradient(at 50% 100%, rgba(99, 102, 241, 0.06) 0px, transparent 50%);
-    background-attachment: fixed;
+      radial-gradient(at 0% 0%, rgba(16, 185, 129, 0.04) 0px, transparent 50%),
+      radial-gradient(at 100% 0%, rgba(245, 158, 11, 0.04) 0px, transparent 50%),
+      radial-gradient(at 50% 100%, rgba(59, 130, 246, 0.03) 0px, transparent 50%);
     color: #0f172a;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  @media (min-width: 1024px) {
+    body {
+      background-attachment: fixed;
+    }
+  }
+
+  @media (max-width: 1023px) {
+    body {
+      padding-bottom: 3.5rem;
+    }
+    .liquid-glass-card, .glass-card, .card-premium {
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      background: rgba(255, 255, 255, 0.92);
+    }
   }
 
   /* Selection highlight */
@@ -74,28 +91,22 @@ html {
 
 @layer components {
 
-  /* 💧 LIQUID GLASS CARD (Ultra-Modern Glassmorphism) */
+  /* 💧 SOFT WHITE CARD */
   .liquid-glass-card, .glass-card {
-    background: rgba(255, 255, 255, 0.68);
-    backdrop-filter: blur(16px) saturate(180%);
-    -webkit-backdrop-filter: blur(16px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.8);
-    box-shadow: 
-      0 10px 30px 0 rgba(15, 23, 42, 0.05),
-      inset 0 1px 1px 0 rgba(255, 255, 255, 0.9),
-      inset 0 -1px 1px 0 rgba(0, 0, 0, 0.03);
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 16px 0 rgba(15, 23, 42, 0.04);
     border-radius: 1.25rem;
-    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .liquid-glass-card:hover, .glass-card:hover {
-    background: rgba(255, 255, 255, 0.82);
-    border-color: rgba(255, 255, 255, 0.95);
+    background: #ffffff;
+    border-color: #cbd5e1;
     box-shadow: 
-      0 20px 40px -10px rgba(16, 185, 129, 0.12),
-      0 12px 20px -8px rgba(15, 23, 42, 0.06),
-      inset 0 1px 2px 0 rgba(255, 255, 255, 1);
-    transform: translateY(-3px) scale(1.005);
+      0 14px 28px -8px rgba(15, 23, 42, 0.08),
+      0 6px 12px -6px rgba(16, 185, 129, 0.08);
+    transform: translateY(-2px);
   }
 
   /* 💧 LIQUID GLASS HEADER */

@@ -7,6 +7,7 @@ import axios from 'axios';
 import Loader from '@/components/Loader';
 import SealBadge from '@/components/SealBadge';
 import ShareButtons from '@/components/ShareButtons';
+import AdSlot from '@/components/AdSlot';
 import { useAuth } from '@/context/AuthContext';
 import {
   Building2,
@@ -263,6 +264,8 @@ export default function JobDetailClient({ id, initialJob }: { id: string; initia
             </div>
           );
         })()}
+
+        <AdSlot format="in-article" />
 
         <ShareButtons
           url={shareUrl}

@@ -10,6 +10,8 @@ export async function GET(req: NextRequest) {
     const subject = searchParams.get('subject');
     const search = searchParams.get('search');
     const relatedCategory = searchParams.get('relatedCategory');
+    const limitParam = searchParams.get('limit');
+    const limit = limitParam ? Math.min(Math.max(parseInt(limitParam, 10) || 0, 1), 100) : undefined;
 
     const where: any = {};
 
@@ -28,7 +30,8 @@ export async function GET(req: NextRequest) {
 
     const materials = await prisma.material.findMany({
       where,
-      orderBy: { createdAt: 'desc' }
+      orderBy: { createdAt: 'desc' },
+      ...(limit ? { take: limit } : {}),
     });
 
     const result = materials.map(m => ({ ...m, _id: m.id }));

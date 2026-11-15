@@ -4,6 +4,7 @@ import { usePathname } from 'next/navigation';
 import { ReactNode } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import MobileBottomNav from '@/components/MobileBottomNav';
 
 export default function AppShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
@@ -16,6 +17,7 @@ export default function AppShell({ children }: { children: ReactNode }) {
         {children}
       </main>
       {!isAdminRoute && <Footer />}
+      {!isAdminRoute && <MobileBottomNav />}
     </>
   );
 }

@@ -6,6 +6,7 @@ import AppShell from '@/components/AppShell';
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://govtjobs.pk';
 const gaMeasurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
+const adsenseClientId = process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID;
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -159,6 +160,14 @@ export default function RootLayout({
             gtag('config', 'G-NM8DWGLJZM');
           `}
         </Script>
+        {adsenseClientId && (
+          <Script
+            id="google-adsense"
+            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsenseClientId}`}
+            crossOrigin="anonymous"
+            strategy="afterInteractive"
+          />
+        )}
       </head>
       <body className="min-h-screen flex flex-col justify-between bg-govt-bg text-govt-charcoal antialiased font-sans">
         <a

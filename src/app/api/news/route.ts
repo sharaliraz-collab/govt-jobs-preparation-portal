@@ -10,6 +10,8 @@ export async function GET(req: NextRequest) {
     const category = searchParams.get('category');
     const search = searchParams.get('search');
     const pinned = searchParams.get('pinned');
+    const limitParam = searchParams.get('limit');
+    const limit = limitParam ? Math.min(Math.max(parseInt(limitParam, 10) || 0, 1), 100) : undefined;
 
     const where: any = {};
     if (category) where.category = category;
@@ -29,7 +31,8 @@ export async function GET(req: NextRequest) {
       orderBy: [
         { pinned: 'desc' },
         { publishedAt: 'desc' }
-      ]
+      ],
+      ...(limit ? { take: limit } : {}),
     });
 
     const result = newsList.map(news => ({ ...news, _id: news.id }));

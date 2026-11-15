@@ -9,6 +9,8 @@ export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
     const subject = searchParams.get('subject');
     const search = searchParams.get('search');
+    const limitParam = searchParams.get('limit');
+    const limit = limitParam ? Math.min(Math.max(parseInt(limitParam, 10) || 0, 1), 100) : undefined;
 
     const where: any = {};
     if (subject) where.subject = { contains: subject, mode: 'insensitive' };
@@ -31,7 +33,8 @@ export async function GET(req: NextRequest) {
           }
         }
       },
-      orderBy: { createdAt: 'desc' }
+      orderBy: { createdAt: 'desc' },
+      ...(limit ? { take: limit } : {}),
     });
 
     const quizzesWithIds = quizzes.map(quiz => ({

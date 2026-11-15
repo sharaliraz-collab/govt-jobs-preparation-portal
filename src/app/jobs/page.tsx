@@ -5,6 +5,7 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 import JobCard from '@/components/JobCard';
+import AdSlot from '@/components/AdSlot';
 import Loader from '@/components/Loader';
 import { Search, Filter, RefreshCw } from 'lucide-react';
 import { IJob } from '@/lib/types';
@@ -77,17 +78,17 @@ function JobsContent() {
       </div>
 
       {/* Filter Toolbar */}
-      <form onSubmit={handleApplyFilters} className="bg-white p-4 rounded-xl border border-govt-border shadow-sm space-y-4">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
+      <form onSubmit={handleApplyFilters} className="bg-white p-4 sm:p-5 rounded-2xl border border-govt-border shadow-sm space-y-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
           {/* Keyword Search */}
           <div className="relative">
-            <Search className="w-4 h-4 text-gray-400 absolute left-3 top-3" />
+            <Search className="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5" />
             <input
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Title, department..."
-              className="w-full pl-9 pr-3 py-2 text-xs border border-gray-300 rounded-lg focus:outline-none focus:border-govt-emerald"
+              className="w-full pl-9 pr-3 py-2.5 text-xs sm:text-sm border border-gray-300 rounded-xl focus:outline-none focus:border-govt-emerald"
             />
           </div>
 
@@ -95,7 +96,8 @@ function JobsContent() {
           <select
             value={category}
             onChange={(e) => setCategory(e.target.value)}
-            className="w-full px-3 py-2 text-xs border border-gray-300 rounded-lg focus:outline-none focus:border-govt-emerald bg-white"
+            aria-label="Filter by category"
+            className="w-full px-3 py-2.5 text-xs sm:text-sm border border-gray-300 rounded-xl focus:outline-none focus:border-govt-emerald bg-white"
           >
             <option value="">{t('jobs.filterCategory')}</option>
             {categories.map((cat) => (
@@ -107,7 +109,8 @@ function JobsContent() {
           <select
             value={location}
             onChange={(e) => setLocation(e.target.value)}
-            className="w-full px-3 py-2 text-xs border border-gray-300 rounded-lg focus:outline-none focus:border-govt-emerald bg-white"
+            aria-label="Filter by location"
+            className="w-full px-3 py-2.5 text-xs sm:text-sm border border-gray-300 rounded-xl focus:outline-none focus:border-govt-emerald bg-white"
           >
             <option value="">{t('jobs.filterLocation')}</option>
             {locations.map((loc) => (
@@ -119,7 +122,8 @@ function JobsContent() {
           <select
             value={status}
             onChange={(e) => setStatus(e.target.value)}
-            className="w-full px-3 py-2 text-xs border border-gray-300 rounded-lg focus:outline-none focus:border-govt-emerald bg-white"
+            aria-label="Filter by status"
+            className="w-full px-3 py-2.5 text-xs sm:text-sm border border-gray-300 rounded-xl focus:outline-none focus:border-govt-emerald bg-white"
           >
             <option value="">{t('jobs.filterStatus')}</option>
             <option value="open">{t('jobs.statusOpen')}</option>
@@ -128,11 +132,11 @@ function JobsContent() {
           </select>
         </div>
 
-        <div className="flex items-center justify-end gap-2 pt-2 border-t border-gray-100">
+        <div className="flex items-center justify-end gap-2.5 pt-2 border-t border-gray-100">
           <button
             type="button"
             onClick={handleClearFilters}
-            className="text-xs text-govt-muted hover:text-govt-red font-medium flex items-center gap-1 px-3 py-1.5 rounded transition"
+            className="text-xs sm:text-sm text-govt-muted hover:text-govt-red font-semibold flex items-center gap-1.5 px-3.5 py-2 rounded-xl transition"
           >
             <RefreshCw className="w-3.5 h-3.5" />
             {t('common.clearFilters')}
@@ -140,13 +144,15 @@ function JobsContent() {
 
           <button
             type="submit"
-            className="text-xs bg-govt-emerald hover:bg-govt-emerald-dark text-white font-bold px-4 py-1.5 rounded-lg transition flex items-center gap-1 shadow-sm"
+            className="text-xs sm:text-sm bg-govt-emerald hover:bg-govt-emerald-dark text-white font-bold px-5 py-2.5 rounded-xl transition flex items-center gap-1.5 shadow-sm"
           >
             <Filter className="w-3.5 h-3.5" />
             <span>Apply Filters</span>
           </button>
         </div>
       </form>
+
+      <AdSlot format="horizontal" />
 
       {/* Jobs Grid */}
       {loading ? (

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getJobById } from '@/lib/data/content';
-import { buildPageMetadata, truncate } from '@/lib/seo';
+import { buildPageMetadata, truncate, absoluteUrl } from '@/lib/seo';
 import JobDetailClient from './JobDetailClient';
 
 interface Props {
@@ -63,5 +63,38 @@ export default async function JobDetailPage({ params }: Props) {
   const job = await getJobById(params.id);
   if (!job) notFound();
 
-  return <JobDetailClient id={params.id} initialJob={job} />;
+  const jsonLdBreadcrumbs = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: absoluteUrl('/'),
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Government Jobs',
+        item: absoluteUrl('/jobs'),
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: job.titleEn,
+        item: absoluteUrl(`/jobs/${job.id}`),
+      },
+    ],
+  };
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumbs) }}
+      />
+      <JobDetailClient id={params.id} initialJob={job} />
+    </>
+  );
 }

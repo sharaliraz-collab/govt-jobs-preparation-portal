@@ -24,7 +24,8 @@ import {
   Filter,
   ArrowRight,
   CheckCircle2,
-  Globe
+  Globe,
+  Lightbulb
 } from 'lucide-react';
 import { IQuiz } from '@/lib/types';
 
@@ -39,6 +40,15 @@ interface SubjectCard {
 }
 
 const PREP_SUBJECTS: SubjectCard[] = [
+  {
+    id: 'aptitude',
+    name: 'Aptitude Test — Quantitative Reasoning',
+    alias: 'Aptitude',
+    icon: Lightbulb,
+    gradient: 'from-emerald-600 to-teal-700',
+    badgeBg: 'bg-emerald-50 text-emerald-700 border-emerald-200',
+    description: '3,702 MCQs in 43 topics — Average, Percentage, Ratio, Time & Work, Trains, Algebra, Geometry & more with step-by-step solutions.'
+  },
   {
     id: 'english',
     name: 'English Grammar & Composition',
@@ -210,7 +220,9 @@ export default function QuizzesPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {PREP_SUBJECTS.map((subj) => {
             const Icon = subj.icon;
-            const href = subj.id === 'english'
+            const href = subj.id === 'aptitude'
+              ? '/quizzes/aptitude'
+              : subj.id === 'english'
               ? '/quizzes/english-grammar'
               : subj.id === 'world-info'
               ? '/quizzes/world-info'
@@ -252,7 +264,9 @@ export default function QuizzesPage() {
 
                 <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-govt-emerald group-hover:translate-x-0.5 transition-transform">
                   <span>
-                    {subj.id === 'english'
+                    {subj.id === 'aptitude'
+                      ? '3,702 MCQs — 43 Topics (10 per page)'
+                      : subj.id === 'english'
                       ? 'Practice MCQs — 4 Sections Available'
                       : subj.id === 'world-info'
                       ? '420 MCQs — Capitals, Currencies & Leaders'

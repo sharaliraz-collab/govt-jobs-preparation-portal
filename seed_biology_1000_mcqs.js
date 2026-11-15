@@ -4,7 +4,6 @@ const connectionString = 'postgresql://neondb_owner:npg_wkeHO3sTxiE6@ep-rough-ri
 
 const SUBJECT = 'Biology';
 
-// Generator for 1000 Biology MCQs for Pakistan Boards (Grades 9-12 & MDCAT/NTS)
 function generateBiologyBank() {
   const topics = [
     "Cell Biology",
@@ -81,41 +80,63 @@ function generateBiologyBank() {
   return bank;
 }
 
-async function main() {
+async function getClient() {
   const client = new Client({ connectionString });
   await client.connect();
+  return client;
+}
+
+async function main() {
+  let client = await getClient();
   console.log('✅ Connected to Neon DB...');
 
-  // Delete previous Biology questions
-  await client.query(`DELETE FROM "Question" WHERE LOWER("subject") = 'biology';`);
-  console.log(`Cleared previous Biology questions.`);
+  try {
+    await client.query(`DELETE FROM "Question" WHERE LOWER("subject") = 'biology';`);
+    console.log(`Cleared previous Biology questions.`);
+  } catch (err) {
+    console.error('Error clearing:', err.message);
+  }
 
   const bank = generateBiologyBank();
-
   const BATCH_SIZE = 50;
+
   for (let b = 0; b < bank.length; b += BATCH_SIZE) {
     const batch = bank.slice(b, b + BATCH_SIZE);
 
-    for (const item of batch) {
-      await client.query(`
-        INSERT INTO "Question" ("id", "subject", "textEn", "textUr", "optionsEn", "optionsUr", "correctIndex", "explanationEn", "difficulty", "createdAt", "updatedAt")
-        VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, $6, $7, $8, NOW(), NOW());
-      `, [
-        SUBJECT,
-        item.q,
-        item.uq,
-        item.opts,
-        item.uo,
-        item.ans,
-        item.exp,
-        'medium'
-      ]);
+    let success = false;
+    let retries = 0;
+
+    while (!success && retries < 5) {
+      try {
+        for (const item of batch) {
+          await client.query(`
+            INSERT INTO "Question" ("id", "subject", "textEn", "textUr", "optionsEn", "optionsUr", "correctIndex", "explanationEn", "difficulty", "createdAt", "updatedAt")
+            VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, $6, $7, $8, NOW(), NOW());
+          `, [
+            SUBJECT,
+            item.q,
+            item.uq,
+            item.opts,
+            item.uo,
+            item.ans,
+            item.exp,
+            'medium'
+          ]);
+        }
+        success = true;
+        console.log(`  ✅ Seeded batch ${Math.floor(b / BATCH_SIZE) + 1} / ${bank.length / BATCH_SIZE}`);
+      } catch (err) {
+        retries++;
+        console.log(`  ⚠️ Retry ${retries}/5 for batch ${Math.floor(b / BATCH_SIZE) + 1} due to error: ${err.message}`);
+        try { await client.end(); } catch (e) {}
+        await new Promise(r => setTimeout(r, 2000));
+        client = await getClient();
+      }
     }
-    console.log(`  ✅ Seeded batch ${Math.floor(b / BATCH_SIZE) + 1} / ${bank.length / BATCH_SIZE}`);
   }
 
   console.log(`🎉 SUCCESS! All 1000 Biology MCQs seeded cleanly into Neon DB!`);
-  await client.end();
+  try { await client.end(); } catch (e) {}
 }
 
 main().catch(console.error);

@@ -25,7 +25,11 @@ import {
   ArrowRight,
   CheckCircle2,
   Globe,
-  Lightbulb
+  Lightbulb,
+  Shield,
+  GraduationCap,
+  Sparkles,
+  Layers
 } from 'lucide-react';
 import { IQuiz } from '@/lib/types';
 
@@ -33,10 +37,13 @@ interface SubjectCard {
   id: string;
   name: string;
   alias: string;
+  category: 'aptitude' | 'science' | 'humanities';
+  countBadge: string;
   icon: any;
-  gradient: string;
   badgeBg: string;
   description: string;
+  subLinks: { label: string; href: string }[];
+  footerLabel: string;
 }
 
 const PREP_SUBJECTS: SubjectCard[] = [
@@ -44,100 +51,185 @@ const PREP_SUBJECTS: SubjectCard[] = [
     id: 'aptitude',
     name: 'Aptitude Test — Quantitative Reasoning',
     alias: 'Aptitude',
+    category: 'aptitude',
+    countBadge: '3,702 MCQs · 43 Topics',
     icon: Lightbulb,
-    gradient: 'from-emerald-600 to-teal-700',
-    badgeBg: 'bg-emerald-50 text-emerald-700 border-emerald-200',
-    description: '3,702 MCQs in 43 topics — Average, Percentage, Ratio, Time & Work, Trains, Algebra, Geometry & more with step-by-step solutions.'
-  },
-  {
-    id: 'english',
-    name: 'English Grammar & Composition',
-    alias: 'English',
-    icon: BookOpen,
-    gradient: 'from-blue-600 to-indigo-700',
-    badgeBg: 'bg-blue-50 text-blue-800 border-blue-200',
-    description: 'Synonyms, Antonyms, Prepositions, Sentence Correction, Analogy & Grammar Rules.'
-  },
-  {
-    id: 'general-science',
-    name: 'General Science & Ability',
-    alias: 'Science',
-    icon: Atom,
-    gradient: 'from-emerald-600 to-teal-700',
-    badgeBg: 'bg-emerald-50 text-emerald-800 border-emerald-200',
-    description: 'Everyday Science, Analytical Reasoning, Logical Ability, Astronomy & Environmental Science.'
-  },
-  {
-    id: 'pak-studies',
-    name: 'Pakistan Studies',
-    alias: 'Pakistan',
-    icon: Landmark,
-    gradient: 'from-green-700 to-emerald-800',
-    badgeBg: 'bg-green-50 text-green-800 border-green-200',
-    description: 'Pre-Partition History, 1947 Movement, Constitution, Geography & Pakistan Current Affairs.'
-  },
-  {
-    id: 'islamic-studies',
-    name: 'Islamic Studies',
-    alias: 'Islamic',
-    icon: BookMarked,
-    gradient: 'from-amber-600 to-yellow-700',
     badgeBg: 'bg-amber-50 text-amber-800 border-amber-200',
-    description: 'Quranic Verses, Sunnah, Seerah, Islamic Battles (Ghazwaat) & Fundamental Pillars.'
-  },
-  {
-    id: 'physics',
-    name: 'Physics',
-    alias: 'Physics',
-    icon: Zap,
-    gradient: 'from-cyan-600 to-blue-700',
-    badgeBg: 'bg-cyan-50 text-cyan-800 border-cyan-200',
-    description: 'Mechanics, Electricity, Magnetism, Optics, Quantum & Modern Applied Physics.'
-  },
-  {
-    id: 'chemistry',
-    name: 'Chemistry',
-    alias: 'Chemistry',
-    icon: FlaskConical,
-    gradient: 'from-rose-600 to-red-700',
-    badgeBg: 'bg-rose-50 text-rose-800 border-rose-200',
-    description: 'Organic Chemistry, Inorganic Compounds, Periodic Table & Chemical Reactions.'
+    description: '3,702 MCQs in 43 topics — Average, Percentage, Ratio, Time & Work, Trains, Algebra, Geometry & more with step-by-step solutions.',
+    subLinks: [
+      { label: 'Average', href: '/quizzes/aptitude/average' },
+      { label: 'Percentage', href: '/quizzes/aptitude/percentage' },
+      { label: 'Profit & Loss', href: '/quizzes/aptitude/profit-and-loss' },
+      { label: 'Time & Work', href: '/quizzes/aptitude/time-and-work' },
+      { label: 'Trains', href: '/quizzes/aptitude/problems-on-trains' },
+      { label: 'Algebra', href: '/quizzes/aptitude/algebra' },
+    ],
+    footerLabel: '3,702 MCQs — 43 Topics (10 per page)'
   },
   {
     id: 'biology',
-    name: 'Biology',
+    name: 'Biology (Board & MDCAT)',
     alias: 'Biology',
+    category: 'science',
+    countBadge: '1,000 MCQs · 14 Chapters',
     icon: Dna,
-    gradient: 'from-teal-600 to-emerald-700',
     badgeBg: 'bg-teal-50 text-teal-800 border-teal-200',
-    description: 'Human Physiology, Cell Biology, Genetics, Zoology, Botany & Microbiology.'
+    description: 'Human Physiology, Cell Biology, Biological Molecules, Enzymes, Genetics, Zoology, Botany & Ecology.',
+    subLinks: [
+      { label: 'Cell Biology', href: '/quizzes/biology' },
+      { label: 'Enzymes', href: '/quizzes/biology' },
+      { label: 'Bioenergetics', href: '/quizzes/biology' },
+      { label: 'Genetics', href: '/quizzes/biology' },
+    ],
+    footerLabel: '1,000 MCQs — Sindh, Punjab & Federal Boards'
   },
   {
-    id: 'computer-science',
-    name: 'Computer Science',
-    alias: 'Computer',
-    icon: Monitor,
-    gradient: 'from-purple-600 to-violet-700',
-    badgeBg: 'bg-purple-50 text-purple-800 border-purple-200',
-    description: 'MS Office, Computer Networks, Cybersecurity, Database Management & Software fundamentals.'
-  },
-  {
-    id: 'mathematics',
-    name: 'Mathematics',
-    alias: 'Math',
-    icon: Calculator,
-    gradient: 'from-orange-600 to-amber-700',
-    badgeBg: 'bg-orange-50 text-orange-800 border-orange-200',
-    description: 'Algebra, Basic Arithmetic, Geometry, Ratios, Percentages & Problem Solving.'
+    id: 'physics',
+    name: 'Physics (Board & Entry Tests)',
+    alias: 'Physics',
+    category: 'science',
+    countBadge: '1,000 MCQs · 19 Topics',
+    icon: Zap,
+    badgeBg: 'bg-cyan-50 text-cyan-800 border-cyan-200',
+    description: 'Mechanics, Kinematics, Dynamics, Electricity, Magnetism, Optics, Quantum & Nuclear Physics.',
+    subLinks: [
+      { label: 'Kinematics', href: '/quizzes/physics' },
+      { label: 'Electrostatics', href: '/quizzes/physics' },
+      { label: 'Optics', href: '/quizzes/physics' },
+      { label: 'Modern Physics', href: '/quizzes/physics' },
+    ],
+    footerLabel: '1,000 MCQs — Sindh, Punjab & Federal Boards'
   },
   {
     id: 'world-info',
     name: 'World Info — Capitals, Currencies & Leaders',
     alias: 'World',
+    category: 'humanities',
+    countBadge: '420 MCQs · 5 Continents',
     icon: Globe,
-    gradient: 'from-blue-500 to-indigo-600',
+    badgeBg: 'bg-indigo-50 text-indigo-800 border-indigo-200',
+    description: '195 World Capitals · 195 World Currencies · 30 Current World Leaders — All organised by continent.',
+    subLinks: [
+      { label: 'World Capitals (195)', href: '/quizzes/world-info' },
+      { label: 'Currencies (195)', href: '/quizzes/world-info' },
+      { label: 'World Leaders (30)', href: '/quizzes/world-info' },
+    ],
+    footerLabel: '420 MCQs — Capitals, Currencies & Leaders'
+  },
+  {
+    id: 'pak-studies',
+    name: 'Pakistan Studies & Affairs',
+    alias: 'Pakistan',
+    category: 'humanities',
+    countBadge: '364 MCQs · 15 Sections',
+    icon: Landmark,
+    badgeBg: 'bg-emerald-50 text-emerald-800 border-emerald-200',
+    description: 'Indus Valley Civilization, 1947 Movement, Constitution, Geography, Economy, Water Resources & Governance.',
+    subLinks: [
+      { label: 'Indus Valley', href: '/quizzes/pak-studies' },
+      { label: 'Constitution', href: '/quizzes/pak-studies' },
+      { label: 'Geography', href: '/quizzes/pak-studies' },
+      { label: 'Economy', href: '/quizzes/pak-studies' },
+    ],
+    footerLabel: '364 MCQs — 15 Sections (20 per page)'
+  },
+  {
+    id: 'islamic-studies',
+    name: 'Islamic Studies (Islamiat)',
+    alias: 'Islamic',
+    category: 'humanities',
+    countBadge: '160+ MCQs · 9 Categories',
+    icon: BookMarked,
+    badgeBg: 'bg-amber-50 text-amber-800 border-amber-200',
+    description: 'Quranic Verses, Hadith & Sunnah, Seerat-un-Nabi (ﷺ), Khulafa-e-Rashideen, Islamic History & Fiqh.',
+    subLinks: [
+      { label: 'Holy Quran', href: '/quizzes/islamic-studies' },
+      { label: 'Hadith & Sunnah', href: '/quizzes/islamic-studies' },
+      { label: 'Seerah (ﷺ)', href: '/quizzes/islamic-studies' },
+      { label: 'Khulafa', href: '/quizzes/islamic-studies' },
+    ],
+    footerLabel: '160+ MCQs — 9 Categories (PPSC & FPSC)'
+  },
+  {
+    id: 'english',
+    name: 'English Grammar & Composition',
+    alias: 'English',
+    category: 'humanities',
+    countBadge: '100+ MCQs · 4 Sections',
+    icon: BookOpen,
     badgeBg: 'bg-blue-50 text-blue-800 border-blue-200',
-    description: '🏛️ 195 World Capitals · 💰 195 World Currencies · 👑 30 Current World Leaders — All organised by continent.'
+    description: 'Parts of Speech, Synonyms, Antonyms, Error Detection, Prepositions, Sentence Correction & Comprehension.',
+    subLinks: [
+      { label: 'Parts of Speech', href: '/quizzes/english-grammar' },
+      { label: 'Synonyms', href: '/quizzes/english-grammar' },
+      { label: 'Antonyms', href: '/quizzes/english-grammar' },
+      { label: 'Comprehension', href: '/quizzes/english-grammar' },
+    ],
+    footerLabel: 'Practice MCQs — 4 Sections Available'
+  },
+  {
+    id: 'general-science',
+    name: 'General Science & Ability',
+    alias: 'Science',
+    category: 'science',
+    countBadge: 'CSS & FPSC Bank',
+    icon: Atom,
+    badgeBg: 'bg-emerald-50 text-emerald-800 border-emerald-200',
+    description: 'Everyday Science, Analytical Reasoning, Logical Ability, Astronomy & Environmental Science.',
+    subLinks: [
+      { label: 'Everyday Science', href: '/quizzes/subject/general-science' },
+      { label: 'Astronomy', href: '/quizzes/subject/general-science' },
+      { label: 'Environment', href: '/quizzes/subject/general-science' },
+    ],
+    footerLabel: 'Open General Science Practice'
+  },
+  {
+    id: 'chemistry',
+    name: 'Chemistry',
+    alias: 'Chemistry',
+    category: 'science',
+    countBadge: 'Subject Bank',
+    icon: FlaskConical,
+    badgeBg: 'bg-rose-50 text-rose-800 border-rose-200',
+    description: 'Organic Chemistry, Inorganic Compounds, Periodic Table, Chemical Bonding & Reactions.',
+    subLinks: [
+      { label: 'Organic', href: '/quizzes/subject/chemistry' },
+      { label: 'Inorganic', href: '/quizzes/subject/chemistry' },
+      { label: 'Periodic Table', href: '/quizzes/subject/chemistry' },
+    ],
+    footerLabel: 'Open Chemistry Practice'
+  },
+  {
+    id: 'computer-science',
+    name: 'Computer Science & IT',
+    alias: 'Computer',
+    category: 'science',
+    countBadge: 'Subject Bank',
+    icon: Monitor,
+    badgeBg: 'bg-purple-50 text-purple-800 border-purple-200',
+    description: 'MS Office Shortcuts, Computer Networks, Cybersecurity, Operating Systems & Database Management.',
+    subLinks: [
+      { label: 'MS Office', href: '/quizzes/subject/computer-science' },
+      { label: 'Networking', href: '/quizzes/subject/computer-science' },
+      { label: 'DBMS & OS', href: '/quizzes/subject/computer-science' },
+    ],
+    footerLabel: 'Open Computer Science Practice'
+  },
+  {
+    id: 'mathematics',
+    name: 'General Mathematics',
+    alias: 'Math',
+    category: 'aptitude',
+    countBadge: 'Subject Bank',
+    icon: Calculator,
+    badgeBg: 'bg-orange-50 text-orange-800 border-orange-200',
+    description: 'Algebra, Basic Arithmetic, Geometry, Ratios, Percentages & Problem Solving.',
+    subLinks: [
+      { label: 'Arithmetic', href: '/quizzes/subject/mathematics' },
+      { label: 'Algebra', href: '/quizzes/subject/mathematics' },
+      { label: 'Geometry', href: '/quizzes/subject/mathematics' },
+    ],
+    footerLabel: 'Open Mathematics Practice'
   }
 ];
 
@@ -148,6 +240,8 @@ export default function QuizzesPage() {
   const [quizzes, setQuizzes] = useState<IQuiz[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedSubject, setSelectedSubject] = useState<string>('');
+  const [activeTab, setActiveTab] = useState<'all' | 'aptitude' | 'science' | 'humanities'>('all');
+  const [subjectSearch, setSubjectSearch] = useState<string>('');
   const [searchQuery, setSearchQuery] = useState<string>('');
 
   useEffect(() => {
@@ -167,15 +261,18 @@ export default function QuizzesPage() {
     }
   };
 
-  const handleSubjectClick = (alias: string) => {
-    if (selectedSubject.toLowerCase() === alias.toLowerCase()) {
-      setSelectedSubject('');
-    } else {
-      setSelectedSubject(alias);
-    }
-  };
+  const visibleSubjects = PREP_SUBJECTS.filter((subj) => {
+    const matchesTab = activeTab === 'all' || subj.category === activeTab;
+    const term = subjectSearch.trim().toLowerCase();
+    const matchesSearch =
+      !term ||
+      subj.name.toLowerCase().includes(term) ||
+      subj.description.toLowerCase().includes(term) ||
+      subj.subLinks.some((s) => s.label.toLowerCase().includes(term));
+    return matchesTab && matchesSearch;
+  });
 
-  const filteredQuizzes = quizzes.filter(quiz => {
+  const filteredQuizzes = quizzes.filter((quiz) => {
     if (!searchQuery) return true;
     const term = searchQuery.toLowerCase();
     return (
@@ -185,119 +282,165 @@ export default function QuizzesPage() {
     );
   });
 
+  const getSubjectHref = (id: string) => {
+    if (id === 'aptitude') return '/quizzes/aptitude';
+    if (id === 'english') return '/quizzes/english-grammar';
+    if (id === 'world-info') return '/quizzes/world-info';
+    if (id === 'pak-studies') return '/quizzes/pak-studies';
+    if (id === 'physics') return '/quizzes/physics';
+    if (id === 'biology') return '/quizzes/biology';
+    if (id === 'islamic-studies' || id === 'islamic') return '/quizzes/islamic-studies';
+    return `/quizzes/subject/${id}`;
+  };
+
   return (
     <div className="max-w-7xl mx-auto px-4 py-8 space-y-10">
       {/* Header Banner — Soft White & Pastel */}
-      <div className="bg-gradient-to-br from-white via-emerald-50/50 to-amber-50/40 text-slate-900 border border-slate-200/90 rounded-2xl p-6 md:p-10 shadow-xs relative overflow-hidden">
-        <div className="max-w-3xl space-y-3 relative z-10">
-          <div className="inline-flex items-center gap-2 bg-emerald-50 px-3.5 py-1 rounded-full text-xs font-bold text-emerald-800 border border-emerald-200">
-            <CheckCircle2 className="w-4 h-4 text-emerald-600" strokeWidth={2.25} />
-            <span>FPSC, PPSC, SPSC, NTS &amp; CSS Exam Prep</span>
+      <div className="bg-gradient-to-br from-white via-emerald-50/50 to-amber-50/40 text-slate-900 border border-slate-200/90 rounded-3xl p-6 md:p-10 shadow-xs relative overflow-hidden">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 relative z-10">
+          <div className="max-w-2xl space-y-3">
+            <div className="inline-flex items-center gap-2 bg-emerald-50 px-3.5 py-1 rounded-full text-xs font-extrabold text-emerald-800 border border-emerald-200">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600" strokeWidth={2.25} />
+              <span>7,600+ Solved MCQs · FPSC, PPSC, SPSC, STS &amp; MDCAT Prep</span>
+            </div>
+
+            <h1 className={`text-2xl md:text-4xl font-black tracking-tight text-slate-900 ${isUr ? 'font-urdu' : ''}`}>
+              {t('quizzes.title')}
+            </h1>
+
+            <p className="text-xs md:text-base text-slate-600 leading-relaxed">
+              Choose from 11 core subjects, 43 quantitative aptitude chapters, and full-length timed mock exams with instant grading and step-by-step explanations.
+            </p>
           </div>
 
-          <h1 className={`text-2xl md:text-4xl font-extrabold tracking-tight text-slate-900 ${isUr ? 'font-urdu' : ''}`}>
-            {t('quizzes.title')}
-          </h1>
-
-          <p className="text-xs md:text-base text-slate-600 leading-relaxed">
-            {t('quizzes.subtitle')}
-          </p>
+          {/* Quick Stats Box */}
+          <div className="grid grid-cols-2 gap-3 shrink-0">
+            <div className="bg-white/90 border border-slate-200/90 rounded-2xl p-3.5 text-center shadow-2xs">
+              <div className="text-xl font-black text-emerald-700">7,600+</div>
+              <div className="text-[11px] font-bold text-slate-500">Solved MCQs</div>
+            </div>
+            <div className="bg-white/90 border border-slate-200/90 rounded-2xl p-3.5 text-center shadow-2xs">
+              <div className="text-xl font-black text-amber-600">43 Topics</div>
+              <div className="text-[11px] font-bold text-slate-500">Aptitude Bank</div>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Subject Cards Section */}
-      <div className="space-y-4">
-        <div className="flex items-center justify-between">
-          <div>
-            <h2 className="text-lg md:text-xl font-extrabold text-govt-charcoal flex items-center gap-2">
-              <span>📚 Browse MCQs by Subject</span>
-            </h2>
-            <p className="text-xs text-slate-500 mt-0.5">Click a subject card to open its dedicated practice page</p>
+      {/* Subject Filter & Instant Search Bar */}
+      <div className="space-y-5">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-4 rounded-2xl border border-slate-200 shadow-xs">
+          {/* Category Tabs */}
+          <div className="flex items-center gap-1.5 flex-wrap">
+            {[
+              { id: 'all', label: 'All 11 Subjects' },
+              { id: 'aptitude', label: 'Aptitude & Math' },
+              { id: 'science', label: 'Science & STEM' },
+              { id: 'humanities', label: 'GK, English & Arts' },
+            ].map((tab) => (
+              <button
+                key={tab.id}
+                type="button"
+                onClick={() => setActiveTab(tab.id as any)}
+                className={`px-3.5 py-2 rounded-xl text-xs font-extrabold transition-all border ${
+                  activeTab === tab.id
+                    ? 'bg-emerald-600 text-white border-emerald-600 shadow-xs'
+                    : 'bg-slate-50 hover:bg-slate-100 text-slate-700 border-slate-200/80'
+                }`}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
+
+          {/* Search Subject or Sub-Topic */}
+          <div className="relative w-full md:w-72">
+            <Search className="w-4 h-4 text-emerald-600 absolute left-3 top-2.5" strokeWidth={2.25} />
+            <input
+              type="text"
+              placeholder="Filter subjects or sub-topics..."
+              value={subjectSearch}
+              onChange={(e) => setSubjectSearch(e.target.value)}
+              className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 focus:outline-none focus:border-emerald-500"
+            />
           </div>
         </div>
 
-        {/* 9 Subject Grid Cards — each navigates to its own page */}
+        {/* 11 Subject Grid Cards with Sub-Sections */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {PREP_SUBJECTS.map((subj) => {
+          {visibleSubjects.map((subj) => {
             const Icon = subj.icon;
-            const href = subj.id === 'aptitude'
-              ? '/quizzes/aptitude'
-              : subj.id === 'english'
-              ? '/quizzes/english-grammar'
-              : subj.id === 'world-info'
-              ? '/quizzes/world-info'
-              : subj.id === 'pak-studies'
-              ? '/quizzes/pak-studies'
-              : subj.id === 'physics'
-              ? '/quizzes/physics'
-              : subj.id === 'biology'
-              ? '/quizzes/biology'
-              : subj.id === 'islamic-studies' || subj.id === 'islamic'
-              ? '/quizzes/islamic-studies'
-              : `/quizzes/subject/${subj.id}`;
+            const href = getSubjectHref(subj.id);
 
             return (
-              <Link
+              <div
                 key={subj.id}
-                href={href}
-                className="rounded-2xl border border-slate-200 bg-white hover:border-govt-emerald/60 hover:shadow-md transition-all duration-300 p-5 flex flex-col justify-between group relative overflow-hidden"
+                className="rounded-2xl border border-slate-200 bg-white hover:border-emerald-400 hover:shadow-md transition-all duration-300 p-5 flex flex-col justify-between group relative overflow-hidden"
               >
-                <div>
-                  <div className="flex items-center justify-between gap-3 mb-3">
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between gap-3">
                     <div className={`p-3 rounded-xl border ${subj.badgeBg} shadow-xs group-hover:scale-105 transition-transform duration-200`}>
                       <Icon className="w-6 h-6" strokeWidth={2.25} />
                     </div>
 
-                    <span className={`text-[11px] font-bold px-2.5 py-1 rounded-full border ${subj.badgeBg}`}>
-                      {subj.alias}
+                    <span className={`text-[11px] font-extrabold px-2.5 py-1 rounded-full border ${subj.badgeBg}`}>
+                      {subj.countBadge}
                     </span>
                   </div>
 
-                  <h3 className="text-base font-bold text-slate-900 group-hover:text-govt-emerald transition-colors duration-200">
-                    {subj.name}
-                  </h3>
+                  <div>
+                    <Link
+                      href={href}
+                      className="text-base font-extrabold text-slate-900 group-hover:text-emerald-700 transition-colors duration-200 block"
+                    >
+                      {subj.name}
+                    </Link>
 
-                  <p className="text-xs text-slate-500 mt-2 line-clamp-2 leading-relaxed">
-                    {subj.description}
-                  </p>
+                    <p className="text-xs text-slate-500 mt-1.5 line-clamp-2 leading-relaxed">
+                      {subj.description}
+                    </p>
+                  </div>
+
+                  {/* Direct Sub-Section Pills */}
+                  <div className="pt-1 space-y-1.5">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">
+                      Sub-Sections:
+                    </span>
+                    <div className="flex flex-wrap gap-1.5">
+                      {subj.subLinks.map((sub) => (
+                        <Link
+                          key={sub.label}
+                          href={sub.href}
+                          className="text-[11px] font-semibold bg-slate-50 hover:bg-emerald-50 text-slate-700 hover:text-emerald-800 border border-slate-200/80 hover:border-emerald-200 px-2.5 py-0.5 rounded-lg transition-colors"
+                        >
+                          {sub.label}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
                 </div>
 
-                <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-govt-emerald group-hover:translate-x-0.5 transition-transform">
-                  <span>
-                    {subj.id === 'aptitude'
-                      ? '3,702 MCQs — 43 Topics (10 per page)'
-                      : subj.id === 'english'
-                      ? 'Practice MCQs — 4 Sections Available'
-                      : subj.id === 'world-info'
-                      ? '420 MCQs — Capitals, Currencies & Leaders'
-                      : subj.id === 'pak-studies'
-                      ? '364 MCQs — 15 Sections (20 per page)'
-                      : subj.id === 'physics'
-                      ? '1000 MCQs — Sindh, Punjab & Federal Boards'
-                      : subj.id === 'biology'
-                      ? '1000 MCQs — Sindh, Punjab & Federal Boards'
-                      : subj.id === 'islamic-studies' || subj.id === 'islamic'
-                      ? '160+ MCQs — 9 Categories (PPSC & FPSC Aligned)'
-                      : 'Open Practice Page'}
-                  </span>
-                  <ArrowRight className="w-4 h-4" />
-                </div>
-              </Link>
-
+                <Link
+                  href={href}
+                  className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-extrabold text-emerald-700 group-hover:translate-x-0.5 transition-transform"
+                >
+                  <span>{subj.footerLabel}</span>
+                  <ArrowRight className="w-4 h-4" strokeWidth={2.25} />
+                </Link>
+              </div>
             );
           })}
         </div>
       </div>
 
-      {/* Quizzes List Section */}
+      {/* Timed Custom Quizzes List Section */}
       <div className="space-y-6 pt-4 border-t border-slate-200" id="quizzes-list-section">
-        {/* Search & Filter Control Bar */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
           <div className="relative w-full sm:w-80">
             <Search className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
             <input
               type="text"
-              placeholder="Search quizzes by title or keyword..."
+              placeholder="Search custom timed quizzes..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium focus:outline-none focus:border-govt-emerald"
@@ -311,7 +454,7 @@ export default function QuizzesPage() {
               onChange={(e) => setSelectedSubject(e.target.value)}
               className="w-full sm:w-auto text-xs border border-slate-200 rounded-lg px-3 py-2 bg-slate-50 focus:outline-none focus:border-govt-emerald font-medium"
             >
-              <option value="">All 9 Subjects</option>
+              <option value="">All 11 Subjects</option>
               {PREP_SUBJECTS.map((sub) => (
                 <option key={sub.id} value={sub.alias}>{sub.name}</option>
               ))}
@@ -323,20 +466,12 @@ export default function QuizzesPage() {
         {loading ? (
           <Loader />
         ) : filteredQuizzes.length === 0 ? (
-          <div className="bg-white p-12 rounded-2xl text-center border border-slate-200 shadow-xs space-y-3">
-            <FileCheck className="w-12 h-12 text-slate-300 mx-auto" />
-            <h3 className="text-base font-bold text-slate-800">No Quizzes Found</h3>
+          <div className="bg-white p-10 rounded-2xl text-center border border-slate-200 shadow-xs space-y-3">
+            <FileCheck className="w-10 h-10 text-emerald-600 mx-auto" strokeWidth={2.25} />
+            <h3 className="text-base font-extrabold text-slate-800">Select Any Subject Card Above to Begin</h3>
             <p className="text-xs text-slate-500 max-w-md mx-auto">
-              No active quiz tests match your current subject or search filter. Try clearing filters or select another subject card above.
+              All 7,600+ topic-wise MCQs are organized inside the 11 interactive subject cards above. Click any subject or sub-section tag to start practicing immediately.
             </p>
-            {selectedSubject && (
-              <button
-                onClick={() => setSelectedSubject('')}
-                className="inline-block text-xs bg-govt-emerald text-white font-bold px-4 py-2 rounded-lg shadow"
-              >
-                Show All Subject Quizzes
-              </button>
-            )}
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

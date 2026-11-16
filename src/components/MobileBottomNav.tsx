@@ -3,14 +3,14 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Briefcase, FileCheck, BookOpen, FileText } from 'lucide-react';
+import { Home, Briefcase, FileCheck, Lightbulb, Award } from 'lucide-react';
 
 const items = [
   { href: '/', label: 'Home', icon: Home, activeColor: 'text-emerald-700 bg-emerald-50 border-emerald-200' },
-  { href: '/jobs', label: 'Jobs', icon: Briefcase, activeColor: 'text-emerald-700 bg-emerald-50 border-emerald-200' },
-  { href: '/quizzes', label: 'MCQs', icon: FileCheck, activeColor: 'text-amber-700 bg-amber-50 border-amber-200' },
-  { href: '/materials', label: 'Papers', icon: BookOpen, activeColor: 'text-blue-700 bg-blue-50 border-blue-200' },
-  { href: '/forms', label: 'Forms', icon: FileText, activeColor: 'text-teal-700 bg-teal-50 border-teal-200' },
+  { href: '/quizzes', label: 'MCQs', icon: FileCheck, activeColor: 'text-emerald-700 bg-emerald-50 border-emerald-200' },
+  { href: '/quizzes/aptitude', label: 'Aptitude', icon: Lightbulb, activeColor: 'text-amber-700 bg-amber-50 border-amber-200' },
+  { href: '/mock-tests', label: 'Mocks', icon: Award, activeColor: 'text-purple-700 bg-purple-50 border-purple-200' },
+  { href: '/jobs', label: 'Jobs', icon: Briefcase, activeColor: 'text-teal-700 bg-teal-50 border-teal-200' },
 ];
 
 export default function MobileBottomNav() {
@@ -18,6 +18,7 @@ export default function MobileBottomNav() {
 
   const isActive = (href: string) => {
     if (href === '/') return pathname === '/';
+    if (href === '/quizzes') return pathname?.startsWith('/quizzes') && !pathname?.startsWith('/quizzes/aptitude');
     return pathname?.startsWith(href);
   };
 

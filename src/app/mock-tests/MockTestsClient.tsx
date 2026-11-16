@@ -7,6 +7,7 @@ import axios from 'axios';
 import NewsCard from '@/components/NewsCard';
 import Loader from '@/components/Loader';
 import PoliceConstableMockTest from '@/components/PoliceConstableMockTest';
+import InterestingRandomQuiz from '@/components/InterestingRandomQuiz';
 import { SectionShareBar } from '@/components/ShareButtons';
 import { Search, FileCheck, Shield, Sparkles, Award, Clock, GraduationCap } from 'lucide-react';
 import { INews } from '@/lib/types';
@@ -84,6 +85,9 @@ export default function MockTestsClient() {
         description="Attempt full-length timed mock exams with live countdown timers, subject breakdowns, and complete answer keys."
         badge="Mock Exams Hub"
       />
+
+      {/* Random Test Generator & Daily Mixed Challenge */}
+      <InterestingRandomQuiz variant="compact" />
 
       {/* FEATURED MOCK TESTS GRID MATRIX */}
       <div className="space-y-4">

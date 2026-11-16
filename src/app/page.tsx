@@ -8,6 +8,7 @@ import axios from 'axios';
 import JobCard from '@/components/JobCard';
 import NewsCard from '@/components/NewsCard';
 import AdSlot from '@/components/AdSlot';
+import InterestingRandomQuiz from '@/components/InterestingRandomQuiz';
 import { SkeletonCard } from '@/components/Loader';
 import { QuickShareButton, SectionShareBar } from '@/components/ShareButtons';
 import { APTITUDE_GROUPS, APTITUDE_TOPICS, AptitudeGroupId } from '@/data/aptitudeTopics';
@@ -80,7 +81,7 @@ const ADVANCED_MCQ_SUBJECTS: HomeSubjectCard[] = [
   {
     id: 'biology',
     name: 'Biology (Board & MDCAT Prep)',
-    badge: '1,000 MCQs · 14 Chapters',
+    badge: '1,547 MCQs · 14 Chapters',
     category: 'science',
     href: '/quizzes/biology',
     icon: Dna,
@@ -156,7 +157,7 @@ const ADVANCED_MCQ_SUBJECTS: HomeSubjectCard[] = [
   {
     id: 'islamic-studies',
     name: 'Islamic Studies (Islamiat)',
-    badge: '160+ MCQs · 9 Categories',
+    badge: '1,711 MCQs · 9 Categories',
     category: 'humanities',
     href: '/quizzes/islamic-studies',
     icon: BookMarked,
@@ -210,7 +211,7 @@ const ADVANCED_MCQ_SUBJECTS: HomeSubjectCard[] = [
   {
     id: 'computer-science',
     name: 'Computer Science, Chemistry & Math',
-    badge: 'STEM Practice Banks',
+    badge: '1,518 Chem + CS & Math',
     category: 'science',
     href: '/quizzes/subject/computer-science',
     icon: Monitor,
@@ -345,7 +346,7 @@ export default function Home() {
   );
 
   const stats = [
-    { label: 'Solved MCQs Bank', value: '7,600+', icon: Zap, iconBg: 'bg-amber-50 border-amber-200/80 text-amber-600' },
+    { label: 'Solved MCQs Bank', value: '10,600+', icon: Zap, iconBg: 'bg-amber-50 border-amber-200/80 text-amber-600' },
     { label: 'Aptitude Chapters', value: '43 Topics', icon: Lightbulb, iconBg: 'bg-emerald-50 border-emerald-200/80 text-emerald-600' },
     { label: 'Timed Mock Papers', value: '11+ Subjects', icon: Award, iconBg: 'bg-blue-50 border-blue-200/80 text-blue-600' },
     { label: 'Active Govt Jobs', value: '500+', icon: Briefcase, iconBg: 'bg-purple-50 border-purple-200/80 text-purple-600' },
@@ -377,7 +378,7 @@ export default function Home() {
           </div>
 
           <h1 className={`text-2xl sm:text-4xl md:text-5xl font-black tracking-tight leading-tight text-slate-900 px-1 ${isUr ? 'font-urdu leading-relaxed' : ''}`}>
-            Master <span className="text-emerald-700">7,600+ Solved MCQs</span> &amp; Track Every Govt Job
+            Master <span className="text-emerald-700">10,600+ Solved MCQs</span> &amp; Track Every Govt Job
           </h1>
 
           <p className="text-xs sm:text-sm md:text-base text-slate-600 max-w-2xl mx-auto leading-relaxed px-2">
@@ -469,6 +470,7 @@ export default function Home() {
           <div className="flex flex-wrap items-center justify-center gap-1.5 pt-1">
             <span className="text-[11px] font-bold text-slate-500 mr-1">Hot Tracks:</span>
             {[
+              { label: '🎲 Random & Fun Quiz', href: '/quizzes/random-test' },
               { label: '💡 Aptitude Test', href: '/quizzes/aptitude' },
               { label: '🧬 Biology', href: '/quizzes/biology' },
               { label: '⚡ Physics', href: '/quizzes/physics' },
@@ -523,6 +525,9 @@ export default function Home() {
 
       {/* ───── 3. Main Portal Content ───── */}
       <div className="max-w-7xl mx-auto px-4 space-y-14 py-10">
+
+        {/* Daily Brain Spark & Random MCQ Test Launcher */}
+        <InterestingRandomQuiz variant="compact" />
 
         {/* ═══════════════════════════════════════════════════════════════════
             SECTION A: ADVANCED MCQs PREPARATION COMMAND CENTER

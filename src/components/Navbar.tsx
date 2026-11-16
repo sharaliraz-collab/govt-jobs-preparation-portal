@@ -45,6 +45,13 @@ import {
 
 const mcqCoreSubjects = [
   {
+    name: 'Daily Random & Interesting Quiz',
+    href: '/quizzes/random-test',
+    desc: 'Fresh Random Tests, Daily Streak & Mind-Blowing MCQs',
+    icon: Sparkles,
+    color: 'text-amber-700 bg-amber-50 border-amber-200',
+  },
+  {
     name: 'English Grammar & Composition',
     href: '/quizzes/english-grammar',
     desc: 'Parts of Speech, Synonyms, Antonyms & Comprehension',
@@ -264,6 +271,13 @@ const empSubPages = [
 ];
 
 const subjectNavItems = [
+  {
+    label: 'Daily Random Quiz',
+    href: '/quizzes/random-test',
+    icon: Sparkles,
+    iconColor: 'text-amber-500',
+    activeStyle: 'bg-amber-50 border-amber-300 text-amber-900 font-bold shadow-xs',
+  },
   {
     label: 'Physics',
     href: '/quizzes/physics',

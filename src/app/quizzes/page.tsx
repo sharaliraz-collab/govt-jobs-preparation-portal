@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 import Loader from '@/components/Loader';
+import InterestingRandomQuiz from '@/components/InterestingRandomQuiz';
 import { QuickShareButton, SectionShareBar } from '@/components/ShareButtons';
 import {
   FileCheck,
@@ -139,17 +140,17 @@ const PREP_SUBJECTS: SubjectCard[] = [
     name: 'Islamic Studies (Islamiat)',
     alias: 'Islamic',
     category: 'humanities',
-    countBadge: '160+ MCQs · 9 Categories',
+    countBadge: '1,711 MCQs · 9 Categories',
     icon: BookMarked,
     badgeBg: 'bg-amber-50 text-amber-800 border-amber-200',
-    description: 'Quranic Verses, Hadith & Sunnah, Seerat-un-Nabi (ﷺ), Khulafa-e-Rashideen, Islamic History & Fiqh.',
+    description: '1,711 solved MCQs covering Quranic Verses, Hadith & Sunnah, Seerat-un-Nabi (ﷺ), Khulafa-e-Rashideen, Islamic History & Fiqh.',
     subLinks: [
       { label: 'Holy Quran', href: '/quizzes/islamic-studies' },
       { label: 'Hadith & Sunnah', href: '/quizzes/islamic-studies' },
       { label: 'Seerah (ﷺ)', href: '/quizzes/islamic-studies' },
       { label: 'Khulafa', href: '/quizzes/islamic-studies' },
     ],
-    footerLabel: '160+ MCQs — 9 Categories (PPSC & FPSC)'
+    footerLabel: '1,711 MCQs — 9 Categories (PPSC & FPSC)'
   },
   {
     id: 'english',
@@ -302,7 +303,7 @@ export default function QuizzesPage() {
           <div className="max-w-2xl space-y-3">
             <div className="inline-flex items-center gap-2 bg-emerald-50 px-3.5 py-1 rounded-full text-xs font-extrabold text-emerald-800 border border-emerald-200">
               <CheckCircle2 className="w-4 h-4 text-emerald-600" strokeWidth={2.25} />
-              <span>7,600+ Solved MCQs · FPSC, PPSC, SPSC, STS &amp; MDCAT Prep</span>
+              <span>10,600+ Solved MCQs · FPSC, PPSC, SPSC, STS &amp; MDCAT Prep</span>
             </div>
 
             <h1 className={`text-2xl md:text-4xl font-black tracking-tight text-slate-900 ${isUr ? 'font-urdu' : ''}`}>
@@ -317,7 +318,7 @@ export default function QuizzesPage() {
           {/* Quick Stats Box */}
           <div className="grid grid-cols-2 gap-3 shrink-0">
             <div className="bg-white/90 border border-slate-200/90 rounded-2xl p-3.5 text-center shadow-2xs">
-              <div className="text-xl font-black text-emerald-700">7,600+</div>
+              <div className="text-xl font-black text-emerald-700">10,600+</div>
               <div className="text-[11px] font-bold text-slate-500">Solved MCQs</div>
             </div>
             <div className="bg-white/90 border border-slate-200/90 rounded-2xl p-3.5 text-center shadow-2xs">
@@ -331,10 +332,13 @@ export default function QuizzesPage() {
       {/* Social Link Preview & Share Bar */}
       <SectionShareBar
         path="/quizzes"
-        title="Free MCQ Practice Tests — 11 Subjects & 43 Aptitude Topics (7,600+ Solved MCQs)"
+        title="Free MCQ Practice Tests — 11 Subjects & 43 Aptitude Topics (10,600+ Solved MCQs)"
         description="Practice topic-wise MCQs for FPSC, PPSC, SPSC, STS, MDCAT & CSS with step-by-step solutions and instant grading."
         badge="MCQs Prep Hub"
       />
+
+      {/* Interactive Daily Challenge & Random Test Generator */}
+      <InterestingRandomQuiz variant="compact" />
 
       {/* Subject Filter & Instant Search Bar */}
       <div className="space-y-5">

@@ -2,9 +2,9 @@ import type { Metadata } from 'next';
 import { buildPageMetadata } from '@/lib/seo';
 
 export const metadata: Metadata = buildPageMetadata({
-  title: '☪️ Islamic Studies (Islamiat) MCQs — Solved Questions for FPSC, PPSC, SPSC & NTS',
+  title: '☪️ Islamic Studies (Islamiat) MCQs — 1,711 Solved Questions for FPSC, PPSC, SPSC & NTS',
   description:
-    'Practice high-yield Islamic Studies (Islamiat) MCQs covering Holy Quran, Hadith & Sunnah, Seerah-un-Nabi, Ghazwaat, Khulafa-e-Rashideen & Islamic History for government job exams.',
+    'Practice 1,711 solved Islamic Studies (Islamiat) MCQs covering Holy Quran, Hadith & Sunnah, Seerah-un-Nabi, Ghazwaat, Khulafa-e-Rashideen & Islamic History for government job exams.',
   path: '/quizzes/islamic-studies',
   image: '/og-islamic.png',
   keywords: [

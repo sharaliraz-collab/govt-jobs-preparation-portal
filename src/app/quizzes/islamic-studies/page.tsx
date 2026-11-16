@@ -1,12 +1,13 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 import Loader from '@/components/Loader';
 import ShareButtons from '@/components/ShareButtons';
 import { absoluteUrl } from '@/lib/seo';
+import { getCleanExplanation, getTopicFromExplanation, getWindowedPages } from '@/lib/mcqDisplay';
 import {
   BookMarked,
   BookOpen,
@@ -58,6 +59,7 @@ export default function IslamicStudiesPage() {
   const [selectedCategory, setSelectedCategory] = useState('All Categories');
   const [currentPage, setCurrentPage] = useState(1);
   const [isShuffled, setIsShuffled] = useState(false);
+  const [shuffleOrder, setShuffleOrder] = useState<string[]>([]);
   const [userAnswers, setUserAnswers] = useState<{ [qId: string]: number }>({});
   const [revealedAnswers, setRevealedAnswers] = useState<{ [qId: string]: boolean }>({});
   const [showSindhi, setShowSindhi] = useState(false);
@@ -69,26 +71,61 @@ export default function IslamicStudiesPage() {
   const fetchQuestions = async () => {
     setLoading(true);
     try {
-      const res = await axios.get('/api/questions?subject=Islamic%20Studies&limit=300');
-      if (res.data && Array.isArray(res.data)) {
+      const res = await axios.get('/api/questions?subject=Islamic%20Studies');
+      if (res.data && Array.isArray(res.data) && res.data.length > 0) {
         setQuestions(res.data);
+      } else {
+        const mod = await import('@/data/islamic-pdf-mcqs.json');
+        setQuestions((mod.default ?? mod) as IslamicQuestion[]);
       }
     } catch (err) {
-      console.error('Error fetching Islamic Studies MCQs:', err);
+      console.error('Error fetching Islamic Studies MCQs, using bundled fallback:', err);
+      try {
+        const mod = await import('@/data/islamic-pdf-mcqs.json');
+        setQuestions((mod.default ?? mod) as IslamicQuestion[]);
+      } catch (e) {
+        console.error('Failed to load bundled Islamic Studies MCQs:', e);
+      }
     } finally {
       setLoading(false);
     }
   };
 
-  // Filter & shuffle questions
-  let displayQuestions = selectedCategory === 'All Categories'
-    ? questions
-    : questions.filter(q => q.topic === selectedCategory || q.explanationEn?.includes(selectedCategory) || q.textEn.toLowerCase().includes(selectedCategory.toLowerCase()));
+  const handleToggleShuffle = () => {
+    if (!isShuffled) {
+      const ids = questions.map((q) => q.id);
+      for (let i = ids.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [ids[i], ids[j]] = [ids[j], ids[i]];
+      }
+      setShuffleOrder(ids);
+      setIsShuffled(true);
+    } else {
+      setIsShuffled(false);
+    }
+    setCurrentPage(1);
+  };
 
-  if (isShuffled && displayQuestions.length > 0) {
-    // Stable pseudo shuffle based on ID
-    displayQuestions = [...displayQuestions].sort((a, b) => (a.id > b.id ? 1 : -1));
-  }
+  // Filter & Fisher-Yates shuffle questions
+  const displayQuestions = useMemo(() => {
+    const filtered =
+      selectedCategory === 'All Categories'
+        ? questions
+        : questions.filter((q) => {
+            const cat = getTopicFromExplanation(q.explanationEn, q.topic || 'Islamic Studies');
+            return (
+              cat === selectedCategory ||
+              q.topic === selectedCategory ||
+              q.explanationEn?.includes(selectedCategory)
+            );
+          });
+
+    if (isShuffled && shuffleOrder.length > 0) {
+      const rank = new Map(shuffleOrder.map((id, idx) => [id, idx]));
+      return [...filtered].sort((a, b) => (rank.get(a.id) ?? 999999) - (rank.get(b.id) ?? 999999));
+    }
+    return filtered;
+  }, [questions, selectedCategory, isShuffled, shuffleOrder]);
 
   const totalQuestions = displayQuestions.length;
   const totalPages = Math.max(1, Math.ceil(totalQuestions / QUESTIONS_PER_PAGE));
@@ -117,9 +154,10 @@ export default function IslamicStudiesPage() {
     }
   };
 
+  const bankTotal = questions.length > 0 ? questions.length.toLocaleString() : '1,711';
   const shareUrl = absoluteUrl('/quizzes/islamic-studies');
-  const shareTitle = 'Islamic Studies MCQ Bank (اسلاميات) — 160+ Solved Questions';
-  const shareDescription = 'Practice 160+ solved Islamic Studies MCQs across 9 categories (Aqaid, Quran, Hadith, Seerah, Khulafa-e-Rashideen, Fiqh). Aligned for PPSC, FPSC, SPSC & NTS exams!';
+  const shareTitle = `Islamic Studies MCQ Bank (اسلاميات) — ${bankTotal} Solved Questions`;
+  const shareDescription = `Practice ${bankTotal} solved Islamic Studies MCQs across 9 categories (Aqaid, Quran, Hadith, Seerah, Khulafa-e-Rashideen, Fiqh). Aligned for PPSC, FPSC, SPSC & NTS exams!`;
 
   return (
     <div className="max-w-7xl mx-auto px-3 sm:px-6 py-8 space-y-6">
@@ -142,11 +180,19 @@ export default function IslamicStudiesPage() {
               <span>Islamic Studies MCQ Bank (اسلاميات)</span>
             </h1>
             <p className="text-xs sm:text-sm text-emerald-100/90 leading-relaxed max-w-3xl">
-              Comprehensive 160+ Solved Islamic Studies Question Bank covering Beliefs (Aqaid), Pillars of Islam, Quran, Hadith &amp; Sunnah, Seerat-un-Nabi (ﷺ), Khulafa-e-Rashideen, Islamic History, Fiqh, and Ethics.
+              Comprehensive {bankTotal} Solved Islamic Studies Question Bank covering Beliefs (Aqaid), Pillars of Islam, Quran, Hadith &amp; Sunnah, Seerat-un-Nabi (ﷺ), Khulafa-e-Rashideen, Islamic History, Fiqh, and Ethics.
             </p>
           </div>
 
           <div className="flex flex-wrap items-center gap-3 shrink-0">
+            <Link
+              href="/quizzes/random-test?subject=Islamic%20Studies&count=10"
+              className="bg-amber-400 hover:bg-amber-300 text-emerald-950 text-xs font-black px-4 py-2.5 rounded-xl transition shadow flex items-center gap-1.5 no-print"
+            >
+              <Sparkles className="w-4 h-4" />
+              <span>Quick 10Q Random Challenge</span>
+            </Link>
+
             <button
               onClick={() => setShowSindhi(!showSindhi)}
               className="bg-emerald-700 hover:bg-emerald-600 text-white text-xs font-black px-4 py-2.5 rounded-xl transition shadow flex items-center gap-1.5 no-print"
@@ -182,7 +228,7 @@ export default function IslamicStudiesPage() {
           </span>
 
           <button
-            onClick={() => setIsShuffled(!isShuffled)}
+            onClick={handleToggleShuffle}
             className={`px-3 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1 border ${
               isShuffled ? 'bg-amber-100 text-amber-900 border-amber-300' : 'bg-slate-50 text-slate-700 border-slate-200'
             }`}
@@ -221,17 +267,23 @@ export default function IslamicStudiesPage() {
             <span>Prev Page</span>
           </button>
 
-          {Array.from({ length: totalPages }, (_, i) => i + 1).map(p => (
-            <button
-              key={p}
-              onClick={() => handlePageChange(p)}
-              className={`w-7 h-7 rounded-lg text-[11px] font-bold transition ${
-                p === currentPage ? 'bg-emerald-800 text-white shadow-xs' : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
-              }`}
-            >
-              {p}
-            </button>
-          ))}
+          {getWindowedPages(currentPage, totalPages).map((p, idx) =>
+            p === 'ellipsis' ? (
+              <span key={`el-${idx}`} className="px-1.5 text-slate-400 font-bold">
+                ...
+              </span>
+            ) : (
+              <button
+                key={p}
+                onClick={() => handlePageChange(p)}
+                className={`min-w-[1.75rem] px-1.5 h-7 rounded-lg text-[11px] font-bold transition ${
+                  p === currentPage ? 'bg-emerald-800 text-white shadow-xs' : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
+                }`}
+              >
+                {p}
+              </button>
+            )
+          )}
 
           <button
             onClick={() => handlePageChange(currentPage + 1)}
@@ -279,7 +331,7 @@ export default function IslamicStudiesPage() {
                         {globalIndex + 1}
                       </span>
                       <span className="text-[10px] font-bold uppercase tracking-wider sm:tracking-widest text-emerald-800 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200 truncate">
-                        {q.topic || 'Islamic Studies'}
+                        {getTopicFromExplanation(q.explanationEn, q.topic || 'Islamic Studies')}
                       </span>
                     </div>
 
@@ -358,9 +410,9 @@ export default function IslamicStudiesPage() {
                       <CheckCircle2 className="w-4 h-4 text-emerald-600" />
                       <span>Correct Answer: {String.fromCharCode(65 + q.correctIndex)}. {q.optionsEn[q.correctIndex]}</span>
                     </p>
-                    {q.explanationEn && (
+                    {getCleanExplanation(q.explanationEn) && (
                       <p className="text-[11px] text-slate-600 pt-0.5">
-                        <span className="font-bold text-slate-800">Explanation:</span> {q.explanationEn}
+                        <span className="font-bold text-slate-800">Explanation:</span> {getCleanExplanation(q.explanationEn)}
                       </p>
                     )}
                   </div>
@@ -372,7 +424,7 @@ export default function IslamicStudiesPage() {
       )}
 
       {/* Bottom Pagination */}
-      <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-center gap-2 no-print">
+      <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-wrap items-center justify-center gap-2 no-print">
         <button
           onClick={() => handlePageChange(currentPage - 1)}
           disabled={currentPage === 1}
@@ -382,7 +434,27 @@ export default function IslamicStudiesPage() {
           <span>Previous Page</span>
         </button>
 
-        <span className="text-xs font-bold text-slate-700 px-3">
+        <div className="hidden sm:flex items-center gap-1">
+          {getWindowedPages(currentPage, totalPages).map((p, idx) =>
+            p === 'ellipsis' ? (
+              <span key={`bel-${idx}`} className="px-1.5 text-slate-400 font-bold text-xs">
+                ...
+              </span>
+            ) : (
+              <button
+                key={p}
+                onClick={() => handlePageChange(p)}
+                className={`min-w-[2rem] px-2 h-8 rounded-lg text-xs font-bold transition ${
+                  p === currentPage ? 'bg-emerald-800 text-white shadow-xs' : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
+                }`}
+              >
+                {p}
+              </button>
+            )
+          )}
+        </div>
+
+        <span className="sm:hidden text-xs font-bold text-slate-700 px-3">
           Page {currentPage} of {totalPages}
         </span>
 
@@ -403,7 +475,7 @@ export default function IslamicStudiesPage() {
           <span>Share Islamic Studies MCQ Bank with Fellow Candidates</span>
         </h3>
         <p className="text-xs text-slate-500 max-w-xl mx-auto">
-          Help candidates preparing for PPSC, FPSC, SPSC, NTS &amp; BISE examinations by sharing this free 160-question Islamic Studies practice paper!
+          Help candidates preparing for PPSC, FPSC, SPSC, NTS &amp; BISE examinations by sharing this free {bankTotal}-question Islamic Studies practice paper!
         </p>
         <div className="flex justify-center pt-1">
           <ShareButtons

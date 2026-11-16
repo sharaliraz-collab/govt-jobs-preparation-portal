@@ -20,7 +20,6 @@ import {
   Sparkles,
   BookOpen,
   HelpCircle,
-  Printer,
   Globe,
   BookMarked,
   Dna,
@@ -151,11 +150,6 @@ export default function SaluMockTest({ onClose }: SaluMockTestProps) {
     setIsPaused(false);
     setShowSubmitModal(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  // Print
-  const handlePrint = () => {
-    window.print();
   };
 
   // Calculate Scores
@@ -869,7 +863,7 @@ export default function SaluMockTest({ onClose }: SaluMockTestProps) {
                 </div>
               </div>
 
-              {/* Actions: Retake / Print / Share */}
+              {/* Actions: Retake */}
               <div className="pt-4 flex flex-wrap items-center justify-center gap-3 no-print">
                 <button
                   onClick={handleRetake}
@@ -879,13 +873,6 @@ export default function SaluMockTest({ onClose }: SaluMockTestProps) {
                   <span>Retake Test</span>
                 </button>
 
-                <button
-                  onClick={handlePrint}
-                  className="px-6 py-3 rounded-2xl bg-slate-800 hover:bg-slate-900 text-white font-extrabold text-xs sm:text-sm shadow-md transition flex items-center gap-2 active:scale-95"
-                >
-                  <Printer className="w-4 h-4" />
-                  <span>Print Solved Paper / PDF</span>
-                </button>
               </div>
             </div>
 

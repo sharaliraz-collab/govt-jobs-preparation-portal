@@ -13,7 +13,6 @@ import {
   CheckCircle2,
   XCircle,
   RotateCcw,
-  Printer,
   ChevronLeft,
   ChevronRight,
   Filter,
@@ -122,10 +121,6 @@ export default function BiologyQuizzesPage() {
     }
   };
 
-  const handlePrint = () => {
-    window.print();
-  };
-
   const shareUrl = absoluteUrl('/quizzes/biology');
   const shareTitle = 'Biology 1000 MCQs Solved Bank (بيالوجي) — Sindh, Punjab & Federal Boards';
   const shareDescription = 'Practice 1000 solved Biology MCQs covering Cell Biology, Bioenergetics, Genetics, Physiology & Ecology. MDCAT, NTS, PPSC & SPSC Aligned!';
@@ -163,14 +158,6 @@ export default function BiologyQuizzesPage() {
               <span>{showSindhi ? 'English Only' : 'سنڌي ٻولي ۾ سوالن لاءِ ھت ڪلڪ ڪريو'}</span>
             </button>
 
-            <button
-              onClick={handlePrint}
-              className="bg-yellow-400 hover:bg-yellow-300 text-slate-950 text-xs font-black px-4 py-2.5 rounded-xl transition shadow flex items-center gap-1.5 no-print"
-              title="Print questions or save as PDF"
-            >
-              <Printer className="w-4 h-4" />
-              <span>Print Out PDF</span>
-            </button>
           </div>
         </div>
       </div>

@@ -99,7 +99,7 @@ const ADVANCED_MCQ_SUBJECTS: HomeSubjectCard[] = [
   {
     id: 'physics',
     name: 'Physics (Board & Entry Tests)',
-    badge: '1,000 MCQs · 19 Topics',
+    badge: '941 MCQs · 19 Topics',
     category: 'science',
     href: '/quizzes/physics',
     icon: Zap,

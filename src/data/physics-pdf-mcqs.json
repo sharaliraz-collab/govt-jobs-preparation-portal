@@ -10,7 +10,7 @@
       "None of these"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Waves",
     "explanationEn": "Correct answer: A. Space waves"
   },
   {
@@ -24,7 +24,7 @@
       "remains same"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Current Electricity",
     "explanationEn": "Correct answer: D. remains same"
   },
   {
@@ -38,7 +38,7 @@
       "remain unchanged"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Current Electricity",
     "explanationEn": "Correct answer: B. be doubled"
   },
   {
@@ -52,7 +52,7 @@
       "∆s/∆t"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Circular Motion",
     "explanationEn": "Correct answer: A. v=rw"
   },
   {
@@ -66,7 +66,7 @@
       "Translatory motion"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Circular Motion",
     "explanationEn": "Correct answer: A. Spin motion"
   },
   {
@@ -80,7 +80,7 @@
       "None of the above"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: B. Wilson Cloud Detector"
   },
   {
@@ -94,7 +94,7 @@
       "30 km/s"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Circular Motion",
     "explanationEn": "Correct answer: D. 30 km/s"
   },
   {
@@ -108,7 +108,7 @@
       "Positron"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: D. Positron"
   },
   {
@@ -122,7 +122,7 @@
       "Moving with speed of sound"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: A. Moving with speed of light"
   },
   {
@@ -136,7 +136,7 @@
       "Black"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: B. White"
   },
   {
@@ -150,7 +150,7 @@
       "Stefan Boltzman"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: C. Arthur Holly Compton"
   },
   {
@@ -164,7 +164,7 @@
       "Uniform"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: A. Dilates"
   },
   {
@@ -178,7 +178,7 @@
       "2.6×10 m/s"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: B. 2.6×10⁶ m/s"
   },
   {
@@ -192,7 +192,7 @@
       "E=mv²"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: A. E=mc²"
   },
   {
@@ -206,7 +206,7 @@
       "None of these"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: C. Absorb"
   },
   {
@@ -220,7 +220,7 @@
       "None of these"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: B. Navstar"
   },
   {
@@ -234,7 +234,7 @@
       "One"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: A. Two"
   },
   {
@@ -242,14 +242,14 @@
     "subject": "Physics",
     "textEn": "A.C. and D.C. have the same __________?",
     "optionsEn": [
-      "and  have the same __________?",
       "Affect in charging a capacitor",
       "Affect in charging a battery",
-      "Affect while passing through an inductance"
+      "Affect while passing through an inductance",
+      "Heating effect through a resistance"
     ],
     "correctIndex": 3,
-    "topic": null,
-    "explanationEn": "Correct answer: D. Affect while passing through an inductance"
+    "topic": "Current Electricity",
+    "explanationEn": "Correct answer: D. Heating effect through a resistance"
   },
   {
     "id": "physics-q-19",
@@ -262,7 +262,7 @@
       "None of these"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Electromagnetism",
     "explanationEn": "Correct answer: B. Shunt"
   },
   {
@@ -276,7 +276,7 @@
       "1/3×10^-8 gauss"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Electromagnetism",
     "explanationEn": "Correct answer: C. 10⁴ gauss"
   },
   {
@@ -290,7 +290,7 @@
       "Transformer"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Alternating Current",
     "explanationEn": "Correct answer: C. Dynamo"
   },
   {
@@ -304,7 +304,7 @@
       "LT^-1"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: D. LT^-1"
   },
   {
@@ -318,7 +318,7 @@
       "None of these"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Dynamics",
     "explanationEn": "Correct answer: B. 180°"
   },
   {
@@ -332,7 +332,7 @@
       "A position vector"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Dynamics",
     "explanationEn": "Correct answer: B. A unit vector"
   },
   {
@@ -346,7 +346,7 @@
       "Acceleration"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Kinematics",
     "explanationEn": "Correct answer: B. Speed"
   },
   {
@@ -360,7 +360,7 @@
       "1st"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Dynamics",
     "explanationEn": "Correct answer: A. 2nd"
   },
   {
@@ -374,7 +374,7 @@
       "a+b"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Dynamics",
     "explanationEn": "Correct answer: A. a−b"
   },
   {
@@ -388,7 +388,7 @@
       "All"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Kinematics",
     "explanationEn": "Correct answer: B. meter per second square"
   },
   {
@@ -402,7 +402,7 @@
       "Newton"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Thermodynamics",
     "explanationEn": "Correct answer: C. Joule"
   },
   {
@@ -416,7 +416,7 @@
       "3.5 x 109 J"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Work, Energy & Power",
     "explanationEn": "Correct answer: A. 3.5 x 10-3 J"
   },
   {
@@ -430,7 +430,7 @@
       "Kgm2/sec2.K"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Thermodynamics",
     "explanationEn": "Correct answer: B. J/K"
   },
   {
@@ -444,7 +444,7 @@
       "5 S"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Current Electricity",
     "explanationEn": "Correct answer: C. 2 S"
   },
   {
@@ -458,7 +458,7 @@
       "Momentum"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Dynamics",
     "explanationEn": "Correct answer: A. Displacement"
   },
   {
@@ -472,7 +472,7 @@
       "All of these"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Kinematics",
     "explanationEn": "Correct answer: A. Variable acceleration"
   },
   {
@@ -486,7 +486,7 @@
       "All of these"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Kinematics",
     "explanationEn": "Correct answer: C. Acceleration"
   },
   {
@@ -500,7 +500,7 @@
       "Variable Acceleration"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Kinematics",
     "explanationEn": "Correct answer: A. Uniform Velocity"
   },
   {
@@ -514,7 +514,7 @@
       "None"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Kinematics",
     "explanationEn": "Correct answer: B. Uniform Velocity"
   },
   {
@@ -528,7 +528,7 @@
       "All are possible"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Kinematics",
     "explanationEn": "Correct answer: C. Greater than one"
   },
   {
@@ -542,7 +542,7 @@
       "None"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: B. Inertial frame of reference"
   },
   {
@@ -556,7 +556,7 @@
       "None"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: C. Negative"
   },
   {
@@ -570,22 +570,22 @@
       "Resolution of vectors"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Dynamics",
     "explanationEn": "Correct answer: D. Resolution of vectors"
   },
   {
     "id": "physics-q-42",
     "subject": "Physics",
-    "textEn": "If a vector Ā is making an angle “” with positive y-axis then which of the following is correct.?",
+    "textEn": "If a vector Ā is making an angle θ with positive y-axis then which of the following is correct?",
     "optionsEn": [
-      "Ax= ACos",
-      "Ay= ASin",
-      "Ay= ACos",
+      "Ax = A cosθ",
+      "Ay = A sinθ",
+      "Ay = A cosθ",
       "None"
     ],
     "correctIndex": 2,
-    "topic": null,
-    "explanationEn": "Correct answer: C. Ay= ACos"
+    "topic": "Dynamics",
+    "explanationEn": "Correct answer: C. Ay = A cosθ"
   },
   {
     "id": "physics-q-43",
@@ -598,7 +598,7 @@
       "All of these"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Dynamics",
     "explanationEn": "Correct answer: D. All of these"
   },
   {
@@ -612,7 +612,7 @@
       "12N, 5N, 15N"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Dynamics",
     "explanationEn": "Correct answer: D. 12N, 5N, 15N"
   },
   {
@@ -626,7 +626,7 @@
       "90°"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Dynamics",
     "explanationEn": "Correct answer: D. 90°"
   },
   {
@@ -640,7 +640,7 @@
       "None"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Dynamics",
     "explanationEn": "Correct answer: C. Three"
   },
   {
@@ -654,7 +654,7 @@
       "4N & 1N"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Dynamics",
     "explanationEn": "Correct answer: C. 3N & 6N"
   },
   {
@@ -668,7 +668,7 @@
       "30N"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Dynamics",
     "explanationEn": "Correct answer: D. 30N"
   },
   {
@@ -682,7 +682,7 @@
       "90°"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Dynamics",
     "explanationEn": "Correct answer: B. 45°"
   },
   {
@@ -696,7 +696,7 @@
       "Both A & B"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Dynamics",
     "explanationEn": "Correct answer: D. Both A & B"
   },
   {
@@ -710,7 +710,7 @@
       "Infinite"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Dynamics",
     "explanationEn": "Correct answer: C. Three"
   },
   {
@@ -724,7 +724,7 @@
       "Infinite"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Dynamics",
     "explanationEn": "Correct answer: B. Two"
   },
   {
@@ -738,7 +738,7 @@
       "None"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: B. 1 Kg"
   },
   {
@@ -752,7 +752,7 @@
       "120 m/s"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: A. 45 m/s"
   },
   {
@@ -766,7 +766,7 @@
       "micron"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Circular Motion",
     "explanationEn": "Correct answer: B. radian"
   },
   {
@@ -780,7 +780,7 @@
       "Physiology"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Waves",
     "explanationEn": "Correct answer: B. Acoustics"
   },
   {
@@ -794,7 +794,7 @@
       "Both have same inertia because inertia depends upon mass only"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Dynamics",
     "explanationEn": "Correct answer: D. Both have same inertia because inertia depends upon mass only"
   },
   {
@@ -808,7 +808,7 @@
       "Time"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Dynamics",
     "explanationEn": "Correct answer: C. Mass"
   },
   {
@@ -822,7 +822,7 @@
       "Frequency"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Dynamics",
     "explanationEn": "Correct answer: C. Direction of vector"
   },
   {
@@ -836,7 +836,7 @@
       "Wavelength"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Waves",
     "explanationEn": "Correct answer: B. Velocity"
   },
   {
@@ -850,7 +850,7 @@
       "Velocity"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: C. Unity"
   },
   {
@@ -864,7 +864,7 @@
       "all of the above"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: D. all of the above"
   },
   {
@@ -878,7 +878,7 @@
       "Entropy"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Thermodynamics",
     "explanationEn": "Correct answer: B. work and heat"
   },
   {
@@ -892,7 +892,7 @@
       "Inert system"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: A. open system"
   },
   {
@@ -906,7 +906,7 @@
       "Isothermal"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: C. adiabatic"
   },
   {
@@ -920,7 +920,7 @@
       "The speed of air resistance"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Current Electricity",
     "explanationEn": "Correct answer: A. The speed of sound"
   },
   {
@@ -934,7 +934,7 @@
       "1/58 times"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Electrostatics",
     "explanationEn": "Correct answer: C. 1/78 times"
   },
   {
@@ -948,7 +948,7 @@
       "Crookes Glass"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: D. Crookes Glass"
   },
   {
@@ -962,7 +962,7 @@
       "Lenses and mirrors"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: C. Characteristics of sound"
   },
   {
@@ -976,7 +976,7 @@
       "Quartile quantities"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: A. Base quantities"
   },
   {
@@ -990,7 +990,7 @@
       "All of these"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: D. All of these"
   },
   {
@@ -1004,7 +1004,7 @@
       "¼ meter"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: A. 1 meter"
   },
   {
@@ -1018,7 +1018,7 @@
       "Ordinary Water"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: C. Graphite"
   },
   {
@@ -1032,7 +1032,7 @@
       "120 db"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Waves",
     "explanationEn": "Correct answer: D. 120 db"
   },
   {
@@ -1046,7 +1046,7 @@
       "Zero"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Circular Motion",
     "explanationEn": "Correct answer: B. ge/6"
   },
   {
@@ -1060,7 +1060,7 @@
       "1300 – 3000 angstrom"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: C. 3900 – 7600 angstrom"
   },
   {
@@ -1074,7 +1074,7 @@
       "αLΔT-ΔL"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Thermodynamics",
     "explanationEn": "Correct answer: B. ΔL/LΔT"
   },
   {
@@ -1088,7 +1088,7 @@
       "None of these"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Kinematics",
     "explanationEn": "Correct answer: A. Decrease"
   },
   {
@@ -1102,7 +1102,7 @@
       "None of these"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Electronics",
     "explanationEn": "Correct answer: B. Insulators"
   },
   {
@@ -1116,7 +1116,7 @@
       "Capacitor"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Electronics",
     "explanationEn": "Correct answer: C. Photodiode"
   },
   {
@@ -1130,7 +1130,7 @@
       "None of these"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: B. Monochromatic"
   },
   {
@@ -1144,7 +1144,7 @@
       "Optimum"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: A. Zero"
   },
   {
@@ -1158,7 +1158,7 @@
       "Sixteen times"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Work, Energy & Power",
     "explanationEn": "Correct answer: C. Four times"
   },
   {
@@ -1172,7 +1172,7 @@
       "25 m"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Circular Motion",
     "explanationEn": "Correct answer: A. 15 m"
   },
   {
@@ -1186,7 +1186,7 @@
       "4N"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: A. 22N"
   },
   {
@@ -1200,7 +1200,7 @@
       "Slabs"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: B. Prism"
   },
   {
@@ -1214,7 +1214,7 @@
       "Graviton"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: A. Photon"
   },
   {
@@ -1228,7 +1228,7 @@
       "Gravity"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Physics of Solids",
     "explanationEn": "Correct answer: C. Time Period"
   },
   {
@@ -1242,7 +1242,7 @@
       "Proton"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: B. Neutrino"
   },
   {
@@ -1256,7 +1256,7 @@
       "Momentum"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Dynamics",
     "explanationEn": "Correct answer: C. Inertia"
   },
   {
@@ -1270,7 +1270,7 @@
       "Pascal"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Work, Energy & Power",
     "explanationEn": "Correct answer: A. watt"
   },
   {
@@ -1284,7 +1284,7 @@
       "1 J"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: B. 0.250 J"
   },
   {
@@ -1298,7 +1298,7 @@
       "vertex"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: C. point"
   },
   {
@@ -1312,7 +1312,7 @@
       "None of the above"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: B. The faster you move, the heavier you get"
   },
   {
@@ -1326,7 +1326,7 @@
       "Einstein"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: A. Chadwick"
   },
   {
@@ -1340,7 +1340,7 @@
       "None of the above"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Electromagnetism",
     "explanationEn": "Correct answer: C. Magnetic induction"
   },
   {
@@ -1354,7 +1354,7 @@
       "λ/8"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Waves",
     "explanationEn": "Correct answer: B. λ/2"
   },
   {
@@ -1368,7 +1368,7 @@
       "π/4"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: A. π"
   },
   {
@@ -1382,7 +1382,7 @@
       "Temperature"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: A. Hardness"
   },
   {
@@ -1396,7 +1396,7 @@
       "None of these"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: C. Dyne"
   },
   {
@@ -1410,7 +1410,7 @@
       "Nuclear energy"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: B. Rest energy"
   },
   {
@@ -1424,7 +1424,7 @@
       "both “1” and “2”"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Current Electricity",
     "explanationEn": "Correct answer: D. both “1” and “2”"
   },
   {
@@ -1438,7 +1438,7 @@
       "None of these"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Dynamics",
     "explanationEn": "Correct answer: B. Force and velocity"
   },
   {
@@ -1452,7 +1452,7 @@
       "None of these"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: B. Metric or French system of units"
   },
   {
@@ -1466,7 +1466,7 @@
       "on the blind spot"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: B. in front of the retina"
   },
   {
@@ -1480,7 +1480,7 @@
       "its feet are good insulators"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Current Electricity",
     "explanationEn": "Correct answer: C. it does not form a closed path for the flow of current"
   },
   {
@@ -1494,7 +1494,7 @@
       "ultra high frequency waves on it"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: C. radio waves on it"
   },
   {
@@ -1508,7 +1508,7 @@
       "electrostatic image making"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Electromagnetism",
     "explanationEn": "Correct answer: D. electrostatic image making"
   },
   {
@@ -1522,7 +1522,7 @@
       "it has large eyes with orbs directed forward, giving it binocular sight"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Current Electricity",
     "explanationEn": "Correct answer: D. it has large eyes with orbs directed forward, giving it binocular sight"
   },
   {
@@ -1536,7 +1536,7 @@
       "Velocity modulated"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Oscillations",
     "explanationEn": "Correct answer: B. Frequency modulated"
   },
   {
@@ -1550,7 +1550,7 @@
       "The sky remains clear and the sun is at lower position in the sky"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: B. The Sun remains behind us and we face raindrops"
   },
   {
@@ -1564,7 +1564,7 @@
       "their velocity increases and they fall with same velocity on the earth"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: A. they fall with that ultimate velocity, which are different for different droplets"
   },
   {
@@ -1578,7 +1578,7 @@
       "due to its shape"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Fluid Dynamics",
     "explanationEn": "Correct answer: C. due to surface tension"
   },
   {
@@ -1592,7 +1592,7 @@
       "None of these"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: C. Gamma rays"
   },
   {
@@ -1606,7 +1606,7 @@
       "Neptune"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Circular Motion",
     "explanationEn": "Correct answer: C. Mercury"
   },
   {
@@ -1620,7 +1620,7 @@
       "10.314 J/mole K"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: A. 8.314 J/mole K"
   },
   {
@@ -1634,7 +1634,7 @@
       "Scattering of light"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: C. Refraction and total internal reflection of light"
   },
   {
@@ -1648,7 +1648,7 @@
       "Infinite"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: D. Infinite"
   },
   {
@@ -1662,7 +1662,7 @@
       "None of these"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Current Electricity",
     "explanationEn": "Correct answer: C. mho"
   },
   {
@@ -1676,7 +1676,7 @@
       "None of these"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: B. massive nucleus splits to form smaller fragments"
   },
   {
@@ -1690,7 +1690,7 @@
       "None of these"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Circular Motion",
     "explanationEn": "Correct answer: A. 1/6th"
   },
   {
@@ -1704,7 +1704,7 @@
       "Joule"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: C. Dyne"
   },
   {
@@ -1718,7 +1718,7 @@
       "Momentum"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Dynamics",
     "explanationEn": "Correct answer: B. Energy"
   },
   {
@@ -1732,7 +1732,7 @@
       "Nuclear Force"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: B. Gravitational Force"
   },
   {
@@ -1746,7 +1746,7 @@
       "None of these"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Electrostatics",
     "explanationEn": "Correct answer: B. 1036"
   },
   {
@@ -1760,7 +1760,7 @@
       "None of these"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: B. 1/8th"
   },
   {
@@ -1774,7 +1774,7 @@
       "None of these"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Current Electricity",
     "explanationEn": "Correct answer: A. Resistance"
   },
   {
@@ -1788,7 +1788,7 @@
       "None of the above"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Circular Motion",
     "explanationEn": "Correct answer: A. Angular Momentum"
   },
   {
@@ -1802,7 +1802,7 @@
       "Equal to the true weight"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Kinematics",
     "explanationEn": "Correct answer: A. More than the true weight"
   },
   {
@@ -1816,7 +1816,7 @@
       "Becomes Zero"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Thermodynamics",
     "explanationEn": "Correct answer: B. Increases"
   },
   {
@@ -1830,7 +1830,7 @@
       "Kerosene"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Thermodynamics",
     "explanationEn": "Correct answer: A. Water"
   },
   {
@@ -1844,7 +1844,7 @@
       "None of the above"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Electronics",
     "explanationEn": "Correct answer: A. Semiconductor"
   },
   {
@@ -1858,7 +1858,7 @@
       "All of the above"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: C. Solid only"
   },
   {
@@ -1872,7 +1872,7 @@
       "All of these"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: C. Cadmium"
   },
   {
@@ -1886,7 +1886,7 @@
       "Moderators reflect the neutrons"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: A. Moderators slow down the neutrons"
   },
   {
@@ -1900,7 +1900,7 @@
       "Non of these"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: A. Indivisible"
   },
   {
@@ -1914,7 +1914,7 @@
       "None of these"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Circular Motion",
     "explanationEn": "Correct answer: A. Due to position of object"
   },
   {
@@ -1928,7 +1928,7 @@
       "Direction of Displacement, Velocity and acceleration changes"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Kinematics",
     "explanationEn": "Correct answer: C. Direction of Displacement and Velocity changes"
   },
   {
@@ -1942,7 +1942,7 @@
       "4 π2"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Kinematics",
     "explanationEn": "Correct answer: B. π2"
   },
   {
@@ -1956,7 +1956,7 @@
       "E/(2)1/2"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: B. E/2"
   },
   {
@@ -1970,7 +1970,7 @@
       "in isothermal compression"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Thermodynamics",
     "explanationEn": "Correct answer: B. in adiabatic compression"
   },
   {
@@ -1984,7 +1984,7 @@
       "1 : 2"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Waves",
     "explanationEn": "Correct answer: B. 1 : 1"
   },
   {
@@ -1998,7 +1998,7 @@
       "480 Hz"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: C. 160 Hz"
   },
   {
@@ -2012,7 +2012,7 @@
       "F/8"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: D. F/8"
   },
   {
@@ -2026,7 +2026,7 @@
       "– 1.6 × 10 coulomb"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Electrostatics",
     "explanationEn": "Correct answer: B. – 1.6 × 10–13 coulomb"
   },
   {
@@ -2040,7 +2040,7 @@
       "400 C m–2"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Electrostatics",
     "explanationEn": "Correct answer: D. 400 C m–2"
   },
   {
@@ -2054,7 +2054,7 @@
       "becomes zero"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Electrostatics",
     "explanationEn": "Correct answer: B. increases"
   },
   {
@@ -2068,7 +2068,7 @@
       "6.25 × 1012 electrons"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Current Electricity",
     "explanationEn": "Correct answer: D. 6.25 × 1012 electrons"
   },
   {
@@ -2082,7 +2082,7 @@
       "The resistance of copper increases and that of germanium decreases"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Current Electricity",
     "explanationEn": "Correct answer: C. The resistance of copper decreases and that of germanium increases"
   },
   {
@@ -2096,7 +2096,7 @@
       "be deflected normal to the plane containing the two beams"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: A. repel each other"
   },
   {
@@ -2110,7 +2110,7 @@
       "5 mH"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Alternating Current",
     "explanationEn": "Correct answer: D. 5 mH"
   },
   {
@@ -2124,7 +2124,7 @@
       "None of these"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Physics of Solids",
     "explanationEn": "Correct answer: A. Eddy currents"
   },
   {
@@ -2138,7 +2138,7 @@
       "the spectral series formula can be derived from the Rutherford model of the hydrogen atom"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: B. Paschen series is a line spectrum in the infra red"
   },
   {
@@ -2152,7 +2152,7 @@
       "Metal ions"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: B. Electrons"
   },
   {
@@ -2166,7 +2166,7 @@
       "It work depends on the end points of every motion, not on the path between"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Work, Energy & Power",
     "explanationEn": "Correct answer: D. It work depends on the end points of every motion, not on the path between"
   },
   {
@@ -2180,7 +2180,7 @@
       "Parabolic"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: D. Parabolic"
   },
   {
@@ -2194,7 +2194,7 @@
       "Air"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: B. Glass"
   },
   {
@@ -2208,7 +2208,7 @@
       "None of these"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: C. capacitance"
   },
   {
@@ -2222,7 +2222,7 @@
       "29.4%"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Thermodynamics",
     "explanationEn": "Correct answer: C. 23.6%"
   },
   {
@@ -2236,7 +2236,7 @@
       "None"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: A. Vernier Callipers"
   },
   {
@@ -2250,7 +2250,7 @@
       "Torque"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Dynamics",
     "explanationEn": "Correct answer: C. Tension"
   },
   {
@@ -2264,7 +2264,7 @@
       "3.75 m/s²"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Circular Motion",
     "explanationEn": "Correct answer: B. 1.62 m/s²"
   },
   {
@@ -2278,7 +2278,7 @@
       "None of these"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Circular Motion",
     "explanationEn": "Correct answer: A. 274 m/s²"
   },
   {
@@ -2292,7 +2292,7 @@
       "None of these"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Circular Motion",
     "explanationEn": "Correct answer: A. 9.80 m/s²"
   },
   {
@@ -2306,7 +2306,7 @@
       "None of these"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Circular Motion",
     "explanationEn": "Correct answer: B. direction"
   },
   {
@@ -2320,7 +2320,7 @@
       "None of these"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: C. Special theory of relativity"
   },
   {
@@ -2334,7 +2334,7 @@
       "aircraft"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Waves",
     "explanationEn": "Correct answer: D. aircraft"
   },
   {
@@ -2348,7 +2348,7 @@
       "Neutrino"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: A. Electrons"
   },
   {
@@ -2362,7 +2362,7 @@
       "Heating of gases"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Thermodynamics",
     "explanationEn": "Correct answer: B. Sudden expansion of gases"
   },
   {
@@ -2376,7 +2376,7 @@
       "Hardware"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: B. Transmission channel"
   },
   {
@@ -2390,7 +2390,7 @@
       "temperature remaining constant, volume of a given mass of a gas varies inversely"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: A. every action there is an equal and opposite reaction"
   },
   {
@@ -2404,7 +2404,7 @@
       "Capillary action phenomenon"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Fluid Dynamics",
     "explanationEn": "Correct answer: D. Capillary action phenomenon"
   },
   {
@@ -2418,7 +2418,7 @@
       "Uranium"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: A. Cadmium"
   },
   {
@@ -2432,7 +2432,7 @@
       "Fermi"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: D. Fermi"
   },
   {
@@ -2446,7 +2446,7 @@
       "None of these"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Dynamics",
     "explanationEn": "Correct answer: C. Torque"
   },
   {
@@ -2460,7 +2460,7 @@
       "Micro"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Waves",
     "explanationEn": "Correct answer: B. Sound"
   },
   {
@@ -2474,7 +2474,7 @@
       "Persians"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: B. Greek"
   },
   {
@@ -2488,7 +2488,7 @@
       "Force"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Dynamics",
     "explanationEn": "Correct answer: C. Speed"
   },
   {
@@ -2502,7 +2502,7 @@
       "0.0001mm"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: C. 0.1mm"
   },
   {
@@ -2516,7 +2516,7 @@
       "Area"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: A. Time"
   },
   {
@@ -2530,7 +2530,7 @@
       "E"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: C. M"
   },
   {
@@ -2544,7 +2544,7 @@
       "Second"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Current Electricity",
     "explanationEn": "Correct answer: A. Candela"
   },
   {
@@ -2558,7 +2558,7 @@
       "Atomic physics"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: B. Geophysics"
   },
   {
@@ -2572,7 +2572,7 @@
       "42 feet"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Circular Motion",
     "explanationEn": "Correct answer: B. 32 feet"
   },
   {
@@ -2586,7 +2586,7 @@
       "7.00 s"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Kinematics",
     "explanationEn": "Correct answer: C. 6.00 s"
   },
   {
@@ -2600,7 +2600,7 @@
       "None"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Thermodynamics",
     "explanationEn": "Correct answer: B. 1.4"
   },
   {
@@ -2614,7 +2614,7 @@
       "isentropic"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Thermodynamics",
     "explanationEn": "Correct answer: A. isothermal"
   },
   {
@@ -2628,7 +2628,7 @@
       "not described"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Thermodynamics",
     "explanationEn": "Correct answer: B. coefficient of performance"
   },
   {
@@ -2642,7 +2642,7 @@
       "volume"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Thermodynamics",
     "explanationEn": "Correct answer: A. internal energy"
   },
   {
@@ -2656,7 +2656,7 @@
       "all the above"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Thermodynamics",
     "explanationEn": "Correct answer: D. all the above"
   },
   {
@@ -2670,7 +2670,7 @@
       "both A and B"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Thermodynamics",
     "explanationEn": "Correct answer: A. to smooth out the energy variation"
   },
   {
@@ -2684,7 +2684,7 @@
       "none of these"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Thermodynamics",
     "explanationEn": "Correct answer: C. both A and B"
   },
   {
@@ -2698,7 +2698,7 @@
       "depends on situation"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Thermodynamics",
     "explanationEn": "Correct answer: C. zero"
   },
   {
@@ -2712,7 +2712,7 @@
       "All of the above"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Thermodynamics",
     "explanationEn": "Correct answer: C. Isentropic process"
   },
   {
@@ -2726,7 +2726,7 @@
       "isothermal"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Thermodynamics",
     "explanationEn": "Correct answer: C. adiabatic"
   },
   {
@@ -2740,7 +2740,7 @@
       "3Na/2RT"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Thermodynamics",
     "explanationEn": "Correct answer: C. 3RT/2Na"
   },
   {
@@ -2754,7 +2754,7 @@
       "K = nRNa"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Thermodynamics",
     "explanationEn": "Correct answer: B. K = R/Na"
   },
   {
@@ -2768,7 +2768,7 @@
       "kinetic energy"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Thermodynamics",
     "explanationEn": "Correct answer: D. kinetic energy"
   },
   {
@@ -2782,7 +2782,7 @@
       "273.16K at 750 Kpa"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Thermodynamics",
     "explanationEn": "Correct answer: C. 273.16°C at 0.611 Kpa"
   },
   {
@@ -2796,7 +2796,7 @@
       "one fourth"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Thermodynamics",
     "explanationEn": "Correct answer: B. one half"
   },
   {
@@ -2810,7 +2810,7 @@
       "during one cycle"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Thermodynamics",
     "explanationEn": "Correct answer: D. during one cycle"
   },
   {
@@ -2824,7 +2824,7 @@
       "160°C"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Thermodynamics",
     "explanationEn": "Correct answer: D. 160°C"
   },
   {
@@ -2838,7 +2838,7 @@
       "all of the above"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Thermodynamics",
     "explanationEn": "Correct answer: D. all of the above"
   },
   {
@@ -2852,7 +2852,7 @@
       "All are correct"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Thermodynamics",
     "explanationEn": "Correct answer: D. All are correct"
   },
   {
@@ -2866,7 +2866,7 @@
       "Same only along normal directions"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Thermodynamics",
     "explanationEn": "Correct answer: B. Same in all direction"
   },
   {
@@ -2880,7 +2880,7 @@
       "2.12 degrees of Fahrenheit scale"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Thermodynamics",
     "explanationEn": "Correct answer: B. 1.8 degrees of Fahrenheit scale"
   },
   {
@@ -2894,7 +2894,7 @@
       "273"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Thermodynamics",
     "explanationEn": "Correct answer: A. 40"
   },
   {
@@ -2908,7 +2908,7 @@
       "410°C"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Thermodynamics",
     "explanationEn": "Correct answer: A. 37°C"
   },
   {
@@ -2922,7 +2922,7 @@
       "1.38×10-23JK-1"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Thermodynamics",
     "explanationEn": "Correct answer: D. 1.38×10-23JK-1"
   },
   {
@@ -2936,7 +2936,7 @@
       "All of above"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Thermodynamics",
     "explanationEn": "Correct answer: D. All of above"
   },
   {
@@ -2950,7 +2950,7 @@
       "The capillary tube is very narrow"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Thermodynamics",
     "explanationEn": "Correct answer: C. The capillary tube has a small constriction near the bulb"
   },
   {
@@ -2964,7 +2964,7 @@
       "cloud formation in the atmosphere"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Thermodynamics",
     "explanationEn": "Correct answer: C. conversion of water into ice in refrigerator"
   },
   {
@@ -2978,7 +2978,7 @@
       "any of above"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Thermodynamics",
     "explanationEn": "Correct answer: B. its pressure rises"
   },
   {
@@ -2992,7 +2992,7 @@
       "adiabatic processes"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Thermodynamics",
     "explanationEn": "Correct answer: C. isothermal processes"
   },
   {
@@ -3006,7 +3006,7 @@
       "time"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Thermodynamics",
     "explanationEn": "Correct answer: C. absolute temperature"
   },
   {
@@ -3020,7 +3020,7 @@
       "Avagadros law"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Thermodynamics",
     "explanationEn": "Correct answer: B. Charles law"
   },
   {
@@ -3034,7 +3034,7 @@
       "data is insufficient"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Thermodynamics",
     "explanationEn": "Correct answer: A. 1 atmosphere"
   },
   {
@@ -3048,7 +3048,7 @@
       "Laboratory"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Thermodynamics",
     "explanationEn": "Correct answer: B. Human body"
   },
   {
@@ -3062,7 +3062,7 @@
       "All of the above"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Thermodynamics",
     "explanationEn": "Correct answer: D. All of the above"
   },
   {
@@ -3076,7 +3076,7 @@
       "A straight lime"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Thermodynamics",
     "explanationEn": "Correct answer: D. A straight lime"
   },
   {
@@ -3084,13 +3084,13 @@
     "subject": "Physics",
     "textEn": "The scales of temperature are based on two fixed points which are_________________?",
     "optionsEn": [
-      "The temperatures of water at 0? 100?C",
+      "The temperatures of water at 0° 100°C",
       "The temperature of melting ice and boiling water at atmospheric pressure",
       "The temperatures of ice cold and boiling water",
       "The temperatures of frozen and boiling mercury"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Thermodynamics",
     "explanationEn": "Correct answer: B. The temperature of melting ice and boiling water at atmospheric pressure"
   },
   {
@@ -3104,7 +3104,7 @@
       "How much total absolute energy a body has"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Thermodynamics",
     "explanationEn": "Correct answer: C. In which direction heat will flow between two systems"
   },
   {
@@ -3118,7 +3118,7 @@
       "ML-2T-2"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: C. ML-1T-2"
   },
   {
@@ -3132,7 +3132,7 @@
       "Solar cells"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Electronics",
     "explanationEn": "Correct answer: B. Photo diodes"
   },
   {
@@ -3146,7 +3146,7 @@
       "A digital waveform"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Electronics",
     "explanationEn": "Correct answer: D. A digital waveform"
   },
   {
@@ -3160,7 +3160,7 @@
       "None of the above"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Electronics",
     "explanationEn": "Correct answer: B. A.C"
   },
   {
@@ -3174,7 +3174,7 @@
       "n-carriers and p-carriers respectively"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Electronics",
     "explanationEn": "Correct answer: C. p-carriers and n-carriers respectively"
   },
   {
@@ -3188,7 +3188,7 @@
       "Logic functions"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Electronics",
     "explanationEn": "Correct answer: A. Logic gates"
   },
   {
@@ -3202,7 +3202,7 @@
       "No effect"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Electronics",
     "explanationEn": "Correct answer: B. Decreases"
   },
   {
@@ -3216,7 +3216,7 @@
       "Zero"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Electronics",
     "explanationEn": "Correct answer: B. More than  value"
   },
   {
@@ -3230,7 +3230,7 @@
       "5"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Electronics",
     "explanationEn": "Correct answer: B. 3"
   },
   {
@@ -3244,7 +3244,7 @@
       "Triode vacuum tube"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Electronics",
     "explanationEn": "Correct answer: D. Triode vacuum tube"
   },
   {
@@ -3258,7 +3258,7 @@
       "Output"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Electronics",
     "explanationEn": "Correct answer: B. Reference voltage on the other"
   },
   {
@@ -3272,7 +3272,7 @@
       "None of the above"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Electronics",
     "explanationEn": "Correct answer: A. A very high input impedance"
   },
   {
@@ -3286,7 +3286,7 @@
       "None of the above"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Electronics",
     "explanationEn": "Correct answer: D. None of the above"
   },
   {
@@ -3300,7 +3300,7 @@
       "5"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Electronics",
     "explanationEn": "Correct answer: D. 5"
   },
   {
@@ -3314,7 +3314,7 @@
       "A low resistance amplifier"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Electronics",
     "explanationEn": "Correct answer: A. A high gain amplifier"
   },
   {
@@ -3328,7 +3328,7 @@
       "None at all"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Electronics",
     "explanationEn": "Correct answer: B. An analogue waveform"
   },
   {
@@ -3342,7 +3342,7 @@
       "Solar cells"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Electronics",
     "explanationEn": "Correct answer: B. Photo diodes"
   },
   {
@@ -3356,7 +3356,7 @@
       "Oscillator"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Electronics",
     "explanationEn": "Correct answer: C. Inverter"
   },
   {
@@ -3370,7 +3370,7 @@
       "Either positive or negative half of A.C"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Electronics",
     "explanationEn": "Correct answer: B. The positive half cycle of A.C"
   },
   {
@@ -3384,7 +3384,7 @@
       "All of the above"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Electronics",
     "explanationEn": "Correct answer: C. The complete cycle of input A.C"
   },
   {
@@ -3398,7 +3398,7 @@
       "points form north to south"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Electronics",
     "explanationEn": "Correct answer: A. is located on the emitter"
   },
   {
@@ -3412,7 +3412,7 @@
       "arsenic"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Electronics",
     "explanationEn": "Correct answer: C. aluminium"
   },
   {
@@ -3426,7 +3426,7 @@
       "electron"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Electronics",
     "explanationEn": "Correct answer: B. majority carriers"
   },
   {
@@ -3440,7 +3440,7 @@
       "108 ohm metre"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Electronics",
     "explanationEn": "Correct answer: D. 108 ohm metre"
   },
   {
@@ -3454,7 +3454,7 @@
       "Forbidden band"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Electronics",
     "explanationEn": "Correct answer: A. Conduction band"
   },
   {
@@ -3468,7 +3468,7 @@
       "when temperature varies"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Electronics",
     "explanationEn": "Correct answer: A. during the manufacturing process"
   },
   {
@@ -3482,7 +3482,7 @@
       "using a Coolidge tube"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Electronics",
     "explanationEn": "Correct answer: C. suppressing half wave of A.C supply by using diode"
   },
   {
@@ -3496,7 +3496,7 @@
       "any of above"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Electronics",
     "explanationEn": "Correct answer: B. slightly less than emitter current"
   },
   {
@@ -3510,7 +3510,7 @@
       "any of above"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Electronics",
     "explanationEn": "Correct answer: A. n"
   },
   {
@@ -3524,7 +3524,7 @@
       "Solar cells"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Electronics",
     "explanationEn": "Correct answer: B. The light emitting diode"
   },
   {
@@ -3538,7 +3538,7 @@
       "Converter"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Electronics",
     "explanationEn": "Correct answer: B. A rectifier"
   },
   {
@@ -3552,7 +3552,7 @@
       "Its conductivity increases with rise of temperature"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Electronics",
     "explanationEn": "Correct answer: A. It has low resistance to the current flow when forward biased & high resistance when reverse biased"
   },
   {
@@ -3566,7 +3566,7 @@
       "points form north to south"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Electronics",
     "explanationEn": "Correct answer: A. is located on the emitter"
   },
   {
@@ -3580,7 +3580,7 @@
       "photons"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Electronics",
     "explanationEn": "Correct answer: C. electrons"
   },
   {
@@ -3594,7 +3594,7 @@
       "any of above"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Electronics",
     "explanationEn": "Correct answer: A. insulator"
   },
   {
@@ -3608,7 +3608,7 @@
       "infinite"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Electronics",
     "explanationEn": "Correct answer: C. changing"
   },
   {
@@ -3622,7 +3622,7 @@
       "free electrons in n-type and p-type"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Electronics",
     "explanationEn": "Correct answer: A. holes in n-type and free electrons in p-type"
   },
   {
@@ -3636,7 +3636,7 @@
       "any of above"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Electronics",
     "explanationEn": "Correct answer: C. base"
   },
   {
@@ -3650,7 +3650,7 @@
       "off switch"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Electronics",
     "explanationEn": "Correct answer: D. off switch"
   },
   {
@@ -3664,7 +3664,7 @@
       "tetravalent"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Electronics",
     "explanationEn": "Correct answer: D. tetravalent"
   },
   {
@@ -3678,7 +3678,7 @@
       "blockers"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Electronics",
     "explanationEn": "Correct answer: B. minority carriers"
   },
   {
@@ -3692,7 +3692,7 @@
       "Different for different colours or frequency"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: C. Equal to ordinary light"
   },
   {
@@ -3706,7 +3706,7 @@
       "All"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: A. Further stimulation"
   },
   {
@@ -3720,7 +3720,7 @@
       "Electrons Ne"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: A. Ne only"
   },
   {
@@ -3734,7 +3734,7 @@
       "10-8 sec"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: C. 10-3 sec"
   },
   {
@@ -3748,7 +3748,7 @@
       "All the above"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: C. Inverted population"
   },
   {
@@ -3762,7 +3762,7 @@
       "Cause laser production"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: B. Absorbed"
   },
   {
@@ -3776,7 +3776,7 @@
       "The velocity of electron must be very high according to uncertainty principle"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: D. The velocity of electron must be very high according to uncertainty principle"
   },
   {
@@ -3790,7 +3790,7 @@
       "Photoelectric effect"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: C. Diffraction by crystalline solids"
   },
   {
@@ -3804,7 +3804,7 @@
       "All the above"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: B. Electron excitation in the gas"
   },
   {
@@ -3818,7 +3818,7 @@
       "The wavelengths of X-rays are of the same order of magnitude as the separation between atoms in a crystal"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: D. The wavelengths of X-rays are of the same order of magnitude as the separation between atoms in a crystal"
   },
   {
@@ -3832,7 +3832,7 @@
       "All of above are correct"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: B. The kinetic energy of the incident electron i.e. the potential difference through which they are accelerated"
   },
   {
@@ -3846,7 +3846,7 @@
       "4 x 10-10m"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: A. 6.2 x 10-10m"
   },
   {
@@ -3860,7 +3860,7 @@
       "The absorption of radiation by the target metal"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: C. The bombardment of target by electrons"
   },
   {
@@ -3874,7 +3874,7 @@
       "Increasing the potential difference between the cathode and the target"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: D. Increasing the potential difference between the cathode and the target"
   },
   {
@@ -3888,7 +3888,7 @@
       "Infrared"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: B. X-rays"
   },
   {
@@ -3902,7 +3902,7 @@
       "impossible to predict"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: A. he/ev"
   },
   {
@@ -3916,7 +3916,7 @@
       "A B & C"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: B. B & C"
   },
   {
@@ -3930,7 +3930,7 @@
       "sometimes increases and sometimes decreases"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: C. it remains same"
   },
   {
@@ -3944,7 +3944,7 @@
       "Beta rays"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: C. γ-rays"
   },
   {
@@ -3958,7 +3958,7 @@
       "Ultraviolet rays"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: A. γ-rays"
   },
   {
@@ -3972,7 +3972,7 @@
       "visible radiation"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: C. infra red radiation"
   },
   {
@@ -3986,7 +3986,7 @@
       "X-rays production"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: D. X-rays production"
   },
   {
@@ -4000,7 +4000,7 @@
       "all of the above"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: B. frequency"
   },
   {
@@ -4014,7 +4014,7 @@
       "2nd orbit"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: A. 4th orbit"
   },
   {
@@ -4022,14 +4022,14 @@
     "subject": "Physics",
     "textEn": "The electric P.E of an electron in an orbit at a distance rn from the positive charge_____________?",
     "optionsEn": [
-      "Ke2/rn",
-      "Ke2/rn2",
-      "ÀKe2/rn",
-      "ÀKe2/rn2"
+      "Ke²/rn",
+      "Ke²/rn²",
+      "-Ke²/rn",
+      "-Ke²/rn²"
     ],
     "correctIndex": 2,
-    "topic": null,
-    "explanationEn": "Correct answer: C. ÀKe2/rn"
+    "topic": "Modern Physics",
+    "explanationEn": "Correct answer: C. -Ke²/rn"
   },
   {
     "id": "physics-q-289",
@@ -4042,7 +4042,7 @@
       "1.51 eV"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: C. 0.85 eV"
   },
   {
@@ -4056,7 +4056,7 @@
       "no spectrum"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: A. continuous spectra for atoms"
   },
   {
@@ -4070,7 +4070,7 @@
       "emit either invisible or visible light"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: C. radiate electromagnetic energy of discrete characteristic wavelength"
   },
   {
@@ -4084,7 +4084,7 @@
       "any of above"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: C. shadow photograph"
   },
   {
@@ -4098,7 +4098,7 @@
       "4th to 5th orbit"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: A. 1st to 5th orbit"
   },
   {
@@ -4112,7 +4112,7 @@
       "absorption spectrum"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: B. line spectrum"
   },
   {
@@ -4126,7 +4126,7 @@
       "six"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: C. five"
   },
   {
@@ -4140,7 +4140,7 @@
       "radio isotopes"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: C. high energy photons"
   },
   {
@@ -4154,7 +4154,7 @@
       "it has a single electron"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: D. it has a single electron"
   },
   {
@@ -4168,7 +4168,7 @@
       "10-9s"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: B. 10-8s"
   },
   {
@@ -4182,7 +4182,7 @@
       "Lymann series"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: D. Lymann series"
   },
   {
@@ -4196,7 +4196,7 @@
       "183.6"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: B. 1836"
   },
   {
@@ -4210,7 +4210,7 @@
       "none of these"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: A. spectrometer"
   },
   {
@@ -4224,7 +4224,7 @@
       "Planks"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: C. Raleigh"
   },
   {
@@ -4238,7 +4238,7 @@
       "both B and C"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: D. both B and C"
   },
   {
@@ -4252,7 +4252,7 @@
       "C = 5/2fd"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: C. C = 16fd"
   },
   {
@@ -4266,7 +4266,7 @@
       "20km"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: C. 100km"
   },
   {
@@ -4280,7 +4280,7 @@
       "no function"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: A. to produce parallel beams of light"
   },
   {
@@ -4294,7 +4294,7 @@
       "Copper wire"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: B. Graded index fiber"
   },
   {
@@ -4308,7 +4308,7 @@
       "(1+fo/fe)L/fo"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: B. fo/fe"
   },
   {
@@ -4322,7 +4322,7 @@
       "Transformer"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: B. Repeaters"
   },
   {
@@ -4336,7 +4336,7 @@
       "50°"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: A. 42°"
   },
   {
@@ -4350,7 +4350,7 @@
       "aperture"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: B. focus"
   },
   {
@@ -4364,7 +4364,7 @@
       "1 / 10 dioptre"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: B. 10 dioptre"
   },
   {
@@ -4378,7 +4378,7 @@
       "4f"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: D. 4f"
   },
   {
@@ -4392,7 +4392,7 @@
       "between principal focus and optical center"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: D. between principal focus and optical center"
   },
   {
@@ -4406,7 +4406,7 @@
       "2"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: D. 2"
   },
   {
@@ -4420,7 +4420,7 @@
       "becomes infinite after 60 years"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: A. increases with increase in age"
   },
   {
@@ -4434,7 +4434,7 @@
       "f/2"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: D. f/2"
   },
   {
@@ -4448,7 +4448,7 @@
       "fe / fo"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: A. fo + fe"
   },
   {
@@ -4462,7 +4462,7 @@
       "virtual and inverted"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: D. virtual and inverted"
   },
   {
@@ -4476,7 +4476,7 @@
       "different with refractive index of core higher than cladding"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: D. different with refractive index of core higher than cladding"
   },
   {
@@ -4490,7 +4490,7 @@
       "f1f2/f1-f2"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: D. f1f2/f1-f2"
   },
   {
@@ -4504,7 +4504,7 @@
       "distortion"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: B. spherical aberration"
   },
   {
@@ -4518,7 +4518,7 @@
       "40 cm"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: B. 25 cm"
   },
   {
@@ -4532,7 +4532,7 @@
       "list distance of distinct vision"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: B. increase with decrease in focal length"
   },
   {
@@ -4546,7 +4546,7 @@
       "virtual"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: C. real and inverted"
   },
   {
@@ -4560,7 +4560,7 @@
       "negative"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: D. negative"
   },
   {
@@ -4574,7 +4574,7 @@
       "horsepower"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: C. diopter"
   },
   {
@@ -4588,7 +4588,7 @@
       "radius of curvature"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: B. principal axis"
   },
   {
@@ -4602,7 +4602,7 @@
       "plano convex lens"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: B. converging (or convex) lens"
   },
   {
@@ -4616,7 +4616,7 @@
       "S.H.M likes the sound"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: B. Standing wave motion"
   },
   {
@@ -4630,7 +4630,7 @@
       "Uncertain nature of light"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: A. Photon theory of light"
   },
   {
@@ -4644,7 +4644,7 @@
       "Plancks"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: C. Stephens law"
   },
   {
@@ -4658,7 +4658,7 @@
       "Not be wave-like"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: B. Should be greater than the speed of light"
   },
   {
@@ -4672,7 +4672,7 @@
       "Very high velocity"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: A. Property of matter and radiation"
   },
   {
@@ -4686,7 +4686,7 @@
       "None of the above"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: B. Scanning electron microscope"
   },
   {
@@ -4700,7 +4700,7 @@
       "Converging source of electrons"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: D. Converging source of electrons"
   },
   {
@@ -4714,7 +4714,7 @@
       "All the above reasons"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: C. Wavelength is very short"
   },
   {
@@ -4728,7 +4728,7 @@
       "Electromagnetic wave property"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: A. Wave property"
   },
   {
@@ -4742,7 +4742,7 @@
       "Quantum property"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: B. Wave property"
   },
   {
@@ -4756,7 +4756,7 @@
       "v = 2 ×× 106 ms-1"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: D. v = 2 ×× 106 ms-1"
   },
   {
@@ -4770,7 +4770,7 @@
       "1.84 x 10-44kg"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: C. 2.46 x 10-36kg"
   },
   {
@@ -4784,7 +4784,7 @@
       "None"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: A. p"
   },
   {
@@ -4798,7 +4798,7 @@
       "1"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: B. Double"
   },
   {
@@ -4812,7 +4812,7 @@
       "The average kinetic energy of the photoelectrons decreases"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: D. The average kinetic energy of the photoelectrons decreases"
   },
   {
@@ -4826,7 +4826,7 @@
       "First increases then decrease because of the curvilinear graph"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: B. Remains same"
   },
   {
@@ -4840,7 +4840,7 @@
       "Increases then decrease"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: C. Remains same"
   },
   {
@@ -4854,7 +4854,7 @@
       "h"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: C. Speed of lightB"
   },
   {
@@ -4862,14 +4862,14 @@
     "subject": "Physics",
     "textEn": "Which one of the following has the largest energy content ?",
     "optionsEn": [
-      "103 photons of wavelength 2 pm (γ-rays)",
-      "102 photons of wavelength 1nm (x-rays)",
-      "106 photons of wavelength 50?m (infrared)",
-      "106 photons of wavelength 200nm (UV)"
+      "10³ photons of wavelength 2 pm (γ-rays)",
+      "10² photons of wavelength 1nm (x-rays)",
+      "10⁶ photons of wavelength 50μm (infrared)",
+      "10⁶ photons of wavelength 200nm (UV)"
     ],
     "correctIndex": 0,
-    "topic": null,
-    "explanationEn": "Correct answer: A. 103 photons of wavelength 2 pm (γ-rays)"
+    "topic": "Modern Physics",
+    "explanationEn": "Correct answer: A. 10³ photons of wavelength 2 pm (γ-rays)"
   },
   {
     "id": "physics-q-349",
@@ -4882,7 +4882,7 @@
       "A unit of wavelength"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: C. A quantum of electromagnetic radiation"
   },
   {
@@ -4896,7 +4896,7 @@
       "Refraction"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: C. Electron diffraction"
   },
   {
@@ -4910,7 +4910,7 @@
       "The angle of scattering is 0"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: C. The angle of scattering is 180°"
   },
   {
@@ -4924,7 +4924,7 @@
       "Einstein"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: D. Einstein"
   },
   {
@@ -4938,7 +4938,7 @@
       "shifts towards longer as well as shorter wavelengths"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: B. shifts towards shorter wavelength"
   },
   {
@@ -4952,7 +4952,7 @@
       "All of above are correct"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: C. 1/2 mvmax2=hf-Φ"
   },
   {
@@ -4966,7 +4966,7 @@
       "1.67 x 10-27 kg"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: B. zero"
   },
   {
@@ -4980,7 +4980,7 @@
       "zero"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: C. infinite"
   },
   {
@@ -4994,7 +4994,7 @@
       "Any of above"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: B. ∆E . ∆t = h"
   },
   {
@@ -5008,7 +5008,7 @@
       "zero"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: C. infinite"
   },
   {
@@ -5022,7 +5022,7 @@
       "all of the above"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: C. the frequency of incident light and work function of the metal surface"
   },
   {
@@ -5036,7 +5036,7 @@
       "data is insufficient"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: A. 6.625x1023N-s"
   },
   {
@@ -5050,7 +5050,7 @@
       "c2/hv"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: A. zero"
   },
   {
@@ -5064,7 +5064,7 @@
       "a foolish question"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: B. less than one meter"
   },
   {
@@ -5078,7 +5078,7 @@
       "Newtons laws of motion are valid in an accelerated (non inertial) frame of reference"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: D. Newtons laws of motion are valid in an accelerated (non inertial) frame of reference"
   },
   {
@@ -5092,7 +5092,7 @@
       "250 GWh"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: B. 25.00 GWh"
   },
   {
@@ -5106,7 +5106,7 @@
       "γ-rays"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: D. γ-rays"
   },
   {
@@ -5120,7 +5120,7 @@
       "c2/E"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: B. E/c2"
   },
   {
@@ -5134,7 +5134,7 @@
       "0"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Oscillations",
     "explanationEn": "Correct answer: C. Maximum only"
   },
   {
@@ -5148,7 +5148,7 @@
       "None of these"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Oscillations",
     "explanationEn": "Correct answer: A. Drag force of air"
   },
   {
@@ -5162,7 +5162,7 @@
       "3"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Oscillations",
     "explanationEn": "Correct answer: D. 3"
   },
   {
@@ -5176,7 +5176,7 @@
       "7.5 cm"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Oscillations",
     "explanationEn": "Correct answer: B. 5 cm"
   },
   {
@@ -5190,7 +5190,7 @@
       "All of these"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Oscillations",
     "explanationEn": "Correct answer: A. Gravity"
   },
   {
@@ -5204,7 +5204,7 @@
       "None"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Oscillations",
     "explanationEn": "Correct answer: C. Extreme position"
   },
   {
@@ -5218,7 +5218,7 @@
       "None S.H.M"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Oscillations",
     "explanationEn": "Correct answer: C. Both B and D"
   },
   {
@@ -5232,7 +5232,7 @@
       "None"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Oscillations",
     "explanationEn": "Correct answer: A. Mean position"
   },
   {
@@ -5246,7 +5246,7 @@
       "Is zero"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Oscillations",
     "explanationEn": "Correct answer: A. Increase"
   },
   {
@@ -5260,7 +5260,7 @@
       "Both A and C"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Oscillations",
     "explanationEn": "Correct answer: D. Both A and C"
   },
   {
@@ -5274,7 +5274,7 @@
       "Free vibration"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Oscillations",
     "explanationEn": "Correct answer: C. Driven harmonic vibration"
   },
   {
@@ -5288,7 +5288,7 @@
       "Neither amplitude nor energy"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Oscillations",
     "explanationEn": "Correct answer: C. Both amplitude and energy"
   },
   {
@@ -5302,7 +5302,7 @@
       "All P.E acceleration and restoring force are zero"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Oscillations",
     "explanationEn": "Correct answer: D. All P.E acceleration and restoring force are zero"
   },
   {
@@ -5316,7 +5316,7 @@
       "4 x amplitude"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Oscillations",
     "explanationEn": "Correct answer: D. 4 x amplitude"
   },
   {
@@ -5330,7 +5330,7 @@
       "Neither in radio nor in a microwave oven"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Oscillations",
     "explanationEn": "Correct answer: A. Radio"
   },
   {
@@ -5344,7 +5344,7 @@
       "The square root of its length"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Oscillations",
     "explanationEn": "Correct answer: D. The square root of its length"
   },
   {
@@ -5358,7 +5358,7 @@
       "Equal to the square of damping force"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Oscillations",
     "explanationEn": "Correct answer: B. Inversely proportional to the damping force"
   },
   {
@@ -5372,7 +5372,7 @@
       "Neither displacement nor direction of motion"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Oscillations",
     "explanationEn": "Correct answer: C. Both displacement and direction of motion"
   },
   {
@@ -5386,7 +5386,7 @@
       "mg cos θ"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Oscillations",
     "explanationEn": "Correct answer: B. mg sin θ"
   },
   {
@@ -5400,7 +5400,7 @@
       "Bulb"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Oscillations",
     "explanationEn": "Correct answer: D. Bulb"
   },
   {
@@ -5414,7 +5414,7 @@
       "x = x(2)’/2"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Oscillations",
     "explanationEn": "Correct answer: B. x = x’/2"
   },
   {
@@ -5428,7 +5428,7 @@
       "180°"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Oscillations",
     "explanationEn": "Correct answer: C. 90°"
   },
   {
@@ -5442,7 +5442,7 @@
       "98 cm"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Oscillations",
     "explanationEn": "Correct answer: C. 99.2 cm"
   },
   {
@@ -5456,7 +5456,7 @@
       "4"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Oscillations",
     "explanationEn": "Correct answer: A. 1"
   },
   {
@@ -5470,7 +5470,7 @@
       "All positions during SHM"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Oscillations",
     "explanationEn": "Correct answer: D. All positions during SHM"
   },
   {
@@ -5484,7 +5484,7 @@
       "g/T"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Oscillations",
     "explanationEn": "Correct answer: A. Infinite"
   },
   {
@@ -5498,7 +5498,7 @@
       "None time"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Oscillations",
     "explanationEn": "Correct answer: B. Four times"
   },
   {
@@ -5512,7 +5512,7 @@
       "Loudness"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Oscillations",
     "explanationEn": "Correct answer: C. Surface tension"
   },
   {
@@ -5526,7 +5526,7 @@
       "Vibratory motion"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Oscillations",
     "explanationEn": "Correct answer: D. Vibratory motion"
   },
   {
@@ -5540,7 +5540,7 @@
       "2.5 hertz"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Oscillations",
     "explanationEn": "Correct answer: B. 0.5 hertz"
   },
   {
@@ -5554,7 +5554,7 @@
       "mg"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Oscillations",
     "explanationEn": "Correct answer: B. mg sinθ"
   },
   {
@@ -5568,7 +5568,7 @@
       "2 times"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Oscillations",
     "explanationEn": "Correct answer: D. 2 times"
   },
   {
@@ -5582,7 +5582,7 @@
       "98 cm"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Oscillations",
     "explanationEn": "Correct answer: C. 99.2 cm"
   },
   {
@@ -5596,7 +5596,7 @@
       "6 seconds"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Oscillations",
     "explanationEn": "Correct answer: C. 2 seconds"
   },
   {
@@ -5610,7 +5610,7 @@
       "Square of an amplitude"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Oscillations",
     "explanationEn": "Correct answer: D. Square of an amplitude"
   },
   {
@@ -5624,7 +5624,7 @@
       "wx2"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Oscillations",
     "explanationEn": "Correct answer: C. w2x"
   },
   {
@@ -5638,7 +5638,7 @@
       "middle between the mean and extreme position on the left side"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Oscillations",
     "explanationEn": "Correct answer: A. mean position"
   },
   {
@@ -5652,7 +5652,7 @@
       "ms-1"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Oscillations",
     "explanationEn": "Correct answer: C. Hertz"
   },
   {
@@ -5666,7 +5666,7 @@
       "None"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Oscillations",
     "explanationEn": "Correct answer: B. Sine wave"
   },
   {
@@ -5680,7 +5680,7 @@
       "total momentum remains constant"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Oscillations",
     "explanationEn": "Correct answer: C. total energy remains constant"
   },
   {
@@ -5694,7 +5694,7 @@
       "Both A and B"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Fluid Dynamics",
     "explanationEn": "Correct answer: C. Turbulent"
   },
   {
@@ -5708,7 +5708,7 @@
       "60 to 140 torr"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Fluid Dynamics",
     "explanationEn": "Correct answer: A. 120 to 80 torr"
   },
   {
@@ -5722,7 +5722,7 @@
       "None of these"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Fluid Dynamics",
     "explanationEn": "Correct answer: D. None of these"
   },
   {
@@ -5736,7 +5736,7 @@
       "Oil (kerosene)"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Fluid Dynamics",
     "explanationEn": "Correct answer: A. Water"
   },
   {
@@ -5750,7 +5750,7 @@
       "None of these"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Fluid Dynamics",
     "explanationEn": "Correct answer: C. Both laminar and turbulent flow"
   },
   {
@@ -5764,7 +5764,7 @@
       "None of these"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Fluid Dynamics",
     "explanationEn": "Correct answer: B. Aerofoil profile"
   },
   {
@@ -5778,7 +5778,7 @@
       "None"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Fluid Dynamics",
     "explanationEn": "Correct answer: A. Laminar"
   },
   {
@@ -5792,7 +5792,7 @@
       "None"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Fluid Dynamics",
     "explanationEn": "Correct answer: C. Both A and B"
   },
   {
@@ -5806,7 +5806,7 @@
       "None of these"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Fluid Dynamics",
     "explanationEn": "Correct answer: B. Dynamically"
   },
   {
@@ -5820,7 +5820,7 @@
       "Some time high and some time low"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Fluid Dynamics",
     "explanationEn": "Correct answer: A. Low"
   },
   {
@@ -5834,7 +5834,7 @@
       "A1 V1 = A2 V2 = constant"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Fluid Dynamics",
     "explanationEn": "Correct answer: A. P1 – P2 = 1/2 ρV22"
   },
   {
@@ -5848,7 +5848,7 @@
       "Possess all properties"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Fluid Dynamics",
     "explanationEn": "Correct answer: D. Possess all properties"
   },
   {
@@ -5862,7 +5862,7 @@
       "Stokes effect"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Fluid Dynamics",
     "explanationEn": "Correct answer: C. Venturi effect"
   },
   {
@@ -5876,7 +5876,7 @@
       "Moving fast"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Fluid Dynamics",
     "explanationEn": "Correct answer: D. Moving fast"
   },
   {
@@ -5890,7 +5890,7 @@
       "Sonometer"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Fluid Dynamics",
     "explanationEn": "Correct answer: C. Sphygmomanometer"
   },
   {
@@ -5904,7 +5904,7 @@
       "Abnormal blood pressure"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Fluid Dynamics",
     "explanationEn": "Correct answer: B. High blood pressure"
   },
   {
@@ -5918,7 +5918,7 @@
       "133.3 Nm2"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Fluid Dynamics",
     "explanationEn": "Correct answer: D. 133.3 Nm2"
   },
   {
@@ -5932,13 +5932,13 @@
       "Spherical"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Fluid Dynamics",
     "explanationEn": "Correct answer: D. Spherical"
   },
   {
     "id": "physics-q-425",
     "subject": "Physics",
-    "textEn": "In cricket when a bowler produce reverse swing the ball will move towards______________? A.The shinning side of the ball",
+    "textEn": "In cricket when a bowler produce reverse swing the ball will move towards______________?",
     "optionsEn": [
       "The shinning side of the ball",
       "Rough side",
@@ -5946,7 +5946,7 @@
       "Goes straight"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Fluid Dynamics",
     "explanationEn": "Correct answer: A. The shinning side of the ball"
   },
   {
@@ -5960,7 +5960,7 @@
       "None"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Fluid Dynamics",
     "explanationEn": "Correct answer: A. Fluid pressure"
   },
   {
@@ -5974,7 +5974,7 @@
       "Fluid"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Fluid Dynamics",
     "explanationEn": "Correct answer: B. Energy"
   },
   {
@@ -5988,7 +5988,7 @@
       "4.3"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Fluid Dynamics",
     "explanationEn": "Correct answer: B. 4:09"
   },
   {
@@ -6002,7 +6002,7 @@
       "Laying horizontally"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Fluid Dynamics",
     "explanationEn": "Correct answer: D. Laying horizontally"
   },
   {
@@ -6016,7 +6016,7 @@
       "On himself"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Fluid Dynamics",
     "explanationEn": "Correct answer: C. Towards the train"
   },
   {
@@ -6030,7 +6030,7 @@
       "75%"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Fluid Dynamics",
     "explanationEn": "Correct answer: C. 50%"
   },
   {
@@ -6044,7 +6044,7 @@
       "Of rubber"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Fluid Dynamics",
     "explanationEn": "Correct answer: B. Not rigid"
   },
   {
@@ -6058,7 +6058,7 @@
       "All"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Fluid Dynamics",
     "explanationEn": "Correct answer: B. Torricelli’s theorem"
   },
   {
@@ -6072,7 +6072,7 @@
       "Changes continuously"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Fluid Dynamics",
     "explanationEn": "Correct answer: A. Low"
   },
   {
@@ -6086,7 +6086,7 @@
       "All"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Fluid Dynamics",
     "explanationEn": "Correct answer: A. Mass"
   },
   {
@@ -6100,7 +6100,7 @@
       "The density of the fluid"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Fluid Dynamics",
     "explanationEn": "Correct answer: A. Flow rate"
   },
   {
@@ -6114,7 +6114,7 @@
       "Laminar"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Fluid Dynamics",
     "explanationEn": "Correct answer: B. Turbulent"
   },
   {
@@ -6128,7 +6128,7 @@
       "The volume of the fluid is constant"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Fluid Dynamics",
     "explanationEn": "Correct answer: C. The density of the fluid is constant"
   },
   {
@@ -6142,7 +6142,7 @@
       "Stokes law"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Fluid Dynamics",
     "explanationEn": "Correct answer: D. Stokes law"
   },
   {
@@ -6156,7 +6156,7 @@
       "Straight line"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Fluid Dynamics",
     "explanationEn": "Correct answer: B. Streamline"
   },
   {
@@ -6170,7 +6170,7 @@
       "Square of the diameter of the body"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Fluid Dynamics",
     "explanationEn": "Correct answer: D. Square of the diameter of the body"
   },
   {
@@ -6184,7 +6184,7 @@
       "Vt = 9gr2/2ρ"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Fluid Dynamics",
     "explanationEn": "Correct answer: B. Vt = 2gr2/9ρ"
   },
   {
@@ -6198,7 +6198,7 @@
       "Infinite"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Fluid Dynamics",
     "explanationEn": "Correct answer: A. 0"
   },
   {
@@ -6212,7 +6212,7 @@
       "Neither uniform nor maximum"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Fluid Dynamics",
     "explanationEn": "Correct answer: C. Uniform and maximum"
   },
   {
@@ -6226,7 +6226,7 @@
       "M2L-1T-1"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Fluid Dynamics",
     "explanationEn": "Correct answer: A. ML-1T-1"
   },
   {
@@ -6240,7 +6240,7 @@
       "Water"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Fluid Dynamics",
     "explanationEn": "Correct answer: D. Water"
   },
   {
@@ -6254,7 +6254,7 @@
       "Angular motion"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Circular Motion",
     "explanationEn": "Correct answer: D. Angular motion"
   },
   {
@@ -6268,7 +6268,7 @@
       "129 days"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Circular Motion",
     "explanationEn": "Correct answer: D. 129 days"
   },
   {
@@ -6282,7 +6282,7 @@
       "10N"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Circular Motion",
     "explanationEn": "Correct answer: A. 0"
   },
   {
@@ -6296,7 +6296,7 @@
       "39.2 N"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Circular Motion",
     "explanationEn": "Correct answer: D. 39.2 N"
   },
   {
@@ -6310,7 +6310,7 @@
       "5"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Circular Motion",
     "explanationEn": "Correct answer: B. 3"
   },
   {
@@ -6324,7 +6324,7 @@
       "Both inertial and non-inertial"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Circular Motion",
     "explanationEn": "Correct answer: B. Non-inertial frame"
   },
   {
@@ -6338,7 +6338,7 @@
       "Sun"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Circular Motion",
     "explanationEn": "Correct answer: A. Venus"
   },
   {
@@ -6352,22 +6352,22 @@
       "Plank"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Circular Motion",
     "explanationEn": "Correct answer: C. Newtons"
   },
   {
     "id": "physics-q-455",
     "subject": "Physics",
-    "textEn": "A man of weight W is standing on an elevator which is ascending with an acceleration",
+    "textEn": "A man of weight W is standing on an elevator which is ascending with an acceleration a. The apparent weight of the man is_______________?",
     "optionsEn": [
-      "The apparent weight of the man is_______________?",
       "mg",
       "mg – ma",
-      "mg + ma"
+      "mg + ma",
+      "mg – ma"
     ],
     "correctIndex": 2,
-    "topic": null,
-    "explanationEn": "Correct answer: C. mg – ma"
+    "topic": "Circular Motion",
+    "explanationEn": "Correct answer: C. mg + ma"
   },
   {
     "id": "physics-q-456",
@@ -6380,7 +6380,7 @@
       "4πR"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Circular Motion",
     "explanationEn": "Correct answer: C. 0"
   },
   {
@@ -6394,7 +6394,7 @@
       "At the point where gravity is not acting"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Circular Motion",
     "explanationEn": "Correct answer: B. At the lowest point"
   },
   {
@@ -6408,7 +6408,7 @@
       "100N"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Circular Motion",
     "explanationEn": "Correct answer: A. 1N"
   },
   {
@@ -6422,7 +6422,7 @@
       "12π"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Circular Motion",
     "explanationEn": "Correct answer: D. 12π"
   },
   {
@@ -6436,7 +6436,7 @@
       "π/180"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Circular Motion",
     "explanationEn": "Correct answer: C. π/30"
   },
   {
@@ -6450,7 +6450,7 @@
       "All above"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Circular Motion",
     "explanationEn": "Correct answer: C. Στ = I α"
   },
   {
@@ -6464,7 +6464,7 @@
       "π / 180 x r"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Circular Motion",
     "explanationEn": "Correct answer: B. π/6 x r"
   },
   {
@@ -6478,7 +6478,7 @@
       "the friction between the tyres of the cycle and road vanishes"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Circular Motion",
     "explanationEn": "Correct answer: B. the centripetal force upon him is greater than limiting friction"
   },
   {
@@ -6492,7 +6492,7 @@
       "20π"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Circular Motion",
     "explanationEn": "Correct answer: B. π/2"
   },
   {
@@ -6506,7 +6506,7 @@
       "7.3 x 10-5 radians/second"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Circular Motion",
     "explanationEn": "Correct answer: D. 7.3 x 10-5 radians/second"
   },
   {
@@ -6520,7 +6520,7 @@
       "4πR"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Circular Motion",
     "explanationEn": "Correct answer: C. 0"
   },
   {
@@ -6534,7 +6534,7 @@
       "Rectilinear path"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Circular Motion",
     "explanationEn": "Correct answer: D. Rectilinear path"
   },
   {
@@ -6548,7 +6548,7 @@
       "2.8 ms-1"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Circular Motion",
     "explanationEn": "Correct answer: B. 5 rad. S-1"
   },
   {
@@ -6562,7 +6562,7 @@
       "Centripetal force"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Circular Motion",
     "explanationEn": "Correct answer: A. Gravitational force"
   },
   {
@@ -6576,7 +6576,7 @@
       "None"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Circular Motion",
     "explanationEn": "Correct answer: C. Angle of projection"
   },
   {
@@ -6590,7 +6590,7 @@
       "Less than the weight of the stone"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Circular Motion",
     "explanationEn": "Correct answer: C. Equal to the weight of the stone"
   },
   {
@@ -6604,7 +6604,7 @@
       "mV2/r2"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Circular Motion",
     "explanationEn": "Correct answer: C. mV2/r"
   },
   {
@@ -6618,7 +6618,7 @@
       "No work"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Circular Motion",
     "explanationEn": "Correct answer: D. No work"
   },
   {
@@ -6632,7 +6632,7 @@
       "Centripetal acceleration"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Circular Motion",
     "explanationEn": "Correct answer: C. The tension in the string"
   },
   {
@@ -6646,7 +6646,7 @@
       "r = a x a"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Circular Motion",
     "explanationEn": "Correct answer: C. a = a x r"
   },
   {
@@ -6660,7 +6660,7 @@
       "4π radian"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Circular Motion",
     "explanationEn": "Correct answer: B. 2π radian"
   },
   {
@@ -6668,14 +6668,14 @@
     "subject": "Physics",
     "textEn": "When a body moves in a circle, the angle between its linear velocity and angular velocity is always ________________?",
     "optionsEn": [
-      "180?",
-      "0?",
-      "90?",
-      "45?"
+      "180°",
+      "0°",
+      "90°",
+      "45°"
     ],
     "correctIndex": 2,
-    "topic": null,
-    "explanationEn": "Correct answer: C. 90?"
+    "topic": "Circular Motion",
+    "explanationEn": "Correct answer: C. 90°"
   },
   {
     "id": "physics-q-478",
@@ -6688,7 +6688,7 @@
       "directed away from the centre"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Circular Motion",
     "explanationEn": "Correct answer: B. along the tangent"
   },
   {
@@ -6702,7 +6702,7 @@
       "T = 2πr/v"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Circular Motion",
     "explanationEn": "Correct answer: D. T = 2πr/v"
   },
   {
@@ -6716,7 +6716,7 @@
       "60°"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Circular Motion",
     "explanationEn": "Correct answer: B. 57.3°"
   },
   {
@@ -6730,7 +6730,7 @@
       "none of the above"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Circular Motion",
     "explanationEn": "Correct answer: B. material objects and electromagnetic radiation only"
   },
   {
@@ -6744,7 +6744,7 @@
       "18000 km"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Circular Motion",
     "explanationEn": "Correct answer: A. 42000km"
   },
   {
@@ -6758,7 +6758,7 @@
       "24 hours"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Circular Motion",
     "explanationEn": "Correct answer: D. 24 hours"
   },
   {
@@ -6772,7 +6772,7 @@
       "8 ms-1"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Circular Motion",
     "explanationEn": "Correct answer: C. 7.9 Kms-1"
   },
   {
@@ -6786,7 +6786,7 @@
       "K.E hoop = 4K.E disc"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Circular Motion",
     "explanationEn": "Correct answer: B. K.E hoop = 2K.E disc"
   },
   {
@@ -6800,7 +6800,7 @@
       "four times than its translational K.E"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Circular Motion",
     "explanationEn": "Correct answer: A. its translational K.E"
   },
   {
@@ -6814,7 +6814,7 @@
       "Both A and B"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: C. 1000um"
   },
   {
@@ -6828,7 +6828,7 @@
       "None of these"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: B. 77"
   },
   {
@@ -6842,7 +6842,7 @@
       "None of these"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: A. 4"
   },
   {
@@ -6856,7 +6856,7 @@
       "Both a and C"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: D. Both a and C"
   },
   {
@@ -6870,7 +6870,7 @@
       "None"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: D. None"
   },
   {
@@ -6884,7 +6884,7 @@
       "Absolute uncertainties are divided"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: A. Percentage uncertainties are added"
   },
   {
@@ -6898,7 +6898,7 @@
       "Classified error"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: C. Systematic error"
   },
   {
@@ -6912,7 +6912,7 @@
       "V=f/t"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: B. S=Vit+1/2at2"
   },
   {
@@ -6926,7 +6926,7 @@
       "newton/Meter2"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: B. newton/meter2"
   },
   {
@@ -6940,7 +6940,7 @@
       "Amount of substance"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: B. Electric charge"
   },
   {
@@ -6954,7 +6954,7 @@
       "9.5x1015cm"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: A. 9.5x1015m"
   },
   {
@@ -6968,7 +6968,7 @@
       "4"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: C. 3"
   },
   {
@@ -6982,7 +6982,7 @@
       "newton, N"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: D. newton, N"
   },
   {
@@ -6996,7 +6996,7 @@
       "None"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: B. Nm2Kg"
   },
   {
@@ -7010,7 +7010,7 @@
       "10 raised to power -6"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: B. 10 raised to power -12"
   },
   {
@@ -7024,7 +7024,7 @@
       "Deca"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: A. Giga"
   },
   {
@@ -7038,7 +7038,7 @@
       "Division of their absolute uncertainties"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: A. Sum of their absolute uncertainties"
   },
   {
@@ -7052,7 +7052,7 @@
       "Only a and b are correct"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: D. Only a and b are correct"
   },
   {
@@ -7066,7 +7066,7 @@
       "Neither plane angle nor solid angle"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: B. Solid angle"
   },
   {
@@ -7080,7 +7080,7 @@
       "All of a, b and C"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: B. Least count of the instrument"
   },
   {
@@ -7094,7 +7094,7 @@
       "Both (i) and (ii)"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: C. Only (iii)"
   },
   {
@@ -7108,7 +7108,7 @@
       "Kg-1.m-1.S-1"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: B. Kg m-1.S-1"
   },
   {
@@ -7122,7 +7122,7 @@
       "S=1/2at2"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: C. S=Vt2"
   },
   {
@@ -7136,7 +7136,7 @@
       "Only A and B are correct"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: D. Only A and B are correct"
   },
   {
@@ -7150,7 +7150,7 @@
       "Energy"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: B. Pressure"
   },
   {
@@ -7164,7 +7164,7 @@
       "ML-1T-2"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: B. MLT-2"
   },
   {
@@ -7178,7 +7178,7 @@
       "None of these"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: B. Precise"
   },
   {
@@ -7192,7 +7192,7 @@
       "2"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: A. 3"
   },
   {
@@ -7206,7 +7206,7 @@
       "Significant only if left to a significant figure"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: A. May be significant may not significant"
   },
   {
@@ -7220,7 +7220,7 @@
       "All accurately known digits and the first doubtful digit"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: D. All accurately known digits and the first doubtful digit"
   },
   {
@@ -7234,7 +7234,7 @@
       "All methods explained in A, B and C"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: C. Taking mean of several measurements"
   },
   {
@@ -7248,7 +7248,7 @@
       "All given in A, B and C"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: D. All given in A, B and C"
   },
   {
@@ -7262,7 +7262,7 @@
       "Due to all reasons in A, B and C"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: D. Due to all reasons in A, B and C"
   },
   {
@@ -7276,7 +7276,7 @@
       "10 Raised to power -1"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: A. 10 Raised to power 1"
   },
   {
@@ -7290,7 +7290,7 @@
       "1/0.00097"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: A. 1.024×103"
   },
   {
@@ -7304,7 +7304,7 @@
       "Decimal"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: A. Power of ten"
   },
   {
@@ -7318,7 +7318,7 @@
       "4"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: C. 3"
   },
   {
@@ -7332,7 +7332,7 @@
       "4"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: B. 2"
   },
   {
@@ -7346,7 +7346,7 @@
       "Biology"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: D. Biology"
   },
   {
@@ -7360,7 +7360,7 @@
       "Biology"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: B. Physics"
   },
   {
@@ -7374,7 +7374,7 @@
       "X-rays"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: B. Gamma rays"
   },
   {
@@ -7388,7 +7388,7 @@
       "3 rem per week"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: B. 5 rem per week"
   },
   {
@@ -7402,7 +7402,7 @@
       "Aluminum"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: C. Lead"
   },
   {
@@ -7416,7 +7416,7 @@
       "Wilson cloud chamber"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: B. Linear accelerator"
   },
   {
@@ -7430,7 +7430,7 @@
       "IR-rays"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: B. Gamma rays"
   },
   {
@@ -7444,7 +7444,7 @@
       "The chargee is not conserved"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: C. Momentum is not conserved"
   },
   {
@@ -7458,7 +7458,7 @@
       "Same ionization power"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: A. Smaller ionization power"
   },
   {
@@ -7472,7 +7472,7 @@
       "Due to the gravitational force"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: B. Due to the electrostatic force of repulsion"
   },
   {
@@ -7486,7 +7486,7 @@
       "All of above"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: C. Highly penetrating"
   },
   {
@@ -7500,7 +7500,7 @@
       "-2"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: A. 1"
   },
   {
@@ -7514,7 +7514,7 @@
       "γ-rays"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: D. γ-rays"
   },
   {
@@ -7528,7 +7528,7 @@
       "C-14"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: D. C-14"
   },
   {
@@ -7542,7 +7542,7 @@
       "Neutron-rays"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: D. Neutron-rays"
   },
   {
@@ -7556,7 +7556,7 @@
       "Limit"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: B. Range"
   },
   {
@@ -7570,7 +7570,7 @@
       "All of above"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: D. All of above"
   },
   {
@@ -7584,7 +7584,7 @@
       "Momentum"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: D. Momentum"
   },
   {
@@ -7598,7 +7598,7 @@
       "All of above"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: D. All of above"
   },
   {
@@ -7612,7 +7612,7 @@
       "All situations"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: C. Slow counting"
   },
   {
@@ -7626,7 +7626,7 @@
       "10 times less"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: B. 100 times more"
   },
   {
@@ -7640,7 +7640,7 @@
       "Neutron source"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: A. α-particle source"
   },
   {
@@ -7654,7 +7654,7 @@
       "Loses all of its energy"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: B. Losses most of its energy"
   },
   {
@@ -7668,7 +7668,7 @@
       "γ-rays"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: A. X-rays"
   },
   {
@@ -7682,7 +7682,7 @@
       "All of above"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: C. Through electrostatic repulsion"
   },
   {
@@ -7696,7 +7696,7 @@
       "Minus one"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: B. Plus two"
   },
   {
@@ -7710,7 +7710,7 @@
       "B and C have equal antiseptic propertie"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: C. γ-rays"
   },
   {
@@ -7724,7 +7724,7 @@
       "Nickel-63"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: A. Cobalt-60"
   },
   {
@@ -7738,7 +7738,7 @@
       "X-rays"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: C. γ-rays"
   },
   {
@@ -7752,7 +7752,7 @@
       "Elliptical"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: C. Zig-zag or erratic"
   },
   {
@@ -7766,7 +7766,7 @@
       "Nothing"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: B. Electrons"
   },
   {
@@ -7780,7 +7780,7 @@
       "All of the above"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: D. All of the above"
   },
   {
@@ -7794,7 +7794,7 @@
       "Chemical reaction"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: C. Chain reaction"
   },
   {
@@ -7808,7 +7808,7 @@
       "Half life"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: D. Half life"
   },
   {
@@ -7822,7 +7822,7 @@
       "92U239"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: B. 92U238"
   },
   {
@@ -7836,7 +7836,7 @@
       "Light energy is released"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: B. Nuclear energy is released"
   },
   {
@@ -7850,7 +7850,7 @@
       "3.60 x 1010 disintegration per sec"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: B. 3.70 x 1010 disintegration per sec"
   },
   {
@@ -7864,7 +7864,7 @@
       "3.60 x 1010 disintegration per sec"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: B. 3.70 x 1010 disintegration per sec"
   },
   {
@@ -7878,7 +7878,7 @@
       "226 – 87"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: C. 222 – 86"
   },
   {
@@ -7892,7 +7892,7 @@
       "Sometimes smaller some times greater"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: B. Greater than 82"
   },
   {
@@ -7906,7 +7906,7 @@
       "Isotopes"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: C. Elements"
   },
   {
@@ -7920,7 +7920,7 @@
       "Isomers"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: B. Isobars"
   },
   {
@@ -7934,7 +7934,7 @@
       "1.67 x 10-19 kg"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: B. 1.67 x 10-27 kg"
   },
   {
@@ -7948,7 +7948,7 @@
       "Photon"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: B. Positron"
   },
   {
@@ -7962,7 +7962,7 @@
       "No definite charge"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: B. Zero"
   },
   {
@@ -7976,7 +7976,7 @@
       "Thomson"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: C. Millikan"
   },
   {
@@ -7990,7 +7990,7 @@
       "All of above have the same speed"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: C. γ-rays"
   },
   {
@@ -8004,7 +8004,7 @@
       "Platinum rods"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: C. Cadmium rods"
   },
   {
@@ -8018,7 +8018,7 @@
       "All of above"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: A. Binding energy per nucleon"
   },
   {
@@ -8032,7 +8032,7 @@
       "No=N(1+eλt)"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: A. N=Noe-λt"
   },
   {
@@ -8046,7 +8046,7 @@
       "10-14m"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: C. 10-10m"
   },
   {
@@ -8060,7 +8060,7 @@
       "Positron"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: B. Proton"
   },
   {
@@ -8074,7 +8074,7 @@
       "All of above are one and the same thing"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: B. Packing fraction"
   },
   {
@@ -8088,7 +8088,7 @@
       "All of the above"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: D. All of the above"
   },
   {
@@ -8102,7 +8102,7 @@
       "Greater than 102"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: C. Greater than 92"
   },
   {
@@ -8116,7 +8116,7 @@
       "20MeV"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: A. 200MeV"
   },
   {
@@ -8130,7 +8130,7 @@
       "A B & C"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: C. C & A"
   },
   {
@@ -8144,7 +8144,7 @@
       "Do not know"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: D. Do not know"
   },
   {
@@ -8158,7 +8158,7 @@
       "All have the equal penetrating powe"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: C. γ-rays"
   },
   {
@@ -8172,7 +8172,7 @@
       "Quartz"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: A. Nucleon"
   },
   {
@@ -8186,7 +8186,7 @@
       "All of above"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: D. All of above"
   },
   {
@@ -8200,7 +8200,7 @@
       "All of above can build up a change reaction"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: A. Greater than the critical size"
   },
   {
@@ -8214,7 +8214,7 @@
       "All of above"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: D. All of above"
   },
   {
@@ -8228,7 +8228,7 @@
       "Mass is reduced due to the energy released"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: B. Energy is released"
   },
   {
@@ -8242,7 +8242,7 @@
       "Different for different isotopes"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: D. Different for different isotopes"
   },
   {
@@ -8256,7 +8256,7 @@
       "All of the above laws contradict the statement"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Nuclear Physics",
     "explanationEn": "Correct answer: A. J.J.Thomson model"
   },
   {
@@ -8270,7 +8270,7 @@
       "Both A and C are corret answer"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Dynamics",
     "explanationEn": "Correct answer: C. Static equilibrium"
   },
   {
@@ -8284,7 +8284,7 @@
       "Impossible"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Dynamics",
     "explanationEn": "Correct answer: C. Both Ist and 2nd condition of equilibrium"
   },
   {
@@ -8298,7 +8298,7 @@
       "May be at rest or in motion"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Dynamics",
     "explanationEn": "Correct answer: C. May be at rest or in uniform motion"
   },
   {
@@ -8312,7 +8312,7 @@
       "Direction of motion of the body"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Dynamics",
     "explanationEn": "Correct answer: C. Angular acceleration"
   },
   {
@@ -8326,7 +8326,7 @@
       "Neither a nor b is correct"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Dynamics",
     "explanationEn": "Correct answer: A. N.m"
   },
   {
@@ -8340,7 +8340,7 @@
       "[ML-2T-2]"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Dynamics",
     "explanationEn": "Correct answer: A. [ML2T-2]"
   },
   {
@@ -8354,7 +8354,7 @@
       "All A, B and C are correct"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Dynamics",
     "explanationEn": "Correct answer: D. All A, B and C are correct"
   },
   {
@@ -8368,7 +8368,7 @@
       "180°"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Dynamics",
     "explanationEn": "Correct answer: B. 45°"
   },
   {
@@ -8382,7 +8382,7 @@
       "Right-hand rule"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Dynamics",
     "explanationEn": "Correct answer: A. Their dot product"
   },
   {
@@ -8390,13 +8390,13 @@
     "subject": "Physics",
     "textEn": "Which one is a unit vector ?",
     "optionsEn": [
-      "??3 i^ + ??3 j^ + ??3 k^",
-      "1/??3 i^ + 1/??3 j^ +1/ ??3 k^",
-      "??3 / 3 i^ + ??3 / 3 j^ + ??3 / 3 k^",
+      "√3 i^ + √3 j^ + √3 k^",
+      "1/√3 i^ + 1/√3 j^ + 1/√3 k^",
+      "√3/3 i^ + √3/3 j^ + √3/3 k^",
       "Both B and C are correct"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Dynamics",
     "explanationEn": "Correct answer: D. Both B and C are correct"
   },
   {
@@ -8410,7 +8410,7 @@
       "Both A and B are not correct"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Dynamics",
     "explanationEn": "Correct answer: C. Both A and B are correct"
   },
   {
@@ -8424,7 +8424,7 @@
       "Up"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Dynamics",
     "explanationEn": "Correct answer: C. Down"
   },
   {
@@ -8438,7 +8438,7 @@
       "Triangular rule"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Dynamics",
     "explanationEn": "Correct answer: B. Right-hand rule"
   },
   {
@@ -8452,7 +8452,7 @@
       "k^"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Dynamics",
     "explanationEn": "Correct answer: A. 1"
   },
   {
@@ -8466,7 +8466,7 @@
       "AB^ = BA^"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Dynamics",
     "explanationEn": "Correct answer: A. A.B = A^ B^"
   },
   {
@@ -8480,7 +8480,7 @@
       "B is perpendicular to A"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Dynamics",
     "explanationEn": "Correct answer: B. B is a negative vector of A"
   },
   {
@@ -8494,7 +8494,7 @@
       "Both a and b are correct"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Dynamics",
     "explanationEn": "Correct answer: A. A.B/A"
   },
   {
@@ -8508,7 +8508,7 @@
       "4th"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Dynamics",
     "explanationEn": "Correct answer: C. Both 1st and 3rd"
   },
   {
@@ -8522,7 +8522,7 @@
       "120°"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Dynamics",
     "explanationEn": "Correct answer: B. 60°"
   },
   {
@@ -8536,7 +8536,7 @@
       "Has no relation with torque"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Dynamics",
     "explanationEn": "Correct answer: B. Cannot produce torque"
   },
   {
@@ -8550,7 +8550,7 @@
       "A. B = Ax Bz + Ay By + Az Bx"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Dynamics",
     "explanationEn": "Correct answer: A. A. B = Ax Bx + Ay By + Az Bz"
   },
   {
@@ -8564,7 +8564,7 @@
       "i^"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Dynamics",
     "explanationEn": "Correct answer: B. 1"
   },
   {
@@ -8578,7 +8578,7 @@
       "Both 1st and 3rd"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Dynamics",
     "explanationEn": "Correct answer: D. Both 1st and 3rd"
   },
   {
@@ -8592,7 +8592,7 @@
       "They are rotated through 270°"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Dynamics",
     "explanationEn": "Correct answer: D. They are rotated through 270°"
   },
   {
@@ -8606,7 +8606,7 @@
       "(2i^ – 2j^ +k^)/5"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Dynamics",
     "explanationEn": "Correct answer: C. (2i^ – 2j^ +k^)/3"
   },
   {
@@ -8620,7 +8620,7 @@
       "k^"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Dynamics",
     "explanationEn": "Correct answer: D. k^"
   },
   {
@@ -8634,7 +8634,7 @@
       "The couple acts on the wheel"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Dynamics",
     "explanationEn": "Correct answer: D. The couple acts on the wheel"
   },
   {
@@ -8648,7 +8648,7 @@
       "Mass and moment of inertia"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Dynamics",
     "explanationEn": "Correct answer: D. Mass and moment of inertia"
   },
   {
@@ -8662,7 +8662,7 @@
       "Non-parallel"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Dynamics",
     "explanationEn": "Correct answer: A. Concurrent"
   },
   {
@@ -8676,7 +8676,7 @@
       "120°"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Dynamics",
     "explanationEn": "Correct answer: D. 120°"
   },
   {
@@ -8690,7 +8690,7 @@
       "Has magnitude -2"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Dynamics",
     "explanationEn": "Correct answer: D. Has magnitude -2"
   },
   {
@@ -8704,7 +8704,7 @@
       "Infinite"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Dynamics",
     "explanationEn": "Correct answer: D. Infinite"
   },
   {
@@ -8718,7 +8718,7 @@
       "The unit vector in the direction at angle θ with an x-axis"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Dynamics",
     "explanationEn": "Correct answer: D. The unit vector in the direction at angle θ with an x-axis"
   },
   {
@@ -8732,7 +8732,7 @@
       "4"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Dynamics",
     "explanationEn": "Correct answer: C. 3"
   },
   {
@@ -8746,7 +8746,7 @@
       "Spherical coordinate system"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Dynamics",
     "explanationEn": "Correct answer: B. Cartesian coordinate system"
   },
   {
@@ -8760,7 +8760,7 @@
       "Z-axis"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Dynamics",
     "explanationEn": "Correct answer: B. Normal on a surface"
   },
   {
@@ -8774,7 +8774,7 @@
       "All A, B and C are correct"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Dynamics",
     "explanationEn": "Correct answer: D. All A, B and C are correct"
   },
   {
@@ -8788,7 +8788,7 @@
       "No angle"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Dynamics",
     "explanationEn": "Correct answer: C. Three angle"
   },
   {
@@ -8802,7 +8802,7 @@
       "All given laws in A, B and C"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Dynamics",
     "explanationEn": "Correct answer: D. All given laws in A, B and C"
   },
   {
@@ -8816,7 +8816,7 @@
       "Both electric and magnetic fields"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Alternating Current",
     "explanationEn": "Correct answer: C. Its magnetic field"
   },
   {
@@ -8830,7 +8830,7 @@
       "One increases whereas that in the other decreases"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Alternating Current",
     "explanationEn": "Correct answer: B. Each decrease"
   },
   {
@@ -8844,7 +8844,7 @@
       "2/√2√R"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Alternating Current",
     "explanationEn": "Correct answer: C. V02/√2R"
   },
   {
@@ -8853,13 +8853,13 @@
     "textEn": "In an LCR series circuit, if V is the effective value of the applied voltage, VR is the voltage across R, VL is the effective voltage across L and VC is the effective voltage across C, then ________________?",
     "optionsEn": [
       "V = VR + VL + VC",
-      "V? = VR? + VL? + VC?",
-      "V? = VR? + (VL - VC)?",
-      "V? = VL? + (VR - VC)?"
+      "V² = VR² + VL² + VC²",
+      "V² = VR² + (VL - VC)²",
+      "V² = VL² + (VR - VC)²"
     ],
     "correctIndex": 2,
-    "topic": null,
-    "explanationEn": "Correct answer: C. V? = VR? + (VL - VC)?"
+    "topic": "Alternating Current",
+    "explanationEn": "Correct answer: C. V² = VR² + (VL - VC)²"
   },
   {
     "id": "physics-q-634",
@@ -8872,7 +8872,7 @@
       "180°"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Alternating Current",
     "explanationEn": "Correct answer: A. Zero"
   },
   {
@@ -8886,7 +8886,7 @@
       "All of the above"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Alternating Current",
     "explanationEn": "Correct answer: D. All of the above"
   },
   {
@@ -8900,7 +8900,7 @@
       "20mH"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Alternating Current",
     "explanationEn": "Correct answer: C. 16mH"
   },
   {
@@ -8914,7 +8914,7 @@
       "7Ω"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Alternating Current",
     "explanationEn": "Correct answer: B. 5Ω"
   },
   {
@@ -8928,7 +8928,7 @@
       "Not definite"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Alternating Current",
     "explanationEn": "Correct answer: C. 1"
   },
   {
@@ -8942,7 +8942,7 @@
       "Full wave rectifier circuit"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Alternating Current",
     "explanationEn": "Correct answer: B. AC circuits"
   },
   {
@@ -8956,7 +8956,7 @@
       "220 √2V"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Alternating Current",
     "explanationEn": "Correct answer: D. 220 √2V"
   },
   {
@@ -8970,7 +8970,7 @@
       "1/ 2RC"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Alternating Current",
     "explanationEn": "Correct answer: C. 1/RC"
   },
   {
@@ -8984,7 +8984,7 @@
       "8.0H"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Alternating Current",
     "explanationEn": "Correct answer: B. 0.5H"
   },
   {
@@ -8998,7 +8998,7 @@
       "At L will be less than at C"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Alternating Current",
     "explanationEn": "Correct answer: A. Same"
   },
   {
@@ -9012,7 +9012,7 @@
       "The peak value of the current"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Alternating Current",
     "explanationEn": "Correct answer: B. RMS value of the current"
   },
   {
@@ -9026,7 +9026,7 @@
       "(R2+4π2f2L2)"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Alternating Current",
     "explanationEn": "Correct answer: D. (R2+4π2f2L2)"
   },
   {
@@ -9040,7 +9040,7 @@
       "No light"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Alternating Current",
     "explanationEn": "Correct answer: B. Brightness increases"
   },
   {
@@ -9054,7 +9054,7 @@
       "100Ω"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Alternating Current",
     "explanationEn": "Correct answer: A. 32Ω"
   },
   {
@@ -9068,7 +9068,7 @@
       "Leads forward the voltage by π/2"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Alternating Current",
     "explanationEn": "Correct answer: D. Leads forward the voltage by π/2"
   },
   {
@@ -9082,36 +9082,36 @@
       "The voltage leads current by phase angle is 45 degrees"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Alternating Current",
     "explanationEn": "Correct answer: A. The current lead voltage by phase angle is 90 degrees"
   },
   {
     "id": "physics-q-650",
     "subject": "Physics",
-    "textEn": "pure resistor circuit the voltage and current are_______________?",
+    "textEn": "In a pure resistor circuit, the voltage and current are_______________?",
     "optionsEn": [
       "Lagging each other",
-      "They are at 90? phase difference",
+      "They are at 90° phase difference",
       "They have zero phase difference",
       "No phase difference"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Alternating Current",
     "explanationEn": "Correct answer: C. They have zero phase difference"
   },
   {
     "id": "physics-q-651",
     "subject": "Physics",
-    "textEn": "An alternating current is represented by the equation I = I∫sinπt which of the following equation represents an alternating current of frequency and amplitude twice that of the above current ?",
+    "textEn": "An alternating current is represented by the equation I = I₀sinπt which of the following equation represents an alternating current of frequency and amplitude twice that of the above current ?",
     "optionsEn": [
-      "I = 2I∫Sin(πt/2)",
-      "I = 2I∫Sin(2πt)",
+      "I = 2I₀Sin(πt/2)",
+      "I = 2I₀Sin(2πt)",
       "I = 2ISinπt",
-      "I = I∫sin(2πt)"
+      "I = I₀sin(2πt)"
     ],
     "correctIndex": 1,
-    "topic": null,
-    "explanationEn": "Correct answer: B. I = 2I∫Sin(2πt)"
+    "topic": "Alternating Current",
+    "explanationEn": "Correct answer: B. I = 2I₀Sin(2πt)"
   },
   {
     "id": "physics-q-652",
@@ -9124,7 +9124,7 @@
       "Square of 1/2"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Alternating Current",
     "explanationEn": "Correct answer: B. Square root of mean value of I2"
   },
   {
@@ -9138,7 +9138,7 @@
       "0.9x102sec"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Alternating Current",
     "explanationEn": "Correct answer: A. 0.9sec"
   },
   {
@@ -9152,7 +9152,7 @@
       "All the above"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Alternating Current",
     "explanationEn": "Correct answer: C. Transverse"
   },
   {
@@ -9166,7 +9166,7 @@
       "Heat"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Alternating Current",
     "explanationEn": "Correct answer: A. Energy"
   },
   {
@@ -9180,7 +9180,7 @@
       "Parallel to electric and magnetic field"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Alternating Current",
     "explanationEn": "Correct answer: B. Perpendicular to both electric and magnetic field"
   },
   {
@@ -9194,7 +9194,7 @@
       "Artificial gravitational field"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Alternating Current",
     "explanationEn": "Correct answer: C. Electromagnetic force"
   },
   {
@@ -9208,7 +9208,7 @@
       "5.66A"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Alternating Current",
     "explanationEn": "Correct answer: D. 5.66A"
   },
   {
@@ -9222,7 +9222,7 @@
       "Net current"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Alternating Current",
     "explanationEn": "Correct answer: C. r.m.s current"
   },
   {
@@ -9236,7 +9236,7 @@
       "None"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Alternating Current",
     "explanationEn": "Correct answer: B. One half"
   },
   {
@@ -9250,7 +9250,7 @@
       "Modulated waves"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Alternating Current",
     "explanationEn": "Correct answer: B. Electromagnetic waves"
   },
   {
@@ -9264,7 +9264,7 @@
       "Electric and magnetic fields moving perpendicular to each other"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Alternating Current",
     "explanationEn": "Correct answer: D. Electric and magnetic fields moving perpendicular to each other"
   },
   {
@@ -9278,7 +9278,7 @@
       "More than sound waves"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Alternating Current",
     "explanationEn": "Correct answer: A. λ-rays"
   },
   {
@@ -9292,13 +9292,13 @@
       "changes its magnitude harmonically and reverses its direction of flow after regularly recurring intervals"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Alternating Current",
     "explanationEn": "Correct answer: C. changes its direction again and again"
   },
   {
     "id": "physics-q-665",
     "subject": "Physics",
-    "textEn": "A moving coil galvanometer of resistance 100? gives half scale deflection for a current of 20mA. What will be the potential difference across it ?",
+    "textEn": "A moving coil galvanometer of resistance 100Ω gives half scale deflection for a current of 20mA. What will be the potential difference across it ?",
     "optionsEn": [
       "4 volt",
       "5 volt",
@@ -9306,7 +9306,7 @@
       "0.4 volt"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Electromagnetism",
     "explanationEn": "Correct answer: C. 2 volt"
   },
   {
@@ -9320,7 +9320,7 @@
       "demagnetize it completely"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Electromagnetism",
     "explanationEn": "Correct answer: A. weaken it"
   },
   {
@@ -9334,7 +9334,7 @@
       "radial field disintegration"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Electromagnetism",
     "explanationEn": "Correct answer: A. very low damping"
   },
   {
@@ -9348,7 +9348,7 @@
       "a straight line along its initial direction"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Electromagnetism",
     "explanationEn": "Correct answer: C. a circle in a plane perpendicular to the field"
   },
   {
@@ -9362,7 +9362,7 @@
       "use a very strong magnetic field"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Electromagnetism",
     "explanationEn": "Correct answer: D. use a very strong magnetic field"
   },
   {
@@ -9376,7 +9376,7 @@
       "in parallel with any of the series resistances in the circuit"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Electromagnetism",
     "explanationEn": "Correct answer: A. in series with the circuit"
   },
   {
@@ -9390,7 +9390,7 @@
       "a high resistance box is used in one of its gap"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Electromagnetism",
     "explanationEn": "Correct answer: C. the balance point is close to the middle of the wire"
   },
   {
@@ -9404,7 +9404,7 @@
       "1 m A"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Electromagnetism",
     "explanationEn": "Correct answer: C. current sensitivity"
   },
   {
@@ -9418,7 +9418,7 @@
       "ABC/N"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Electromagnetism",
     "explanationEn": "Correct answer: A. C/BAN"
   },
   {
@@ -9432,7 +9432,7 @@
       "12Ω"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Electromagnetism",
     "explanationEn": "Correct answer: D. 12Ω"
   },
   {
@@ -9446,7 +9446,7 @@
       "Both B and C"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Electromagnetism",
     "explanationEn": "Correct answer: D. Both B and C"
   },
   {
@@ -9460,7 +9460,7 @@
       "4πx10-8 WbA-1m-1"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Electromagnetism",
     "explanationEn": "Correct answer: B. 4πx10-7 WbA-1m-1"
   },
   {
@@ -9474,7 +9474,7 @@
       "helix"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Electromagnetism",
     "explanationEn": "Correct answer: D. helix"
   },
   {
@@ -9488,7 +9488,7 @@
       "flux density = magnetic flux x area"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Electromagnetism",
     "explanationEn": "Correct answer: B. magnetic flux = flux density x area"
   },
   {
@@ -9502,7 +9502,7 @@
       "τ = NIAB"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Electromagnetism",
     "explanationEn": "Correct answer: D. τ = NIAB"
   },
   {
@@ -9516,7 +9516,7 @@
       "none"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Electromagnetism",
     "explanationEn": "Correct answer: A. charge in motion"
   },
   {
@@ -9530,7 +9530,7 @@
       "R=qmB/V"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Electromagnetism",
     "explanationEn": "Correct answer: B. R=mV/qB"
   },
   {
@@ -9544,7 +9544,7 @@
       "F=1/Bcosθ"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Electromagnetism",
     "explanationEn": "Correct answer: C. F/0"
   },
   {
@@ -9558,7 +9558,7 @@
       "comes to rest after rotation"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Electromagnetism",
     "explanationEn": "Correct answer: B. come to rest in N-S direction"
   },
   {
@@ -9572,7 +9572,7 @@
       "directly proportional to B"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Electromagnetism",
     "explanationEn": "Correct answer: D. directly proportional to B"
   },
   {
@@ -9586,7 +9586,7 @@
       "potential difference across galvanometer branch is zero"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Electromagnetism",
     "explanationEn": "Correct answer: D. potential difference across galvanometer branch is zero"
   },
   {
@@ -9600,7 +9600,7 @@
       "measure potential difference between two points in a circuit"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Electromagnetism",
     "explanationEn": "Correct answer: A. detect current in a circuit"
   },
   {
@@ -9614,13 +9614,13 @@
       "BINA"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Electromagnetism",
     "explanationEn": "Correct answer: D. BINA"
   },
   {
     "id": "physics-q-688",
     "subject": "Physics",
-    "textEn": "A sensitive galvanometer gives full-scale deflection with 100 mV. If the resistance of the galvanometer is 50? the maximum current that can flow through safely is__________________?",
+    "textEn": "A sensitive galvanometer gives full-scale deflection with 100 mV. If the resistance of the galvanometer is 50Ω the maximum current that can flow through safely is__________________?",
     "optionsEn": [
       "2.0 mA",
       "20 mA",
@@ -9628,7 +9628,7 @@
       "0.2 mA"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Electromagnetism",
     "explanationEn": "Correct answer: A. 2.0 mA"
   },
   {
@@ -9642,7 +9642,7 @@
       "none of the above"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Electromagnetism",
     "explanationEn": "Correct answer: A. shunt value decreases"
   },
   {
@@ -9656,7 +9656,7 @@
       "AC transformer and DC generator"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Electromagnetism",
     "explanationEn": "Correct answer: D. AC transformer and DC generator"
   },
   {
@@ -9670,7 +9670,7 @@
       "smaller than the restoring couple"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Electromagnetism",
     "explanationEn": "Correct answer: B. equal to the restoring couple"
   },
   {
@@ -9684,7 +9684,7 @@
       "ammeter"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Electromagnetism",
     "explanationEn": "Correct answer: C. cathode ray oscilloscope (CRO)"
   },
   {
@@ -9698,7 +9698,7 @@
       "E = BeV/2"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Electromagnetism",
     "explanationEn": "Correct answer: C. E = BV"
   },
   {
@@ -9712,7 +9712,7 @@
       "B"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Electromagnetism",
     "explanationEn": "Correct answer: B. L"
   },
   {
@@ -9726,7 +9726,7 @@
       "NmA-2"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Electromagnetism",
     "explanationEn": "Correct answer: A. NA-1m-1"
   },
   {
@@ -9740,7 +9740,7 @@
       "1T = 104 G"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Electromagnetism",
     "explanationEn": "Correct answer: D. 1T = 104 G"
   },
   {
@@ -9754,7 +9754,7 @@
       "soft iron"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Electromagnetism",
     "explanationEn": "Correct answer: D. soft iron"
   },
   {
@@ -9768,7 +9768,7 @@
       "exerts a force if the charged particle is moving perpendicular to the magnetic field lines"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Electromagnetism",
     "explanationEn": "Correct answer: D. exerts a force if the charged particle is moving perpendicular to the magnetic field lines"
   },
   {
@@ -9782,7 +9782,7 @@
       "they cancel out their individual magnetic fields"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Electromagnetism",
     "explanationEn": "Correct answer: A. repel each other"
   },
   {
@@ -9796,7 +9796,7 @@
       "1000A"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Electromagnetism",
     "explanationEn": "Correct answer: C. 100A"
   },
   {
@@ -9810,7 +9810,7 @@
       "self inductance"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Electromagnetism",
     "explanationEn": "Correct answer: C. magnetic induction"
   },
   {
@@ -9824,7 +9824,7 @@
       "Neutral"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Physics of Solids",
     "explanationEn": "Correct answer: D. Neutral"
   },
   {
@@ -9838,7 +9838,7 @@
       "All of the above"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Physics of Solids",
     "explanationEn": "Correct answer: C. Electron and holes both"
   },
   {
@@ -9852,7 +9852,7 @@
       "All of the above"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Physics of Solids",
     "explanationEn": "Correct answer: C. Semi conductors"
   },
   {
@@ -9866,7 +9866,7 @@
       "All of the above"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Physics of Solids",
     "explanationEn": "Correct answer: A. Face centred cubic"
   },
   {
@@ -9880,7 +9880,7 @@
       "Transport impulses"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Physics of Solids",
     "explanationEn": "Correct answer: C. Transport charge"
   },
   {
@@ -9894,7 +9894,7 @@
       "Empty band"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Physics of Solids",
     "explanationEn": "Correct answer: A. Conduction band"
   },
   {
@@ -9908,7 +9908,7 @@
       "Six corners"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Physics of Solids",
     "explanationEn": "Correct answer: C. Eight corners"
   },
   {
@@ -9922,7 +9922,7 @@
       "Homogeneity"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Physics of Solids",
     "explanationEn": "Correct answer: A. Cleavage"
   },
   {
@@ -9936,7 +9936,7 @@
       "Dislocation"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Physics of Solids",
     "explanationEn": "Correct answer: C. Microstructure"
   },
   {
@@ -9950,7 +9950,7 @@
       "Surface cracking"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Physics of Solids",
     "explanationEn": "Correct answer: A. Demagnetization"
   },
   {
@@ -9964,7 +9964,7 @@
       "Metals become super conductor"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Physics of Solids",
     "explanationEn": "Correct answer: B. Ferromagnetic becomes paramagnetic"
   },
   {
@@ -9978,7 +9978,7 @@
       "Deformation"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Physics of Solids",
     "explanationEn": "Correct answer: D. Deformation"
   },
   {
@@ -9992,7 +9992,7 @@
       "(F1+F2) (12-11)"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Physics of Solids",
     "explanationEn": "Correct answer: C. (F1+F2) (12-11)"
   },
   {
@@ -10006,7 +10006,7 @@
       "Polymers"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Physics of Solids",
     "explanationEn": "Correct answer: B. Ductile"
   },
   {
@@ -10020,7 +10020,7 @@
       "0.100J"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Physics of Solids",
     "explanationEn": "Correct answer: C. 0.75J"
   },
   {
@@ -10034,7 +10034,7 @@
       "0.2×10-6Nm-2"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Physics of Solids",
     "explanationEn": "Correct answer: B. 5×106 Nm-2"
   },
   {
@@ -10048,7 +10048,7 @@
       "Being a number it has no unit"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Physics of Solids",
     "explanationEn": "Correct answer: A. Nm-2"
   },
   {
@@ -10062,7 +10062,7 @@
       "Straight line"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Physics of Solids",
     "explanationEn": "Correct answer: B. Hysteresis loop area"
   },
   {
@@ -10076,7 +10076,7 @@
       "Oscilloscope"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Physics of Solids",
     "explanationEn": "Correct answer: A. Squids"
   },
   {
@@ -10090,7 +10090,7 @@
       "A partly filled valence band a totally empty conduction band and a wide forbidden band"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Physics of Solids",
     "explanationEn": "Correct answer: C. A completely filled valence band a partially filled conduction band and a narrow forbidden band"
   },
   {
@@ -10104,7 +10104,7 @@
       "First increases then decreases"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Physics of Solids",
     "explanationEn": "Correct answer: B. Increases"
   },
   {
@@ -10118,7 +10118,7 @@
       "Non metals"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Physics of Solids",
     "explanationEn": "Correct answer: D. Non metals"
   },
   {
@@ -10132,7 +10132,7 @@
       "Core band"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Physics of Solids",
     "explanationEn": "Correct answer: D. Core band"
   },
   {
@@ -10146,7 +10146,7 @@
       "All of the above"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Physics of Solids",
     "explanationEn": "Correct answer: D. All of the above"
   },
   {
@@ -10160,7 +10160,7 @@
       "Cleavage"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Physics of Solids",
     "explanationEn": "Correct answer: B. Homogeneity"
   },
   {
@@ -10174,7 +10174,7 @@
       "The external symmetry of form"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Physics of Solids",
     "explanationEn": "Correct answer: D. The external symmetry of form"
   },
   {
@@ -10188,7 +10188,7 @@
       "Conductor"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Physics of Solids",
     "explanationEn": "Correct answer: C. Insulators"
   },
   {
@@ -10202,7 +10202,7 @@
       "C current at peak value"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Physics of Solids",
     "explanationEn": "Correct answer: C. Alternating current at its peak value"
   },
   {
@@ -10216,7 +10216,7 @@
       "conduction band"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Physics of Solids",
     "explanationEn": "Correct answer: B. Valence band"
   },
   {
@@ -10230,7 +10230,7 @@
       "Subtraction"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Physics of Solids",
     "explanationEn": "Correct answer: B. Polymerization"
   },
   {
@@ -10244,7 +10244,7 @@
       "The cross sectional area of the wire remains constant"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Physics of Solids",
     "explanationEn": "Correct answer: A. The extension of the wire is proportional to the force applied"
   },
   {
@@ -10258,7 +10258,7 @@
       "Inversely proportional to extension"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Physics of Solids",
     "explanationEn": "Correct answer: A. Directly proportional to extension"
   },
   {
@@ -10272,7 +10272,7 @@
       "(Stress / strain)"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Physics of Solids",
     "explanationEn": "Correct answer: D. (Stress / strain)"
   },
   {
@@ -10286,22 +10286,22 @@
       "1.0J"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Physics of Solids",
     "explanationEn": "Correct answer: A. 0.01J"
   },
   {
     "id": "physics-q-736",
     "subject": "Physics",
-    "textEn": "When a force is applied at one end of an elastic wire it produces at strain in the wire. If y is the youngs modulus of the material of the wire the amount of energy stored per unit volume of the wire is given by_________________?",
+    "textEn": "When a force is applied at one end of an elastic wire it produces a strain ε in the wire. If Y is the youngs modulus of the material of the wire the amount of energy stored per unit volume of the wire is given by_________________?",
     "optionsEn": [
-      "Y",
-      "2Y",
-      "Y/2",
-      "Y2"
+      "Yε",
+      "2Yε",
+      "Yε/2",
+      "Yε²"
     ],
     "correctIndex": 3,
-    "topic": null,
-    "explanationEn": "Correct answer: D. Y2"
+    "topic": "Physics of Solids",
+    "explanationEn": "Correct answer: D. Yε²"
   },
   {
     "id": "physics-q-737",
@@ -10314,7 +10314,7 @@
       "FE2"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Physics of Solids",
     "explanationEn": "Correct answer: B. (FE)"
   },
   {
@@ -10328,7 +10328,7 @@
       "Pressure"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Physics of Solids",
     "explanationEn": "Correct answer: B. Strain"
   },
   {
@@ -10342,7 +10342,7 @@
       "ML-T-1"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Physics of Solids",
     "explanationEn": "Correct answer: C. ML-1T-2"
   },
   {
@@ -10356,7 +10356,7 @@
       "Copper"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Physics of Solids",
     "explanationEn": "Correct answer: B. Steel"
   },
   {
@@ -10370,7 +10370,7 @@
       "none of these"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Work, Energy & Power",
     "explanationEn": "Correct answer: C. both A and B"
   },
   {
@@ -10384,7 +10384,7 @@
       "non of these"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Work, Energy & Power",
     "explanationEn": "Correct answer: B. photovoltaic"
   },
   {
@@ -10398,7 +10398,7 @@
       "none of the above"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Work, Energy & Power",
     "explanationEn": "Correct answer: C. renewable"
   },
   {
@@ -10412,7 +10412,7 @@
       "none of these"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Work, Energy & Power",
     "explanationEn": "Correct answer: A. non-conservative force"
   },
   {
@@ -10426,7 +10426,7 @@
       "none of these"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Work, Energy & Power",
     "explanationEn": "Correct answer: B. work done"
   },
   {
@@ -10440,7 +10440,7 @@
       "it is a foolish question"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Work, Energy & Power",
     "explanationEn": "Correct answer: B. child does more work than man"
   },
   {
@@ -10454,7 +10454,7 @@
       "P.E. between tem does not change"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Work, Energy & Power",
     "explanationEn": "Correct answer: B. P.E. between them increases"
   },
   {
@@ -10468,7 +10468,7 @@
       "V esc = 2Vo"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Work, Energy & Power",
     "explanationEn": "Correct answer: B. V esc = -2 Vo"
   },
   {
@@ -10482,7 +10482,7 @@
       "power"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Work, Energy & Power",
     "explanationEn": "Correct answer: A. torque"
   },
   {
@@ -10496,7 +10496,7 @@
       "36 x 108 J"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Work, Energy & Power",
     "explanationEn": "Correct answer: D. 36 x 108 J"
   },
   {
@@ -10510,7 +10510,7 @@
       "its momentum is doubled"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Work, Energy & Power",
     "explanationEn": "Correct answer: D. its momentum is doubled"
   },
   {
@@ -10524,7 +10524,7 @@
       "no general formula"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Work, Energy & Power",
     "explanationEn": "Correct answer: D. no general formula"
   },
   {
@@ -10538,7 +10538,7 @@
       "Moon"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Work, Energy & Power",
     "explanationEn": "Correct answer: C. Jupiter"
   },
   {
@@ -10552,7 +10552,7 @@
       "eight time"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Work, Energy & Power",
     "explanationEn": "Correct answer: B. twice"
   },
   {
@@ -10566,7 +10566,7 @@
       "neither change in K.E and nor change in its P.E"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Work, Energy & Power",
     "explanationEn": "Correct answer: C. change in its K.E and change in its P.E"
   },
   {
@@ -10580,7 +10580,7 @@
       "energy"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Work, Energy & Power",
     "explanationEn": "Correct answer: C. power"
   },
   {
@@ -10594,7 +10594,7 @@
       "1 hp = 946 watts"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Work, Energy & Power",
     "explanationEn": "Correct answer: B. 1 hp = 746 watts"
   },
   {
@@ -10608,7 +10608,7 @@
       "centripetal force"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Work, Energy & Power",
     "explanationEn": "Correct answer: D. centripetal force"
   },
   {
@@ -10622,7 +10622,7 @@
       "gravitational field"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Work, Energy & Power",
     "explanationEn": "Correct answer: B. conservative field"
   },
   {
@@ -10636,7 +10636,7 @@
       "0°"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Work, Energy & Power",
     "explanationEn": "Correct answer: D. 0°"
   },
   {
@@ -10650,7 +10650,7 @@
       "none"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Work, Energy & Power",
     "explanationEn": "Correct answer: C. 1 kw/m2"
   },
   {
@@ -10664,7 +10664,7 @@
       "moon"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Work, Energy & Power",
     "explanationEn": "Correct answer: D. moon"
   },
   {
@@ -10678,7 +10678,7 @@
       "torque"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Work, Energy & Power",
     "explanationEn": "Correct answer: A. power"
   },
   {
@@ -10692,7 +10692,7 @@
       "none of these"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Work, Energy & Power",
     "explanationEn": "Correct answer: A. [ML2T-3]"
   },
   {
@@ -10706,7 +10706,7 @@
       "none of these"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Work, Energy & Power",
     "explanationEn": "Correct answer: B. negative"
   },
   {
@@ -10720,7 +10720,7 @@
       "K.E to elastic P.E"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Work, Energy & Power",
     "explanationEn": "Correct answer: B. elastic P.E to K.E"
   },
   {
@@ -10734,7 +10734,7 @@
       "2263ms-1"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Work, Energy & Power",
     "explanationEn": "Correct answer: B. 50.6 ms-1"
   },
   {
@@ -10748,7 +10748,7 @@
       "1.1 km S-1"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Work, Energy & Power",
     "explanationEn": "Correct answer: D. 1.1 km S-1"
   },
   {
@@ -10762,7 +10762,7 @@
       "0.02 J"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Work, Energy & Power",
     "explanationEn": "Correct answer: A. 120 J"
   },
   {
@@ -10776,7 +10776,7 @@
       "magnetic"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Work, Energy & Power",
     "explanationEn": "Correct answer: A. friction"
   },
   {
@@ -10790,7 +10790,7 @@
       "momentum increases 2 times and K.E increases 4 time"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Work, Energy & Power",
     "explanationEn": "Correct answer: D. momentum increases 2 times and K.E increases 4 time"
   },
   {
@@ -10804,7 +10804,7 @@
       "positive only for large frictional force"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Work, Energy & Power",
     "explanationEn": "Correct answer: B. always negative"
   },
   {
@@ -10818,7 +10818,7 @@
       "all as said in A – B and C"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Work, Energy & Power",
     "explanationEn": "Correct answer: D. all as said in A – B and C"
   },
   {
@@ -10832,7 +10832,7 @@
       "gravitational field of earth"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Work, Energy & Power",
     "explanationEn": "Correct answer: C. both its mass and the angle at which it is thrown"
   },
   {
@@ -10846,7 +10846,7 @@
       "force into small and displacement into large intervals"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Work, Energy & Power",
     "explanationEn": "Correct answer: B. displacement into small interval"
   },
   {
@@ -10860,7 +10860,7 @@
       "a-particle"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Work, Energy & Power",
     "explanationEn": "Correct answer: B. electron"
   },
   {
@@ -10874,7 +10874,7 @@
       "at high rate"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Work, Energy & Power",
     "explanationEn": "Correct answer: C. at uniform rate"
   },
   {
@@ -10888,7 +10888,7 @@
       "3.92 J"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Work, Energy & Power",
     "explanationEn": "Correct answer: C. 39.2 J"
   },
   {
@@ -10902,7 +10902,7 @@
       "maximum"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Work, Energy & Power",
     "explanationEn": "Correct answer: D. maximum"
   },
   {
@@ -10916,7 +10916,7 @@
       "Reflection"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: A. Diffraction"
   },
   {
@@ -10930,7 +10930,7 @@
       "Galileo"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: C. Michelson"
   },
   {
@@ -10944,7 +10944,7 @@
       "bright"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: A. luminous"
   },
   {
@@ -10958,7 +10958,7 @@
       "they are adjacent with no space in between"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: C. distance between then decreases"
   },
   {
@@ -10972,7 +10972,7 @@
       "elliptically polarized"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: A. plane polarized"
   },
   {
@@ -10986,7 +10986,7 @@
       "2 x 10-3 mm"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: D. 2 x 10-3 mm"
   },
   {
@@ -11000,7 +11000,7 @@
       "less for a sharp edge"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: C. more for a sharp edge"
   },
   {
@@ -11014,7 +11014,7 @@
       "45°"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: C. 180°"
   },
   {
@@ -11028,7 +11028,7 @@
       "polarization"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: C. interference"
   },
   {
@@ -11042,7 +11042,7 @@
       "Young"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: B. Michelson"
   },
   {
@@ -11056,7 +11056,7 @@
       "same amplitude and wavelength"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: C. same wave length with constant phase difference"
   },
   {
@@ -11070,7 +11070,7 @@
       "wave front"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: D. wave front"
   },
   {
@@ -11084,7 +11084,7 @@
       "bright for large wavelength"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: A. bright"
   },
   {
@@ -11098,7 +11098,7 @@
       "it was not his discovery"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: C. photons"
   },
   {
@@ -11112,7 +11112,7 @@
       "8 minutes 30 seconds"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: D. 8 minutes 30 seconds"
   },
   {
@@ -11126,7 +11126,7 @@
       "all thickness nature and angle of incidence"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: D. all thickness nature and angle of incidence"
   },
   {
@@ -11140,7 +11140,7 @@
       "sodium chlorate"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: C. water"
   },
   {
@@ -11154,7 +11154,7 @@
       "Concave"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: C. Diffraction grating"
   },
   {
@@ -11168,7 +11168,7 @@
       "Refraction"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: B. Diffraction"
   },
   {
@@ -11182,7 +11182,7 @@
       "interference pattern not disturbed"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: A. no interference fringes are observed"
   },
   {
@@ -11196,7 +11196,7 @@
       "no scientific reasoning available"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: A. black"
   },
   {
@@ -11210,7 +11210,7 @@
       "sound waves"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: D. sound waves"
   },
   {
@@ -11224,13 +11224,13 @@
       "no vibration at all"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: C. vibration take place in a direction perpendicular to the direction of propagation of light"
   },
   {
     "id": "physics-q-803",
     "subject": "Physics",
-    "textEn": "Wavelength of X-rays falling at glancing angle of 30? on a crystal with atmic spacing 2 x 10-10 for the fist order diffraction is________________?",
+    "textEn": "Wavelength of X-rays falling at glancing angle of 30° on a crystal with atomic spacing 2 × 10⁻¹⁰ m for the first order diffraction is________________?",
     "optionsEn": [
       "4 x 10-10 m",
       "2 x 10-10 m",
@@ -11238,7 +11238,7 @@
       "20×10-10m"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: B. 2 x 10-10 m"
   },
   {
@@ -11252,7 +11252,7 @@
       "2000um"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: B. 5000A"
   },
   {
@@ -11266,7 +11266,7 @@
       "scattering"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: D. scattering"
   },
   {
@@ -11280,7 +11280,7 @@
       "central fringes are brighter than the outer fringes"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: C. both dark and bright fringes are of equal width"
   },
   {
@@ -11294,7 +11294,7 @@
       "impossible to predict"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: B. coloured fringes will be seen"
   },
   {
@@ -11308,7 +11308,7 @@
       "diffraction"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: C. destructive interference"
   },
   {
@@ -11322,7 +11322,7 @@
       "light form simple lamp"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: C. light form sodium lamp"
   },
   {
@@ -11336,7 +11336,7 @@
       "a plane wave front"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: C. a spherical wave front"
   },
   {
@@ -11350,7 +11350,7 @@
       "polarization"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: D. polarization"
   },
   {
@@ -11364,7 +11364,7 @@
       "Plank"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: C. Einstein"
   },
   {
@@ -11378,7 +11378,7 @@
       "frequency"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: D. frequency"
   },
   {
@@ -11392,7 +11392,7 @@
       "polirized frringes"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: C. both interference and diffraction fringes"
   },
   {
@@ -11406,7 +11406,7 @@
       "interference plane"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Optics",
     "explanationEn": "Correct answer: B. polarization plane"
   },
   {
@@ -11420,7 +11420,7 @@
       "60 watt"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Current Electricity",
     "explanationEn": "Correct answer: C. 300 watt"
   },
   {
@@ -11434,7 +11434,7 @@
       "over heating"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Current Electricity",
     "explanationEn": "Correct answer: D. over heating"
   },
   {
@@ -11448,7 +11448,7 @@
       "VIt"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Current Electricity",
     "explanationEn": "Correct answer: B. I2R"
   },
   {
@@ -11462,7 +11462,7 @@
       "kilowatt hour"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Current Electricity",
     "explanationEn": "Correct answer: D. kilowatt hour"
   },
   {
@@ -11476,7 +11476,7 @@
       "may increase or decrease"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Current Electricity",
     "explanationEn": "Correct answer: A. zero almost"
   },
   {
@@ -11490,7 +11490,7 @@
       "straight line"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Current Electricity",
     "explanationEn": "Correct answer: D. straight line"
   },
   {
@@ -11504,7 +11504,7 @@
       "neutral particles"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Current Electricity",
     "explanationEn": "Correct answer: C. both negative and positive charges"
   },
   {
@@ -11518,7 +11518,7 @@
       "1100"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Current Electricity",
     "explanationEn": "Correct answer: A. 12"
   },
   {
@@ -11532,7 +11532,7 @@
       "depends upon altitude of experimentation"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Current Electricity",
     "explanationEn": "Correct answer: A. increase with rise in temperature"
   },
   {
@@ -11546,7 +11546,7 @@
       "all will burn equally brightly"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Current Electricity",
     "explanationEn": "Correct answer: A. 40 W bulb"
   },
   {
@@ -11560,7 +11560,7 @@
       "capacitor"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Current Electricity",
     "explanationEn": "Correct answer: A. source of EMF"
   },
   {
@@ -11574,7 +11574,7 @@
       "copper"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Current Electricity",
     "explanationEn": "Correct answer: D. copper"
   },
   {
@@ -11588,7 +11588,7 @@
       "changes with every conductor"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Current Electricity",
     "explanationEn": "Correct answer: C. zero"
   },
   {
@@ -11602,7 +11602,7 @@
       "14J"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Current Electricity",
     "explanationEn": "Correct answer: A. 144000J"
   },
   {
@@ -11616,7 +11616,7 @@
       "one hour"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Current Electricity",
     "explanationEn": "Correct answer: D. one hour"
   },
   {
@@ -11630,7 +11630,7 @@
       "less heat is produced in thick wire"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Current Electricity",
     "explanationEn": "Correct answer: B. more heat is produced in thin wire"
   },
   {
@@ -11644,7 +11644,7 @@
       "becomes zero"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Current Electricity",
     "explanationEn": "Correct answer: A. remains the same"
   },
   {
@@ -11658,7 +11658,7 @@
       "all of above"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Current Electricity",
     "explanationEn": "Correct answer: D. all of above"
   },
   {
@@ -11672,7 +11672,7 @@
       "different current and potential differences"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Current Electricity",
     "explanationEn": "Correct answer: C. different current but same potential difference"
   },
   {
@@ -11686,7 +11686,7 @@
       "just to give a good look to circuit"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Current Electricity",
     "explanationEn": "Correct answer: B. to decrease current"
   },
   {
@@ -11700,7 +11700,7 @@
       "2C"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Current Electricity",
     "explanationEn": "Correct answer: A. 3600C"
   },
   {
@@ -11714,7 +11714,7 @@
       "tungsten"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Current Electricity",
     "explanationEn": "Correct answer: D. tungsten"
   },
   {
@@ -11728,7 +11728,7 @@
       "36V"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Current Electricity",
     "explanationEn": "Correct answer: A. zero"
   },
   {
@@ -11742,7 +11742,7 @@
       "will depend on none of the above"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Current Electricity",
     "explanationEn": "Correct answer: C. will depend on the type of material of the wire"
   },
   {
@@ -11756,7 +11756,7 @@
       "all"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Current Electricity",
     "explanationEn": "Correct answer: B. 200W"
   },
   {
@@ -11770,7 +11770,7 @@
       "all of above"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Current Electricity",
     "explanationEn": "Correct answer: C. potential divider"
   },
   {
@@ -11784,7 +11784,7 @@
       "flexibility"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Current Electricity",
     "explanationEn": "Correct answer: C. conductivity"
   },
   {
@@ -11798,7 +11798,7 @@
       "depends upon nature"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Current Electricity",
     "explanationEn": "Correct answer: A. infinite"
   },
   {
@@ -11812,7 +11812,7 @@
       "12KWh"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Current Electricity",
     "explanationEn": "Correct answer: A. 2KWh"
   },
   {
@@ -11826,7 +11826,7 @@
       "mechanical energy into heat energy"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Current Electricity",
     "explanationEn": "Correct answer: A. heat energy into electrical energy"
   },
   {
@@ -11840,7 +11840,7 @@
       "120W"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Current Electricity",
     "explanationEn": "Correct answer: B. 90W"
   },
   {
@@ -11854,7 +11854,7 @@
       "Feed back effect"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Current Electricity",
     "explanationEn": "Correct answer: A. Joule effect"
   },
   {
@@ -11868,7 +11868,7 @@
       "no specific criterion available"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Current Electricity",
     "explanationEn": "Correct answer: A. very good conductor"
   },
   {
@@ -11882,7 +11882,7 @@
       "still under controversy"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Current Electricity",
     "explanationEn": "Correct answer: A. free electrons"
   },
   {
@@ -11896,7 +11896,7 @@
       "None of these"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Waves",
     "explanationEn": "Correct answer: B. Two"
   },
   {
@@ -11910,7 +11910,7 @@
       "262Hz"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Waves",
     "explanationEn": "Correct answer: B. 7 Hz"
   },
   {
@@ -11924,7 +11924,7 @@
       "all of the above"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Waves",
     "explanationEn": "Correct answer: B. adiabatic law"
   },
   {
@@ -11938,7 +11938,7 @@
       "both A and C"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Waves",
     "explanationEn": "Correct answer: D. both A and C"
   },
   {
@@ -11952,7 +11952,7 @@
       "ML2T-2"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Waves",
     "explanationEn": "Correct answer: A. ML-1T-2"
   },
   {
@@ -11966,7 +11966,7 @@
       "selected harmonics are present"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Waves",
     "explanationEn": "Correct answer: C. both even and odd harmonics are present"
   },
   {
@@ -11980,7 +11980,7 @@
       "2f"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Waves",
     "explanationEn": "Correct answer: C. frequency lower than 20 Hz"
   },
   {
@@ -11994,7 +11994,7 @@
       "neither sound nor light wave"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Waves",
     "explanationEn": "Correct answer: C. both sound and light waves"
   },
   {
@@ -12008,7 +12008,7 @@
       "destructive interference"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Waves",
     "explanationEn": "Correct answer: B. constructive and destructive interference"
   },
   {
@@ -12022,7 +12022,7 @@
       "resonance"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Waves",
     "explanationEn": "Correct answer: C. beats"
   },
   {
@@ -12036,7 +12036,7 @@
       "1172°C"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Waves",
     "explanationEn": "Correct answer: C. 819°C"
   },
   {
@@ -12050,7 +12050,7 @@
       "6000 to 8000 hertz"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Waves",
     "explanationEn": "Correct answer: C. 2000 to 4000 hertz"
   },
   {
@@ -12064,7 +12064,7 @@
       "may increase or decrease"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Waves",
     "explanationEn": "Correct answer: B. decreases"
   },
   {
@@ -12078,7 +12078,7 @@
       "2.00 ms-1"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Waves",
     "explanationEn": "Correct answer: C. 0.61 ms-1"
   },
   {
@@ -12092,7 +12092,7 @@
       "they do not have enough energy"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Waves",
     "explanationEn": "Correct answer: C. they require material medium for propagation"
   },
   {
@@ -12106,7 +12106,7 @@
       "diffraction"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Waves",
     "explanationEn": "Correct answer: B. polarization"
   },
   {
@@ -12120,7 +12120,7 @@
       "any of above"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Waves",
     "explanationEn": "Correct answer: B. increases"
   },
   {
@@ -12134,7 +12134,7 @@
       "becomes zero"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Waves",
     "explanationEn": "Correct answer: C. remains unchanged"
   },
   {
@@ -12148,7 +12148,7 @@
       "mechanical waves"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Waves",
     "explanationEn": "Correct answer: D. mechanical waves"
   },
   {
@@ -12162,7 +12162,7 @@
       "All of these"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Waves",
     "explanationEn": "Correct answer: A. Dopplers effect"
   },
   {
@@ -12176,7 +12176,7 @@
       "both A and C"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Waves",
     "explanationEn": "Correct answer: D. both A and C"
   },
   {
@@ -12190,7 +12190,7 @@
       "Six time"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Waves",
     "explanationEn": "Correct answer: C. Four time"
   },
   {
@@ -12204,7 +12204,7 @@
       "all of the above"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Waves",
     "explanationEn": "Correct answer: A. 281m/sec"
   },
   {
@@ -12218,7 +12218,7 @@
       "fopen = 1 / f closed"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Waves",
     "explanationEn": "Correct answer: A. fopen = 2 fclosed"
   },
   {
@@ -12232,7 +12232,7 @@
       "no apparent change in frequency"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Waves",
     "explanationEn": "Correct answer: B. an apparent decrease in frequency"
   },
   {
@@ -12246,7 +12246,7 @@
       "resonance"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Waves",
     "explanationEn": "Correct answer: B. destructive interference"
   },
   {
@@ -12260,7 +12260,7 @@
       "the frequency of either of the two tuning forks"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Waves",
     "explanationEn": "Correct answer: B. the difference of the frequencies of two tuning forks"
   },
   {
@@ -12274,7 +12274,7 @@
       "all of above"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Waves",
     "explanationEn": "Correct answer: B. frequency is greater than 20 kHz"
   },
   {
@@ -12288,7 +12288,7 @@
       "1172°C"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Waves",
     "explanationEn": "Correct answer: C. 819°C"
   },
   {
@@ -12302,7 +12302,7 @@
       "ammonia"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Waves",
     "explanationEn": "Correct answer: C. copper"
   },
   {
@@ -12316,7 +12316,7 @@
       "224 ms-1"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Waves",
     "explanationEn": "Correct answer: C. Zero"
   },
   {
@@ -12330,7 +12330,7 @@
       "isochoric"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Waves",
     "explanationEn": "Correct answer: B. isothermal"
   },
   {
@@ -12344,7 +12344,7 @@
       "sometimes a node and sometimes an antinode is formed"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Waves",
     "explanationEn": "Correct answer: A. always an node in formed"
   },
   {
@@ -12358,7 +12358,7 @@
       "crests"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Waves",
     "explanationEn": "Correct answer: A. antinodes"
   },
   {
@@ -12372,7 +12372,7 @@
       "phase difference"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Waves",
     "explanationEn": "Correct answer: C. Wave length"
   },
   {
@@ -12386,7 +12386,7 @@
       "none"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Waves",
     "explanationEn": "Correct answer: A. energy"
   },
   {
@@ -12400,7 +12400,7 @@
       "none of the above"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Kinematics",
     "explanationEn": "Correct answer: C. equal to each other"
   },
   {
@@ -12414,7 +12414,7 @@
       "none"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Kinematics",
     "explanationEn": "Correct answer: A. 1 N"
   },
   {
@@ -12428,7 +12428,7 @@
       "circle"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Kinematics",
     "explanationEn": "Correct answer: B. parabola"
   },
   {
@@ -12442,7 +12442,7 @@
       "at2"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Kinematics",
     "explanationEn": "Correct answer: A. at2/2"
   },
   {
@@ -12456,7 +12456,7 @@
       "4m/s, 2m/s"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Kinematics",
     "explanationEn": "Correct answer: A. 5m/s, 1m/s"
   },
   {
@@ -12470,7 +12470,7 @@
       "constant for short range rocket"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Kinematics",
     "explanationEn": "Correct answer: A. Constant"
   },
   {
@@ -12484,7 +12484,7 @@
       "a base ball shot"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Kinematics",
     "explanationEn": "Correct answer: A. a gas filled ballon"
   },
   {
@@ -12498,7 +12498,7 @@
       "-2"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Kinematics",
     "explanationEn": "Correct answer: B. 1"
   },
   {
@@ -12512,7 +12512,7 @@
       "both momentum and K.E remain conserve"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Kinematics",
     "explanationEn": "Correct answer: B. K.E changes but momentum remain conserve"
   },
   {
@@ -12526,7 +12526,7 @@
       "increases his momentum"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Kinematics",
     "explanationEn": "Correct answer: D. increases his momentum"
   },
   {
@@ -12540,7 +12540,7 @@
       "impulse"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Kinematics",
     "explanationEn": "Correct answer: D. impulse"
   },
   {
@@ -12554,7 +12554,7 @@
       "both A and B"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Kinematics",
     "explanationEn": "Correct answer: A. distance"
   },
   {
@@ -12568,7 +12568,7 @@
       "both mass and velocity of the body"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Kinematics",
     "explanationEn": "Correct answer: D. both mass and velocity of the body"
   },
   {
@@ -12582,7 +12582,7 @@
       "both force and acceleration"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Kinematics",
     "explanationEn": "Correct answer: B. acceleration"
   },
   {
@@ -12596,7 +12596,7 @@
       "move with velocity comparable to velocity of light"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Kinematics",
     "explanationEn": "Correct answer: D. move with velocity comparable to velocity of light"
   },
   {
@@ -12610,7 +12610,7 @@
       "all 1st, 2nd and 3rd laws"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Kinematics",
     "explanationEn": "Correct answer: A. 1st law"
   },
   {
@@ -12624,7 +12624,7 @@
       "momentum"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Kinematics",
     "explanationEn": "Correct answer: A. acceleration"
   },
   {
@@ -12638,7 +12638,7 @@
       "velocity is zero"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Kinematics",
     "explanationEn": "Correct answer: C. acceleration is zero"
   },
   {
@@ -12652,7 +12652,7 @@
       "displacement from origin changes"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Kinematics",
     "explanationEn": "Correct answer: D. displacement from origin changes"
   },
   {
@@ -12666,7 +12666,7 @@
       "all of these"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Kinematics",
     "explanationEn": "Correct answer: B. due to air resistance"
   },
   {
@@ -12680,7 +12680,7 @@
       "both A and C"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Kinematics",
     "explanationEn": "Correct answer: A. force"
   },
   {
@@ -12694,7 +12694,7 @@
       "none"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Kinematics",
     "explanationEn": "Correct answer: A. 45"
   },
   {
@@ -12708,7 +12708,7 @@
       "law of gravitation"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Kinematics",
     "explanationEn": "Correct answer: B. third law of motion"
   },
   {
@@ -12722,7 +12722,7 @@
       "44.1 m"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Kinematics",
     "explanationEn": "Correct answer: B. 19.6 m"
   },
   {
@@ -12736,7 +12736,7 @@
       "tan-1 2"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Kinematics",
     "explanationEn": "Correct answer: B. tan-1 4"
   },
   {
@@ -12750,7 +12750,7 @@
       "law of conservation of energy"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Kinematics",
     "explanationEn": "Correct answer: C. Law of conservation of momentum"
   },
   {
@@ -12764,7 +12764,7 @@
       "H=gT2"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Kinematics",
     "explanationEn": "Correct answer: A. H=gT2/8"
   },
   {
@@ -12778,7 +12778,7 @@
       "declined curve"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Kinematics",
     "explanationEn": "Correct answer: A. straight inclined line"
   },
   {
@@ -12792,7 +12792,7 @@
       "Centrifugal force"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Kinematics",
     "explanationEn": "Correct answer: D. Centrifugal force"
   },
   {
@@ -12806,7 +12806,7 @@
       "hard and elastic"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Kinematics",
     "explanationEn": "Correct answer: C. solid and hard"
   },
   {
@@ -12820,7 +12820,7 @@
       "force, momentum"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Kinematics",
     "explanationEn": "Correct answer: C. force, acceleration"
   },
   {
@@ -12834,7 +12834,7 @@
       "ML-2T-2"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Kinematics",
     "explanationEn": "Correct answer: A. MLT-2"
   },
   {
@@ -12848,7 +12848,7 @@
       "existence of pair of forces in nature"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Kinematics",
     "explanationEn": "Correct answer: D. existence of pair of forces in nature"
   },
   {
@@ -12862,7 +12862,7 @@
       "force"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Kinematics",
     "explanationEn": "Correct answer: A. inertia"
   },
   {
@@ -12876,7 +12876,7 @@
       "temperature"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Kinematics",
     "explanationEn": "Correct answer: C. mass"
   },
   {
@@ -12890,7 +12890,7 @@
       "moves in a circle"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Kinematics",
     "explanationEn": "Correct answer: A. has zero acceleration"
   },
   {
@@ -12904,7 +12904,7 @@
       "acceleration"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Kinematics",
     "explanationEn": "Correct answer: B. displacement"
   },
   {
@@ -12918,7 +12918,7 @@
       "infinite"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Kinematics",
     "explanationEn": "Correct answer: C. zero"
   },
   {
@@ -12932,7 +12932,7 @@
       "its momentum"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Kinematics",
     "explanationEn": "Correct answer: C. its position vector"
   },
   {
@@ -12946,7 +12946,7 @@
       "none"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Thermodynamics",
     "explanationEn": "Correct answer: A. solid"
   },
   {
@@ -12960,7 +12960,7 @@
       "none"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Thermodynamics",
     "explanationEn": "Correct answer: B. K-1"
   },
   {
@@ -12974,7 +12974,7 @@
       "none"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Thermodynamics",
     "explanationEn": "Correct answer: B. f -32/9 =c/5"
   },
   {
@@ -12988,7 +12988,7 @@
       "Aetiology"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Waves",
     "explanationEn": "Correct answer: B. Acoustics"
   },
   {
@@ -13002,7 +13002,7 @@
       "Photon"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Modern Physics",
     "explanationEn": "Correct answer: D. Photon"
   },
   {
@@ -13016,7 +13016,7 @@
       "Faraday"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Electromagnetic Induction",
     "explanationEn": "Correct answer: C. Aristotle"
   },
   {
@@ -13030,7 +13030,7 @@
       "Organ science"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: B. Biological science"
   },
   {
@@ -13044,7 +13044,7 @@
       "Electro-dynamics"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Electromagnetism",
     "explanationEn": "Correct answer: D. Electro-dynamics"
   },
   {
@@ -13058,7 +13058,7 @@
       "elementary physics"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: A. biological sciences"
   },
   {
@@ -13072,7 +13072,7 @@
       "Optics"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Waves",
     "explanationEn": "Correct answer: A. Field theory"
   },
   {
@@ -13083,11 +13083,11 @@
       "Solid State Physics",
       "Plasma Physics",
       "structure is called",
-      "Nuclear Physics E. Particle Physics"
+      "Nuclear Physics"
     ],
     "correctIndex": 3,
-    "topic": null,
-    "explanationEn": "Correct answer: D. Nuclear Physics E. Particle Physics"
+    "topic": "Nuclear Physics",
+    "explanationEn": "Correct answer: D. Nuclear Physics"
   },
   {
     "id": "physics-q-936",
@@ -13100,7 +13100,7 @@
       "Plasma physics"
     ],
     "correctIndex": 3,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: D. Plasma physics"
   },
   {
@@ -13114,7 +13114,7 @@
       "chemistry"
     ],
     "correctIndex": 1,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: B. physics"
   },
   {
@@ -13128,7 +13128,7 @@
       "All of these"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: C. Physics"
   },
   {
@@ -13142,7 +13142,7 @@
       "Life sciences branch"
     ],
     "correctIndex": 0,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: A. Physical sciences"
   },
   {
@@ -13156,7 +13156,7 @@
       "Chemistry"
     ],
     "correctIndex": 2,
-    "topic": null,
+    "topic": "Measurements",
     "explanationEn": "Correct answer: C. Physics"
   },
   {
@@ -13167,10 +13167,10 @@
       "2.5",
       "2.0",
       "1.75",
-      "1.5 E. 1.25"
+      "1.5"
     ],
     "correctIndex": 3,
-    "topic": null,
-    "explanationEn": "Correct answer: D. 1.5 E. 1.25"
+    "topic": "Kinematics",
+    "explanationEn": "Correct answer: D. 1.5"
   }
 ]

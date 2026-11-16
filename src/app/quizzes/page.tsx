@@ -89,7 +89,7 @@ const PREP_SUBJECTS: SubjectCard[] = [
     name: 'Physics (Board & Entry Tests)',
     alias: 'Physics',
     category: 'science',
-    countBadge: '1,000 MCQs · 19 Topics',
+    countBadge: '941 MCQs · 19 Topics',
     icon: Zap,
     badgeBg: 'bg-cyan-50 text-cyan-800 border-cyan-200',
     description: 'Mechanics, Kinematics, Dynamics, Electricity, Magnetism, Optics, Quantum & Nuclear Physics.',
@@ -99,7 +99,7 @@ const PREP_SUBJECTS: SubjectCard[] = [
       { label: 'Optics', href: '/quizzes/physics' },
       { label: 'Modern Physics', href: '/quizzes/physics' },
     ],
-    footerLabel: '1,000 MCQs — Sindh, Punjab & Federal Boards'
+    footerLabel: '941 MCQs — Sindh, Punjab & Federal Boards'
   },
   {
     id: 'world-info',

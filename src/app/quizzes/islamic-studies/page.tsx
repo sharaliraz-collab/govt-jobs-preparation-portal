@@ -13,7 +13,6 @@ import {
   CheckCircle2,
   XCircle,
   RotateCcw,
-  Printer,
   ChevronLeft,
   ChevronRight,
   Filter,
@@ -118,10 +117,6 @@ export default function IslamicStudiesPage() {
     }
   };
 
-  const handlePrint = () => {
-    window.print();
-  };
-
   const shareUrl = absoluteUrl('/quizzes/islamic-studies');
   const shareTitle = 'Islamic Studies MCQ Bank (اسلاميات) — 160+ Solved Questions';
   const shareDescription = 'Practice 160+ solved Islamic Studies MCQs across 9 categories (Aqaid, Quran, Hadith, Seerah, Khulafa-e-Rashideen, Fiqh). Aligned for PPSC, FPSC, SPSC & NTS exams!';
@@ -159,14 +154,6 @@ export default function IslamicStudiesPage() {
               <span>{showSindhi ? 'English Only' : 'سنڌي ٻولي ۾ سوالن لاءِ ھت ڪلڪ ڪريو'}</span>
             </button>
 
-            <button
-              onClick={handlePrint}
-              className="bg-yellow-400 hover:bg-yellow-300 text-slate-950 text-xs font-black px-4 py-2.5 rounded-xl transition shadow flex items-center gap-1.5 no-print"
-              title="Print questions or save as PDF"
-            >
-              <Printer className="w-4 h-4" />
-              <span>Print Out PDF</span>
-            </button>
           </div>
         </div>
       </div>

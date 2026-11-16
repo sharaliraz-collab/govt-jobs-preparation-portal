@@ -13,7 +13,6 @@ import {
   CheckCircle2,
   XCircle,
   RotateCcw,
-  Printer,
   ChevronLeft,
   ChevronRight,
   Filter,
@@ -61,6 +60,20 @@ const TOPICS = [
 const QUESTIONS_PER_PAGE = 20;
 const FALLBACK_QUESTIONS = physicsPdfQuestions as PhysicsQuestion[];
 
+const extractTopicFromExplanation = (explanation?: string): string | null => {
+  if (!explanation) return null;
+  const match = explanation.match(/^Topic:\s*([^|]+)\s*\|/i);
+  return match ? match[1].trim() : null;
+};
+
+const getQuestionTopic = (q: PhysicsQuestion): string =>
+  q.topic || extractTopicFromExplanation(q.explanationEn) || 'Physics';
+
+const cleanExplanationText = (explanation?: string): string => {
+  if (!explanation) return '';
+  return explanation.replace(/^Topic:\s*[^|]+\|\s*/i, '').trim();
+};
+
 const cleanQuestionText = (text: string) => {
   if (!text) return '';
   return text
@@ -103,7 +116,12 @@ export default function PhysicsQuizPage() {
   // Filter by topic
   const filteredQuestions = selectedTopic === 'All Topics'
     ? questions
-    : questions.filter(q => q.topic === selectedTopic || q.explanationEn?.includes(selectedTopic) || q.textEn.toLowerCase().includes(selectedTopic.toLowerCase()));
+    : questions.filter(
+        (q) =>
+          getQuestionTopic(q) === selectedTopic ||
+          q.explanationEn?.includes(selectedTopic) ||
+          q.textEn.toLowerCase().includes(selectedTopic.toLowerCase())
+      );
 
   const totalQuestions = filteredQuestions.length;
   const totalPages = Math.max(1, Math.ceil(totalQuestions / QUESTIONS_PER_PAGE));
@@ -130,10 +148,6 @@ export default function PhysicsQuizPage() {
       setCurrentPage(p);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-  };
-
-  const handlePrint = () => {
-    window.print();
   };
 
   return (
@@ -169,14 +183,6 @@ export default function PhysicsQuizPage() {
               <span>{showSindhi ? 'English Only' : 'سنڌي ٻولي ۾ سوالن لاءِ ھت ڪلڪ ڪريو'}</span>
             </button>
 
-            <button
-              onClick={handlePrint}
-              className="bg-yellow-400 hover:bg-yellow-300 text-slate-950 text-xs font-black px-4 py-2.5 rounded-xl transition shadow flex items-center gap-1.5 no-print"
-              title="Print questions or save as PDF"
-            >
-              <Printer className="w-4 h-4" />
-              <span>Print Out PDF</span>
-            </button>
           </div>
         </div>
       </div>
@@ -299,14 +305,14 @@ export default function PhysicsQuizPage() {
                     </span>
                     <div className="space-y-1 flex-1">
                       <span className="text-[10px] font-bold uppercase tracking-widest text-cyan-800 bg-cyan-50 px-2.5 py-0.5 rounded-full border border-cyan-200">
-                        {q.topic || 'Physics'}
+                        {getQuestionTopic(q)}
                       </span>
 
                       <h3 className="text-sm sm:text-base font-extrabold text-slate-900 leading-relaxed">
                         {cleanQuestionText(q.textEn)}
                       </h3>
 
-                      {showSindhi && q.textUr && (
+                      {showSindhi && q.textUr && q.textUr.trim() !== q.textEn.trim() && (
                         <p className="text-base font-sindhi font-lateefi text-right text-cyan-950 pt-1 font-bold" dir="rtl">
                           {cleanQuestionText(q.textUr)}
                         </p>
@@ -358,7 +364,7 @@ export default function PhysicsQuizPage() {
 
                         <span className="flex-1 font-medium">
                           {optText}
-                          {showSindhi && q.optionsUr && q.optionsUr[optIdx] && (
+                          {showSindhi && q.optionsUr && q.optionsUr[optIdx] && q.optionsUr[optIdx].trim() !== optText.trim() && (
                             <span className="block font-sindhi font-lateefi text-right text-sm pt-0.5" dir="rtl">
                               {q.optionsUr[optIdx]}
                             </span>
@@ -376,9 +382,9 @@ export default function PhysicsQuizPage() {
                       <CheckCircle2 className="w-4 h-4 text-emerald-600" />
                       <span>Correct Answer: {String.fromCharCode(65 + q.correctIndex)}. {q.optionsEn[q.correctIndex]}</span>
                     </p>
-                    {q.explanationEn && (
+                    {cleanExplanationText(q.explanationEn) && (
                       <p className="text-[11px] text-slate-600 pt-0.5">
-                        <span className="font-bold text-slate-800">Explanation:</span> {q.explanationEn}
+                        <span className="font-bold text-slate-800">Explanation:</span> {cleanExplanationText(q.explanationEn)}
                       </p>
                     )}
                   </div>
@@ -416,7 +422,7 @@ export default function PhysicsQuizPage() {
 
       <SectionShareBar
         path="/quizzes/physics"
-        title="Physics MCQs — 1,000+ Solved Questions Across 19 Topics"
+        title="Physics MCQs — 941 Solved Questions Across 19 Topics"
         description="Practice Board & MDCAT Physics MCQs covering Mechanics, Electrostatics, Optics, Thermodynamics & Modern Physics."
         badge="Physics MCQ Bank"
       />

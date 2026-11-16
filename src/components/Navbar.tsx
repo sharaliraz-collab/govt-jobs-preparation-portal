@@ -45,7 +45,7 @@ import {
 
 const mcqCoreSubjects = [
   {
-    name: 'English Grammar & Vocabulary',
+    name: 'English Grammar & Composition',
     href: '/quizzes/english-grammar',
     desc: 'Parts of Speech, Synonyms, Antonyms & Comprehension',
     icon: BookOpen,
@@ -263,6 +263,87 @@ const empSubPages = [
   { label: 'Govt Subsidies & Schemes', path: '/employees-corner?tab=subsidies', desc: 'Employee welfare programs' }
 ];
 
+const subjectNavItems = [
+  {
+    label: 'Physics',
+    href: '/quizzes/physics',
+    icon: Zap,
+    iconColor: 'text-cyan-600',
+    activeStyle: 'bg-cyan-50 border-cyan-300 text-cyan-900 font-bold shadow-xs',
+  },
+  {
+    label: 'Chemistry',
+    href: '/quizzes/subject/chemistry',
+    icon: FlaskConical,
+    iconColor: 'text-rose-600',
+    activeStyle: 'bg-rose-50 border-rose-300 text-rose-900 font-bold shadow-xs',
+  },
+  {
+    label: 'English Grammar & Composition',
+    href: '/quizzes/english-grammar',
+    icon: BookOpen,
+    iconColor: 'text-blue-600',
+    activeStyle: 'bg-blue-50 border-blue-300 text-blue-900 font-bold shadow-xs',
+  },
+  {
+    label: 'General Science & Ability',
+    href: '/quizzes/subject/general-science',
+    icon: Atom,
+    iconColor: 'text-teal-600',
+    activeStyle: 'bg-teal-50 border-teal-300 text-teal-900 font-bold shadow-xs',
+  },
+  {
+    label: 'Aptitude Test',
+    href: '/quizzes/aptitude',
+    icon: Lightbulb,
+    iconColor: 'text-amber-600',
+    activeStyle: 'bg-amber-50 border-amber-300 text-amber-900 font-bold shadow-xs',
+    hasDropdown: 'aptitude' as const,
+  },
+  {
+    label: 'Biology',
+    href: '/quizzes/biology',
+    icon: Dna,
+    iconColor: 'text-emerald-600',
+    activeStyle: 'bg-emerald-50 border-emerald-300 text-emerald-900 font-bold shadow-xs',
+  },
+  {
+    label: 'Pakistan Studies',
+    href: '/quizzes/pak-studies',
+    icon: Landmark,
+    iconColor: 'text-emerald-700',
+    activeStyle: 'bg-emerald-50 border-emerald-300 text-emerald-900 font-bold shadow-xs',
+  },
+  {
+    label: 'Islamic Studies',
+    href: '/quizzes/islamic-studies',
+    icon: BookMarked,
+    iconColor: 'text-amber-700',
+    activeStyle: 'bg-amber-50 border-amber-300 text-amber-900 font-bold shadow-xs',
+  },
+  {
+    label: 'World GK',
+    href: '/quizzes/world-info',
+    icon: Globe,
+    iconColor: 'text-indigo-600',
+    activeStyle: 'bg-indigo-50 border-indigo-300 text-indigo-900 font-bold shadow-xs',
+  },
+  {
+    label: 'Computer Science',
+    href: '/quizzes/subject/computer-science',
+    icon: Monitor,
+    iconColor: 'text-purple-600',
+    activeStyle: 'bg-purple-50 border-purple-300 text-purple-900 font-bold shadow-xs',
+  },
+  {
+    label: 'Mathematics',
+    href: '/quizzes/subject/mathematics',
+    icon: Calculator,
+    iconColor: 'text-orange-600',
+    activeStyle: 'bg-orange-50 border-orange-300 text-orange-900 font-bold shadow-xs',
+  },
+];
+
 type DropdownId = 'mcqs' | 'aptitude' | 'mocks' | 'jobs' | 'employees' | null;
 
 const Navbar = () => {
@@ -378,7 +459,7 @@ const Navbar = () => {
               <span>{t('nav.home')}</span>
             </Link>
 
-            {/* 1. MCQs Prep — Hover Sub-Sections */}
+            {/* 1. All Subjects — Hover Sub-Sections */}
             <div
               className="relative"
               onMouseEnter={() => handleMouseEnter('mcqs')}
@@ -386,37 +467,18 @@ const Navbar = () => {
               <Link
                 href="/quizzes"
                 className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl transition-all duration-200 border ${
-                  activeDropdown === 'mcqs' || (isActive('/quizzes') && !isActive('/quizzes/aptitude'))
+                  activeDropdown === 'mcqs' || pathname === '/quizzes'
                     ? 'bg-emerald-50 border-emerald-300 text-emerald-900 font-bold shadow-xs'
                     : 'bg-slate-50/70 hover:bg-slate-100 border-slate-200/70 text-slate-700 hover:text-slate-900'
                 }`}
               >
                 <FileCheck className="w-4 h-4 text-emerald-600 shrink-0" strokeWidth={2.25} />
-                <span>MCQs Prep</span>
+                <span>All Subjects</span>
                 <ChevronDown className={`w-3.5 h-3.5 text-slate-500 transition-transform duration-200 ${activeDropdown === 'mcqs' ? 'rotate-180 text-emerald-700' : ''}`} strokeWidth={2.25} />
               </Link>
             </div>
 
-            {/* 2. Aptitude Test — Hover Sub-Sections */}
-            <div
-              className="relative"
-              onMouseEnter={() => handleMouseEnter('aptitude')}
-            >
-              <Link
-                href="/quizzes/aptitude"
-                className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl transition-all duration-200 border ${
-                  activeDropdown === 'aptitude' || isActive('/quizzes/aptitude')
-                    ? 'bg-amber-50 border-amber-300 text-amber-900 font-bold shadow-xs'
-                    : 'bg-slate-50/70 hover:bg-slate-100 border-slate-200/70 text-slate-700 hover:text-slate-900'
-                }`}
-              >
-                <Lightbulb className="w-4 h-4 text-amber-600 shrink-0" strokeWidth={2.25} />
-                <span>Aptitude Test</span>
-                <ChevronDown className={`w-3.5 h-3.5 text-slate-500 transition-transform duration-200 ${activeDropdown === 'aptitude' ? 'rotate-180 text-amber-700' : ''}`} strokeWidth={2.25} />
-              </Link>
-            </div>
-
-            {/* 3. Mock Exams — Hover Sub-Sections */}
+            {/* 2. Mock Exams — Hover Sub-Sections */}
             <div
               className="relative"
               onMouseEnter={() => handleMouseEnter('mocks')}
@@ -435,7 +497,7 @@ const Navbar = () => {
               </Link>
             </div>
 
-            {/* 4. Jobs & Resources — Hover Sub-Sections */}
+            {/* 3. Jobs & Resources — Hover Sub-Sections */}
             <div
               className="relative"
               onMouseEnter={() => handleMouseEnter('jobs')}
@@ -454,7 +516,7 @@ const Navbar = () => {
               </Link>
             </div>
 
-            {/* 5. Employees Corner — Hover Sub-Sections */}
+            {/* 4. Employees Corner — Hover Sub-Sections */}
             <div
               className="relative"
               onMouseEnter={() => handleMouseEnter('employees')}
@@ -520,6 +582,45 @@ const Navbar = () => {
           >
             {mobileOpen ? <X className="w-5 h-5" strokeWidth={2.25} /> : <Menu className="w-5 h-5" strokeWidth={2.25} />}
           </button>
+        </div>
+
+        {/* ───── Subject Navigation Bar (Direct Subject Items) ───── */}
+        <div className="border-t border-slate-100 bg-slate-50/80">
+          <div className="max-w-7xl mx-auto px-4">
+            <nav
+              className="flex items-center gap-1.5 py-1.5 overflow-x-auto no-scrollbar whitespace-nowrap"
+              aria-label="Subject navigation"
+            >
+              {subjectNavItems.map((subj) => {
+                const Icon = subj.icon;
+                const active = isActive(subj.href) || (subj.hasDropdown && activeDropdown === subj.hasDropdown);
+                return (
+                  <Link
+                    key={subj.href}
+                    href={subj.href}
+                    onMouseEnter={() => handleMouseEnter(subj.hasDropdown ?? null)}
+                    onClick={() => setActiveDropdown(null)}
+                    className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all duration-150 shrink-0 ${
+                      active
+                        ? subj.activeStyle
+                        : 'bg-white hover:bg-emerald-50/70 border-slate-200/80 hover:border-emerald-300 text-slate-700 hover:text-emerald-900'
+                    }`}
+                  >
+                    <Icon className={`w-3.5 h-3.5 shrink-0 ${subj.iconColor}`} strokeWidth={2.25} />
+                    <span>{subj.label}</span>
+                    {subj.hasDropdown && (
+                      <ChevronDown
+                        className={`w-3 h-3 text-slate-500 transition-transform duration-200 ${
+                          activeDropdown === subj.hasDropdown ? 'rotate-180 text-amber-700' : ''
+                        }`}
+                        strokeWidth={2.25}
+                      />
+                    )}
+                  </Link>
+                );
+              })}
+            </nav>
+          </div>
         </div>
 
         {/* ═══════════════════════════════════════════════════════════════════

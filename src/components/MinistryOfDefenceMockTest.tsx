@@ -9,7 +9,6 @@ import {
   CheckCircle2,
   XCircle,
   RotateCcw,
-  Printer,
   ChevronLeft,
   ChevronRight,
   Sparkles,
@@ -225,10 +224,6 @@ export default function MinistryOfDefenceMockTest() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const handlePrint = () => {
-    window.print();
-  };
-
   // Current page 25 questions
   const startIndex = (currentPage - 1) * QUESTIONS_PER_PAGE;
   const pageQuestions = MOD_QUESTIONS.slice(startIndex, startIndex + QUESTIONS_PER_PAGE);
@@ -324,14 +319,6 @@ export default function MinistryOfDefenceMockTest() {
             </span>
           )}
 
-          <button
-            onClick={handlePrint}
-            className="bg-slate-100 hover:bg-slate-200 text-slate-800 px-3.5 py-1.5 rounded-xl transition flex items-center gap-1 text-xs font-bold"
-            title="Print test or save review PDF"
-          >
-            <Printer className="w-3.5 h-3.5" />
-            <span>Print PDF</span>
-          </button>
         </div>
       </div>
 

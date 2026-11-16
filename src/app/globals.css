@@ -250,6 +250,15 @@ html {
     border-bottom: 3px solid transparent;
     border-image: linear-gradient(90deg, #059669, #F59E0B, #059669) 1;
   }
+
+  /* ─── Hide scrollbars cleanly for horizontal nav strips ─── */
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 @keyframes shimmer {

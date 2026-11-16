@@ -255,7 +255,7 @@ export default function QuizAttemptClient({ id, initialQuiz }: { id: string; ini
 
           {currentQuestion && (
             <div className="space-y-4">
-              <h2 className={`text-base md:text-lg font-bold text-govt-charcoal leading-relaxed ${isUr ? 'font-urdu' : ''}`}>
+              <h2 className={`font-bold text-govt-charcoal ${isUr ? 'text-base md:text-lg leading-relaxed font-urdu text-right break-words' : 'mcq-question-text md:text-lg'}`}>
                 Q{currentIndex + 1}. {isUr && currentQuestion.textUr ? currentQuestion.textUr : currentQuestion.textEn}
               </h2>
 
@@ -277,7 +277,7 @@ export default function QuizAttemptClient({ id, initialQuiz }: { id: string; ini
                       <div className={`w-5 h-5 rounded-full border shrink-0 flex items-center justify-center text-xs font-bold ${isSelected ? 'border-govt-emerald bg-govt-emerald text-white' : 'border-gray-400 text-gray-500'}`}>
                         {String.fromCharCode(65 + optIdx)}
                       </div>
-                      <span className={isUr ? 'font-urdu' : ''}>{optionText}</span>
+                      <span className={`flex-1 min-w-0 ${isUr ? 'font-urdu text-right break-words' : 'mcq-option-text'}`}>{optionText}</span>
                     </button>
                   );
                 })}

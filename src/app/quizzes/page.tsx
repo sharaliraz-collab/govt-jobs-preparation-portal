@@ -72,7 +72,7 @@ const PREP_SUBJECTS: SubjectCard[] = [
     name: 'Biology (Board & MDCAT)',
     alias: 'Biology',
     category: 'science',
-    countBadge: '1,000 MCQs · 14 Chapters',
+    countBadge: '1,547 MCQs · 14 Chapters',
     icon: Dna,
     badgeBg: 'bg-teal-50 text-teal-800 border-teal-200',
     description: 'Human Physiology, Cell Biology, Biological Molecules, Enzymes, Genetics, Zoology, Botany & Ecology.',
@@ -82,7 +82,7 @@ const PREP_SUBJECTS: SubjectCard[] = [
       { label: 'Bioenergetics', href: '/quizzes/biology' },
       { label: 'Genetics', href: '/quizzes/biology' },
     ],
-    footerLabel: '1,000 MCQs — Sindh, Punjab & Federal Boards'
+    footerLabel: '1,547 MCQs — Sindh, Punjab & Federal Boards'
   },
   {
     id: 'physics',
@@ -189,10 +189,10 @@ const PREP_SUBJECTS: SubjectCard[] = [
     name: 'Chemistry',
     alias: 'Chemistry',
     category: 'science',
-    countBadge: 'Subject Bank',
+    countBadge: '1,518 MCQs',
     icon: FlaskConical,
     badgeBg: 'bg-rose-50 text-rose-800 border-rose-200',
-    description: 'Organic Chemistry, Inorganic Compounds, Periodic Table, Chemical Bonding & Reactions.',
+    description: '1,518 solved questions covering Organic Chemistry, Inorganic Compounds, Periodic Table, Electrochemistry & Chemical Reactions.',
     subLinks: [
       { label: 'Organic', href: '/quizzes/subject/chemistry' },
       { label: 'Inorganic', href: '/quizzes/subject/chemistry' },

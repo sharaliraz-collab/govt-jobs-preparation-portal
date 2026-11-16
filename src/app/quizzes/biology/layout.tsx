@@ -2,9 +2,9 @@ import type { Metadata } from 'next';
 import { buildPageMetadata } from '@/lib/seo';
 
 export const metadata: Metadata = buildPageMetadata({
-  title: '🧬 Biology MCQs — 1,000+ Solved Practice Questions for MDCAT, FPSC & PPSC',
+  title: '🧬 Biology MCQs — 1,547 Solved Practice Questions for MDCAT, FPSC & PPSC',
   description:
-    'Practice 1,000+ Biology MCQs covering Cell Biology, Genetics, Human Physiology, Enzymes, Bioenergetics, and Evolution for MDCAT, SIBA STS, FPSC, PPSC & NTS tests.',
+    'Practice 1,547 solved Biology MCQs covering Cell Biology, Genetics, Human Physiology, Enzymes, Bioenergetics, and Evolution for MDCAT, SIBA STS, FPSC, PPSC & NTS tests.',
   path: '/quizzes/biology',
   image: '/og-biology.png',
   keywords: [

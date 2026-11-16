@@ -259,6 +259,23 @@ html {
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
+
+  /* ─── Responsive MCQ question typography (auto-fit & justified on mobile) ─── */
+  .mcq-question-text {
+    font-size: clamp(0.875rem, 0.82rem + 0.3vw, 1rem);
+    line-height: 1.62;
+    text-align: justify;
+    text-align-last: left;
+    text-wrap: pretty;
+    overflow-wrap: anywhere;
+    word-break: normal;
+    hyphens: auto;
+  }
+
+  .mcq-option-text {
+    overflow-wrap: anywhere;
+    word-break: normal;
+  }
 }
 
 @keyframes shimmer {

@@ -321,16 +321,16 @@ export default function AptitudePractice({
                   className={`bg-white rounded-2xl border shadow-xs p-4 sm:p-5 space-y-4 transition-colors ${cardStyle}`}
                 >
                   {/* Question */}
-                  <div className="flex items-start gap-3">
+                  <div className="flex flex-col sm:flex-row sm:items-start gap-2.5 sm:gap-3">
                     <span
-                      className={`min-w-[2.25rem] h-9 px-1.5 rounded-xl border font-black text-xs flex items-center justify-center shrink-0 ${theme.badge}`}
+                      className={`min-w-[2.25rem] w-fit h-8 sm:h-9 px-2 rounded-xl border font-black text-xs tabular-nums flex items-center justify-center shrink-0 ${theme.badge}`}
                       aria-label={`Question ${gi + 1}`}
                     >
                       Q{gi + 1}
                     </span>
                     <RichMath
                       text={q.q}
-                      className="flex-1 min-w-0 text-[13px] sm:text-[15px] font-semibold text-slate-900 leading-relaxed pt-1 break-words"
+                      className="flex-1 min-w-0 w-full mcq-question-text font-semibold text-slate-900 sm:pt-0.5"
                     />
                   </div>
 

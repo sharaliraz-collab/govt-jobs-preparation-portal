@@ -351,35 +351,47 @@ export default function PakStudiesMCQsPage() {
                 }`}
               >
                 {/* Question Text */}
-                <div className="flex items-start justify-between gap-2">
-                  <div className="flex items-start gap-2.5 flex-1">
-                    <span className="w-8 h-8 rounded-lg bg-emerald-800 text-white font-black text-xs flex items-center justify-center shrink-0 mt-0.5 shadow-sm leading-none">
+                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2.5">
+                  <div className="flex items-center justify-between sm:justify-start gap-2 shrink-0">
+                    <span className="min-w-[2rem] h-8 px-1.5 rounded-lg bg-emerald-800 text-white font-black text-xs tabular-nums flex items-center justify-center shrink-0 shadow-sm leading-none">
                       {displayNumber}
                     </span>
-                    <div className="space-y-1 pt-0.5 flex-1">
-                      {/* English text if not sd-only */}
-                      {langMode !== 'sd' && (
-                        <h3 className="text-xs sm:text-sm font-bold text-slate-900 leading-snug">
-                          {questionTextEn}
-                        </h3>
-                      )}
-                      {/* Sindhi text if sd-only or both */}
-                      {(isSdOnly || isBoth) && hasSindhi && (
-                        <h3 className="text-sm sm:text-base font-bold font-sindhi font-lateefi text-emerald-950 leading-relaxed" dir="rtl">
-                          {questionTextSd}
-                        </h3>
-                      )}
-                    </div>
+                    {isSubmitted ? (
+                      <span className={`sm:hidden px-2 py-0.5 rounded-full text-[10px] font-extrabold flex items-center gap-1 shrink-0 ${
+                        isCorrect ? 'bg-emerald-100 text-emerald-800' : selectedOpt !== undefined ? 'bg-red-100 text-red-800' : 'bg-amber-100 text-amber-800'
+                      }`}>
+                        {isCorrect ? <><CheckCircle2 className="w-3 h-3" /><span>Correct</span></> : selectedOpt !== undefined ? <><XCircle className="w-3 h-3" /><span>Wrong</span></> : <span>Skipped</span>}
+                      </span>
+                    ) : isAnswered ? (
+                      <span className="sm:hidden px-2 py-0.5 rounded-md text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-200 flex items-center gap-1 shrink-0">
+                        <Lock className="w-3 h-3 text-blue-600" />
+                        <span>Locked</span>
+                      </span>
+                    ) : null}
+                  </div>
+                  <div className="space-y-1 sm:pt-0.5 flex-1 min-w-0 w-full">
+                    {/* English text if not sd-only */}
+                    {langMode !== 'sd' && (
+                      <h3 className="mcq-question-text font-bold text-slate-900">
+                        {questionTextEn.replace(/_+/g, '______')}
+                      </h3>
+                    )}
+                    {/* Sindhi text if sd-only or both */}
+                    {(isSdOnly || isBoth) && hasSindhi && (
+                      <h3 className="text-sm sm:text-base font-bold font-sindhi font-lateefi text-emerald-950 leading-relaxed text-right break-words" dir="rtl">
+                        {questionTextSd}
+                      </h3>
+                    )}
                   </div>
 
                   {isSubmitted ? (
-                    <span className={`px-2 py-0.5 rounded-full text-[10px] font-extrabold flex items-center gap-1 shrink-0 ${
+                    <span className={`hidden sm:flex px-2 py-0.5 rounded-full text-[10px] font-extrabold items-center gap-1 shrink-0 ${
                       isCorrect ? 'bg-emerald-100 text-emerald-800' : selectedOpt !== undefined ? 'bg-red-100 text-red-800' : 'bg-amber-100 text-amber-800'
                     }`}>
                       {isCorrect ? <><CheckCircle2 className="w-3 h-3" /><span>Correct</span></> : selectedOpt !== undefined ? <><XCircle className="w-3 h-3" /><span>Wrong</span></> : <span>Skipped</span>}
                     </span>
                   ) : isAnswered ? (
-                    <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-200 flex items-center gap-1 shrink-0">
+                    <span className="hidden sm:flex px-2 py-0.5 rounded-md text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-200 items-center gap-1 shrink-0">
                       <Lock className="w-3 h-3 text-blue-600" />
                       <span>Locked</span>
                     </span>
@@ -432,7 +444,7 @@ export default function PakStudiesMCQsPage() {
                         </div>
                         <div className="flex-1 min-w-0">
                           {langMode !== 'sd' && (
-                            <span className="font-medium leading-normal block">{q.optionsEn[optIdx]}</span>
+                            <span className="font-medium leading-normal block mcq-option-text">{q.optionsEn[optIdx]}</span>
                           )}
                           {(isSdOnly || isBoth) && sdOptText && (
                             <span className="font-sindhi font-lateefi font-bold text-sm text-emerald-950 block text-right" dir="rtl">

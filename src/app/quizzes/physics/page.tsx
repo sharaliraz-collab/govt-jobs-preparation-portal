@@ -290,7 +290,7 @@ export default function PhysicsQuizPage() {
             return (
               <div
                 key={q.id}
-                className={`p-5 sm:p-6 rounded-2xl border transition shadow-xs space-y-3 bg-white page-break-inside-avoid ${
+                className={`p-4 sm:p-6 rounded-2xl border transition shadow-xs space-y-3 bg-white page-break-inside-avoid ${
                   isAnswered
                     ? isCorrect
                       ? 'border-emerald-300 bg-emerald-50/20'
@@ -298,35 +298,37 @@ export default function PhysicsQuizPage() {
                     : 'border-slate-200 hover:border-slate-300'
                 }`}
               >
-                <div className="flex items-start justify-between gap-3">
-                  <div className="flex items-start gap-3 flex-1">
-                    <span className="w-8 h-8 rounded-lg bg-cyan-700 text-white font-black text-xs flex items-center justify-center shrink-0 mt-0.5 shadow-xs">
-                      {globalIndex + 1}
-                    </span>
-                    <div className="space-y-1 flex-1">
-                      <span className="text-[10px] font-bold uppercase tracking-widest text-cyan-800 bg-cyan-50 px-2.5 py-0.5 rounded-full border border-cyan-200">
+                <div className="space-y-2.5">
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-2 min-w-0">
+                      <span className="min-w-[2rem] h-8 px-1.5 rounded-lg bg-cyan-700 text-white font-black text-xs tabular-nums flex items-center justify-center shrink-0 shadow-xs">
+                        {globalIndex + 1}
+                      </span>
+                      <span className="text-[10px] font-bold uppercase tracking-wider sm:tracking-widest text-cyan-800 bg-cyan-50 px-2.5 py-0.5 rounded-full border border-cyan-200 truncate">
                         {getQuestionTopic(q)}
                       </span>
-
-                      <h3 className="text-sm sm:text-base font-extrabold text-slate-900 leading-relaxed">
-                        {cleanQuestionText(q.textEn)}
-                      </h3>
-
-                      {showSindhi && q.textUr && q.textUr.trim() !== q.textEn.trim() && (
-                        <p className="text-base font-sindhi font-lateefi text-right text-cyan-950 pt-1 font-bold" dir="rtl">
-                          {cleanQuestionText(q.textUr)}
-                        </p>
-                      )}
                     </div>
+
+                    <button
+                      onClick={() => toggleReveal(q.id)}
+                      className="text-[11px] font-bold text-cyan-700 hover:text-cyan-900 bg-cyan-50 hover:bg-cyan-100 px-2.5 sm:px-3 py-1.5 rounded-lg border border-cyan-200 transition shrink-0 flex items-center gap-1 no-print"
+                    >
+                      <Eye className="w-3.5 h-3.5" />
+                      <span>{isRevealed ? 'Hide Answer' : 'Reveal Answer'}</span>
+                    </button>
                   </div>
 
-                  <button
-                    onClick={() => toggleReveal(q.id)}
-                    className="text-[11px] font-bold text-cyan-700 hover:text-cyan-900 bg-cyan-50 hover:bg-cyan-100 px-3 py-1.5 rounded-lg border border-cyan-200 transition shrink-0 flex items-center gap-1 no-print"
-                  >
-                    <Eye className="w-3.5 h-3.5" />
-                    <span>{isRevealed ? 'Hide Answer' : 'Reveal Answer'}</span>
-                  </button>
+                  <div className="w-full min-w-0 space-y-1.5">
+                    <h3 className="mcq-question-text font-bold sm:font-extrabold text-slate-900">
+                      {cleanQuestionText(q.textEn)}
+                    </h3>
+
+                    {showSindhi && q.textUr && q.textUr.trim() !== q.textEn.trim() && (
+                      <p className="text-base font-sindhi font-lateefi text-right text-cyan-950 pt-1 font-bold break-words" dir="rtl">
+                        {cleanQuestionText(q.textUr)}
+                      </p>
+                    )}
+                  </div>
                 </div>
 
                 {/* Options Grid */}
@@ -362,7 +364,7 @@ export default function PhysicsQuizPage() {
                           {String.fromCharCode(65 + optIdx)}
                         </span>
 
-                        <span className="flex-1 font-medium">
+                        <span className="flex-1 min-w-0 font-medium mcq-option-text">
                           {optText}
                           {showSindhi && q.optionsUr && q.optionsUr[optIdx] && q.optionsUr[optIdx].trim() !== optText.trim() && (
                             <span className="block font-sindhi font-lateefi text-right text-sm pt-0.5" dir="rtl">

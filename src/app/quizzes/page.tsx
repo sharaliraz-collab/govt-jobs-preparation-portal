@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 import Loader from '@/components/Loader';
+import { QuickShareButton, SectionShareBar } from '@/components/ShareButtons';
 import {
   FileCheck,
   Clock,
@@ -327,6 +328,14 @@ export default function QuizzesPage() {
         </div>
       </div>
 
+      {/* Social Link Preview & Share Bar */}
+      <SectionShareBar
+        path="/quizzes"
+        title="Free MCQ Practice Tests — 11 Subjects & 43 Aptitude Topics (7,600+ Solved MCQs)"
+        description="Practice topic-wise MCQs for FPSC, PPSC, SPSC, STS, MDCAT & CSS with step-by-step solutions and instant grading."
+        badge="MCQs Prep Hub"
+      />
+
       {/* Subject Filter & Instant Search Bar */}
       <div className="space-y-5">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-4 rounded-2xl border border-slate-200 shadow-xs">
@@ -378,14 +387,22 @@ export default function QuizzesPage() {
                 className="rounded-2xl border border-slate-200 bg-white hover:border-emerald-400 hover:shadow-md transition-all duration-300 p-5 flex flex-col justify-between group relative overflow-hidden"
               >
                 <div className="space-y-3">
-                  <div className="flex items-center justify-between gap-3">
+                  <div className="flex items-center justify-between gap-2">
                     <div className={`p-3 rounded-xl border ${subj.badgeBg} shadow-xs group-hover:scale-105 transition-transform duration-200`}>
                       <Icon className="w-6 h-6" strokeWidth={2.25} />
                     </div>
 
-                    <span className={`text-[11px] font-extrabold px-2.5 py-1 rounded-full border ${subj.badgeBg}`}>
-                      {subj.countBadge}
-                    </span>
+                    <div className="flex items-center gap-1.5">
+                      <span className={`text-[11px] font-extrabold px-2.5 py-1 rounded-full border ${subj.badgeBg}`}>
+                        {subj.countBadge}
+                      </span>
+                      <QuickShareButton
+                        path={href}
+                        title={`${subj.name} — ${subj.countBadge}`}
+                        description={subj.description}
+                        badge={subj.alias}
+                      />
+                    </div>
                   </div>
 
                   <div>
@@ -489,10 +506,18 @@ export default function QuizzesPage() {
                       <span className="text-xs font-bold text-emerald-800 bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 rounded-full">
                         {quiz.subject}
                       </span>
-                      <span className="text-xs text-slate-500 font-semibold flex items-center gap-1">
-                        <HelpCircle className="w-3.5 h-3.5 text-govt-emerald" />
-                        {qCount} {t('quizzes.questionsCount')}
-                      </span>
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs text-slate-500 font-semibold flex items-center gap-1">
+                          <HelpCircle className="w-3.5 h-3.5 text-govt-emerald" />
+                          {qCount} {t('quizzes.questionsCount')}
+                        </span>
+                        <QuickShareButton
+                          path={`/quizzes/${quiz._id}`}
+                          title={`${title} — ${quiz.subject} Practice Quiz`}
+                          description={`Attempt ${qCount} questions in ${quiz.timeLimitMinutes} minutes on GovtJobs.pk.`}
+                          badge={quiz.subject}
+                        />
+                      </div>
                     </div>
 
                     <h3 className={`text-base font-bold text-slate-900 group-hover:text-govt-emerald transition-colors ${isUr ? 'font-urdu' : ''}`}>

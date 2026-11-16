@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 import Loader from '@/components/Loader';
+import { SectionShareBar } from '@/components/ShareButtons';
 import {
   BookOpen,
   CheckCircle2,
@@ -471,6 +472,13 @@ export default function EnglishGrammarMCQsPage() {
           onChange={handlePageChange}
         />
       )}
+
+      <SectionShareBar
+        path="/quizzes/english-grammar"
+        title="English Grammar & Composition MCQs — Parts of Speech, Synonyms & Antonyms"
+        description="Practice solved English Grammar & Vocabulary MCQs for FPSC, PPSC, SPSC, NTS & CSS exams on GovtJobs.pk."
+        badge="English Grammar Prep"
+      />
     </div>
   );
 }

@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { FileDown, BookOpen, Download, Eye } from 'lucide-react';
 import { IMaterial } from '@/lib/types';
 import PdfViewerModal from './PdfViewerModal';
+import { QuickShareButton } from './ShareButtons';
 
 interface MaterialCardProps {
   material: IMaterial;
@@ -62,10 +63,18 @@ const MaterialCard: React.FC<MaterialCardProps> = ({ material }) => {
               <BookOpen className="w-3 h-3" />
               {material.subject}
             </span>
-            <span className="text-[10px] text-govt-muted flex items-center gap-1 bg-slate-50 px-2 py-0.5 rounded-full font-medium">
-              <Download className="w-3 h-3" />
-              {downloadCount}
-            </span>
+            <div className="flex items-center gap-1.5">
+              <span className="text-[10px] text-govt-muted flex items-center gap-1 bg-slate-50 px-2 py-0.5 rounded-full font-medium">
+                <Download className="w-3 h-3" />
+                {downloadCount}
+              </span>
+              <QuickShareButton
+                path={`/materials?search=${encodeURIComponent(title)}`}
+                title={`${title} — ${material.subject} Past Paper & Study PDF`}
+                description={description || `Download ${title} (${material.subject}) PDF for free on GovtJobs.pk.`}
+                badge={material.subject}
+              />
+            </div>
           </div>
 
           <h3 className={`text-sm font-bold text-govt-charcoal line-clamp-2 ${isUr ? 'font-urdu' : ''}`}>

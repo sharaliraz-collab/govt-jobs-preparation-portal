@@ -4,6 +4,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import axios from 'axios';
 import Loader from '@/components/Loader';
+import { SectionShareBar } from '@/components/ShareButtons';
 import {
   ArrowLeft, Globe, MapPin, Banknote, Crown, ChevronLeft, ChevronRight,
   Sparkles, CheckCircle2, XCircle, Lock, Send, RotateCcw, Award, AlertCircle, HelpCircle
@@ -386,6 +387,13 @@ export default function WorldInfoPage() {
         <PaginationBar currentPage={currentPage} totalPages={totalPages} startIndex={startIndex}
           total={questions.length} perPage={ITEMS_PER_PAGE} onChange={handlePageChange} />
       )}
+
+      <SectionShareBar
+        path="/quizzes/world-info"
+        title="World General Knowledge MCQs — 195 Capitals, 195 Currencies & 30 Leaders"
+        description="Practice 420 World GK MCQs organized by continent (Asia, Europe, Africa, Americas, Oceania) on GovtJobs.pk."
+        badge="World GK Prep"
+      />
     </div>
   );
 }

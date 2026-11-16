@@ -18,7 +18,7 @@ const getSiteUrl = (): string => {
 };
 
 export const SITE_URL = getSiteUrl();
-export const SITE_NAME = 'GovtJobs.pk — Sindh Government Jobs Portal';
+export const SITE_NAME = 'GovtJobs.pk — Official Career & MCQs Test Prep Portal';
 export const DEFAULT_OG_IMAGE = '/og-image.png';
 
 export function truncate(text: string, maxLength = 160): string {
@@ -28,6 +28,7 @@ export function truncate(text: string, maxLength = 160): string {
 }
 
 export function absoluteUrl(path: string): string {
+  if (!path) return SITE_URL;
   if (path.startsWith('http://') || path.startsWith('https://')) return path;
   const cleanPath = path.startsWith('/') ? path : `/${path}`;
   return `${SITE_URL}${cleanPath}`;
@@ -63,7 +64,7 @@ export function buildPageMetadata({
 }: PageMetadataOptions): Metadata {
   const url = absoluteUrl(path);
   const ogImage = resolveImageUrl(image);
-  const fullTitle = title.includes('GovtJobs') ? title : `${title} | ${SITE_NAME}`;
+  const fullTitle = title.includes('GovtJobs') ? title : `${title} | GovtJobs.pk`;
 
   return {
     title,
@@ -75,7 +76,12 @@ export function buildPageMetadata({
       : {
           index: true,
           follow: true,
-          googleBot: { index: true, follow: true, 'max-image-preview': 'large' },
+          googleBot: {
+            index: true,
+            follow: true,
+            'max-image-preview': 'large',
+            'max-snippet': -1,
+          },
         },
     openGraph: {
       type,
@@ -87,9 +93,11 @@ export function buildPageMetadata({
       images: [
         {
           url: ogImage,
+          secureUrl: ogImage,
           width: 1200,
           height: 630,
-          alt: title,
+          alt: fullTitle,
+          type: 'image/png',
         },
       ],
       ...(publishedTime && type === 'article' ? { publishedTime } : {}),

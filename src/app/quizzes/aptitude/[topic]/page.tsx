@@ -22,7 +22,7 @@ export function generateMetadata({ params }: Props): Metadata {
     title: `${topic.title} Aptitude MCQs with Solutions — ${topic.count} Questions`,
     description: `Practice ${topic.count} ${topic.title} aptitude MCQs with step-by-step solutions for FPSC, PPSC, SPSC, NTS, CSS, PMS and other government job tests. ${APTITUDE_PER_PAGE} questions per page, free online.`,
     path: `/quizzes/aptitude/${topic.slug}`,
-    image: '/og-quizzes.png',
+    image: `/quizzes/aptitude/${topic.slug}/opengraph-image`,
     keywords: [
       `${topic.title} aptitude questions`,
       `${topic.title} MCQs with answers`,

@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import axios from 'axios';
 import Loader from '@/components/Loader';
+import { SectionShareBar } from '@/components/ShareButtons';
 import {
   Landmark, ArrowLeft, HelpCircle, CheckCircle2, XCircle, ChevronLeft, ChevronRight,
   Award, Lock, Send, RotateCcw, Sparkles, AlertCircle, BookMarked, Clock, Languages
@@ -479,6 +480,13 @@ export default function PakStudiesMCQsPage() {
           onChange={handlePageChange}
         />
       )}
+
+      <SectionShareBar
+        path="/quizzes/pak-studies"
+        title="Pakistan Studies MCQs — 364 Solved Questions Across 15 Sections"
+        description="Practice Indus Valley, 1973 Constitution, Geography, Economy & Islamic History MCQs for FPSC, PPSC, SPSC & NTS."
+        badge="Pakistan Studies Prep"
+      />
     </div>
   );
 }

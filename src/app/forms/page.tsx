@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 import FormCard from '@/components/FormCard';
 import Loader from '@/components/Loader';
+import { SectionShareBar } from '@/components/ShareButtons';
 import { Search, FileText } from 'lucide-react';
 import { IFormDoc } from '@/lib/types';
 
@@ -55,6 +56,13 @@ export default function FormsPage() {
           {t('forms.subtitle')}
         </p>
       </div>
+
+      <SectionShareBar
+        path="/forms"
+        title="Download Official Government Application & Challan Forms PDF"
+        description="Official job application forms, bank fee challan slips, verification documents, and Sindh Free Solar Scheme registration."
+        badge="Official Forms Portal"
+      />
 
       {/* Featured: Sindh Solar Energy Program */}
       <div className="relative overflow-hidden rounded-2xl border border-emerald-700 shadow-elevated"

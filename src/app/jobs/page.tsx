@@ -7,6 +7,7 @@ import axios from 'axios';
 import JobCard from '@/components/JobCard';
 import AdSlot from '@/components/AdSlot';
 import Loader from '@/components/Loader';
+import { SectionShareBar } from '@/components/ShareButtons';
 import { Search, Filter, RefreshCw } from 'lucide-react';
 import { IJob } from '@/lib/types';
 
@@ -76,6 +77,13 @@ function JobsContent() {
           {t('jobs.subtitle')}
         </p>
       </div>
+
+      <SectionShareBar
+        path="/jobs"
+        title="Pakistan Government Jobs 2026 — FPSC, PPSC, SPSC, STS & Federal Vacancies"
+        description="Explore verified federal and provincial government job announcements with official advertisement clippings and deadlines."
+        badge="Official Jobs Portal"
+      />
 
       {/* Filter Toolbar */}
       <form onSubmit={handleApplyFilters} className="bg-white p-4 sm:p-5 rounded-2xl border border-govt-border shadow-sm space-y-4">

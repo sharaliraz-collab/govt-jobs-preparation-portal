@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import axios from 'axios';
 import Loader from '@/components/Loader';
+import { SectionShareBar } from '@/components/ShareButtons';
 import {
   ArrowLeft, BookOpen, HelpCircle, CheckCircle2, XCircle,
   ChevronLeft, ChevronRight, Award, Lock, Send, RotateCcw,
@@ -346,6 +347,13 @@ export default function SubjectPracticePage() {
       {!loading && questions.length > 0 && (
         <PaginationBar currentPage={currentPage} totalPages={totalPages} startIndex={startIndex} total={questions.length} perPage={ITEMS_PER_PAGE} onChange={handlePageChange} />
       )}
+
+      <SectionShareBar
+        path={`/quizzes/subject/${subjectId}`}
+        title={`${meta.name} MCQs — Solved Practice Questions`}
+        description={`Practice solved ${meta.name} MCQs for FPSC, PPSC, SPSC, NTS & CSS exams on GovtJobs.pk.`}
+        badge={`${meta.name} Prep`}
+      />
     </div>
   );
 }

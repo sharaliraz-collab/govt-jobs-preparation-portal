@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { FileText, FileDown, Download, Eye } from 'lucide-react';
 import { IFormDoc } from '@/lib/types';
 import PdfViewerModal from './PdfViewerModal';
+import { QuickShareButton } from './ShareButtons';
 
 interface FormCardProps {
   form: IFormDoc;
@@ -49,10 +50,18 @@ const FormCard: React.FC<FormCardProps> = ({ form }) => {
               <FileText className="w-3 h-3" />
               {form.category}
             </span>
-            <span className="text-[10px] text-govt-muted flex items-center gap-1 bg-slate-50 px-2 py-0.5 rounded-full font-medium">
-              <Download className="w-3 h-3" />
-              {downloadCount}
-            </span>
+            <div className="flex items-center gap-1.5">
+              <span className="text-[10px] text-govt-muted flex items-center gap-1 bg-slate-50 px-2 py-0.5 rounded-full font-medium">
+                <Download className="w-3 h-3" />
+                {downloadCount}
+              </span>
+              <QuickShareButton
+                path={`/forms?search=${encodeURIComponent(title)}`}
+                title={`${title} — Official ${form.category} Form`}
+                description={description || `Download official ${title} PDF document on GovtJobs.pk.`}
+                badge={form.category}
+              />
+            </div>
           </div>
 
           <h3 className={`text-sm font-bold text-govt-charcoal line-clamp-2 ${isUr ? 'font-urdu' : ''}`}>

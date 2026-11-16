@@ -9,6 +9,7 @@ import JobCard from '@/components/JobCard';
 import NewsCard from '@/components/NewsCard';
 import AdSlot from '@/components/AdSlot';
 import { SkeletonCard } from '@/components/Loader';
+import { QuickShareButton, SectionShareBar } from '@/components/ShareButtons';
 import { APTITUDE_GROUPS, APTITUDE_TOPICS, AptitudeGroupId } from '@/data/aptitudeTopics';
 import {
   Search,
@@ -575,14 +576,22 @@ export default function Home() {
                   className="bg-white rounded-2xl border border-slate-200/90 hover:border-emerald-300 shadow-xs hover:shadow-md transition-all duration-200 p-5 flex flex-col justify-between group"
                 >
                   <div className="space-y-3.5">
-                    {/* Top Row: Icon + Count Badge */}
+                    {/* Top Row: Icon + Count Badge + Share */}
                     <div className="flex items-center justify-between gap-2">
                       <div className={`w-11 h-11 rounded-xl border flex items-center justify-center shrink-0 ${subj.iconStyle} group-hover:scale-105 transition-transform`}>
                         <Icon className="w-5 h-5" strokeWidth={2.25} />
                       </div>
-                      <span className={`text-[11px] font-extrabold px-2.5 py-1 rounded-full border ${subj.badgeStyle}`}>
-                        {subj.badge}
-                      </span>
+                      <div className="flex items-center gap-1.5">
+                        <span className={`text-[11px] font-extrabold px-2.5 py-1 rounded-full border ${subj.badgeStyle}`}>
+                          {subj.badge}
+                        </span>
+                        <QuickShareButton
+                          path={subj.href}
+                          title={`${subj.name} — ${subj.badge}`}
+                          description={subj.desc}
+                          badge={subj.badge}
+                        />
+                      </div>
                     </div>
 
                     {/* Title & Description */}
@@ -695,23 +704,30 @@ export default function Home() {
           {/* Topics Grid for Active Group */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2.5">
             {groupTopics.map((topic) => (
-              <Link
+              <div
                 key={topic.slug}
-                href={`/quizzes/aptitude/${topic.slug}`}
-                className="bg-white hover:bg-emerald-50/70 border border-slate-200/90 hover:border-emerald-300 rounded-xl px-3.5 py-2.5 flex items-center justify-between gap-2 transition-all group shadow-2xs"
+                className="bg-white hover:bg-emerald-50/70 border border-slate-200/90 hover:border-emerald-300 rounded-xl px-3 py-2.5 flex items-center justify-between gap-2 transition-all group shadow-2xs"
               >
-                <div className="flex items-center gap-2.5 min-w-0">
+                <Link
+                  href={`/quizzes/aptitude/${topic.slug}`}
+                  className="flex items-center gap-2.5 min-w-0 flex-1"
+                >
                   <span className="w-6 h-6 rounded-lg bg-amber-50 border border-amber-200/80 text-amber-800 text-[11px] font-extrabold flex items-center justify-center shrink-0">
                     {topic.id}
                   </span>
                   <span className="text-xs font-bold text-slate-800 group-hover:text-emerald-800 truncate">
                     {topic.title}
                   </span>
+                </Link>
+                <div className="flex items-center gap-1.5 shrink-0">
+                  <QuickShareButton
+                    path={`/quizzes/aptitude/${topic.slug}`}
+                    title={`${topic.title} — Aptitude MCQs (${topic.count} Questions)`}
+                    description={`Practice ${topic.count} ${topic.title} aptitude MCQs with step-by-step solutions on GovtJobs.pk.`}
+                    badge="Aptitude"
+                  />
                 </div>
-                <span className="text-[10px] font-extrabold text-emerald-700 bg-emerald-50 border border-emerald-200/70 px-2 py-0.5 rounded-full shrink-0">
-                  {topic.count} Qs
-                </span>
-              </Link>
+              </div>
             ))}
           </div>
         </section>
@@ -742,9 +758,8 @@ export default function Home() {
             {FEATURED_MOCK_EXAMS.map((exam) => {
               const Icon = exam.icon;
               return (
-                <Link
+                <div
                   key={exam.href}
-                  href={exam.href}
                   className={`rounded-2xl border p-5 shadow-xs hover:shadow-md transition-all duration-200 flex flex-col justify-between group ${exam.accent}`}
                 >
                   <div className="space-y-3">
@@ -752,19 +767,27 @@ export default function Home() {
                       <div className={`w-10 h-10 rounded-xl border flex items-center justify-center ${exam.iconStyle}`}>
                         <Icon className="w-5 h-5" strokeWidth={2.25} />
                       </div>
-                      <span className="text-[10px] font-extrabold uppercase tracking-wider bg-white border border-slate-200 text-slate-700 px-2.5 py-1 rounded-full">
-                        {exam.org}
-                      </span>
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-[10px] font-extrabold uppercase tracking-wider bg-white border border-slate-200 text-slate-700 px-2 py-0.5 rounded-full">
+                          {exam.org}
+                        </span>
+                        <QuickShareButton
+                          path={exam.href}
+                          title={`${exam.title} — ${exam.badge}`}
+                          description={exam.desc}
+                          badge={exam.org}
+                        />
+                      </div>
                     </div>
 
-                    <div>
+                    <Link href={exam.href} className="block">
                       <h3 className="text-sm font-extrabold text-slate-900 group-hover:text-emerald-700 transition-colors">
                         {exam.title}
                       </h3>
                       <p className="text-xs text-slate-600 mt-1 line-clamp-2 leading-relaxed">
                         {exam.desc}
                       </p>
-                    </div>
+                    </Link>
                   </div>
 
                   <div className="mt-4 pt-3 border-t border-slate-200/70 flex items-center justify-between">
@@ -772,14 +795,24 @@ export default function Home() {
                       <Clock className="w-3.5 h-3.5 text-emerald-600" strokeWidth={2.25} />
                       {exam.badge}
                     </span>
-                    <span className="text-xs font-extrabold text-emerald-700 flex items-center gap-0.5 group-hover:translate-x-0.5 transition-transform">
+                    <Link
+                      href={exam.href}
+                      className="text-xs font-extrabold text-emerald-700 flex items-center gap-0.5 group-hover:translate-x-0.5 transition-transform"
+                    >
                       Start <ChevronRight className="w-3.5 h-3.5" />
-                    </span>
+                    </Link>
                   </div>
-                </Link>
+                </div>
               );
             })}
           </div>
+
+          <SectionShareBar
+            path="/"
+            title="GovtJobs.pk — 7,600+ Solved MCQs, 43 Aptitude Topics & Official Govt Jobs"
+            description="Practice free topic-wise MCQs for FPSC, PPSC, SPSC, STS, MDCAT & NTS with step-by-step solutions and official job alerts."
+            badge="Official Portal Preview"
+          />
         </section>
 
         {/* ═══════════════════════════════════════════════════════════════════

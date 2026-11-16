@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import RichMath from '@/components/RichMath';
 import AdSlot from '@/components/AdSlot';
+import ShareButtons, { SectionShareBar } from '@/components/ShareButtons';
 import {
   APTITUDE_PER_PAGE,
   AptitudeQuestion,
@@ -235,6 +236,19 @@ export default function AptitudePractice({
             <div className="h-2 rounded-full bg-slate-100 overflow-hidden" role="progressbar" aria-valuenow={progressPct} aria-valuemin={0} aria-valuemax={100}>
               <div className={`h-full rounded-full transition-all duration-500 ${theme.bar}`} style={{ width: `${progressPct}%` }} />
             </div>
+          </div>
+
+          {/* Share Bar in Header */}
+          <div className="pt-3 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <span className="text-[11px] font-bold text-slate-500">
+              Share {topic.title} Practice MCQs:
+            </span>
+            <ShareButtons
+              url={`/quizzes/aptitude/${topic.slug}`}
+              title={`${topic.title} — Aptitude MCQs (${total} Solved Questions)`}
+              description={`Practice ${total} ${topic.title} aptitude MCQs (${APTITUDE_PER_PAGE} per page) with step-by-step solutions on GovtJobs.pk.`}
+              compact
+            />
           </div>
         </div>
       </header>
@@ -484,6 +498,14 @@ export default function AptitudePractice({
           </Link>
         )}
       </div>
+
+      {/* Bottom Social Link Preview & Share Banner */}
+      <SectionShareBar
+        path={`/quizzes/aptitude/${topic.slug}`}
+        title={`${topic.title} — Aptitude MCQs (${total} Solved Questions)`}
+        description={`Practice ${total} ${topic.title} aptitude MCQs (${APTITUDE_PER_PAGE} per page) with step-by-step solutions for FPSC, PPSC, SPSC, NTS & CSS.`}
+        badge={`${topic.title} Aptitude`}
+      />
     </div>
   );
 }

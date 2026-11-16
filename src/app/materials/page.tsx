@@ -6,6 +6,7 @@ import axios from 'axios';
 import MaterialCard from '@/components/MaterialCard';
 import AdSlot from '@/components/AdSlot';
 import Loader from '@/components/Loader';
+import { SectionShareBar } from '@/components/ShareButtons';
 import { Search, BookOpen, RefreshCw } from 'lucide-react';
 import { IMaterial } from '@/lib/types';
 
@@ -70,6 +71,13 @@ export default function MaterialsPage() {
           {t('materials.subtitle')}
         </p>
       </div>
+
+      <SectionShareBar
+        path="/materials"
+        title="Solved Past Papers & Syllabus PDFs — FPSC, PPSC, SPSC & NTS"
+        description="Download free solved past papers, official exam syllabi, and subject study notes on GovtJobs.pk."
+        badge="Study Materials PDF"
+      />
 
       {/* Filter bar */}
       <form onSubmit={handleSearchSubmit} className="bg-white p-4 sm:p-5 rounded-2xl border border-govt-border shadow-sm flex flex-col md:flex-row items-stretch md:items-center gap-3">

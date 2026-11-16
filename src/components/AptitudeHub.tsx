@@ -11,6 +11,7 @@ import {
   AptitudeGroupId,
 } from '@/data/aptitudeTopics';
 import { APTITUDE_THEME } from '@/lib/aptitudeTheme';
+import { QuickShareButton, SectionShareBar } from '@/components/ShareButtons';
 
 export default function AptitudeHub() {
   const [query, setQuery] = useState('');
@@ -71,6 +72,14 @@ export default function AptitudeHub() {
         </div>
       </section>
 
+      {/* Social Media Share & Preview Bar */}
+      <SectionShareBar
+        path="/quizzes/aptitude"
+        title={`Aptitude Test MCQs — ${APTITUDE_TOTAL_QUESTIONS.toLocaleString()} Questions Across 43 Topics`}
+        description="Free quantitative reasoning practice with 10 questions per page and step-by-step math solutions for FPSC, PPSC, SPSC, NTS & CSS."
+        badge="Aptitude Test Bank"
+      />
+
       {/* Search + group filters */}
       <section className="bg-white border border-slate-200/90 rounded-2xl shadow-xs p-4 sm:p-5 space-y-4" aria-label="Find a topic">
         <div className="relative">
@@ -130,7 +139,7 @@ export default function AptitudeHub() {
         </div>
       </section>
 
-      {/* Topic grid */}
+      {/* Topic grid with per-item social share */}
       {filtered.length === 0 ? (
         <div className="bg-white border border-slate-200 rounded-2xl p-10 text-center space-y-2">
           <Search className="w-9 h-9 text-slate-300 mx-auto" strokeWidth={2} />
@@ -149,34 +158,45 @@ export default function AptitudeHub() {
             const theme = APTITUDE_THEME[t.group];
             const Icon = theme.icon;
             const pages = Math.ceil(t.count / APTITUDE_PER_PAGE);
+            const groupLabel = APTITUDE_GROUPS.find((g) => g.id === t.group)?.label || 'Aptitude';
             return (
-              <Link
+              <div
                 key={t.slug}
-                href={`/quizzes/aptitude/${t.slug}`}
                 className={`group bg-white border border-slate-200/90 ${theme.hover} rounded-2xl p-4 sm:p-5 shadow-xs hover:shadow-md transition-all duration-200 flex flex-col justify-between gap-4`}
               >
-                <div className="flex items-start gap-3.5">
-                  <div className={`w-12 h-12 rounded-2xl border flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform ${theme.badge}`}>
-                    <Icon className="w-6 h-6" strokeWidth={2.25} />
-                  </div>
-                  <div className="min-w-0">
-                    <h2 className="text-sm sm:text-base font-extrabold text-slate-900 leading-snug group-hover:text-emerald-700 transition-colors">
-                      {t.title}
-                    </h2>
-                    <p className="text-[11px] sm:text-xs font-medium text-slate-500 mt-1">
-                      {t.count} MCQs · {pages} {pages === 1 ? 'page' : 'pages'}
-                    </p>
-                  </div>
+                <div className="flex items-start justify-between gap-2">
+                  <Link href={`/quizzes/aptitude/${t.slug}`} className="flex items-start gap-3.5 min-w-0 flex-1">
+                    <div className={`w-12 h-12 rounded-2xl border flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform ${theme.badge}`}>
+                      <Icon className="w-6 h-6" strokeWidth={2.25} />
+                    </div>
+                    <div className="min-w-0">
+                      <h2 className="text-sm sm:text-base font-extrabold text-slate-900 leading-snug group-hover:text-emerald-700 transition-colors">
+                        {t.title}
+                      </h2>
+                      <p className="text-[11px] sm:text-xs font-medium text-slate-500 mt-1">
+                        {t.count} MCQs · {pages} {pages === 1 ? 'page' : 'pages'}
+                      </p>
+                    </div>
+                  </Link>
+                  <QuickShareButton
+                    path={`/quizzes/aptitude/${t.slug}`}
+                    title={`${t.title} — Aptitude MCQs (${t.count} Solved Questions)`}
+                    description={`Practice ${t.count} ${t.title} aptitude MCQs (${APTITUDE_PER_PAGE} per page) with step-by-step solutions on GovtJobs.pk.`}
+                    badge={groupLabel}
+                  />
                 </div>
                 <div className="flex items-center justify-between pt-3 border-t border-slate-100">
                   <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${theme.chip}`}>
-                    {APTITUDE_GROUPS.find((g) => g.id === t.group)?.label}
+                    {groupLabel}
                   </span>
-                  <span className="inline-flex items-center gap-1 text-xs font-extrabold text-emerald-700 group-hover:translate-x-0.5 transition-transform">
+                  <Link
+                    href={`/quizzes/aptitude/${t.slug}`}
+                    className="inline-flex items-center gap-1 text-xs font-extrabold text-emerald-700 group-hover:translate-x-0.5 transition-transform"
+                  >
                     Start practice <ArrowRight className="w-3.5 h-3.5" strokeWidth={2.5} />
-                  </span>
+                  </Link>
                 </div>
-              </Link>
+              </div>
             );
           })}
         </div>

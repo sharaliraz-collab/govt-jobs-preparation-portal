@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
 import Loader from '@/components/Loader';
+import { QuickShareButton, SectionShareBar } from '@/components/ShareButtons';
 import {
   Bell,
   FileText,
@@ -90,6 +91,13 @@ function EmployeesCornerContent() {
           <span>Establishment Division Service Desk</span>
         </div>
       </div>
+
+      <SectionShareBar
+        path={`/employees-corner?tab=${activeTab}`}
+        title="Employees' Corner — Official Notifications, Pay Scales, FO1/FO2/FO3 & Subsidies"
+        description="Official service desk for serving civil servants, pensioners, field office circulars, and welfare subsidies on GovtJobs.pk."
+        badge="Employees Portal"
+      />
 
       {/* Sub-Pages Navigation Tabs */}
       <div className="bg-white rounded-xl border border-govt-border p-2 shadow-sm flex flex-wrap gap-1">

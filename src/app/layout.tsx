@@ -3,8 +3,9 @@ import Script from 'next/script';
 import './globals.css';
 import { Providers } from './providers';
 import AppShell from '@/components/AppShell';
+import { SITE_URL } from '@/lib/seo';
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://govtjobs.pk';
+const siteUrl = SITE_URL;
 const gaMeasurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 const adsenseClientId = process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID;
 

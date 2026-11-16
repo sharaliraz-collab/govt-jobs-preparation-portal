@@ -1,19 +1,20 @@
 import type { Metadata } from 'next';
+import { buildPageMetadata } from '@/lib/seo';
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://govtjobs.pk';
-
-export const metadata: Metadata = {
-  title: 'Download Government Job Application Forms PDF — FPSC, PPSC, NTS',
-  description: 'Download official job application forms, challan forms, medical certificates, and bio-data forms for Pakistan federal & provincial recruitment.',
-  openGraph: {
-    title: 'Download Govt Job Application & Challan Forms PDF',
-    description: 'Official application forms, bank challan slips, and medical certificate templates.',
-    url: `${siteUrl}/forms`,
-  },
-  alternates: {
-    canonical: `${siteUrl}/forms`,
-  },
-};
+export const metadata: Metadata = buildPageMetadata({
+  title: 'Download Government Job Application & Challan Forms PDF — FPSC, PPSC, NTS',
+  description:
+    'Download official government job application forms, bank fee challan slips, medical certificates, verification documents, and bio-data forms.',
+  path: '/forms',
+  image: '/og-image.png',
+  keywords: [
+    'Government Job Application Forms PDF',
+    'FPSC Challan Form Download',
+    'PPSC Challan Form',
+    'SPSC Application Form',
+    'Sindh Free Solar Panel Form',
+  ],
+});
 
 export default function FormsLayout({ children }: { children: React.ReactNode }) {
   return <>{children}</>;

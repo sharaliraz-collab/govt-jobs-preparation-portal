@@ -8,6 +8,7 @@ import { MapPin, Building2, Calendar, Bookmark, BookmarkCheck, FileText, Users }
 import { useAuth } from '@/context/AuthContext';
 import axios from 'axios';
 import { IJob } from '@/lib/types';
+import { QuickShareButton } from './ShareButtons';
 
 interface JobCardProps {
   job: IJob;
@@ -72,18 +73,26 @@ const JobCard: React.FC<JobCardProps> = ({ job, onSaveToggle }) => {
             </span>
           </div>
 
-          <button
-            onClick={handleSave}
-            title={isSaved ? t('jobs.unsaveJob') : t('jobs.saveJob')}
-            aria-label={isSaved ? 'Remove from saved jobs' : 'Save this job'}
-            className={`p-2 rounded-xl border transition-all duration-200 ${
-              isSaved
-                ? 'text-amber-600 bg-amber-50 border-amber-200 shadow-xs'
-                : 'text-slate-500 bg-slate-50 border-slate-200/80 hover:text-emerald-700 hover:bg-emerald-50 hover:border-emerald-200'
-            }`}
-          >
-            {isSaved ? <BookmarkCheck className="w-4 h-4 fill-current" strokeWidth={2.25} /> : <Bookmark className="w-4 h-4" strokeWidth={2.25} />}
-          </button>
+          <div className="flex items-center gap-1.5">
+            <QuickShareButton
+              path={`/jobs/${job._id}`}
+              title={`${title} — ${job.department}`}
+              description={`${job.department} (${job.location}) · Apply before ${deadlineFormatted}`}
+              badge={job.category || 'Govt Job'}
+            />
+            <button
+              onClick={handleSave}
+              title={isSaved ? t('jobs.unsaveJob') : t('jobs.saveJob')}
+              aria-label={isSaved ? 'Remove from saved jobs' : 'Save this job'}
+              className={`p-2 rounded-xl border transition-all duration-200 ${
+                isSaved
+                  ? 'text-amber-600 bg-amber-50 border-amber-200 shadow-xs'
+                  : 'text-slate-500 bg-slate-50 border-slate-200/80 hover:text-emerald-700 hover:bg-emerald-50 hover:border-emerald-200'
+              }`}
+            >
+              {isSaved ? <BookmarkCheck className="w-4 h-4 fill-current" strokeWidth={2.25} /> : <Bookmark className="w-4 h-4" strokeWidth={2.25} />}
+            </button>
+          </div>
         </div>
 
         {/* Optional Advertisement Image Thumbnail */}

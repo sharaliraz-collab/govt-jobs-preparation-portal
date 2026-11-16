@@ -2,6 +2,7 @@ import React from 'react';
 import type { Metadata } from 'next';
 import { buildPageMetadata } from '@/lib/seo';
 import MDCATMockTest from '@/components/MDCATMockTest';
+import { SectionShareBar } from '@/components/ShareButtons';
 
 export function generateMetadata(): Metadata {
   return buildPageMetadata({
@@ -21,7 +22,15 @@ export function generateMetadata(): Metadata {
 
 export default function MDCATMockTestPage() {
   return (
-    <div className="min-h-screen py-8">
+    <div className="min-h-screen py-8 space-y-6">
+      <div className="max-w-5xl mx-auto px-4">
+        <SectionShareBar
+          path="/mock-papers/mdcat"
+          title="MDCAT Full Mock Exam (200 MCQs) — SIBA Testing Service Model Paper"
+          description="Attempt full 200-question Medical Entry Test: Biology (80), Chemistry (60), Physics (40) & English (20) with 3-hour timer."
+          badge="MDCAT 2026 Mock"
+        />
+      </div>
       <MDCATMockTest />
     </div>
   );

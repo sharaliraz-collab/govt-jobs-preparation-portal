@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 import Loader from '@/components/Loader';
+import { SectionShareBar } from '@/components/ShareButtons';
 import {
   Zap,
   BookOpen,
@@ -408,6 +409,13 @@ export default function PhysicsQuizPage() {
           <ChevronRight className="w-4 h-4" />
         </button>
       </div>
+
+      <SectionShareBar
+        path="/quizzes/physics"
+        title="Physics MCQs — 1,000+ Solved Questions Across 19 Topics"
+        description="Practice Board & MDCAT Physics MCQs covering Mechanics, Electrostatics, Optics, Thermodynamics & Modern Physics."
+        badge="Physics MCQ Bank"
+      />
 
     </div>
   );

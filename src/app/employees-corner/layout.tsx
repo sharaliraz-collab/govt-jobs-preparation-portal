@@ -1,19 +1,20 @@
 import type { Metadata } from 'next';
+import { buildPageMetadata } from '@/lib/seo';
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://govtjobs.pk';
-
-export const metadata: Metadata = {
+export const metadata: Metadata = buildPageMetadata({
   title: "Employees' Corner — Govt Notifications, Pay Scales & Subsidies 2026",
-  description: 'Dedicated portal for serving government employees in Pakistan. Access official notifications, pay scale revisions, FO forms, and subsidy details.',
-  openGraph: {
-    title: "Employees' Corner — Pakistan Government Employees Portal",
-    description: 'Notifications, pay scales, FO forms, and government subsidies.',
-    url: `${siteUrl}/employees-corner`,
-  },
-  alternates: {
-    canonical: `${siteUrl}/employees-corner`,
-  },
-};
+  description:
+    'Dedicated service portal for serving government employees in Pakistan. Access official notifications, FO1/FO2/FO3 service records, departmental forms, and subsidy programs.',
+  path: '/employees-corner',
+  image: '/og-image.png',
+  keywords: [
+    'Pakistan Government Employees Portal',
+    'Sindh Govt Notifications',
+    'FO1 FO2 FO3 Portal',
+    'Government Employee Subsidies',
+    'Departmental Leave & Pension Forms',
+  ],
+});
 
 export default function EmployeesCornerLayout({ children }: { children: React.ReactNode }) {
   return <>{children}</>;

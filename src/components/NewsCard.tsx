@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
 import { Calendar, Pin, ArrowRight, ArrowLeft } from 'lucide-react';
 import { INews } from '@/lib/types';
+import { QuickShareButton } from './ShareButtons';
 
 interface NewsCardProps {
   news: INews;
@@ -44,12 +45,20 @@ const NewsCard: React.FC<NewsCardProps> = ({ news }) => {
           <span className={`font-bold px-2.5 py-1 rounded-full border ${catStyle}`}>
             {news.category}
           </span>
-          {news.pinned && (
-            <span className="flex items-center gap-1 text-yellow-700 font-bold bg-govt-gold-light px-2.5 py-1 rounded-full border border-yellow-300">
-              <Pin className="w-3 h-3 fill-current" />
-              {t('news.pinned')}
-            </span>
-          )}
+          <div className="flex items-center gap-1.5">
+            {news.pinned && (
+              <span className="flex items-center gap-1 text-yellow-700 font-bold bg-govt-gold-light px-2.5 py-1 rounded-full border border-yellow-300">
+                <Pin className="w-3 h-3 fill-current" />
+                {t('news.pinned')}
+              </span>
+            )}
+            <QuickShareButton
+              path={`/news/${news._id}`}
+              title={title}
+              description={body?.slice(0, 140)}
+              badge={news.category || 'Official News'}
+            />
+          </div>
         </div>
 
         <Link href={`/news/${news._id}`} className="block group">

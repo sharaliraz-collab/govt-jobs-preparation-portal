@@ -4,16 +4,37 @@ import { getAuthUser } from '@/lib/auth';
 
 export const dynamic = 'force-dynamic';
 
+const EXACT_SUBJECT_MAP: Record<string, string> = {
+  'biology': 'Biology',
+  'chemistry': 'Chemistry',
+  'physics': 'Physics',
+  'islamic studies': 'Islamic Studies',
+  'pakistan studies': 'Pakistan Studies',
+  'english grammar & composition': 'English Grammar & Composition',
+  'english grammar section 1': 'English Grammar Section 1',
+  'english grammar section 2': 'English Grammar Section 2',
+  'english grammar section 3': 'English Grammar Section 3',
+  'world leaders': 'World Leaders',
+  'computer science': 'Computer Science',
+  'general knowledge': 'General Knowledge',
+  'general science': 'General Science',
+  'mathematics': 'Mathematics',
+};
+
 export async function GET(req: NextRequest) {
   try {
-
     const { searchParams } = new URL(req.url);
     const subject = searchParams.get('subject');
     const difficulty = searchParams.get('difficulty');
     const search = searchParams.get('search');
 
     const where: any = {};
-    if (subject) where.subject = { contains: subject, mode: 'insensitive' };
+    if (subject) {
+      const exactMatch = EXACT_SUBJECT_MAP[subject.trim().toLowerCase()];
+      where.subject = exactMatch
+        ? { equals: exactMatch }
+        : { contains: subject, mode: 'insensitive' };
+    }
     if (difficulty) where.difficulty = difficulty;
     if (search) {
       where.OR = [
@@ -23,13 +44,50 @@ export async function GET(req: NextRequest) {
       ];
     }
 
+    const isPublicSubjectFeed = Boolean(subject && !search);
     const questions = await prisma.question.findMany({
       where,
-      orderBy: { createdAt: 'desc' }
+      orderBy: { createdAt: 'desc' },
+      ...(isPublicSubjectFeed
+        ? {
+            select: {
+              id: true,
+              subject: true,
+              textEn: true,
+              textUr: true,
+              optionsEn: true,
+              optionsUr: true,
+              correctIndex: true,
+              explanationEn: true,
+              difficulty: true,
+              createdAt: true,
+            },
+          }
+        : {}),
     });
 
-    const questionsWithId = questions.map(q => ({ ...q, _id: q.id }));
-    return NextResponse.json(questionsWithId);
+    const questionsWithId = questions.map((q) => {
+      if (!isPublicSubjectFeed) return { ...q, _id: q.id };
+      const hasDistinctUr = Boolean(q.textUr && q.textUr.trim() !== q.textEn.trim());
+      return {
+        id: q.id,
+        _id: q.id,
+        subject: q.subject,
+        textEn: q.textEn,
+        ...(hasDistinctUr ? { textUr: q.textUr, optionsUr: q.optionsUr } : {}),
+        optionsEn: q.optionsEn,
+        correctIndex: q.correctIndex,
+        explanationEn: q.explanationEn,
+        difficulty: q.difficulty,
+        createdAt: q.createdAt,
+      };
+    });
+
+    const headers: HeadersInit = isPublicSubjectFeed
+      ? { 'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600' }
+      : { 'Cache-Control': 'no-store' };
+
+    return NextResponse.json(questionsWithId, { headers });
   } catch (error: any) {
     return NextResponse.json({ message: error.message || 'Server error' }, { status: 500 });
   }

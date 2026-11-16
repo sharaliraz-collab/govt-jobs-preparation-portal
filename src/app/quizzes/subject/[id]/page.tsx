@@ -83,15 +83,22 @@ export default function SubjectPracticePage() {
     if (meta) fetchQuestions();
   }, [subjectId]);
 
-  const loadChemistryFallback = async (): Promise<IQuestion[]> => {
-    const mod = await import('@/data/chemistry-pdf-mcqs.json');
-    return (mod.default as any[]).map((q) => ({
+  const loadSubjectFallback = async (id: string): Promise<IQuestion[] | null> => {
+    let mod: any = null;
+    if (id === 'chemistry') mod = await import('@/data/chemistry-pdf-mcqs.json');
+    else if (id === 'biology') mod = await import('@/data/biology-pdf-mcqs.json');
+    else if (id === 'physics') mod = await import('@/data/physics-pdf-mcqs.json');
+    else if (id === 'islamic-studies') mod = await import('@/data/islamic-pdf-mcqs.json');
+    if (!mod) return null;
+    const raw = (mod.default ?? mod) as any[];
+    if (!Array.isArray(raw)) return null;
+    return raw.map((q) => ({
       _id: q.id,
       subject: q.subject,
       textEn: q.textEn,
-      textUr: q.textEn,
+      textUr: q.textUr || q.textEn,
       optionsEn: q.optionsEn,
-      optionsUr: q.optionsEn,
+      optionsUr: q.optionsUr || q.optionsEn,
       correctIndex: q.correctIndex,
       explanationEn: q.explanationEn,
     }));
@@ -100,19 +107,30 @@ export default function SubjectPracticePage() {
   const fetchQuestions = async () => {
     setLoading(true);
     setFetchError('');
+    let immediateCount = 0;
+
     try {
-      const res = await axios.get(`/api/questions?subject=${encodeURIComponent(meta!.subject)}`);
-      const data: IQuestion[] = Array.isArray(res.data) ? res.data : [];
-      if (data.length === 0 && subjectId === 'chemistry') {
-        setQuestions(await loadChemistryFallback());
-        return;
+      const bundled = await loadSubjectFallback(subjectId);
+      if (bundled && bundled.length > 0) {
+        immediateCount = bundled.length;
+        setQuestions(bundled);
+        setLoading(false);
       }
-      data.sort((a: any, b: any) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
-      setQuestions(data);
+    } catch (e) {
+      console.error('Error loading bundled fallback:', e);
+    }
+
+    try {
+      const res = await axios.get(`/api/questions?subject=${encodeURIComponent(meta!.subject)}`, {
+        timeout: 8000,
+      });
+      const data: IQuestion[] = Array.isArray(res.data) ? res.data : [];
+      if (data.length > immediateCount) {
+        data.sort((a: any, b: any) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
+        setQuestions(data);
+      }
     } catch (err) {
-      if (subjectId === 'chemistry') {
-        setQuestions(await loadChemistryFallback());
-      } else {
+      if (immediateCount === 0) {
         setFetchError('Failed to load questions. Please refresh the page.');
       }
     } finally {

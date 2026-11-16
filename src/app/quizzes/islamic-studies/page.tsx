@@ -70,21 +70,28 @@ export default function IslamicStudiesPage() {
 
   const fetchQuestions = async () => {
     setLoading(true);
+    let immediateCount = 0;
+
     try {
-      const res = await axios.get('/api/questions?subject=Islamic%20Studies');
-      if (res.data && Array.isArray(res.data) && res.data.length > 0) {
+      const mod = await import('@/data/islamic-pdf-mcqs.json');
+      const fallback = ((mod as any).default ?? mod) as IslamicQuestion[];
+      if (Array.isArray(fallback) && fallback.length > 0) {
+        immediateCount = fallback.length;
+        setQuestions(fallback);
+        setLoading(false);
+      }
+    } catch (e) {
+      console.error('Failed to load bundled Islamic Studies MCQs:', e);
+    }
+
+    try {
+      const res = await axios.get('/api/questions?subject=Islamic%20Studies', { timeout: 8000 });
+      if (res.data && Array.isArray(res.data) && res.data.length > immediateCount) {
         setQuestions(res.data);
-      } else {
-        const mod = await import('@/data/islamic-pdf-mcqs.json');
-        setQuestions((mod.default ?? mod) as IslamicQuestion[]);
       }
     } catch (err) {
-      console.error('Error fetching Islamic Studies MCQs, using bundled fallback:', err);
-      try {
-        const mod = await import('@/data/islamic-pdf-mcqs.json');
-        setQuestions((mod.default ?? mod) as IslamicQuestion[]);
-      } catch (e) {
-        console.error('Failed to load bundled Islamic Studies MCQs:', e);
+      if (immediateCount === 0) {
+        console.error('Error fetching Islamic Studies MCQs:', err);
       }
     } finally {
       setLoading(false);

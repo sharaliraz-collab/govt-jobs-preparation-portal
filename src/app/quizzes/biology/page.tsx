@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
@@ -69,6 +69,7 @@ export default function BiologyQuizzesPage() {
   const [selectedTopic, setSelectedTopic] = useState('All Topics');
   const [currentPage, setCurrentPage] = useState(1);
   const [isShuffled, setIsShuffled] = useState(false);
+  const [shuffleOrder, setShuffleOrder] = useState<string[]>([]);
   const [userAnswers, setUserAnswers] = useState<{ [qId: string]: number }>({});
   const [revealedAnswers, setRevealedAnswers] = useState<{ [qId: string]: boolean }>({});
   const [showSindhi, setShowSindhi] = useState(false);
@@ -77,46 +78,77 @@ export default function BiologyQuizzesPage() {
     fetchQuestions();
   }, []);
 
+  const normalizeBioList = (raw: BioQuestion[]): BioQuestion[] =>
+    raw.map((q) => ({
+      ...q,
+      topic: getTopicFromExplanation(q.explanationEn, q.topic || 'Biology'),
+    }));
+
   const fetchQuestions = async () => {
     setLoading(true);
+    let loadedImmediate = 0;
+
+    // 1. Load bundled verified Biology PDF bank immediately so users never stall or hit 10s timeouts
     try {
-      const res = await axios.get('/api/questions?subject=Biology');
-      if (res.data && Array.isArray(res.data) && res.data.length > 0) {
-        setQuestions(
-          res.data.map((q: BioQuestion) => ({
-            ...q,
-            topic: getTopicFromExplanation(q.explanationEn, q.topic || 'Biology'),
-          }))
-        );
-        return;
+      const mod = await import('@/data/biology-pdf-mcqs.json');
+      const rawFallback = ((mod as any).default ?? mod) as BioQuestion[];
+      if (Array.isArray(rawFallback) && rawFallback.length > 0) {
+        loadedImmediate = rawFallback.length;
+        setQuestions(normalizeBioList(rawFallback));
+        setLoading(false);
+      }
+    } catch (fallbackErr) {
+      console.error('Error loading bundled Biology MCQs:', fallbackErr);
+    }
+
+    // 2. Sync with live Neon DB in background (only replaces if DB holds newer/additional rows)
+    try {
+      const res = await axios.get('/api/questions?subject=Biology', { timeout: 8000 });
+      if (res.data && Array.isArray(res.data) && res.data.length > loadedImmediate) {
+        setQuestions(normalizeBioList(res.data));
       }
     } catch (err) {
-      console.error('Error fetching Biology MCQs:', err);
-    }
-    try {
-      const fallbackMod = await import('@/data/biology-pdf-mcqs.json');
-      const fallback = (fallbackMod.default || []) as BioQuestion[];
-      setQuestions(
-        fallback.map((q) => ({
-          ...q,
-          topic: getTopicFromExplanation(q.explanationEn, q.topic || 'Biology'),
-        }))
-      );
-    } catch (fallbackErr) {
-      console.error('Error loading Biology fallback MCQs:', fallbackErr);
+      if (loadedImmediate === 0) {
+        console.error('Error fetching Biology MCQs:', err);
+      }
     } finally {
       setLoading(false);
     }
   };
 
-  // Filter & shuffle questions
-  let displayQuestions = selectedTopic === 'All Topics'
-    ? questions
-    : questions.filter(q => q.topic === selectedTopic || q.explanationEn?.includes(selectedTopic) || q.textEn.toLowerCase().includes(selectedTopic.toLowerCase()));
+  const handleToggleShuffle = () => {
+    if (!isShuffled) {
+      const ids = questions.map((q) => q.id);
+      for (let i = ids.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [ids[i], ids[j]] = [ids[j], ids[i]];
+      }
+      setShuffleOrder(ids);
+      setIsShuffled(true);
+    } else {
+      setIsShuffled(false);
+    }
+    setCurrentPage(1);
+  };
 
-  if (isShuffled && displayQuestions.length > 0) {
-    displayQuestions = [...displayQuestions].sort((a, b) => (a.id > b.id ? 1 : -1));
-  }
+  // Filter & Fisher-Yates shuffle questions
+  const displayQuestions = useMemo(() => {
+    const filtered =
+      selectedTopic === 'All Topics'
+        ? questions
+        : questions.filter(
+          (q) =>
+            q.topic === selectedTopic ||
+            q.explanationEn?.includes(selectedTopic) ||
+            q.textEn.toLowerCase().includes(selectedTopic.toLowerCase())
+        );
+
+    if (isShuffled && shuffleOrder.length > 0) {
+      const rank = new Map(shuffleOrder.map((id, idx) => [id, idx]));
+      return [...filtered].sort((a, b) => (rank.get(a.id) ?? 999999) - (rank.get(b.id) ?? 999999));
+    }
+    return filtered;
+  }, [questions, selectedTopic, isShuffled, shuffleOrder]);
 
   const totalQuestions = displayQuestions.length;
   const totalPages = Math.max(1, Math.ceil(totalQuestions / QUESTIONS_PER_PAGE));
@@ -214,10 +246,9 @@ export default function BiologyQuizzesPage() {
 
           <div className="flex items-center gap-2 ml-auto">
             <button
-              onClick={() => setIsShuffled(!isShuffled)}
-              className={`px-3 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1 border ${
-                isShuffled ? 'bg-amber-100 text-amber-900 border-amber-300' : 'bg-slate-50 text-slate-700 border-slate-200'
-              }`}
+              onClick={handleToggleShuffle}
+              className={`px-3 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1 border ${isShuffled ? 'bg-amber-100 text-amber-900 border-amber-300' : 'bg-slate-50 text-slate-700 border-slate-200'
+                }`}
             >
               <Shuffle className="w-3.5 h-3.5" />
               <span>{isShuffled ? 'Shuffled' : 'Sequential'}</span>
@@ -263,9 +294,8 @@ export default function BiologyQuizzesPage() {
               <button
                 key={item}
                 onClick={() => handlePageChange(item)}
-                className={`min-w-[1.75rem] h-7 px-1.5 rounded-lg text-[11px] font-bold tabular-nums transition ${
-                  item === currentPage ? 'bg-emerald-800 text-white shadow-xs' : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
-                }`}
+                className={`min-w-[1.75rem] h-7 px-1.5 rounded-lg text-[11px] font-bold tabular-nums transition ${item === currentPage ? 'bg-emerald-800 text-white shadow-xs' : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
+                  }`}
               >
                 {item}
               </button>
@@ -303,13 +333,12 @@ export default function BiologyQuizzesPage() {
             return (
               <div
                 key={q.id}
-                className={`p-4 sm:p-6 rounded-2xl border transition shadow-xs space-y-3 bg-white page-break-inside-avoid ${
-                  isAnswered
+                className={`p-4 sm:p-6 rounded-2xl border transition shadow-xs space-y-3 bg-white page-break-inside-avoid ${isAnswered
                     ? isCorrect
                       ? 'border-emerald-300 bg-emerald-50/20'
                       : 'border-red-300 bg-red-50/20'
                     : 'border-slate-200 hover:border-slate-300'
-                }`}
+                  }`}
               >
                 <div className="space-y-2.5">
                   <div className="flex items-center justify-between gap-2">
@@ -367,13 +396,12 @@ export default function BiologyQuizzesPage() {
                         onClick={() => handleOptionSelect(q.id, optIdx)}
                         className={`w-full text-left p-3 sm:p-3.5 rounded-xl border text-xs sm:text-[13px] transition flex items-start sm:items-center gap-2.5 ${btnStyle}`}
                       >
-                        <span className={`w-5 h-5 rounded-md border shrink-0 flex items-center justify-center text-[10px] font-extrabold mt-0.5 sm:mt-0 ${
-                          isCorrectAnswer && (isAnswered || isRevealed)
+                        <span className={`w-5 h-5 rounded-md border shrink-0 flex items-center justify-center text-[10px] font-extrabold mt-0.5 sm:mt-0 ${isCorrectAnswer && (isAnswered || isRevealed)
                             ? 'bg-white text-emerald-950 border-white'
                             : isOptionSelected && !isCorrectAnswer
-                            ? 'bg-white text-red-950 border-white'
-                            : 'border-slate-300 text-slate-500'
-                        }`}>
+                              ? 'bg-white text-red-950 border-white'
+                              : 'border-slate-300 text-slate-500'
+                          }`}>
                           {String.fromCharCode(65 + optIdx)}
                         </span>
 
@@ -434,9 +462,8 @@ export default function BiologyQuizzesPage() {
             <button
               key={item}
               onClick={() => handlePageChange(item)}
-              className={`min-w-[2rem] h-8 px-2 rounded-lg text-xs font-bold tabular-nums transition ${
-                item === currentPage ? 'bg-emerald-800 text-white shadow-xs' : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
-              }`}
+              className={`min-w-[2rem] h-8 px-2 rounded-lg text-xs font-bold tabular-nums transition ${item === currentPage ? 'bg-emerald-800 text-white shadow-xs' : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
+                }`}
             >
               {item}
             </button>

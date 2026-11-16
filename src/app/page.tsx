@@ -68,12 +68,12 @@ const ADVANCED_MCQ_SUBJECTS: HomeSubjectCard[] = [
     desc: 'Complete quantitative test bank with 10 questions per page, top page counter, and click-to-reveal LaTeX step-by-step solutions.',
     features: ['10 Qs / Page', 'Step-by-Step Formulas', '43 Chapters'],
     subLinks: [
-      { label: 'Average (100)', href: '/quizzes/aptitude/average' },
-      { label: 'Percentage (100)', href: '/quizzes/aptitude/percentage' },
-      { label: 'Profit & Loss (100)', href: '/quizzes/aptitude/profit-and-loss' },
-      { label: 'Time & Work (100)', href: '/quizzes/aptitude/time-and-work' },
-      { label: 'Trains (86)', href: '/quizzes/aptitude/problems-on-trains' },
-      { label: 'Algebra (100)', href: '/quizzes/aptitude/algebra' },
+      { label: 'Average', href: '/quizzes/aptitude/average' },
+      { label: 'Percentage', href: '/quizzes/aptitude/percentage' },
+      { label: 'Profit & Loss', href: '/quizzes/aptitude/profit-and-loss' },
+      { label: 'Time & Work', href: '/quizzes/aptitude/time-and-work' },
+      { label: 'Trains', href: '/quizzes/aptitude/problems-on-trains' },
+      { label: 'Algebra', href: '/quizzes/aptitude/algebra' },
     ]
   },
   {
@@ -468,13 +468,13 @@ export default function Home() {
           <div className="flex flex-wrap items-center justify-center gap-1.5 pt-1">
             <span className="text-[11px] font-bold text-slate-500 mr-1">Hot Tracks:</span>
             {[
-              { label: '💡 Aptitude (3,702)', href: '/quizzes/aptitude' },
-              { label: '🧬 Biology (1,000)', href: '/quizzes/biology' },
-              { label: '⚡ Physics (1,000)', href: '/quizzes/physics' },
-              { label: '🌍 World GK (420)', href: '/quizzes/world-info' },
-              { label: '🇵🇰 Pak Studies (364)', href: '/quizzes/pak-studies' },
+              { label: '💡 Aptitude Test', href: '/quizzes/aptitude' },
+              { label: '🧬 Biology', href: '/quizzes/biology' },
+              { label: '⚡ Physics', href: '/quizzes/physics' },
+              { label: '🌍 World GK', href: '/quizzes/world-info' },
+              { label: '🇵🇰 Pak Studies', href: '/quizzes/pak-studies' },
               { label: '📘 English Grammar', href: '/quizzes/english-grammar' },
-              { label: '🩺 MDCAT Mock (200)', href: '/mock-papers/mdcat' },
+              { label: '🩺 MDCAT Mock', href: '/mock-papers/mdcat' },
             ].map((pill) => (
               <Link
                 key={pill.href}

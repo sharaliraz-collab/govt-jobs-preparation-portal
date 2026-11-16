@@ -93,6 +93,7 @@ function saveStats(next: StreakStats) {
 
 const SUBJECT_OPTIONS = [
   { value: 'all', label: 'All Subjects Mix' },
+  { value: 'General Science', label: 'General Science & Everyday' },
   { value: 'Islamic Studies', label: 'Islamic Studies' },
   { value: 'Biology', label: 'Biology' },
   { value: 'Chemistry', label: 'Chemistry' },

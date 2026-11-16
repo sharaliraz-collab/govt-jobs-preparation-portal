@@ -16,8 +16,8 @@ const SUBJECT_INFO: Record<string, {
     nameUr: 'جنرل سائنس اور صلاحیت',
     emoji: '⚗️',
     description:
-      'Practice General Science & Ability MCQs for FPSC, PPSC, SPSC, NTS & CSS. Topics: Everyday Science, Analytical Reasoning, Logical Ability, Astronomy & Environmental Science.',
-    keywords: ['General Science MCQs', 'FPSC Science MCQs', 'NTS Science', 'Everyday Science Pakistan'],
+      'Practice 2,130+ Everyday Science & General Science MCQs for FPSC, PPSC, SPSC, NTS & CSS. Topics: Physics & Energy, Chemistry & Matter, Biology & Human Body, Space & Astronomy, Earth & Environment, Inventions & Instruments.',
+    keywords: ['General Science MCQs', 'Everyday Science MCQs', 'FPSC Science MCQs', 'NTS Science', 'CSS General Science'],
   },
   'pak-studies': {
     name: 'Pakistan Studies',

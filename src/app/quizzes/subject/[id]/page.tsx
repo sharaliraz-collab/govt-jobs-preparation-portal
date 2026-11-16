@@ -89,6 +89,7 @@ export default function SubjectPracticePage() {
     else if (id === 'biology') mod = await import('@/data/biology-pdf-mcqs.json');
     else if (id === 'physics') mod = await import('@/data/physics-pdf-mcqs.json');
     else if (id === 'islamic-studies') mod = await import('@/data/islamic-pdf-mcqs.json');
+    else if (id === 'general-science') mod = await import('@/data/general-science-pdf-mcqs.json');
     if (!mod) return null;
     const raw = (mod.default ?? mod) as any[];
     if (!Array.isArray(raw)) return null;

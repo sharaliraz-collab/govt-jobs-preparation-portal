@@ -194,7 +194,7 @@ const ADVANCED_MCQ_SUBJECTS: HomeSubjectCard[] = [
   {
     id: 'general-science',
     name: 'General Science & Ability',
-    badge: 'CSS & FPSC Aligned',
+    badge: '2,130+ Everyday Sci MCQs',
     category: 'science',
     href: '/quizzes/subject/general-science',
     icon: Atom,
@@ -346,7 +346,7 @@ export default function Home() {
   );
 
   const stats = [
-    { label: 'Solved MCQs Bank', value: '10,600+', icon: Zap, iconBg: 'bg-amber-50 border-amber-200/80 text-amber-600' },
+    { label: 'Solved MCQs Bank', value: '12,700+', icon: Zap, iconBg: 'bg-amber-50 border-amber-200/80 text-amber-600' },
     { label: 'Aptitude Chapters', value: '43 Topics', icon: Lightbulb, iconBg: 'bg-emerald-50 border-emerald-200/80 text-emerald-600' },
     { label: 'Timed Mock Papers', value: '11+ Subjects', icon: Award, iconBg: 'bg-blue-50 border-blue-200/80 text-blue-600' },
     { label: 'Active Govt Jobs', value: '500+', icon: Briefcase, iconBg: 'bg-purple-50 border-purple-200/80 text-purple-600' },
@@ -378,7 +378,7 @@ export default function Home() {
           </div>
 
           <h1 className={`text-2xl sm:text-4xl md:text-5xl font-black tracking-tight leading-tight text-slate-900 px-1 ${isUr ? 'font-urdu leading-relaxed' : ''}`}>
-            Master <span className="text-emerald-700">10,600+ Solved MCQs</span> &amp; Track Every Govt Job
+            Master <span className="text-emerald-700">12,700+ Solved MCQs</span> &amp; Track Every Govt Job
           </h1>
 
           <p className="text-xs sm:text-sm md:text-base text-slate-600 max-w-2xl mx-auto leading-relaxed px-2">

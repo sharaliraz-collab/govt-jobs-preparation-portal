@@ -84,6 +84,7 @@ function normalizeInterestingPool(category: string, subject: string): RandomQuiz
     const sLower = subject.toLowerCase();
     if (sLower === 'world gk') return q.subject.startsWith('World ') || q.subject === 'General Knowledge' || q.funCategory === 'Pakistan & World Records';
     if (sLower === 'english grammar') return q.subject.startsWith('English') || q.funCategory === 'Brain Teasers';
+    if (sLower === 'general science') return ['General Science', 'Physics', 'Chemistry', 'Biology'].includes(q.subject);
     if (sLower === 'aptitude') return q.subject.startsWith('Aptitude');
     return q.subject.toLowerCase() === sLower;
   });

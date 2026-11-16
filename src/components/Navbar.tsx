@@ -82,7 +82,7 @@ const mcqCoreSubjects = [
   {
     name: 'General Science & Ability',
     href: '/quizzes/subject/general-science',
-    desc: 'Everyday Science, Analytical & Environmental Science',
+    desc: '2,130+ Everyday Science, Astronomy, Physics & Bio MCQs',
     icon: Atom,
     color: 'text-teal-600 bg-teal-50 border-teal-200',
   }

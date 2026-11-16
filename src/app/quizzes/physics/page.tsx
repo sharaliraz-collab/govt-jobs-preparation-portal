@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 import Loader from '@/components/Loader';
 import { SectionShareBar } from '@/components/ShareButtons';
+import physicsPdfQuestions from '@/data/physics-pdf-mcqs.json';
 import {
   Zap,
   BookOpen,
@@ -58,6 +59,7 @@ const TOPICS = [
 ];
 
 const QUESTIONS_PER_PAGE = 20;
+const FALLBACK_QUESTIONS = physicsPdfQuestions as PhysicsQuestion[];
 
 const cleanQuestionText = (text: string) => {
   if (!text) return '';
@@ -70,7 +72,7 @@ export default function PhysicsQuizPage() {
   const { i18n } = useTranslation();
   const isUr = i18n.language === 'ur';
 
-  const [questions, setQuestions] = useState<PhysicsQuestion[]>([]);
+  const [questions, setQuestions] = useState<PhysicsQuestion[]>(FALLBACK_QUESTIONS);
   const [loading, setLoading] = useState(true);
   const [selectedTopic, setSelectedTopic] = useState('All Topics');
   const [currentPage, setCurrentPage] = useState(1);
@@ -86,11 +88,13 @@ export default function PhysicsQuizPage() {
     setLoading(true);
     try {
       const res = await axios.get('/api/questions?subject=Physics&limit=1000');
-      if (res.data && Array.isArray(res.data)) {
-        setQuestions(res.data);
-      }
+      const loadedQuestions = res.data && Array.isArray(res.data) && res.data.length > 0
+        ? (res.data as PhysicsQuestion[])
+        : FALLBACK_QUESTIONS;
+      setQuestions(loadedQuestions);
     } catch (err) {
       console.error('Error fetching Physics MCQs:', err);
+      setQuestions(FALLBACK_QUESTIONS);
     } finally {
       setLoading(false);
     }
@@ -150,10 +154,10 @@ export default function PhysicsQuizPage() {
             </div>
             <h1 className="text-2xl sm:text-4xl font-black tracking-tight text-white flex items-center gap-3">
               <Zap className="w-8 h-8 text-cyan-400 fill-current animate-pulse" />
-              <span>1000 Physics MCQs Solved Bank</span>
+              <span>941 Physics MCQs — Premium Practice Bank</span>
             </h1>
             <p className="text-xs sm:text-sm text-cyan-100/90 leading-relaxed max-w-3xl">
-              Complete topic-wise solved Physics question bank covering Measurements, Kinematics, Dynamics, Thermodynamics, Electrostatics, Optics, Electronics, and Modern Physics.
+              Extracted and curated from the Physics PDF bank for premium exam practice. Covering Measurements, Kinematics, Dynamics, Thermodynamics, Electrostatics, Optics, Electronics, and Modern Physics.
             </p>
           </div>
 

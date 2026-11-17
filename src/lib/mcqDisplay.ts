@@ -39,3 +39,27 @@ export function getWindowedPages(currentPage: number, totalPages: number): Array
   pages.push(totalPages);
   return pages;
 }
+
+
+/**
+ * Computes a dynamic, content-proportional grid class for MCQ answer options
+ * so short answers appear as compact multi-column pills rather than overly wide bars,
+ * while longer answers wrap gracefully in 2-column or 1-column stacks.
+ */
+export function getDynamicOptionGridClass(
+  options: string[],
+  hasSecondaryLang = false
+): string {
+  if (!options || options.length === 0) {
+    return 'grid grid-cols-1 sm:grid-cols-2 gap-1.5 max-w-2xl';
+  }
+  const maxLen = Math.max(...options.map((opt) => (opt || '').trim().length));
+
+  if (!hasSecondaryLang && options.length === 4 && maxLen <= 18) {
+    return 'grid grid-cols-2 sm:grid-cols-4 gap-1.5 max-w-xl';
+  }
+  if (maxLen <= 58) {
+    return 'grid grid-cols-1 sm:grid-cols-2 gap-1.5 max-w-2xl';
+  }
+  return 'grid grid-cols-1 gap-1.5 max-w-2xl';
+}

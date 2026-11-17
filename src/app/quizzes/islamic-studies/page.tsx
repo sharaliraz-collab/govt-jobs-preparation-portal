@@ -3,12 +3,18 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import axios from 'axios';
-import Loader from '@/components/Loader';
-import { getCleanExplanation, getTopicFromExplanation, getWindowedPages } from '@/lib/mcqDisplay';
+import rawMcqs from '@/data/islamic-pdf-mcqs.json';
+import {
+  cleanQuestionStem,
+  getTopicFromExplanation,
+  getCleanExplanation,
+  getWindowedPages,
+  getDynamicOptionGridClass,
+} from '@/lib/mcqDisplay';
 
 interface IslamicQuestion {
   id: string;
-  subject: string;
+  subject?: string;
   textEn: string;
   textUr?: string;
   optionsEn: string[];
@@ -18,405 +24,365 @@ interface IslamicQuestion {
   topic?: string;
 }
 
-const CATEGORIES = [
-  'All Categories',
-  'Beliefs (Aqaid)',
-  'Pillars of Islam',
-  'The Holy Quran',
-  'Hadith & Sunnah',
-  'Seerat-un-Nabi (ﷺ)',
-  'Khulafa-e-Rashideen',
-  'Islamic History',
-  'Fiqh & Ibadat',
-  'Ethics & Society',
-];
-
-const QUESTIONS_PER_PAGE = 20;
+const ITEMS_PER_PAGE = 20;
 
 export default function IslamicStudiesPage() {
-  const [questions, setQuestions] = useState<IslamicQuestion[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [selectedCategory, setSelectedCategory] = useState('All Categories');
-  const [searchQuery, setSearchQuery] = useState('');
+  const [mcqs, setMcqs] = useState<IslamicQuestion[]>(rawMcqs as IslamicQuestion[]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [isShuffled, setIsShuffled] = useState(false);
-  const [shuffleOrder, setShuffleOrder] = useState<string[]>([]);
-  const [userAnswers, setUserAnswers] = useState<{ [qId: string]: number }>({});
-  const [revealedAnswers, setRevealedAnswers] = useState<{ [qId: string]: boolean }>({});
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedTopic, setSelectedTopic] = useState<string>('ALL');
   const [showSindhi, setShowSindhi] = useState(false);
+  const [selectedAnswers, setSelectedAnswers] = useState<Record<string, number>>({});
+  const [showExplanation, setShowExplanation] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
-    fetchQuestions();
+    let isMounted = true;
+    axios
+      .get('/api/questions?subject=Islamic%20Studies', { timeout: 8000 })
+      .then((res) => {
+        if (isMounted && Array.isArray(res.data) && res.data.length > mcqs.length) {
+          setMcqs(
+            res.data.map((q: any) => ({
+              id: q.id || q._id,
+              subject: q.subject,
+              textEn: q.textEn,
+              textUr: q.textUr,
+              optionsEn: q.optionsEn,
+              optionsUr: q.optionsUr,
+              correctIndex: q.correctIndex,
+              explanationEn: q.explanationEn,
+              topic: q.topic,
+            }))
+          );
+        }
+      })
+      .catch(() => {});
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
-  const fetchQuestions = async () => {
-    setLoading(true);
-    let immediateCount = 0;
-
-    try {
-      const mod = await import('@/data/islamic-pdf-mcqs.json');
-      const fallback = ((mod as any).default ?? mod) as IslamicQuestion[];
-      if (Array.isArray(fallback) && fallback.length > 0) {
-        immediateCount = fallback.length;
-        setQuestions(fallback);
-        setLoading(false);
-      }
-    } catch (e) {
-      console.error('Failed to load bundled Islamic Studies MCQs:', e);
+  const topics = useMemo(() => {
+    const counts: Record<string, number> = {};
+    for (const q of mcqs) {
+      const t = getTopicFromExplanation(q.explanationEn, q.topic || 'Islamic Studies');
+      counts[t] = (counts[t] || 0) + 1;
     }
+    return Object.entries(counts).sort((a, b) => b[1] - a[1]);
+  }, [mcqs]);
 
-    try {
-      const res = await axios.get('/api/questions?subject=Islamic%20Studies', { timeout: 8000 });
-      if (res.data && Array.isArray(res.data) && res.data.length > immediateCount) {
-        setQuestions(res.data);
+  const filteredMcqs = useMemo(() => {
+    const query = searchQuery.trim().toLowerCase();
+    return mcqs.filter((q) => {
+      if (selectedTopic !== 'ALL') {
+        const t = getTopicFromExplanation(q.explanationEn, q.topic || 'Islamic Studies');
+        if (t !== selectedTopic) return false;
       }
-    } catch (err) {
-      if (immediateCount === 0) {
-        console.error('Error fetching Islamic Studies MCQs:', err);
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleToggleShuffle = () => {
-    if (!isShuffled) {
-      const ids = questions.map((q) => q.id);
-      for (let i = ids.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [ids[i], ids[j]] = [ids[j], ids[i]];
-      }
-      setShuffleOrder(ids);
-      setIsShuffled(true);
-    } else {
-      setIsShuffled(false);
-    }
-    setCurrentPage(1);
-  };
-
-  const displayQuestions = useMemo(() => {
-    const qLower = searchQuery.trim().toLowerCase();
-    const filtered = questions.filter((q) => {
-      if (selectedCategory !== 'All Categories') {
-        const cat = getTopicFromExplanation(q.explanationEn, q.topic || 'Islamic Studies');
-        const matchesCat =
-          cat === selectedCategory ||
-          q.topic === selectedCategory ||
-          q.explanationEn?.includes(selectedCategory);
-        if (!matchesCat) return false;
-      }
-      if (qLower) {
-        const inStem = q.textEn.toLowerCase().includes(qLower);
-        const inOpts = q.optionsEn.some((o) => o.toLowerCase().includes(qLower));
-        if (!inStem && !inOpts) return false;
-      }
-      return true;
+      if (!query) return true;
+      return (
+        q.textEn.toLowerCase().includes(query) ||
+        q.optionsEn.some((opt) => opt.toLowerCase().includes(query))
+      );
     });
+  }, [mcqs, searchQuery, selectedTopic]);
 
-    if (isShuffled && shuffleOrder.length > 0) {
-      const rank = new Map(shuffleOrder.map((id, idx) => [id, idx]));
-      return [...filtered].sort((a, b) => (rank.get(a.id) ?? 999999) - (rank.get(b.id) ?? 999999));
-    }
-    return filtered;
-  }, [questions, selectedCategory, searchQuery, isShuffled, shuffleOrder]);
+  const totalPages = Math.max(1, Math.ceil(filteredMcqs.length / ITEMS_PER_PAGE));
 
-  const totalQuestions = displayQuestions.length;
-  const totalPages = Math.max(1, Math.ceil(totalQuestions / QUESTIONS_PER_PAGE));
-
-  const startIndex = (currentPage - 1) * QUESTIONS_PER_PAGE;
-  const currentQuestions = displayQuestions.slice(startIndex, startIndex + QUESTIONS_PER_PAGE);
-
-  const answeredIds = Object.keys(userAnswers);
-  const answeredCount = answeredIds.length;
-  const correctCount = answeredIds.reduce((acc, id) => {
-    const q = questions.find((item) => item.id === id);
-    return q && userAnswers[id] === q.correctIndex ? acc + 1 : acc;
-  }, 0);
-
-  const handleOptionSelect = (qId: string, optIdx: number) => {
-    setUserAnswers((prev) => ({ ...prev, [qId]: optIdx }));
-  };
-
-  const toggleReveal = (qId: string) => {
-    setRevealedAnswers((prev) => ({ ...prev, [qId]: !prev[qId] }));
-  };
-
-  const handleResetAnswers = () => {
-    setUserAnswers({});
-    setRevealedAnswers({});
+  useEffect(() => {
     setCurrentPage(1);
+  }, [searchQuery, selectedTopic]);
+
+  const currentMcqs = useMemo(() => {
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    return filteredMcqs.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+  }, [filteredMcqs, currentPage]);
+
+  const handleOptionSelect = (qId: string, optionIndex: number) => {
+    setSelectedAnswers((prev) => ({
+      ...prev,
+      [qId]: optionIndex,
+    }));
   };
 
-  const handlePageChange = (p: number) => {
-    if (p >= 1 && p <= totalPages) {
-      setCurrentPage(p);
+  const toggleExplanation = (qId: string) => {
+    setShowExplanation((prev) => ({
+      ...prev,
+      [qId]: !prev[qId],
+    }));
+  };
+
+  const handlePageChange = (newPage: number) => {
+    if (newPage >= 1 && newPage <= totalPages) {
+      setCurrentPage(newPage);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
-  const bankTotal = questions.length > 0 ? questions.length.toLocaleString() : '1,711';
+  const answeredCount = Object.keys(selectedAnswers).length;
+  const correctCount = Object.entries(selectedAnswers).reduce((acc, [qId, ansIdx]) => {
+    const found = mcqs.find((m) => m.id === qId);
+    return found && found.correctIndex === ansIdx ? acc + 1 : acc;
+  }, 0);
+
+  const windowedPages = getWindowedPages(currentPage, totalPages);
 
   return (
-    <div className="bg-white text-slate-900 min-h-screen">
-      {/* ───── Editorial Header ───── */}
-      <section className="border-b border-slate-200">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-10 pb-8">
-          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
-            <div className="max-w-2xl">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-emerald-700">
-                Islamic Studies · FPSC · PPSC · SPSC · NTS
-              </p>
-              <h1 className="mt-2.5 text-2xl sm:text-[2.15rem] font-semibold tracking-tight text-slate-900 leading-tight">
-                Islamic Studies (Islamiat) Question Bank
-              </h1>
-              <p className="mt-2.5 text-sm text-slate-600 leading-relaxed">
-                {bankTotal} verified multiple-choice questions covering Beliefs (Aqaid), Pillars of
-                Islam, the Holy Quran, Hadith &amp; Sunnah, Seerat-un-Nabi (ﷺ), Khulafa-e-Rashideen,
-                Islamic History, Fiqh, and Ethics.
-              </p>
-            </div>
-
-            <div className="flex flex-wrap items-center gap-3 shrink-0 no-print">
-              <button
-                type="button"
-                onClick={() => setShowSindhi(!showSindhi)}
-                className={`h-9 px-3.5 rounded-md border text-[13px] font-medium transition-colors ${
-                  showSindhi
-                    ? 'border-slate-900 bg-slate-900 text-white'
-                    : 'border-slate-300 bg-white text-slate-800 hover:border-slate-900'
-                }`}
-              >
-                {showSindhi ? 'English only' : 'Sindhi translation (سنڌي)'}
-              </button>
-              <Link
-                href="/quizzes/random-test?subject=Islamic%20Studies&count=10"
-                className="h-9 inline-flex items-center px-3.5 rounded-md border border-slate-300 hover:border-slate-900 text-[13px] font-medium text-slate-800 transition-colors"
-              >
-                10-question random test →
-              </Link>
-            </div>
+    <div className="text-slate-900 pb-12 font-sans selection:bg-slate-900 selection:text-white">
+      {/* Editorial Header */}
+      <div className="bg-white border border-slate-200/90 rounded-lg p-5 sm:p-6 mb-5">
+        <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-slate-500 mb-3">
+          <div className="flex items-center gap-2">
+            <Link href="/" className="hover:text-slate-900 transition-colors">
+              Home
+            </Link>
+            <span>/</span>
+            <Link href="/quizzes" className="hover:text-slate-900 transition-colors">
+              Subjects
+            </Link>
+            <span>/</span>
+            <span className="text-slate-900 font-medium">Islamic Studies</span>
           </div>
 
-          {/* ───── Category Tabs ───── */}
-          <div
-            className="mt-7 flex items-center gap-5 overflow-x-auto no-scrollbar border-b border-slate-200 text-[13px] no-print"
-            role="tablist"
-            aria-label="Islamic Studies categories"
-          >
-            {CATEGORIES.map((cat) => {
-              const active = selectedCategory === cat;
-              return (
-                <button
-                  key={cat}
-                  type="button"
-                  role="tab"
-                  aria-selected={active}
-                  onClick={() => {
-                    setSelectedCategory(cat);
-                    setCurrentPage(1);
-                  }}
-                  className={`pb-2.5 -mb-px border-b-2 whitespace-nowrap transition-colors ${
-                    active
-                      ? 'border-slate-900 text-slate-900 font-semibold'
-                      : 'border-transparent text-slate-500 hover:text-slate-900 font-medium'
-                  }`}
-                >
-                  {cat === 'All Categories' ? 'All topics' : cat}
-                </button>
-              );
-            })}
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => setShowSindhi(!showSindhi)}
+              className={`px-2.5 py-1 rounded border text-[11px] font-medium transition-colors ${
+                showSindhi
+                  ? 'bg-slate-900 text-white border-slate-900'
+                  : 'bg-white text-slate-700 border-slate-200 hover:border-slate-400'
+              }`}
+            >
+              {showSindhi ? 'English Only' : 'Sindhi (سنڌي)'}
+            </button>
+            <Link
+              href="/quizzes/random-test?subject=Islamic%20Studies&count=10"
+              className="px-2.5 py-1 rounded border border-slate-200 bg-slate-50 hover:border-slate-400 text-[11px] font-medium text-slate-800 transition-colors"
+            >
+              10-Q Quick Test →
+            </Link>
+          </div>
+        </div>
+
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+          <div className="max-w-2xl">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-500 mb-1.5">
+              Subject Archive · Quran, Sunnah &amp; Islamic History
+            </p>
+            <h1 className="text-xl sm:text-2xl font-serif font-semibold tracking-tight text-slate-950">
+              Islamic Studies MCQs
+            </h1>
+            <p className="mt-1.5 text-slate-600 text-xs sm:text-[13px] leading-relaxed">
+              Verified multiple-choice questions covering Quranic Sciences, Hadith, Seerah of the
+              Holy Prophet (PBUH), the Rightly Guided Caliphs, Pillars of Islam, and Islamic
+              History for FPSC, PPSC, SPSC, KPPSC, and CSS examinations.
+            </p>
           </div>
 
-          {/* ───── Search & Utility Bar ───── */}
-          <div className="mt-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 no-print">
-            <div className="flex items-center gap-2 flex-1 max-w-md">
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => {
-                  setSearchQuery(e.target.value);
-                  setCurrentPage(1);
-                }}
-                placeholder="Filter questions by keyword (e.g. Badr, Surah, Zakat, Hijrah)..."
-                aria-label="Filter Islamic Studies questions"
-                className="w-full h-9 px-3 rounded-md border border-slate-300 bg-white text-[13px] text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-slate-900 transition"
-              />
-              {searchQuery && (
-                <button
-                  type="button"
-                  onClick={() => {
-                    setSearchQuery('');
-                    setCurrentPage(1);
-                  }}
-                  className="text-[12px] text-slate-500 hover:text-slate-900 px-2 shrink-0"
-                >
-                  Clear
-                </button>
-              )}
+          <div className="grid grid-cols-3 border border-slate-200 divide-x divide-slate-200 bg-slate-50/60 rounded-md shrink-0">
+            <div className="px-3.5 py-2">
+              <div className="text-sm sm:text-base font-semibold text-slate-950 tabular-nums">
+                {mcqs.length.toLocaleString()}
+              </div>
+              <div className="text-[10px] uppercase tracking-widest text-slate-500 font-medium mt-0.5">
+                Questions
+              </div>
             </div>
-
-            <div className="flex flex-wrap items-center gap-x-5 gap-y-1.5 text-[13px] text-slate-600">
-              <span className="tabular-nums">
-                Showing <strong className="font-semibold text-slate-900">{totalQuestions.toLocaleString()}</strong> questions
-              </span>
-              {answeredCount > 0 && (
-                <span className="tabular-nums text-emerald-800 font-medium">
-                  Score: {correctCount} / {answeredCount}
-                </span>
-              )}
-              <button
-                type="button"
-                onClick={handleToggleShuffle}
-                className={`underline underline-offset-4 transition-colors ${
-                  isShuffled ? 'text-emerald-800 font-medium' : 'text-slate-600 hover:text-slate-900'
-                }`}
-              >
-                {isShuffled ? 'Order: Shuffled' : 'Shuffle order'}
-              </button>
-              {(answeredCount > 0 || Object.keys(revealedAnswers).length > 0) && (
-                <button
-                  type="button"
-                  onClick={handleResetAnswers}
-                  className="text-slate-500 hover:text-slate-900 underline underline-offset-4 transition-colors"
-                >
-                  Reset answers
-                </button>
-              )}
+            <div className="px-3.5 py-2">
+              <div className="text-sm sm:text-base font-semibold text-slate-950 tabular-nums">
+                {answeredCount}
+              </div>
+              <div className="text-[10px] uppercase tracking-widest text-slate-500 font-medium mt-0.5">
+                Attempted
+              </div>
+            </div>
+            <div className="px-3.5 py-2">
+              <div className="text-sm sm:text-base font-semibold text-emerald-700 tabular-nums">
+                {correctCount}
+              </div>
+              <div className="text-[10px] uppercase tracking-widest text-slate-500 font-medium mt-0.5">
+                Correct
+              </div>
             </div>
           </div>
         </div>
-      </section>
+      </div>
 
-      {/* ───── Main Content ───── */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 space-y-8">
-        {/* Top Pagination */}
-        {totalQuestions > 0 && (
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-200 text-[13px] no-print">
-            <div className="text-slate-600 tabular-nums">
-              Page <strong className="font-semibold text-slate-900">{currentPage}</strong> of{' '}
-              <strong className="font-semibold text-slate-900">{totalPages}</strong>
-              <span className="text-slate-400 ml-2">
-                (Questions {startIndex + 1}–{Math.min(startIndex + QUESTIONS_PER_PAGE, totalQuestions)})
-              </span>
-            </div>
-
-            <div className="flex items-center gap-1 flex-wrap">
+      {/* Search & Topic Filter Bar */}
+      <div className="bg-white border border-slate-200/90 rounded-lg p-3.5 sm:p-4 mb-5 space-y-3">
+        <div className="flex flex-col sm:flex-row gap-2.5 items-stretch sm:items-center justify-between">
+          <div className="relative flex-1">
+            <input
+              type="text"
+              placeholder="Search questions or keywords (e.g., Ghazwa, Surah, Hijrah, Zakat, Caliph)..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full px-3 py-1.5 text-xs sm:text-[13px] rounded-md border border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-slate-900 transition-colors"
+            />
+            {searchQuery && (
               <button
                 type="button"
-                onClick={() => handlePageChange(currentPage - 1)}
-                disabled={currentPage === 1}
-                className="h-8 px-2.5 rounded border border-slate-300 text-[12px] font-medium text-slate-700 hover:border-slate-900 disabled:opacity-35 disabled:hover:border-slate-300 transition-colors"
+                onClick={() => setSearchQuery('')}
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[11px] text-slate-500 hover:text-slate-900 font-medium"
               >
-                Prev
+                Clear
               </button>
+            )}
+          </div>
 
-              {getWindowedPages(currentPage, totalPages).map((p, idx) =>
-                p === 'ellipsis' ? (
-                  <span key={`el-${idx}`} className="px-1.5 text-slate-400 text-[12px]">
-                    …
-                  </span>
-                ) : (
-                  <button
-                    key={p}
-                    type="button"
-                    onClick={() => handlePageChange(p)}
-                    className={`min-w-[2rem] h-8 px-2 rounded text-[12px] tabular-nums font-medium transition-colors ${
-                      p === currentPage
-                        ? 'bg-slate-900 text-white'
-                        : 'border border-slate-200 text-slate-700 hover:border-slate-400'
-                    }`}
-                  >
-                    {p}
-                  </button>
-                )
-              )}
+          <div className="flex items-center justify-between sm:justify-end gap-3 text-[11px] text-slate-500 shrink-0">
+            <span>
+              Showing{' '}
+              <strong className="text-slate-900 font-semibold">
+                {filteredMcqs.length.toLocaleString()}
+              </strong>{' '}
+              items
+            </span>
+            <span className="text-slate-300">|</span>
+            <span>
+              Page <strong className="text-slate-900 font-semibold">{currentPage}</strong> of{' '}
+              <strong className="text-slate-900 font-semibold">{totalPages}</strong>
+            </span>
+          </div>
+        </div>
 
+        {topics.length > 1 && (
+          <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-thin">
+            <button
+              type="button"
+              onClick={() => setSelectedTopic('ALL')}
+              className={`px-2.5 py-1 rounded text-[11px] font-medium whitespace-nowrap border transition-colors ${
+                selectedTopic === 'ALL'
+                  ? 'bg-slate-900 text-white border-slate-900'
+                  : 'bg-slate-50 text-slate-600 border-slate-200 hover:border-slate-300 hover:text-slate-900'
+              }`}
+            >
+              All Topics ({mcqs.length})
+            </button>
+            {topics.slice(0, 12).map(([topic, count]) => (
               <button
+                key={topic}
                 type="button"
-                onClick={() => handlePageChange(currentPage + 1)}
-                disabled={currentPage === totalPages}
-                className="h-8 px-2.5 rounded border border-slate-300 text-[12px] font-medium text-slate-700 hover:border-slate-900 disabled:opacity-35 disabled:hover:border-slate-300 transition-colors"
+                onClick={() => setSelectedTopic(topic)}
+                className={`px-2.5 py-1 rounded text-[11px] font-medium whitespace-nowrap border transition-colors ${
+                  selectedTopic === topic
+                    ? 'bg-slate-900 text-white border-slate-900'
+                    : 'bg-slate-50 text-slate-600 border-slate-200 hover:border-slate-300 hover:text-slate-900'
+                }`}
               >
-                Next
+                {topic} ({count})
               </button>
-            </div>
+            ))}
           </div>
         )}
+      </div>
 
-        {/* Questions List */}
-        {loading ? (
-          <Loader />
-        ) : currentQuestions.length === 0 ? (
-          <div className="py-16 text-center border border-slate-200 rounded-md">
-            <p className="text-sm text-slate-600">No questions match your current filter.</p>
-          </div>
-        ) : (
-          <div className="divide-y divide-slate-200 border-t border-b border-slate-200">
-            {currentQuestions.map((q, idx) => {
-              const globalIndex = startIndex + idx;
-              const userSelected = userAnswers[q.id];
-              const isAnswered = userSelected !== undefined;
-              const isRevealed = revealedAnswers[q.id];
-              const topicLabel = getTopicFromExplanation(q.explanationEn, q.topic || 'Islamic Studies');
-              const cleanExp = getCleanExplanation(q.explanationEn);
+      {/* MCQ List */}
+      {currentMcqs.length === 0 ? (
+        <div className="bg-white rounded-lg p-10 text-center border border-slate-200">
+          <h3 className="text-sm font-semibold text-slate-900 mb-1">
+            No matching questions found
+          </h3>
+          <p className="text-slate-500 text-xs mb-4">
+            No questions matched your filter or search query.
+          </p>
+          <button
+            type="button"
+            onClick={() => {
+              setSearchQuery('');
+              setSelectedTopic('ALL');
+            }}
+            className="px-3.5 py-1.5 bg-slate-900 text-white text-xs font-medium rounded-md hover:bg-slate-800 transition-colors"
+          >
+            Reset Filters
+          </button>
+        </div>
+      ) : (
+        <div className="space-y-3">
+          {currentMcqs.map((q, idx) => {
+            const globalNumber = (currentPage - 1) * ITEMS_PER_PAGE + idx + 1;
+            const userSelected = selectedAnswers[q.id];
+            const isAnswered = userSelected !== undefined;
+            const isRevealed = !!showExplanation[q.id];
+            const topicLabel = getTopicFromExplanation(
+              q.explanationEn,
+              q.topic || 'Islamic Studies'
+            );
+            const cleanExplanation = getCleanExplanation(q.explanationEn);
+            const stemText = cleanQuestionStem(q.textEn);
+            const hasSindhiStem =
+              showSindhi && q.textUr && q.textUr.trim() !== q.textEn.trim();
+            const optionGridClass = getDynamicOptionGridClass(q.optionsEn, Boolean(hasSindhiStem));
 
-              return (
-                <article
-                  key={q.id}
-                  className="py-6 space-y-4 page-break-inside-avoid"
-                >
-                  <div className="flex items-baseline justify-between gap-4">
-                    <div className="flex items-baseline gap-3 min-w-0">
-                      <span className="text-[12px] font-semibold text-slate-400 tabular-nums shrink-0">
-                        Q{String(globalIndex + 1).padStart(2, '0')}
+            return (
+              <article
+                key={q.id}
+                className="bg-white rounded-lg border border-slate-200/90 p-4 sm:p-5 transition-colors hover:border-slate-300"
+              >
+                <div className="flex flex-col gap-2.5">
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-500 bg-slate-100 px-2 py-0.5 rounded tabular-nums">
+                        Q.{globalNumber}
                       </span>
-                      <span className="text-[11px] font-medium uppercase tracking-[0.14em] text-emerald-700 truncate">
-                        {topicLabel}
-                      </span>
+                      {topicLabel && (
+                        <span className="text-[10px] font-medium text-slate-600 bg-slate-50 border border-slate-200/80 px-2 py-0.5 rounded">
+                          {topicLabel}
+                        </span>
+                      )}
                     </div>
 
-                    <button
-                      type="button"
-                      onClick={() => toggleReveal(q.id)}
-                      className="text-[12px] text-slate-500 hover:text-slate-900 underline underline-offset-4 shrink-0 no-print"
-                    >
-                      {isRevealed ? 'Hide answer' : 'Show answer'}
-                    </button>
+                    {isAnswered && (
+                      <span
+                        className={`text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded ${
+                          userSelected === q.correctIndex
+                            ? 'bg-emerald-50 text-emerald-800 border border-emerald-200'
+                            : 'bg-rose-50 text-rose-800 border border-rose-200'
+                        }`}
+                      >
+                        {userSelected === q.correctIndex ? 'Correct' : 'Incorrect'}
+                      </span>
+                    )}
                   </div>
 
-                  <div className="space-y-1.5">
-                    <h2 className="mcq-question-text text-[15px] sm:text-base font-medium text-slate-900 leading-relaxed">
-                      {q.textEn.replace(/_+/g, '______')}
+                  <div>
+                    <h2 className="text-[14px] sm:text-[15px] font-medium text-slate-900 leading-relaxed">
+                      {stemText}
                     </h2>
-
-                    {showSindhi && q.textUr && q.textUr.trim() !== q.textEn.trim() && (
+                    {hasSindhiStem && (
                       <p
-                        className="text-base font-sindhi font-lateefi text-right text-slate-800 pt-1 leading-relaxed break-words"
                         dir="rtl"
+                        className="mt-1.5 text-sm text-slate-700 leading-relaxed font-sindhi font-lateefi"
                       >
-                        {q.textUr}
+                        {cleanQuestionStem(q.textUr!)}
                       </p>
                     )}
                   </div>
 
-                  {/* Options Grid */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
+                  {/* Dynamic Compact Options Grid */}
+                  <div className={`${optionGridClass} pt-0.5`}>
                     {q.optionsEn.map((optText, optIdx) => {
                       const isOptionSelected = userSelected === optIdx;
                       const isCorrectAnswer = optIdx === q.correctIndex;
 
                       let btnStyle =
-                        'border-slate-200 bg-white text-slate-800 hover:border-slate-400';
+                        'border-slate-200/90 bg-slate-50/40 text-slate-800 hover:bg-slate-100/70 hover:border-slate-300';
+                      let badgeStyle =
+                        'bg-white text-slate-600 border border-slate-200/90';
 
                       if (isAnswered || isRevealed) {
                         if (isCorrectAnswer) {
                           btnStyle =
-                            'border-emerald-700 bg-emerald-50/70 text-emerald-950 font-medium';
+                            'border-emerald-600 bg-emerald-50/80 text-emerald-950 font-medium';
+                          badgeStyle = 'bg-emerald-600 text-white border-emerald-600';
                         } else if (isOptionSelected) {
                           btnStyle =
-                            'border-rose-600 bg-rose-50/70 text-rose-950 font-medium';
+                            'border-rose-500 bg-rose-50/80 text-rose-950 font-medium';
+                          badgeStyle = 'bg-rose-600 text-white border-rose-600';
                         } else {
-                          btnStyle = 'border-slate-200 bg-slate-50/40 text-slate-500';
+                          btnStyle =
+                            'border-slate-200/60 bg-slate-50/20 text-slate-400 opacity-75';
+                          badgeStyle = 'bg-slate-100 text-slate-400 border-slate-200';
                         }
                       }
 
@@ -425,103 +391,117 @@ export default function IslamicStudiesPage() {
                           key={optIdx}
                           type="button"
                           onClick={() => handleOptionSelect(q.id, optIdx)}
-                          className={`w-full text-left px-3.5 py-2.5 rounded-md border text-[13px] sm:text-sm transition-colors flex items-baseline gap-3 ${btnStyle}`}
+                          className={`text-left px-2.5 py-1.5 rounded-md border text-[12.5px] sm:text-[13px] leading-snug transition-colors flex items-center gap-2 ${btnStyle}`}
                         >
-                          <span className="text-[12px] font-semibold tabular-nums text-slate-400 shrink-0">
-                            {String.fromCharCode(65 + optIdx)}.
+                          <span
+                            className={`w-4 h-4 rounded text-[10px] font-semibold flex items-center justify-center shrink-0 tabular-nums ${badgeStyle}`}
+                          >
+                            {String.fromCharCode(65 + optIdx)}
                           </span>
-
-                          <span className="flex-1 min-w-0 mcq-option-text leading-snug">
-                            {optText}
+                          <div className="flex-1 min-w-0">
+                            <span className="block break-words">{optText}</span>
                             {showSindhi &&
-                              q.optionsUr &&
-                              q.optionsUr[optIdx] &&
+                              q.optionsUr?.[optIdx] &&
                               q.optionsUr[optIdx].trim() !== optText.trim() && (
                                 <span
-                                  className="block font-sindhi font-lateefi text-right text-sm pt-0.5 text-slate-700"
                                   dir="rtl"
+                                  className="block text-xs text-slate-600 mt-0.5 font-sindhi font-lateefi"
                                 >
                                   {q.optionsUr[optIdx]}
                                 </span>
                               )}
-                          </span>
+                          </div>
                         </button>
                       );
                     })}
                   </div>
 
-                  {/* Answer & Explanation */}
-                  {(isRevealed || isAnswered) && (
-                    <div className="pt-1 text-[13px] text-slate-600 space-y-1">
-                      <p>
-                        <span className="font-semibold text-emerald-800">
-                          Correct answer: {String.fromCharCode(65 + q.correctIndex)}.{' '}
-                          {q.optionsEn[q.correctIndex]}
+                  {/* Card Footer */}
+                  <div className="pt-2 border-t border-slate-100 flex flex-col gap-2">
+                    <div className="flex items-center justify-between">
+                      <button
+                        type="button"
+                        onClick={() => toggleExplanation(q.id)}
+                        className="text-[11px] font-medium text-slate-500 hover:text-slate-900 transition-colors underline-offset-4 hover:underline"
+                      >
+                        {isRevealed ? 'Hide Answer & Note' : 'View Answer'}
+                      </button>
+
+                      {(isAnswered || isRevealed) && (
+                        <span className="text-[11px] text-slate-600">
+                          Correct Option:{' '}
+                          <strong className="text-slate-900 font-semibold">
+                            {String.fromCharCode(65 + q.correctIndex)}
+                          </strong>
                         </span>
-                      </p>
-                      {cleanExp && (
-                        <p className="text-[12px] text-slate-500 leading-relaxed">
-                          {cleanExp}
-                        </p>
                       )}
                     </div>
-                  )}
-                </article>
-              );
-            })}
-          </div>
-        )}
 
-        {/* Bottom Pagination */}
-        {totalQuestions > 0 && (
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2 text-[13px] no-print">
-            <div className="text-slate-500 tabular-nums">
-              Page {currentPage} of {totalPages}
-            </div>
+                    {isRevealed && (
+                      <div className="bg-slate-50 border border-slate-200/80 rounded-md p-2.5 text-xs text-slate-700 leading-relaxed">
+                        <p className="font-medium text-slate-900">
+                          Correct Answer: ({String.fromCharCode(65 + q.correctIndex)}){' '}
+                          {q.optionsEn[q.correctIndex]}
+                        </p>
+                        {cleanExplanation && (
+                          <p className="mt-1 text-slate-600">{cleanExplanation}</p>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+      )}
 
-            <div className="flex items-center gap-1 flex-wrap">
-              <button
-                type="button"
-                onClick={() => handlePageChange(currentPage - 1)}
-                disabled={currentPage === 1}
-                className="h-8 px-3 rounded border border-slate-300 text-[12px] font-medium text-slate-700 hover:border-slate-900 disabled:opacity-35 transition-colors"
+      {/* Windowed Pagination */}
+      {totalPages > 1 && (
+        <div className="mt-7 flex flex-wrap items-center justify-center gap-1.5">
+          <button
+            type="button"
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+            className="px-3 py-1.5 rounded-md border border-slate-200 bg-white text-xs font-medium text-slate-700 hover:border-slate-400 disabled:opacity-40 disabled:pointer-events-none transition-colors"
+          >
+            Previous
+          </button>
+
+          {windowedPages.map((p, idx) =>
+            p === 'ellipsis' ? (
+              <span
+                key={`ellipsis-${idx}`}
+                className="px-1.5 py-1.5 text-xs text-slate-400 select-none"
               >
-                Previous
-              </button>
-
-              {getWindowedPages(currentPage, totalPages).map((p, idx) =>
-                p === 'ellipsis' ? (
-                  <span key={`bel-${idx}`} className="px-1.5 text-slate-400 text-[12px]">
-                    …
-                  </span>
-                ) : (
-                  <button
-                    key={p}
-                    type="button"
-                    onClick={() => handlePageChange(p)}
-                    className={`min-w-[2rem] h-8 px-2 rounded text-[12px] tabular-nums font-medium transition-colors ${
-                      p === currentPage
-                        ? 'bg-slate-900 text-white'
-                        : 'border border-slate-200 text-slate-700 hover:border-slate-400'
-                    }`}
-                  >
-                    {p}
-                  </button>
-                )
-              )}
-
+                ...
+              </span>
+            ) : (
               <button
+                key={p}
                 type="button"
-                onClick={() => handlePageChange(currentPage + 1)}
-                disabled={currentPage === totalPages}
-                className="h-8 px-3 rounded border border-slate-300 text-[12px] font-medium text-slate-700 hover:border-slate-900 disabled:opacity-35 transition-colors"
+                onClick={() => handlePageChange(p)}
+                className={`min-w-[32px] px-2.5 py-1.5 rounded-md text-xs font-medium border transition-colors tabular-nums ${
+                  currentPage === p
+                    ? 'bg-slate-900 text-white border-slate-900'
+                    : 'bg-white text-slate-700 border-slate-200 hover:border-slate-400'
+                }`}
               >
-                Next
+                {p}
               </button>
-            </div>
-          </div>
-        )}
-      </div>
+            )
+          )}
+
+          <button
+            type="button"
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            className="px-3 py-1.5 rounded-md border border-slate-200 bg-white text-xs font-medium text-slate-700 hover:border-slate-400 disabled:opacity-40 disabled:pointer-events-none transition-colors"
+          >
+            Next
+          </button>
+        </div>
+      )}
     </div>
   );
 }

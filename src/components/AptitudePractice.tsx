@@ -335,24 +335,38 @@ export default function AptitudePractice({
                   </div>
 
                   {/* Options */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5" role="group" aria-label="Answer options">
+                  <div
+                    className={(() => {
+                      const maxOptLen = Math.max(...q.o.map((opt) => (opt || '').trim().length));
+                      if (q.o.length === 4 && maxOptLen <= 18) {
+                        return 'grid grid-cols-2 sm:grid-cols-4 gap-1.5 max-w-xl';
+                      }
+                      if (maxOptLen <= 58) {
+                        return 'grid grid-cols-1 sm:grid-cols-2 gap-1.5 max-w-2xl';
+                      }
+                      return 'grid grid-cols-1 gap-1.5 max-w-2xl';
+                    })()}
+                    role="group"
+                    aria-label="Answer options"
+                  >
                     {q.o.map((opt, oi) => {
                       const isSel = selected === oi;
                       const isRight = oi === q.a;
 
                       let style =
-                        'border-slate-200 bg-white text-slate-800 hover:border-emerald-300 hover:bg-emerald-50/40 cursor-pointer';
-                      let badge = 'border-slate-300 text-slate-500 bg-slate-50';
+                        'border-slate-200/90 bg-slate-50/40 text-slate-800 hover:bg-slate-100/70 hover:border-slate-300 cursor-pointer';
+                      let badge = 'border-slate-200/90 text-slate-600 bg-white';
 
                       if (showResult) {
                         if (isRight) {
-                          style = 'border-emerald-400 bg-emerald-50 text-emerald-950 cursor-default';
-                          badge = 'border-emerald-500 bg-emerald-500 text-white';
+                          style = 'border-emerald-600 bg-emerald-50/80 text-emerald-950 font-medium cursor-default';
+                          badge = 'border-emerald-600 bg-emerald-600 text-white';
                         } else if (isSel) {
-                          style = 'border-rose-400 bg-rose-50 text-rose-950 cursor-default';
-                          badge = 'border-rose-500 bg-rose-500 text-white';
+                          style = 'border-rose-500 bg-rose-50/80 text-rose-950 font-medium cursor-default';
+                          badge = 'border-rose-600 bg-rose-600 text-white';
                         } else {
-                          style = 'border-slate-200 bg-slate-50/60 text-slate-500 cursor-default opacity-70';
+                          style = 'border-slate-200/60 bg-slate-50/20 text-slate-400 cursor-default opacity-75';
+                          badge = 'border-slate-200 bg-slate-100 text-slate-400';
                         }
                       }
 
@@ -363,20 +377,14 @@ export default function AptitudePractice({
                           disabled={showResult}
                           onClick={() => selectOption(gi, oi)}
                           aria-pressed={isSel}
-                          className={`w-full min-h-[2.75rem] text-left px-3 py-2.5 rounded-xl border text-[13px] sm:text-sm font-medium transition flex items-center gap-3 ${style}`}
+                          className={`text-left px-2.5 py-1.5 rounded-md border text-[12.5px] sm:text-[13px] leading-snug transition flex items-center gap-2 ${style}`}
                         >
                           <span
-                            className={`w-6 h-6 rounded-lg border text-[11px] font-black flex items-center justify-center shrink-0 ${badge}`}
+                            className={`w-4 h-4 rounded border text-[10px] font-semibold flex items-center justify-center shrink-0 tabular-nums ${badge}`}
                           >
                             {LETTERS[oi]}
                           </span>
                           <RichMath text={opt} className="flex-1 min-w-0 break-words leading-snug" />
-                          {showResult && isRight && (
-                            <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" strokeWidth={2.5} />
-                          )}
-                          {showResult && isSel && !isRight && (
-                            <XCircle className="w-4 h-4 text-rose-600 shrink-0" strokeWidth={2.5} />
-                          )}
                         </button>
                       );
                     })}

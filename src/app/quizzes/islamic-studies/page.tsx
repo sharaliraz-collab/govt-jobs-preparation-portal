@@ -2,26 +2,9 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
-import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 import Loader from '@/components/Loader';
-import ShareButtons from '@/components/ShareButtons';
-import { absoluteUrl } from '@/lib/seo';
 import { getCleanExplanation, getTopicFromExplanation, getWindowedPages } from '@/lib/mcqDisplay';
-import {
-  BookMarked,
-  BookOpen,
-  CheckCircle2,
-  XCircle,
-  RotateCcw,
-  ChevronLeft,
-  ChevronRight,
-  Filter,
-  Sparkles,
-  HelpCircle,
-  Eye,
-  Shuffle
-} from 'lucide-react';
 
 interface IslamicQuestion {
   id: string;
@@ -45,18 +28,16 @@ const CATEGORIES = [
   'Khulafa-e-Rashideen',
   'Islamic History',
   'Fiqh & Ibadat',
-  'Ethics & Society'
+  'Ethics & Society',
 ];
 
 const QUESTIONS_PER_PAGE = 20;
 
 export default function IslamicStudiesPage() {
-  const { i18n } = useTranslation();
-  const isUr = i18n.language === 'ur';
-
   const [questions, setQuestions] = useState<IslamicQuestion[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState('All Categories');
+  const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [isShuffled, setIsShuffled] = useState(false);
   const [shuffleOrder, setShuffleOrder] = useState<string[]>([]);
@@ -113,26 +94,31 @@ export default function IslamicStudiesPage() {
     setCurrentPage(1);
   };
 
-  // Filter & Fisher-Yates shuffle questions
   const displayQuestions = useMemo(() => {
-    const filtered =
-      selectedCategory === 'All Categories'
-        ? questions
-        : questions.filter((q) => {
-            const cat = getTopicFromExplanation(q.explanationEn, q.topic || 'Islamic Studies');
-            return (
-              cat === selectedCategory ||
-              q.topic === selectedCategory ||
-              q.explanationEn?.includes(selectedCategory)
-            );
-          });
+    const qLower = searchQuery.trim().toLowerCase();
+    const filtered = questions.filter((q) => {
+      if (selectedCategory !== 'All Categories') {
+        const cat = getTopicFromExplanation(q.explanationEn, q.topic || 'Islamic Studies');
+        const matchesCat =
+          cat === selectedCategory ||
+          q.topic === selectedCategory ||
+          q.explanationEn?.includes(selectedCategory);
+        if (!matchesCat) return false;
+      }
+      if (qLower) {
+        const inStem = q.textEn.toLowerCase().includes(qLower);
+        const inOpts = q.optionsEn.some((o) => o.toLowerCase().includes(qLower));
+        if (!inStem && !inOpts) return false;
+      }
+      return true;
+    });
 
     if (isShuffled && shuffleOrder.length > 0) {
       const rank = new Map(shuffleOrder.map((id, idx) => [id, idx]));
       return [...filtered].sort((a, b) => (rank.get(a.id) ?? 999999) - (rank.get(b.id) ?? 999999));
     }
     return filtered;
-  }, [questions, selectedCategory, isShuffled, shuffleOrder]);
+  }, [questions, selectedCategory, searchQuery, isShuffled, shuffleOrder]);
 
   const totalQuestions = displayQuestions.length;
   const totalPages = Math.max(1, Math.ceil(totalQuestions / QUESTIONS_PER_PAGE));
@@ -140,12 +126,19 @@ export default function IslamicStudiesPage() {
   const startIndex = (currentPage - 1) * QUESTIONS_PER_PAGE;
   const currentQuestions = displayQuestions.slice(startIndex, startIndex + QUESTIONS_PER_PAGE);
 
+  const answeredIds = Object.keys(userAnswers);
+  const answeredCount = answeredIds.length;
+  const correctCount = answeredIds.reduce((acc, id) => {
+    const q = questions.find((item) => item.id === id);
+    return q && userAnswers[id] === q.correctIndex ? acc + 1 : acc;
+  }, 0);
+
   const handleOptionSelect = (qId: string, optIdx: number) => {
-    setUserAnswers(prev => ({ ...prev, [qId]: optIdx }));
+    setUserAnswers((prev) => ({ ...prev, [qId]: optIdx }));
   };
 
   const toggleReveal = (qId: string) => {
-    setRevealedAnswers(prev => ({ ...prev, [qId]: !prev[qId] }));
+    setRevealedAnswers((prev) => ({ ...prev, [qId]: !prev[qId] }));
   };
 
   const handleResetAnswers = () => {
@@ -162,337 +155,373 @@ export default function IslamicStudiesPage() {
   };
 
   const bankTotal = questions.length > 0 ? questions.length.toLocaleString() : '1,711';
-  const shareUrl = absoluteUrl('/quizzes/islamic-studies');
-  const shareTitle = `Islamic Studies MCQ Bank (اسلاميات) — ${bankTotal} Solved Questions`;
-  const shareDescription = `Practice ${bankTotal} solved Islamic Studies MCQs across 9 categories (Aqaid, Quran, Hadith, Seerah, Khulafa-e-Rashideen, Fiqh). Aligned for PPSC, FPSC, SPSC & NTS exams!`;
 
   return (
-    <div className="max-w-7xl mx-auto px-3 sm:px-6 py-8 space-y-6">
+    <div className="bg-white text-slate-900 min-h-screen">
+      {/* ───── Editorial Header ───── */}
+      <section className="border-b border-slate-200">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-10 pb-8">
+          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
+            <div className="max-w-2xl">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-emerald-700">
+                Islamic Studies · FPSC · PPSC · SPSC · NTS
+              </p>
+              <h1 className="mt-2.5 text-2xl sm:text-[2.15rem] font-semibold tracking-tight text-slate-900 leading-tight">
+                Islamic Studies (Islamiat) Question Bank
+              </h1>
+              <p className="mt-2.5 text-sm text-slate-600 leading-relaxed">
+                {bankTotal} verified multiple-choice questions covering Beliefs (Aqaid), Pillars of
+                Islam, the Holy Quran, Hadith &amp; Sunnah, Seerat-un-Nabi (ﷺ), Khulafa-e-Rashideen,
+                Islamic History, Fiqh, and Ethics.
+              </p>
+            </div>
 
-      {/* Top Header Banner */}
-      <div className="bg-gradient-to-r from-emerald-950 via-teal-900 to-green-950 text-white p-6 sm:p-8 rounded-3xl shadow-xl border border-amber-400/30 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-80 h-80 bg-amber-400/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-          <div className="space-y-2">
-            <div className="flex items-center gap-2 flex-wrap">
-              <span className="bg-amber-400/20 border border-amber-400/40 text-amber-300 text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full">
-                PPSC • FPSC • NTS • SPSC • BISE Aligned
+            <div className="flex flex-wrap items-center gap-3 shrink-0 no-print">
+              <button
+                type="button"
+                onClick={() => setShowSindhi(!showSindhi)}
+                className={`h-9 px-3.5 rounded-md border text-[13px] font-medium transition-colors ${
+                  showSindhi
+                    ? 'border-slate-900 bg-slate-900 text-white'
+                    : 'border-slate-300 bg-white text-slate-800 hover:border-slate-900'
+                }`}
+              >
+                {showSindhi ? 'English only' : 'Sindhi translation (سنڌي)'}
+              </button>
+              <Link
+                href="/quizzes/random-test?subject=Islamic%20Studies&count=10"
+                className="h-9 inline-flex items-center px-3.5 rounded-md border border-slate-300 hover:border-slate-900 text-[13px] font-medium text-slate-800 transition-colors"
+              >
+                10-question random test →
+              </Link>
+            </div>
+          </div>
+
+          {/* ───── Category Tabs ───── */}
+          <div
+            className="mt-7 flex items-center gap-5 overflow-x-auto no-scrollbar border-b border-slate-200 text-[13px] no-print"
+            role="tablist"
+            aria-label="Islamic Studies categories"
+          >
+            {CATEGORIES.map((cat) => {
+              const active = selectedCategory === cat;
+              return (
+                <button
+                  key={cat}
+                  type="button"
+                  role="tab"
+                  aria-selected={active}
+                  onClick={() => {
+                    setSelectedCategory(cat);
+                    setCurrentPage(1);
+                  }}
+                  className={`pb-2.5 -mb-px border-b-2 whitespace-nowrap transition-colors ${
+                    active
+                      ? 'border-slate-900 text-slate-900 font-semibold'
+                      : 'border-transparent text-slate-500 hover:text-slate-900 font-medium'
+                  }`}
+                >
+                  {cat === 'All Categories' ? 'All topics' : cat}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* ───── Search & Utility Bar ───── */}
+          <div className="mt-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 no-print">
+            <div className="flex items-center gap-2 flex-1 max-w-md">
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => {
+                  setSearchQuery(e.target.value);
+                  setCurrentPage(1);
+                }}
+                placeholder="Filter questions by keyword (e.g. Badr, Surah, Zakat, Hijrah)..."
+                aria-label="Filter Islamic Studies questions"
+                className="w-full h-9 px-3 rounded-md border border-slate-300 bg-white text-[13px] text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-slate-900 transition"
+              />
+              {searchQuery && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSearchQuery('');
+                    setCurrentPage(1);
+                  }}
+                  className="text-[12px] text-slate-500 hover:text-slate-900 px-2 shrink-0"
+                >
+                  Clear
+                </button>
+              )}
+            </div>
+
+            <div className="flex flex-wrap items-center gap-x-5 gap-y-1.5 text-[13px] text-slate-600">
+              <span className="tabular-nums">
+                Showing <strong className="font-semibold text-slate-900">{totalQuestions.toLocaleString()}</strong> questions
               </span>
-              <span className="bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 text-[10px] font-extrabold px-2.5 py-1 rounded-full font-sindhi font-lateefi text-base" dir="rtl">
-                اسلاميات سوالنامه
+              {answeredCount > 0 && (
+                <span className="tabular-nums text-emerald-800 font-medium">
+                  Score: {correctCount} / {answeredCount}
+                </span>
+              )}
+              <button
+                type="button"
+                onClick={handleToggleShuffle}
+                className={`underline underline-offset-4 transition-colors ${
+                  isShuffled ? 'text-emerald-800 font-medium' : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >
+                {isShuffled ? 'Order: Shuffled' : 'Shuffle order'}
+              </button>
+              {(answeredCount > 0 || Object.keys(revealedAnswers).length > 0) && (
+                <button
+                  type="button"
+                  onClick={handleResetAnswers}
+                  className="text-slate-500 hover:text-slate-900 underline underline-offset-4 transition-colors"
+                >
+                  Reset answers
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ───── Main Content ───── */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 space-y-8">
+        {/* Top Pagination */}
+        {totalQuestions > 0 && (
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-200 text-[13px] no-print">
+            <div className="text-slate-600 tabular-nums">
+              Page <strong className="font-semibold text-slate-900">{currentPage}</strong> of{' '}
+              <strong className="font-semibold text-slate-900">{totalPages}</strong>
+              <span className="text-slate-400 ml-2">
+                (Questions {startIndex + 1}–{Math.min(startIndex + QUESTIONS_PER_PAGE, totalQuestions)})
               </span>
             </div>
-            <h1 className="text-2xl sm:text-4xl font-black tracking-tight text-white flex items-center gap-3">
-              <BookMarked className="w-8 h-8 text-amber-400 fill-current animate-pulse" />
-              <span>Islamic Studies MCQ Bank (اسلاميات)</span>
-            </h1>
-            <p className="text-xs sm:text-sm text-emerald-100/90 leading-relaxed max-w-3xl">
-              Comprehensive {bankTotal} Solved Islamic Studies Question Bank covering Beliefs (Aqaid), Pillars of Islam, Quran, Hadith &amp; Sunnah, Seerat-un-Nabi (ﷺ), Khulafa-e-Rashideen, Islamic History, Fiqh, and Ethics.
-            </p>
-          </div>
 
-          <div className="flex flex-wrap items-center gap-3 shrink-0">
-            <Link
-              href="/quizzes/random-test?subject=Islamic%20Studies&count=10"
-              className="bg-amber-400 hover:bg-amber-300 text-emerald-950 text-xs font-black px-4 py-2.5 rounded-xl transition shadow flex items-center gap-1.5 no-print"
-            >
-              <Sparkles className="w-4 h-4" />
-              <span>Quick 10Q Random Challenge</span>
-            </Link>
-
-            <button
-              onClick={() => setShowSindhi(!showSindhi)}
-              className="bg-emerald-700 hover:bg-emerald-600 text-white text-xs font-black px-4 py-2.5 rounded-xl transition shadow flex items-center gap-1.5 no-print"
-            >
-              <span>{showSindhi ? 'English Only' : 'سنڌي ٻولي ۾ سوالن لاءِ ھت ڪلڪ ڪريو'}</span>
-            </button>
-
-          </div>
-        </div>
-      </div>
-
-      {/* Control Toolbar */}
-      <div className="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col md:flex-row items-center justify-between gap-4 no-print">
-        <div className="flex items-center gap-3 w-full md:w-auto">
-          <Filter className="w-4 h-4 text-emerald-700 shrink-0" />
-          <select
-            value={selectedCategory}
-            onChange={(e) => {
-              setSelectedCategory(e.target.value);
-              setCurrentPage(1);
-            }}
-            className="w-full md:w-72 bg-slate-50 border border-slate-300 text-slate-900 text-xs font-bold rounded-xl px-3 py-2.5 focus:outline-none focus:border-emerald-600"
-          >
-            {CATEGORIES.map(cat => (
-              <option key={cat} value={cat}>📂 {cat}</option>
-            ))}
-          </select>
-        </div>
-
-        <div className="flex items-center justify-between w-full md:w-auto gap-4 text-xs">
-          <span className="font-bold text-slate-700">
-            Total Questions: <span className="text-emerald-800 font-extrabold text-sm">{totalQuestions}</span>
-          </span>
-
-          <button
-            onClick={handleToggleShuffle}
-            className={`px-3 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1 border ${
-              isShuffled ? 'bg-amber-100 text-amber-900 border-amber-300' : 'bg-slate-50 text-slate-700 border-slate-200'
-            }`}
-          >
-            <Shuffle className="w-3.5 h-3.5" />
-            <span>{isShuffled ? 'Shuffled' : 'Sequential'}</span>
-          </button>
-
-          <button
-            onClick={handleResetAnswers}
-            className="bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold px-4 py-2 rounded-xl transition flex items-center gap-1.5"
-          >
-            <RotateCcw className="w-3.5 h-3.5" />
-            <span>Reset Answers</span>
-          </button>
-        </div>
-      </div>
-
-      {/* Top Pagination Bar */}
-      <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4 text-xs no-print">
-        <div className="flex items-center gap-2 text-slate-800 font-bold">
-          <BookOpen className="w-4 h-4 text-emerald-700" />
-          <span>Page {currentPage} of {totalPages}</span>
-          <span className="text-slate-500 font-normal text-[11px]">
-            (Questions {startIndex + 1} – {Math.min(startIndex + QUESTIONS_PER_PAGE, totalQuestions)})
-          </span>
-        </div>
-
-        <div className="flex items-center gap-1.5 flex-wrap">
-          <button
-            onClick={() => handlePageChange(currentPage - 1)}
-            disabled={currentPage === 1}
-            className="px-3 py-1.5 rounded-lg border border-slate-200 bg-slate-50 hover:bg-slate-100 disabled:opacity-30 text-[11px] font-bold flex items-center gap-1 transition"
-          >
-            <ChevronLeft className="w-3.5 h-3.5" />
-            <span>Prev Page</span>
-          </button>
-
-          {getWindowedPages(currentPage, totalPages).map((p, idx) =>
-            p === 'ellipsis' ? (
-              <span key={`el-${idx}`} className="px-1.5 text-slate-400 font-bold">
-                ...
-              </span>
-            ) : (
+            <div className="flex items-center gap-1 flex-wrap">
               <button
-                key={p}
-                onClick={() => handlePageChange(p)}
-                className={`min-w-[1.75rem] px-1.5 h-7 rounded-lg text-[11px] font-bold transition ${
-                  p === currentPage ? 'bg-emerald-800 text-white shadow-xs' : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
-                }`}
+                type="button"
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+                className="h-8 px-2.5 rounded border border-slate-300 text-[12px] font-medium text-slate-700 hover:border-slate-900 disabled:opacity-35 disabled:hover:border-slate-300 transition-colors"
               >
-                {p}
+                Prev
               </button>
-            )
-          )}
 
-          <button
-            onClick={() => handlePageChange(currentPage + 1)}
-            disabled={currentPage === totalPages}
-            className="px-3 py-1.5 rounded-lg border border-slate-200 bg-slate-50 hover:bg-slate-100 disabled:opacity-30 text-[11px] font-bold flex items-center gap-1 transition"
-          >
-            <span>Next Page</span>
-            <ChevronRight className="w-3.5 h-3.5" />
-          </button>
-        </div>
-      </div>
+              {getWindowedPages(currentPage, totalPages).map((p, idx) =>
+                p === 'ellipsis' ? (
+                  <span key={`el-${idx}`} className="px-1.5 text-slate-400 text-[12px]">
+                    …
+                  </span>
+                ) : (
+                  <button
+                    key={p}
+                    type="button"
+                    onClick={() => handlePageChange(p)}
+                    className={`min-w-[2rem] h-8 px-2 rounded text-[12px] tabular-nums font-medium transition-colors ${
+                      p === currentPage
+                        ? 'bg-slate-900 text-white'
+                        : 'border border-slate-200 text-slate-700 hover:border-slate-400'
+                    }`}
+                  >
+                    {p}
+                  </button>
+                )
+              )}
 
-      {/* MCQs List */}
-      {loading ? (
-        <Loader />
-      ) : currentQuestions.length === 0 ? (
-        <div className="bg-white p-12 rounded-2xl border border-slate-200 text-center">
-          <HelpCircle className="w-12 h-12 text-slate-300 mx-auto mb-2" />
-          <p className="text-sm font-bold text-slate-600">No MCQs found for this category.</p>
-        </div>
-      ) : (
-        <div className="space-y-4">
-          {currentQuestions.map((q, idx) => {
-            const globalIndex = startIndex + idx;
-            const userSelected = userAnswers[q.id];
-            const isAnswered = userSelected !== undefined;
-            const isRevealed = revealedAnswers[q.id];
-            const isCorrect = userSelected === q.correctIndex;
-
-            return (
-              <div
-                key={q.id}
-                className={`p-4 sm:p-6 rounded-2xl border transition shadow-xs space-y-3 bg-white page-break-inside-avoid ${
-                  isAnswered
-                    ? isCorrect
-                      ? 'border-emerald-300 bg-emerald-50/20'
-                      : 'border-red-300 bg-red-50/20'
-                    : 'border-slate-200 hover:border-slate-300'
-                }`}
+              <button
+                type="button"
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+                className="h-8 px-2.5 rounded border border-slate-300 text-[12px] font-medium text-slate-700 hover:border-slate-900 disabled:opacity-35 disabled:hover:border-slate-300 transition-colors"
               >
-                <div className="space-y-2.5">
-                  <div className="flex items-center justify-between gap-2">
-                    <div className="flex items-center gap-2 min-w-0">
-                      <span className="min-w-[2rem] h-8 px-1.5 rounded-lg bg-emerald-800 text-white font-black text-xs tabular-nums flex items-center justify-center shrink-0 shadow-xs">
-                        {globalIndex + 1}
+                Next
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Questions List */}
+        {loading ? (
+          <Loader />
+        ) : currentQuestions.length === 0 ? (
+          <div className="py-16 text-center border border-slate-200 rounded-md">
+            <p className="text-sm text-slate-600">No questions match your current filter.</p>
+          </div>
+        ) : (
+          <div className="divide-y divide-slate-200 border-t border-b border-slate-200">
+            {currentQuestions.map((q, idx) => {
+              const globalIndex = startIndex + idx;
+              const userSelected = userAnswers[q.id];
+              const isAnswered = userSelected !== undefined;
+              const isRevealed = revealedAnswers[q.id];
+              const topicLabel = getTopicFromExplanation(q.explanationEn, q.topic || 'Islamic Studies');
+              const cleanExp = getCleanExplanation(q.explanationEn);
+
+              return (
+                <article
+                  key={q.id}
+                  className="py-6 space-y-4 page-break-inside-avoid"
+                >
+                  <div className="flex items-baseline justify-between gap-4">
+                    <div className="flex items-baseline gap-3 min-w-0">
+                      <span className="text-[12px] font-semibold text-slate-400 tabular-nums shrink-0">
+                        Q{String(globalIndex + 1).padStart(2, '0')}
                       </span>
-                      <span className="text-[10px] font-bold uppercase tracking-wider sm:tracking-widest text-emerald-800 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200 truncate">
-                        {getTopicFromExplanation(q.explanationEn, q.topic || 'Islamic Studies')}
+                      <span className="text-[11px] font-medium uppercase tracking-[0.14em] text-emerald-700 truncate">
+                        {topicLabel}
                       </span>
                     </div>
 
                     <button
+                      type="button"
                       onClick={() => toggleReveal(q.id)}
-                      className="text-[11px] font-bold text-emerald-800 hover:text-emerald-950 bg-emerald-50 hover:bg-emerald-100 px-2.5 sm:px-3 py-1.5 rounded-lg border border-emerald-200 transition shrink-0 flex items-center gap-1 no-print"
+                      className="text-[12px] text-slate-500 hover:text-slate-900 underline underline-offset-4 shrink-0 no-print"
                     >
-                      <Eye className="w-3.5 h-3.5" />
-                      <span>{isRevealed ? 'Hide Answer' : 'Reveal Answer'}</span>
+                      {isRevealed ? 'Hide answer' : 'Show answer'}
                     </button>
                   </div>
 
-                  <div className="w-full min-w-0 space-y-1.5">
-                    <h3 className="mcq-question-text font-bold sm:font-extrabold text-slate-900">
+                  <div className="space-y-1.5">
+                    <h2 className="mcq-question-text text-[15px] sm:text-base font-medium text-slate-900 leading-relaxed">
                       {q.textEn.replace(/_+/g, '______')}
-                    </h3>
+                    </h2>
 
                     {showSindhi && q.textUr && q.textUr.trim() !== q.textEn.trim() && (
-                      <p className="text-base font-sindhi font-lateefi text-right text-emerald-950 pt-1 font-bold break-words" dir="rtl">
+                      <p
+                        className="text-base font-sindhi font-lateefi text-right text-slate-800 pt-1 leading-relaxed break-words"
+                        dir="rtl"
+                      >
                         {q.textUr}
                       </p>
                     )}
                   </div>
-                </div>
 
-                {/* Options Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
-                  {q.optionsEn.map((optText, optIdx) => {
-                    const isOptionSelected = userSelected === optIdx;
-                    const isCorrectAnswer = optIdx === q.correctIndex;
+                  {/* Options Grid */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
+                    {q.optionsEn.map((optText, optIdx) => {
+                      const isOptionSelected = userSelected === optIdx;
+                      const isCorrectAnswer = optIdx === q.correctIndex;
 
-                    let btnStyle = 'bg-slate-50 hover:bg-slate-100 text-slate-800 border-slate-200';
+                      let btnStyle =
+                        'border-slate-200 bg-white text-slate-800 hover:border-slate-400';
 
-                    if (isAnswered || isRevealed) {
-                      if (isCorrectAnswer) {
-                        btnStyle = 'bg-emerald-600 text-white border-emerald-600 font-bold shadow-xs';
-                      } else if (isOptionSelected) {
-                        btnStyle = 'bg-red-600 text-white border-red-600 font-bold';
+                      if (isAnswered || isRevealed) {
+                        if (isCorrectAnswer) {
+                          btnStyle =
+                            'border-emerald-700 bg-emerald-50/70 text-emerald-950 font-medium';
+                        } else if (isOptionSelected) {
+                          btnStyle =
+                            'border-rose-600 bg-rose-50/70 text-rose-950 font-medium';
+                        } else {
+                          btnStyle = 'border-slate-200 bg-slate-50/40 text-slate-500';
+                        }
                       }
-                    }
 
-                    return (
-                      <button
-                        key={optIdx}
-                        type="button"
-                        onClick={() => handleOptionSelect(q.id, optIdx)}
-                        className={`w-full text-left p-3 rounded-xl border text-xs transition flex items-center gap-2.5 ${btnStyle}`}
-                      >
-                        <span className={`w-5 h-5 rounded-md border shrink-0 flex items-center justify-center text-[10px] font-extrabold ${
-                          isCorrectAnswer && (isAnswered || isRevealed)
-                            ? 'bg-white text-emerald-950 border-white'
-                            : isOptionSelected && !isCorrectAnswer
-                            ? 'bg-white text-red-950 border-white'
-                            : 'border-slate-300 text-slate-500'
-                        }`}>
-                          {String.fromCharCode(65 + optIdx)}
-                        </span>
+                      return (
+                        <button
+                          key={optIdx}
+                          type="button"
+                          onClick={() => handleOptionSelect(q.id, optIdx)}
+                          className={`w-full text-left px-3.5 py-2.5 rounded-md border text-[13px] sm:text-sm transition-colors flex items-baseline gap-3 ${btnStyle}`}
+                        >
+                          <span className="text-[12px] font-semibold tabular-nums text-slate-400 shrink-0">
+                            {String.fromCharCode(65 + optIdx)}.
+                          </span>
 
-                        <span className="flex-1 min-w-0 font-medium mcq-option-text">
-                          {optText}
-                          {showSindhi && q.optionsUr && q.optionsUr[optIdx] && q.optionsUr[optIdx].trim() !== optText.trim() && (
-                            <span className="block font-sindhi font-lateefi text-right text-sm pt-0.5" dir="rtl">
-                              {q.optionsUr[optIdx]}
-                            </span>
-                          )}
-                        </span>
-                      </button>
-                    );
-                  })}
-                </div>
-
-                {/* Explanation Reveal */}
-                {(isRevealed || isAnswered) && (
-                  <div className="p-3 bg-emerald-50/60 rounded-xl border border-emerald-200 text-xs text-emerald-950 space-y-1">
-                    <p className="font-bold flex items-center gap-1.5">
-                      <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                      <span>Correct Answer: {String.fromCharCode(65 + q.correctIndex)}. {q.optionsEn[q.correctIndex]}</span>
-                    </p>
-                    {getCleanExplanation(q.explanationEn) && (
-                      <p className="text-[11px] text-slate-600 pt-0.5">
-                        <span className="font-bold text-slate-800">Explanation:</span> {getCleanExplanation(q.explanationEn)}
-                      </p>
-                    )}
+                          <span className="flex-1 min-w-0 mcq-option-text leading-snug">
+                            {optText}
+                            {showSindhi &&
+                              q.optionsUr &&
+                              q.optionsUr[optIdx] &&
+                              q.optionsUr[optIdx].trim() !== optText.trim() && (
+                                <span
+                                  className="block font-sindhi font-lateefi text-right text-sm pt-0.5 text-slate-700"
+                                  dir="rtl"
+                                >
+                                  {q.optionsUr[optIdx]}
+                                </span>
+                              )}
+                          </span>
+                        </button>
+                      );
+                    })}
                   </div>
-                )}
-              </div>
-            );
-          })}
-        </div>
-      )}
 
-      {/* Bottom Pagination */}
-      <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-wrap items-center justify-center gap-2 no-print">
-        <button
-          onClick={() => handlePageChange(currentPage - 1)}
-          disabled={currentPage === 1}
-          className="px-4 py-2 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 disabled:opacity-30 text-xs font-bold flex items-center gap-1 transition"
-        >
-          <ChevronLeft className="w-4 h-4" />
-          <span>Previous Page</span>
-        </button>
+                  {/* Answer & Explanation */}
+                  {(isRevealed || isAnswered) && (
+                    <div className="pt-1 text-[13px] text-slate-600 space-y-1">
+                      <p>
+                        <span className="font-semibold text-emerald-800">
+                          Correct answer: {String.fromCharCode(65 + q.correctIndex)}.{' '}
+                          {q.optionsEn[q.correctIndex]}
+                        </span>
+                      </p>
+                      {cleanExp && (
+                        <p className="text-[12px] text-slate-500 leading-relaxed">
+                          {cleanExp}
+                        </p>
+                      )}
+                    </div>
+                  )}
+                </article>
+              );
+            })}
+          </div>
+        )}
 
-        <div className="hidden sm:flex items-center gap-1">
-          {getWindowedPages(currentPage, totalPages).map((p, idx) =>
-            p === 'ellipsis' ? (
-              <span key={`bel-${idx}`} className="px-1.5 text-slate-400 font-bold text-xs">
-                ...
-              </span>
-            ) : (
+        {/* Bottom Pagination */}
+        {totalQuestions > 0 && (
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2 text-[13px] no-print">
+            <div className="text-slate-500 tabular-nums">
+              Page {currentPage} of {totalPages}
+            </div>
+
+            <div className="flex items-center gap-1 flex-wrap">
               <button
-                key={p}
-                onClick={() => handlePageChange(p)}
-                className={`min-w-[2rem] px-2 h-8 rounded-lg text-xs font-bold transition ${
-                  p === currentPage ? 'bg-emerald-800 text-white shadow-xs' : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
-                }`}
+                type="button"
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+                className="h-8 px-3 rounded border border-slate-300 text-[12px] font-medium text-slate-700 hover:border-slate-900 disabled:opacity-35 transition-colors"
               >
-                {p}
+                Previous
               </button>
-            )
-          )}
-        </div>
 
-        <span className="sm:hidden text-xs font-bold text-slate-700 px-3">
-          Page {currentPage} of {totalPages}
-        </span>
+              {getWindowedPages(currentPage, totalPages).map((p, idx) =>
+                p === 'ellipsis' ? (
+                  <span key={`bel-${idx}`} className="px-1.5 text-slate-400 text-[12px]">
+                    …
+                  </span>
+                ) : (
+                  <button
+                    key={p}
+                    type="button"
+                    onClick={() => handlePageChange(p)}
+                    className={`min-w-[2rem] h-8 px-2 rounded text-[12px] tabular-nums font-medium transition-colors ${
+                      p === currentPage
+                        ? 'bg-slate-900 text-white'
+                        : 'border border-slate-200 text-slate-700 hover:border-slate-400'
+                    }`}
+                  >
+                    {p}
+                  </button>
+                )
+              )}
 
-        <button
-          onClick={() => handlePageChange(currentPage + 1)}
-          disabled={currentPage === totalPages}
-          className="px-4 py-2 rounded-xl border border-emerald-800 bg-emerald-800 hover:bg-emerald-900 text-white text-xs font-black flex items-center gap-1 transition shadow-xs"
-        >
-          <span>Next Page</span>
-          <ChevronRight className="w-4 h-4" />
-        </button>
+              <button
+                type="button"
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+                className="h-8 px-3 rounded border border-slate-300 text-[12px] font-medium text-slate-700 hover:border-slate-900 disabled:opacity-35 transition-colors"
+              >
+                Next
+              </button>
+            </div>
+          </div>
+        )}
       </div>
-
-      {/* Social Share Footer */}
-      <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3 text-center no-print">
-        <h3 className="text-sm font-extrabold text-slate-900 flex items-center justify-center gap-2">
-          <Sparkles className="w-4 h-4 text-amber-500" />
-          <span>Share Islamic Studies MCQ Bank with Fellow Candidates</span>
-        </h3>
-        <p className="text-xs text-slate-500 max-w-xl mx-auto">
-          Help candidates preparing for PPSC, FPSC, SPSC, NTS &amp; BISE examinations by sharing this free {bankTotal}-question Islamic Studies practice paper!
-        </p>
-        <div className="flex justify-center pt-1">
-          <ShareButtons
-            url={shareUrl}
-            title={shareTitle}
-            description={shareDescription}
-          />
-        </div>
-      </div>
-
     </div>
   );
 }

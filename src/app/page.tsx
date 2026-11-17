@@ -5,270 +5,218 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
-import JobCard from '@/components/JobCard';
-import NewsCard from '@/components/NewsCard';
 import AdSlot from '@/components/AdSlot';
-import InterestingRandomQuiz from '@/components/InterestingRandomQuiz';
-import { SkeletonCard } from '@/components/Loader';
-import { QuickShareButton, SectionShareBar } from '@/components/ShareButtons';
 import { APTITUDE_GROUPS, APTITUDE_TOPICS, AptitudeGroupId } from '@/data/aptitudeTopics';
-import {
-  Search,
-  Briefcase,
-  BookOpen,
-  FileCheck,
-  Newspaper,
-  FileText,
-  Users,
-  ChevronRight,
-  Star,
-  Zap,
-  Award,
-  Shield,
-  Lightbulb,
-  Dna,
-  Atom,
-  Landmark,
-  BookMarked,
-  FlaskConical,
-  Monitor,
-  Calculator,
-  Globe,
-  Clock,
-  CheckCircle2,
-  Sparkles,
-  GraduationCap,
-  Layers,
-  ArrowRight
-} from 'lucide-react';
 import { IJob, INews } from '@/lib/types';
 
-interface HomeSubjectCard {
+/* ────────────────────────────────────────────────────────────────────────────
+   Content
+   ──────────────────────────────────────────────────────────────────────────── */
+
+interface SubjectBank {
   id: string;
   name: string;
-  badge: string;
-  category: 'aptitude' | 'science' | 'humanities';
+  group: 'Aptitude' | 'Science' | 'Humanities' | 'Language';
+  count: string;
   href: string;
-  icon: any;
-  iconStyle: string;
-  badgeStyle: string;
   desc: string;
-  features: string[];
-  subLinks: { label: string; href: string }[];
+  topics: string[];
 }
 
-const ADVANCED_MCQ_SUBJECTS: HomeSubjectCard[] = [
+const SUBJECT_BANKS: SubjectBank[] = [
   {
     id: 'aptitude',
-    name: 'Quantitative Aptitude & Reasoning',
-    badge: '3,702 MCQs · 43 Topics',
-    category: 'aptitude',
+    name: 'Quantitative Aptitude',
+    group: 'Aptitude',
+    count: '3,702 questions',
     href: '/quizzes/aptitude',
-    icon: Lightbulb,
-    iconStyle: 'bg-amber-50 border-amber-200 text-amber-600',
-    badgeStyle: 'bg-amber-50 text-amber-800 border-amber-200',
-    desc: 'Complete quantitative test bank with 10 questions per page, top page counter, and click-to-reveal LaTeX step-by-step solutions.',
-    features: ['10 Qs / Page', 'Step-by-Step Formulas', '43 Chapters'],
-    subLinks: [
-      { label: 'Average', href: '/quizzes/aptitude/average' },
-      { label: 'Percentage', href: '/quizzes/aptitude/percentage' },
-      { label: 'Profit & Loss', href: '/quizzes/aptitude/profit-and-loss' },
-      { label: 'Time & Work', href: '/quizzes/aptitude/time-and-work' },
-      { label: 'Trains', href: '/quizzes/aptitude/problems-on-trains' },
-      { label: 'Algebra', href: '/quizzes/aptitude/algebra' },
-    ]
+    desc: '43 chapters with worked, step-by-step solutions for every question.',
+    topics: ['Average', 'Percentage', 'Profit & Loss', 'Time & Work', 'Trains', 'Algebra'],
   },
   {
-    id: 'biology',
-    name: 'Biology (Board & MDCAT Prep)',
-    badge: '1,547 MCQs · 14 Chapters',
-    category: 'science',
-    href: '/quizzes/biology',
-    icon: Dna,
-    iconStyle: 'bg-teal-50 border-teal-200 text-teal-600',
-    badgeStyle: 'bg-teal-50 text-teal-800 border-teal-200',
-    desc: 'Sindh, Punjab & Federal Board aligned MCQs covering Cell Biology, Enzymes, Bioenergetics, Genetics & Human Physiology.',
-    features: ['Chapter Filter', 'Instant Grading', 'English & Sindhi'],
-    subLinks: [
-      { label: 'Cell Biology', href: '/quizzes/biology' },
-      { label: 'Biological Molecules', href: '/quizzes/biology' },
-      { label: 'Enzymes', href: '/quizzes/biology' },
-      { label: 'Genetics & Biotech', href: '/quizzes/biology' },
-      { label: 'Human Physiology', href: '/quizzes/biology' },
-    ]
-  },
-  {
-    id: 'physics',
-    name: 'Physics (Board & Entry Tests)',
-    badge: '941 MCQs · 19 Topics',
-    category: 'science',
-    href: '/quizzes/physics',
-    icon: Zap,
-    iconStyle: 'bg-cyan-50 border-cyan-200 text-cyan-600',
-    badgeStyle: 'bg-cyan-50 text-cyan-800 border-cyan-200',
-    desc: 'Comprehensive Physics bank covering Kinematics, Dynamics, Thermodynamics, Electrostatics, Optics & Nuclear Physics.',
-    features: ['19 Topic Filters', 'Detailed Explanations', 'Bilingual'],
-    subLinks: [
-      { label: 'Kinematics', href: '/quizzes/physics' },
-      { label: 'Work & Energy', href: '/quizzes/physics' },
-      { label: 'Electrostatics', href: '/quizzes/physics' },
-      { label: 'Modern Physics', href: '/quizzes/physics' },
-      { label: 'Optics', href: '/quizzes/physics' },
-    ]
-  },
-  {
-    id: 'world-info',
-    name: 'World GK — Capitals, Currencies & Leaders',
-    badge: '420 MCQs · 5 Continents',
-    category: 'humanities',
-    href: '/quizzes/world-info',
-    icon: Globe,
-    iconStyle: 'bg-indigo-50 border-indigo-200 text-indigo-600',
-    badgeStyle: 'bg-indigo-50 text-indigo-800 border-indigo-200',
-    desc: '195 World Capitals, 195 Currencies, and 30 Current World Leaders organized continent-by-continent for FPSC & PPSC.',
-    features: ['Continent Tabs', 'Capitals & Currencies', 'World Leaders'],
-    subLinks: [
-      { label: 'Asia (47)', href: '/quizzes/world-info' },
-      { label: 'Europe (45)', href: '/quizzes/world-info' },
-      { label: 'Africa (54)', href: '/quizzes/world-info' },
-      { label: 'Americas (35)', href: '/quizzes/world-info' },
-      { label: 'World Leaders (30)', href: '/quizzes/world-info' },
-    ]
-  },
-  {
-    id: 'pak-studies',
-    name: 'Pakistan Studies & Affairs',
-    badge: '364 MCQs · 15 Sections',
-    category: 'humanities',
-    href: '/quizzes/pak-studies',
-    icon: Landmark,
-    iconStyle: 'bg-emerald-50 border-emerald-200 text-emerald-600',
-    badgeStyle: 'bg-emerald-50 text-emerald-800 border-emerald-200',
-    desc: 'Indus Valley Civilization, Constitutional History, Geography of South Asia, Water Resources & Modern Governance.',
-    features: ['15 Structured Sections', '20 Qs / Page', 'En & Sindhi Mode'],
-    subLinks: [
-      { label: 'Indus Valley', href: '/quizzes/pak-studies' },
-      { label: 'Constitution & State', href: '/quizzes/pak-studies' },
-      { label: 'Geography', href: '/quizzes/pak-studies' },
-      { label: 'Economy & Trade', href: '/quizzes/pak-studies' },
-      { label: 'Water & Irrigation', href: '/quizzes/pak-studies' },
-    ]
+    id: 'general-science',
+    name: 'General Science',
+    group: 'Science',
+    count: '2,130 questions',
+    href: '/quizzes/subject/general-science',
+    desc: 'Everyday science for FPSC, PPSC and CSS screening tests.',
+    topics: ['Human body', 'Space', 'Inventions', 'Environment'],
   },
   {
     id: 'islamic-studies',
-    name: 'Islamic Studies (Islamiat)',
-    badge: '1,711 MCQs · 9 Categories',
-    category: 'humanities',
+    name: 'Islamic Studies',
+    group: 'Humanities',
+    count: '1,711 questions',
     href: '/quizzes/islamic-studies',
-    icon: BookMarked,
-    iconStyle: 'bg-amber-50 border-amber-200 text-amber-600',
-    badgeStyle: 'bg-amber-50 text-amber-800 border-amber-200',
-    desc: 'Aqaid, Pillars of Islam, Holy Quran, Hadith & Sunnah, Seerat-un-Nabi (ﷺ), Khulafa-e-Rashideen & Islamic History.',
-    features: ['9 Topic Categories', 'Instant Answer Reveal', 'Shuffle Mode'],
-    subLinks: [
-      { label: 'The Holy Quran', href: '/quizzes/islamic-studies' },
-      { label: 'Hadith & Sunnah', href: '/quizzes/islamic-studies' },
-      { label: 'Seerat-un-Nabi (ﷺ)', href: '/quizzes/islamic-studies' },
-      { label: 'Khulafa-e-Rashideen', href: '/quizzes/islamic-studies' },
-      { label: 'Pillars of Islam', href: '/quizzes/islamic-studies' },
-    ]
+    desc: 'Quran, Hadith, Seerah, Khulafa-e-Rashideen and Islamic history.',
+    topics: ['Holy Quran', 'Hadith', 'Seerah', 'Pillars of Islam'],
+  },
+  {
+    id: 'biology',
+    name: 'Biology',
+    group: 'Science',
+    count: '1,547 questions',
+    href: '/quizzes/biology',
+    desc: 'Board and MDCAT aligned, organised chapter by chapter.',
+    topics: ['Cell biology', 'Enzymes', 'Genetics', 'Physiology'],
+  },
+  {
+    id: 'chemistry',
+    name: 'Chemistry',
+    group: 'Science',
+    count: '1,518 questions',
+    href: '/quizzes/subject/chemistry',
+    desc: 'Physical, organic and inorganic chemistry for entry tests.',
+    topics: ['Atomic structure', 'Periodic table', 'Organic', 'Reactions'],
+  },
+  {
+    id: 'physics',
+    name: 'Physics',
+    group: 'Science',
+    count: '941 questions',
+    href: '/quizzes/physics',
+    desc: 'Mechanics to modern physics, filterable across 19 topics.',
+    topics: ['Kinematics', 'Electrostatics', 'Optics', 'Modern physics'],
+  },
+  {
+    id: 'world-info',
+    name: 'World General Knowledge',
+    group: 'Humanities',
+    count: '420 questions',
+    href: '/quizzes/world-info',
+    desc: 'Capitals, currencies and current world leaders by continent.',
+    topics: ['Asia', 'Europe', 'Africa', 'Americas', 'Leaders'],
   },
   {
     id: 'english',
     name: 'English Grammar & Composition',
-    badge: '100+ MCQs · 4 Active Sections',
-    category: 'humanities',
+    group: 'Language',
+    count: '400 questions',
     href: '/quizzes/english-grammar',
-    icon: BookOpen,
-    iconStyle: 'bg-blue-50 border-blue-200 text-blue-600',
-    badgeStyle: 'bg-blue-50 text-blue-800 border-blue-200',
-    desc: 'Parts of Speech, Synonyms, Antonyms, Error Detection, Sentence Correction & Reading Comprehension for FPSC/PPSC/STS.',
-    features: ['Section-Wise Practice', 'Score Breakdown', 'Grammar Rules'],
-    subLinks: [
-      { label: 'Parts of Speech', href: '/quizzes/english-grammar' },
-      { label: 'Synonyms', href: '/quizzes/english-grammar' },
-      { label: 'Antonyms & Errors', href: '/quizzes/english-grammar' },
-      { label: 'Reading Comprehension', href: '/quizzes/english-grammar' },
-    ]
+    desc: 'Grammar, vocabulary and comprehension in four sections.',
+    topics: ['Parts of speech', 'Synonyms', 'Antonyms', 'Comprehension'],
   },
   {
-    id: 'general-science',
-    name: 'General Science & Ability',
-    badge: '2,130+ Everyday Sci MCQs',
-    category: 'science',
-    href: '/quizzes/subject/general-science',
-    icon: Atom,
-    iconStyle: 'bg-emerald-50 border-emerald-200 text-emerald-600',
-    badgeStyle: 'bg-emerald-50 text-emerald-800 border-emerald-200',
-    desc: 'Everyday Science, Astronomy, Solar System, Human Vitamins & Diseases, Analytical & Logical Reasoning.',
-    features: ['Everyday Science', 'Analytical Ability', 'Timed Quizzes'],
-    subLinks: [
-      { label: 'Everyday Science', href: '/quizzes/subject/general-science' },
-      { label: 'Solar System', href: '/quizzes/subject/general-science' },
-      { label: 'Environmental Science', href: '/quizzes/subject/general-science' },
-    ]
+    id: 'pak-studies',
+    name: 'Pakistan Studies',
+    group: 'Humanities',
+    count: '364 questions',
+    href: '/quizzes/pak-studies',
+    desc: 'History, constitution, geography and economy of Pakistan.',
+    topics: ['Indus Valley', 'Constitution', 'Geography', 'Economy'],
   },
-  {
-    id: 'computer-science',
-    name: 'Computer Science, Chemistry & Math',
-    badge: '1,518 Chem + CS & Math',
-    category: 'science',
-    href: '/quizzes/subject/computer-science',
-    icon: Monitor,
-    iconStyle: 'bg-purple-50 border-purple-200 text-purple-600',
-    badgeStyle: 'bg-purple-50 text-purple-800 border-purple-200',
-    desc: 'MS Office shortcuts, Computer Networks, Operating Systems, Organic/Inorganic Chemistry & Core Mathematics.',
-    features: ['IT & MS Office', 'Chemistry Bank', 'General Math'],
-    subLinks: [
-      { label: 'Computer Science', href: '/quizzes/subject/computer-science' },
-      { label: 'Chemistry MCQs', href: '/quizzes/subject/chemistry' },
-      { label: 'Mathematics MCQs', href: '/quizzes/subject/mathematics' },
-    ]
-  }
 ];
 
-const FEATURED_MOCK_EXAMS = [
+const MOCK_EXAMS = [
   {
-    title: 'MDCAT Full Mock Exam (SIBA Pattern)',
-    badge: '200 MCQs · 180 Mins',
-    org: 'Medical Entry Test',
-    desc: 'Biology (80), Chemistry (60), Physics (40) & English (20) with 3-hour countdown timer and subject breakdown.',
+    org: 'Medical entry test',
+    title: 'MDCAT Full Mock (SIBA pattern)',
+    meta: '200 MCQs · 180 min',
+    desc: 'Biology, Chemistry, Physics and English with a full-length countdown and subject breakdown.',
     href: '/mock-papers/mdcat',
-    icon: Award,
-    accent: 'border-teal-200 bg-gradient-to-br from-white to-teal-50/50',
-    iconStyle: 'bg-teal-50 border-teal-200 text-teal-600'
   },
   {
+    org: 'STS SIBA pattern',
     title: 'Sindh Police Constable (BPS-07)',
-    badge: '100 MCQs · 80 Mins',
-    org: 'STS SIBA Pattern',
-    desc: 'Reasoning (30%), Maths (20%), GK/IQ (20%), Sindhi (20%) & English (10%) full-length recruitment test.',
+    meta: '100 MCQs · 80 min',
+    desc: 'Reasoning, mathematics, GK, Sindhi and English, weighted as in the real paper.',
     href: '/mock-papers/police-constable',
-    icon: Shield,
-    accent: 'border-indigo-200 bg-gradient-to-br from-white to-indigo-50/50',
-    iconStyle: 'bg-indigo-50 border-indigo-200 text-indigo-600'
   },
   {
-    title: 'Ministry of Defence (MOD) Exam',
-    badge: '100 MCQs · 90 Mins',
-    org: 'Federal Screening',
-    desc: 'English, Pakistan Studies, Islamiat, Current Affairs, Everyday Science & Quantitative Math (25 Qs/page).',
+    org: 'Federal screening',
+    title: 'Ministry of Defence Exam',
+    meta: '100 MCQs · 90 min',
+    desc: 'English, Pakistan Studies, Islamiat, current affairs, everyday science and maths.',
     href: '/mock-papers/ministry-of-defence',
-    icon: Shield,
-    accent: 'border-emerald-200 bg-gradient-to-br from-white to-emerald-50/50',
-    iconStyle: 'bg-emerald-50 border-emerald-200 text-emerald-600'
   },
   {
+    org: 'University admission',
     title: 'SALU Khairpur Entry Test',
-    badge: '50 MCQs · 60 Mins',
-    org: 'University Admission',
-    desc: 'English (10), General Knowledge (10), Islamic Studies (10), Biology (10) & Physics (10) solved model paper.',
+    meta: '50 MCQs · 60 min',
+    desc: 'A solved model paper across English, GK, Islamic Studies, Biology and Physics.',
     href: '/mock-papers/salu-entry-test',
-    icon: GraduationCap,
-    accent: 'border-amber-200 bg-gradient-to-br from-white to-amber-50/50',
-    iconStyle: 'bg-amber-50 border-amber-200 text-amber-600'
-  }
+  },
 ];
+
+const POPULAR_LINKS = [
+  { label: 'Aptitude', href: '/quizzes/aptitude' },
+  { label: 'General Science', href: '/quizzes/subject/general-science' },
+  { label: 'Biology', href: '/quizzes/biology' },
+  { label: 'Islamic Studies', href: '/quizzes/islamic-studies' },
+  { label: 'English', href: '/quizzes/english-grammar' },
+  { label: 'MDCAT mock', href: '/mock-papers/mdcat' },
+];
+
+const COMMISSIONS = ['FPSC', 'PPSC', 'SPSC', 'KPPSC', 'NTS', 'STS SIBA', 'MDCAT', 'CSS / PMS'];
+
+const STATS = [
+  { value: '12,700+', label: 'Solved MCQs' },
+  { value: '43', label: 'Aptitude chapters' },
+  { value: '4', label: 'Timed mock exams' },
+  { value: '500+', label: 'Job listings' },
+];
+
+/* ────────────────────────────────────────────────────────────────────────────
+   Small presentational helpers
+   ──────────────────────────────────────────────────────────────────────────── */
+
+const CONTAINER = 'max-w-6xl mx-auto px-4 sm:px-6';
+
+function Eyebrow({ children, tone = 'default' }: { children: React.ReactNode; tone?: 'default' | 'inverse' }) {
+  return (
+    <p
+      className={`text-[11px] font-semibold uppercase tracking-[0.18em] ${
+        tone === 'inverse' ? 'text-emerald-300' : 'text-emerald-700'
+      }`}
+    >
+      {children}
+    </p>
+  );
+}
+
+function SectionHeader({
+  eyebrow,
+  title,
+  description,
+  href,
+  linkLabel,
+  titleClassName = '',
+}: {
+  eyebrow: string;
+  title: React.ReactNode;
+  description?: string;
+  href?: string;
+  linkLabel?: string;
+  titleClassName?: string;
+}) {
+  return (
+    <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+      <div className="max-w-2xl">
+        <Eyebrow>{eyebrow}</Eyebrow>
+        <h2 className={`mt-2 text-2xl sm:text-[1.7rem] font-semibold tracking-tight text-slate-900 ${titleClassName}`}>
+          {title}
+        </h2>
+        {description && <p className="mt-2 text-sm text-slate-600 leading-relaxed">{description}</p>}
+      </div>
+      {href && linkLabel && (
+        <Link
+          href={href}
+          className="shrink-0 text-sm font-medium text-slate-900 underline underline-offset-4 decoration-slate-300 hover:decoration-slate-900 transition-colors"
+        >
+          {linkLabel}
+        </Link>
+      )}
+    </div>
+  );
+}
+
+function stripHtml(input: string): string {
+  return String(input || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+}
+
+/* ────────────────────────────────────────────────────────────────────────────
+   Page
+   ──────────────────────────────────────────────────────────────────────────── */
 
 export default function Home() {
   const { t, i18n } = useTranslation();
@@ -277,43 +225,43 @@ export default function Home() {
   const [news, setNews] = useState<INews[]>([]);
   const [search, setSearch] = useState('');
   const [searchMode, setSearchMode] = useState<'mcqs' | 'jobs'>('mcqs');
-  const [activeCategory, setActiveCategory] = useState<'all' | 'aptitude' | 'science' | 'humanities'>('all');
   const [activeAptGroup, setActiveAptGroup] = useState<AptitudeGroupId>('arithmetic');
   const [loading, setLoading] = useState(true);
   const isUr = i18n.language === 'ur';
+  const dateLocale = isUr ? 'ur-PK' : 'en-GB';
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const [jobsRes, newsRes] = await Promise.all([
           axios.get('/api/jobs?limit=6'),
-          axios.get('/api/news?limit=4')
+          axios.get('/api/news?limit=4'),
         ]);
-        setJobs(jobsRes.data);
-        setNews(newsRes.data);
+        setJobs(Array.isArray(jobsRes.data) ? jobsRes.data : []);
+        setNews(Array.isArray(newsRes.data) ? newsRes.data : []);
       } catch (err) {
         console.error('Error fetching home data:', err);
       } finally {
         setLoading(false);
       }
     };
-
     fetchData();
   }, []);
 
-  /* Live matching MCQ topics when user types in MCQ search mode */
   const mcqSuggestions = useMemo(() => {
     const q = search.trim().toLowerCase();
     if (!q || searchMode !== 'mcqs') return [];
 
-    const subjectMatches = ADVANCED_MCQ_SUBJECTS
-      .filter((s) => s.name.toLowerCase().includes(q) || s.desc.toLowerCase().includes(q))
-      .map((s) => ({ label: s.name, badge: s.badge, href: s.href }));
+    const subjectMatches = SUBJECT_BANKS.filter(
+      (s) =>
+        s.name.toLowerCase().includes(q) ||
+        s.desc.toLowerCase().includes(q) ||
+        s.topics.some((tp) => tp.toLowerCase().includes(q))
+    ).map((s) => ({ label: s.name, meta: s.count, href: s.href }));
 
-    const topicMatches = APTITUDE_TOPICS
-      .filter((t) => t.title.toLowerCase().includes(q))
+    const topicMatches = APTITUDE_TOPICS.filter((tp) => tp.title.toLowerCase().includes(q))
       .slice(0, 6)
-      .map((t) => ({ label: `Aptitude: ${t.title}`, badge: `${t.count} MCQs`, href: `/quizzes/aptitude/${t.slug}` }));
+      .map((tp) => ({ label: `Aptitude — ${tp.title}`, meta: `${tp.count} questions`, href: `/quizzes/aptitude/${tp.slug}` }));
 
     return [...subjectMatches, ...topicMatches].slice(0, 7);
   }, [search, searchMode]);
@@ -326,617 +274,419 @@ export default function Home() {
       return;
     }
     if (searchMode === 'mcqs') {
-      if (mcqSuggestions.length > 0) {
-        router.push(mcqSuggestions[0].href);
-      } else {
-        router.push(`/quizzes/aptitude`);
-      }
+      router.push(mcqSuggestions.length > 0 ? mcqSuggestions[0].href : '/quizzes');
     } else {
       router.push(`/jobs?search=${encodeURIComponent(trimmed)}`);
     }
   };
 
-  const filteredSubjects = activeCategory === 'all'
-    ? ADVANCED_MCQ_SUBJECTS
-    : ADVANCED_MCQ_SUBJECTS.filter((s) => s.category === activeCategory);
-
   const groupTopics = useMemo(
-    () => APTITUDE_TOPICS.filter((t) => t.group === activeAptGroup),
+    () => APTITUDE_TOPICS.filter((tp) => tp.group === activeAptGroup),
     [activeAptGroup]
   );
+  const activeGroupMeta = APTITUDE_GROUPS.find((g) => g.id === activeAptGroup);
 
-  const stats = [
-    { label: 'Solved MCQs Bank', value: '12,700+', icon: Zap, iconBg: 'bg-amber-50 border-amber-200/80 text-amber-600' },
-    { label: 'Aptitude Chapters', value: '43 Topics', icon: Lightbulb, iconBg: 'bg-emerald-50 border-emerald-200/80 text-emerald-600' },
-    { label: 'Timed Mock Papers', value: '11+ Subjects', icon: Award, iconBg: 'bg-blue-50 border-blue-200/80 text-blue-600' },
-    { label: 'Active Govt Jobs', value: '500+', icon: Briefcase, iconBg: 'bg-purple-50 border-purple-200/80 text-purple-600' },
-  ];
-
-  const commissions = [
-    'FPSC', 'PPSC', 'SPSC', 'KPPSC', 'NTS', 'STS SIBA', 'MDCAT', 'CSS / PMS'
-  ];
+  const formatDate = (value?: string) =>
+    value
+      ? new Date(value).toLocaleDateString(dateLocale, { day: 'numeric', month: 'short', year: 'numeric' })
+      : '';
 
   return (
-    <div className="space-y-0 pb-0">
-      {/* ───── 1. Hero Section — Advanced MCQs & Career Command Center ───── */}
-      <section
-        className="relative overflow-hidden bg-gradient-to-b from-white via-emerald-50/35 to-amber-50/25 text-slate-900 border-b border-slate-200/80"
-        aria-label="Hero banner"
-      >
-        <div className="absolute inset-0 pointer-events-none opacity-60">
-          <div className="absolute -top-32 -right-32 w-96 h-96 bg-emerald-100/70 rounded-full blur-3xl" />
-          <div className="absolute -bottom-32 -left-32 w-96 h-96 bg-amber-100/60 rounded-full blur-3xl" />
-        </div>
+    <div className="bg-white text-slate-900">
+      {/* ───────────────────────── Hero ───────────────────────── */}
+      <section className="border-b border-slate-200" aria-label="Introduction">
+        <div className={`${CONTAINER} pt-12 pb-12 sm:pt-16 sm:pb-16 grid lg:grid-cols-12 gap-10 lg:gap-14 items-end`}>
+          <div className="lg:col-span-7">
+            <Eyebrow>Pakistan government exams · FPSC · PPSC · SPSC · NTS</Eyebrow>
 
-        <div className="relative max-w-5xl mx-auto px-4 py-9 sm:py-14 text-center space-y-5">
-          {/* Top Tagline Pill */}
-          <div className="inline-flex items-center gap-2 bg-white border border-slate-200/90 px-4 py-1.5 rounded-full text-[11px] sm:text-xs font-bold shadow-xs">
-            <Star className="w-3.5 h-3.5 text-amber-500 fill-amber-400 shrink-0" strokeWidth={2.25} />
-            <span className="text-slate-700">
-              Pakistan&apos;s Most Advanced MCQs Preparation &amp; Official Career Portal
-            </span>
-          </div>
+            <h1 className="mt-4 text-[2rem] sm:text-[2.6rem] leading-[1.12] font-semibold tracking-tight text-slate-900">
+              Prepare with 12,700+ solved MCQs and follow every government job in one place.
+            </h1>
 
-          <h1 className={`text-2xl sm:text-4xl md:text-5xl font-black tracking-tight leading-tight text-slate-900 px-1 ${isUr ? 'font-urdu leading-relaxed' : ''}`}>
-            Master <span className="text-emerald-700">12,700+ Solved MCQs</span> &amp; Track Every Govt Job
-          </h1>
+            <p className="mt-4 text-[15px] leading-relaxed text-slate-600 max-w-xl">
+              Subject-wise question banks, 43 aptitude chapters with worked solutions, and full-length
+              timed mock exams. Free to use and updated regularly.
+            </p>
 
-          <p className="text-xs sm:text-sm md:text-base text-slate-600 max-w-2xl mx-auto leading-relaxed px-2">
-            Practice topic-wise Quantitative Aptitude (43 chapters with step-by-step formulas), Biology, Physics, English, Pak Studies, Islamic Studies &amp; full-length timed mock exams.
-          </p>
+            {/* Search */}
+            <div className="mt-8 max-w-xl relative">
+              <div className="flex gap-6 text-[13px] font-medium border-b border-slate-200" role="tablist" aria-label="Search type">
+                {[
+                  { id: 'mcqs' as const, label: 'MCQs & topics' },
+                  { id: 'jobs' as const, label: 'Government jobs' },
+                ].map((tab) => (
+                  <button
+                    key={tab.id}
+                    type="button"
+                    role="tab"
+                    aria-selected={searchMode === tab.id}
+                    onClick={() => setSearchMode(tab.id)}
+                    className={`pb-2.5 -mb-px border-b-2 transition-colors ${
+                      searchMode === tab.id
+                        ? 'border-slate-900 text-slate-900'
+                        : 'border-transparent text-slate-500 hover:text-slate-800'
+                    }`}
+                  >
+                    {tab.label}
+                  </button>
+                ))}
+              </div>
 
-          {/* Dual-Mode Search Bar (MCQs & Topics vs Govt Jobs) */}
-          <div className="max-w-2xl mx-auto space-y-2 relative">
-            <div className="inline-flex items-center gap-1 bg-slate-100/90 p-1 rounded-xl border border-slate-200/80 text-xs font-bold">
-              <button
-                type="button"
-                onClick={() => setSearchMode('mcqs')}
-                className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg transition-all ${
-                  searchMode === 'mcqs'
-                    ? 'bg-white text-emerald-800 shadow-xs border border-slate-200/80 font-extrabold'
-                    : 'text-slate-600 hover:text-slate-900'
-                }`}
-              >
-                <Lightbulb className="w-3.5 h-3.5 text-amber-500" strokeWidth={2.25} />
-                <span>Search MCQs &amp; 43 Topics</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => setSearchMode('jobs')}
-                className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg transition-all ${
-                  searchMode === 'jobs'
-                    ? 'bg-white text-emerald-800 shadow-xs border border-slate-200/80 font-extrabold'
-                    : 'text-slate-600 hover:text-slate-900'
-                }`}
-              >
-                <Briefcase className="w-3.5 h-3.5 text-emerald-600" strokeWidth={2.25} />
-                <span>Search Govt Jobs</span>
-              </button>
-            </div>
-
-            <form
-              onSubmit={handleSearchSubmit}
-              className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-0 bg-white rounded-2xl shadow-lg p-2 border border-slate-200/90"
-              id="hero-search-form"
-            >
-              <div className="flex items-center flex-1 bg-slate-50/70 sm:bg-transparent rounded-xl px-3">
-                <Search className="w-5 h-5 text-emerald-600 shrink-0" strokeWidth={2.25} />
+              <form onSubmit={handleSearchSubmit} className="mt-4 flex items-center gap-2" id="hero-search-form">
                 <input
                   type="text"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   placeholder={
                     searchMode === 'mcqs'
-                      ? 'Search any MCQ topic (e.g. Average, Trains, Algebra, Biology, Synonyms, Capitals)...'
+                      ? 'Search a subject or topic, e.g. Percentage, Enzymes, Synonyms'
                       : t('home.searchJobs')
                   }
-                  className="w-full px-3 py-2.5 text-sm text-slate-800 placeholder-slate-400 bg-transparent focus:outline-none"
+                  className="flex-1 min-w-0 h-10 rounded-md border border-slate-300 bg-white px-3.5 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-slate-900 focus:ring-1 focus:ring-slate-900 transition"
                   id="hero-search-input"
-                  aria-label="Search portal"
+                  aria-label="Search"
                 />
-              </div>
-              <button
-                type="submit"
-                className="bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold px-6 py-2.5 rounded-xl text-sm transition-all duration-200 shadow-sm whitespace-nowrap"
-                id="hero-search-btn"
-              >
-                {searchMode === 'mcqs' ? 'Find MCQs →' : t('common.search')}
-              </button>
-            </form>
+                <button
+                  type="submit"
+                  className="h-10 px-4 rounded-md bg-slate-900 hover:bg-slate-800 text-white text-sm font-medium transition-colors shrink-0"
+                  id="hero-search-btn"
+                >
+                  {searchMode === 'mcqs' ? 'Search' : t('common.search')}
+                </button>
+              </form>
 
-            {/* Instant Search Dropdown for MCQs */}
-            {mcqSuggestions.length > 0 && (
-              <div className="absolute left-0 right-0 top-full mt-1 bg-white rounded-2xl border border-slate-200 shadow-xl p-2 z-30 text-left">
-                <div className="px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-400">
-                  Matching MCQ Practice Topics
+              {mcqSuggestions.length > 0 && (
+                <div className="absolute left-0 right-0 top-full mt-2 bg-white rounded-md border border-slate-200 shadow-lg py-1.5 z-30">
+                  {mcqSuggestions.map((item) => (
+                    <Link
+                      key={item.href + item.label}
+                      href={item.href}
+                      className="flex items-baseline justify-between gap-4 px-4 py-2 text-sm text-slate-800 hover:bg-slate-50"
+                    >
+                      <span className="truncate">{item.label}</span>
+                      <span className="text-[12px] text-slate-400 tabular-nums shrink-0">{item.meta}</span>
+                    </Link>
+                  ))}
                 </div>
-                {mcqSuggestions.map((item) => (
-                  <Link
-                    key={item.href + item.label}
-                    href={item.href}
-                    className="flex items-center justify-between px-3 py-2 rounded-xl hover:bg-emerald-50 text-xs font-bold text-slate-800 hover:text-emerald-800 transition-colors"
-                  >
-                    <span>{item.label}</span>
-                    <span className="text-[10px] font-extrabold bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-0.5 rounded-full">
-                      {item.badge}
-                    </span>
+              )}
+            </div>
+
+            <p className="mt-5 text-[13px] text-slate-500 leading-relaxed">
+              <span className="mr-2">Popular:</span>
+              {POPULAR_LINKS.map((link, i) => (
+                <React.Fragment key={link.href}>
+                  {i > 0 && <span className="mx-2 text-slate-300">/</span>}
+                  <Link href={link.href} className="text-slate-700 hover:text-slate-950 hover:underline underline-offset-4">
+                    {link.label}
                   </Link>
-                ))}
-              </div>
-            )}
+                </React.Fragment>
+              ))}
+            </p>
           </div>
 
-          {/* Popular Direct MCQ Pills */}
-          <div className="flex flex-wrap items-center justify-center gap-1.5 pt-1">
-            <span className="text-[11px] font-bold text-slate-500 mr-1">Hot Tracks:</span>
-            {[
-              { label: '🎲 Random & Fun Quiz', href: '/quizzes/random-test' },
-              { label: '💡 Aptitude Test', href: '/quizzes/aptitude' },
-              { label: '🧬 Biology', href: '/quizzes/biology' },
-              { label: '⚡ Physics', href: '/quizzes/physics' },
-              { label: '🌍 World GK', href: '/quizzes/world-info' },
-              { label: '🇵🇰 Pak Studies', href: '/quizzes/pak-studies' },
-              { label: '📘 English Grammar', href: '/quizzes/english-grammar' },
-              { label: '🩺 MDCAT Mock', href: '/mock-papers/mdcat' },
-            ].map((pill) => (
+          {/* Figures */}
+          <dl className="lg:col-span-5 grid grid-cols-2 border-t border-l border-slate-200">
+            {STATS.map((stat) => (
+              <div key={stat.label} className="border-r border-b border-slate-200 px-5 py-6 flex flex-col-reverse">
+                <dt className="mt-2 text-[13px] text-slate-500">{stat.label}</dt>
+                <dd className="text-[1.75rem] font-semibold tracking-tight text-slate-900 tabular-nums leading-none">
+                  {stat.value}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </section>
+
+      {/* ───────────────────────── Exam boards ───────────────────────── */}
+      <section className="border-b border-slate-200 bg-slate-50/70" aria-label="Exam boards">
+        <div className={`${CONTAINER} py-4 flex flex-wrap items-center gap-x-7 gap-y-2`}>
+          <span className="text-[11px] uppercase tracking-[0.16em] text-slate-400 font-medium">Syllabus aligned with</span>
+          {COMMISSIONS.map((name) => (
+            <span key={name} className="text-[13px] font-semibold tracking-wide text-slate-600">
+              {name}
+            </span>
+          ))}
+        </div>
+      </section>
+
+      <div className={`${CONTAINER} py-16 space-y-20`}>
+        {/* ───────────────────────── Subject banks ───────────────────────── */}
+        <section aria-label="Subject question banks">
+          <SectionHeader
+            eyebrow="Practice"
+            title="Subject question banks"
+            description="Every bank is checked for duplicates and answer accuracy, with explanations where available."
+            href="/quizzes"
+            linkLabel="View all subjects"
+          />
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 border-t border-l border-slate-200">
+            {SUBJECT_BANKS.map((s) => (
               <Link
-                key={pill.href}
-                href={pill.href}
-                className="text-xs font-bold bg-white hover:bg-emerald-50 text-slate-700 hover:text-emerald-800 border border-slate-200/90 hover:border-emerald-300 px-3 py-1 rounded-full shadow-2xs transition-all"
+                key={s.id}
+                href={s.href}
+                className="group border-r border-b border-slate-200 p-6 flex flex-col hover:bg-slate-50/80 transition-colors"
               >
-                {pill.label}
+                <div className="flex items-baseline justify-between gap-3">
+                  <span className="text-[11px] font-medium uppercase tracking-[0.14em] text-slate-400">{s.group}</span>
+                  <span className="text-[12px] tabular-nums text-slate-500">{s.count}</span>
+                </div>
+                <h3 className="mt-3 text-[17px] font-semibold text-slate-900 group-hover:text-emerald-800 transition-colors">
+                  {s.name}
+                </h3>
+                <p className="mt-2 text-sm text-slate-600 leading-relaxed">{s.desc}</p>
+                <p className="mt-3 text-[13px] text-slate-400 leading-relaxed">{s.topics.join(' · ')}</p>
+                <span className="mt-auto pt-5 text-[13px] font-medium text-emerald-800">Start practice →</span>
               </Link>
             ))}
           </div>
+        </section>
 
-          {/* Stats Row */}
-          <div className="grid grid-cols-2 sm:flex sm:flex-wrap justify-center gap-3 sm:gap-4 pt-3">
-            {stats.map((stat) => (
-              <div key={stat.label} className="flex items-center gap-3 bg-white border border-slate-200/80 px-4 py-2.5 rounded-2xl shadow-xs">
-                <div className={`w-10 h-10 rounded-xl border flex items-center justify-center shrink-0 ${stat.iconBg}`}>
-                  <stat.icon className="w-5 h-5" strokeWidth={2.25} />
-                </div>
-                <div className="text-left min-w-0">
-                  <div className="text-base sm:text-lg font-extrabold text-slate-900 leading-tight">{stat.value}</div>
-                  <div className="text-[11px] text-slate-500 font-semibold truncate">{stat.label}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ───── 2. Trust & Exam Boards Bar ───── */}
-      <section className="bg-white border-b border-slate-200/80 py-3" aria-label="Trusted commissions">
-        <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-center gap-3 md:gap-6">
-          <span className="text-[11px] text-slate-500 font-bold uppercase tracking-widest flex items-center gap-1.5">
-            <Shield className="w-4 h-4 text-emerald-600" strokeWidth={2.25} />
-            Syllabus Aligned With Official Exam Boards:
-          </span>
-          <div className="flex items-center gap-2 md:gap-3 flex-wrap justify-center">
-            {commissions.map((name) => (
-              <span key={name} className="text-xs font-extrabold text-slate-700 bg-slate-50 border border-slate-200/80 px-2.5 py-1 rounded-lg">
-                {name}
-              </span>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ───── 3. Main Portal Content ───── */}
-      <div className="max-w-7xl mx-auto px-4 space-y-14 py-10">
-
-        {/* Daily Brain Spark & Random MCQ Test Launcher */}
-        <InterestingRandomQuiz variant="compact" />
-
-        {/* ═══════════════════════════════════════════════════════════════════
-            SECTION A: ADVANCED MCQs PREPARATION COMMAND CENTER
-        ═══════════════════════════════════════════════════════════════════ */}
-        <section className="space-y-6" aria-label="Advanced MCQs Preparation Hub">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-200 pb-4">
-            <div>
-              <div className="inline-flex items-center gap-1.5 text-xs font-extrabold text-emerald-700 bg-emerald-50 border border-emerald-200 px-3 py-1 rounded-full mb-2">
-                <Sparkles className="w-3.5 h-3.5 text-emerald-600" strokeWidth={2.25} />
-                <span>Interactive Subject &amp; Sub-Topic Explorer</span>
-              </div>
-              <h2 className="text-xl md:text-2xl font-black text-slate-900">
-                Advanced MCQs Preparation Bank
+        {/* ───────────────────────── Daily practice ───────────────────────── */}
+        <section className="bg-slate-900 text-white rounded-lg overflow-hidden" aria-label="Daily practice">
+          <div className="grid md:grid-cols-12 gap-8 md:gap-12 p-8 sm:p-10">
+            <div className="md:col-span-6">
+              <Eyebrow tone="inverse">Daily practice</Eyebrow>
+              <h2 className="mt-2 text-2xl sm:text-[1.7rem] font-semibold tracking-tight">
+                A new set of questions every day.
               </h2>
-              <p className="text-xs sm:text-sm text-slate-600 mt-0.5">
-                Choose a subject below or click any sub-section tag to jump directly into topic-wise practice.
+              <p className="mt-3 text-sm text-slate-300 leading-relaxed max-w-md">
+                Take today&apos;s challenge, a random mixed test, or a short set of surprising facts.
+                Your streak and best score are saved on this device.
               </p>
             </div>
-
-            {/* Category Filter Pills */}
-            <div className="flex items-center gap-1.5 flex-wrap">
+            <ul className="md:col-span-6 self-end">
               {[
-                { id: 'all', label: 'All Subjects (11)' },
-                { id: 'aptitude', label: 'Aptitude (43 Topics)' },
-                { id: 'science', label: 'Science & STEM' },
-                { id: 'humanities', label: 'GK, English & Arts' },
-              ].map((tab) => (
-                <button
-                  key={tab.id}
-                  type="button"
-                  onClick={() => setActiveCategory(tab.id as any)}
-                  className={`px-3.5 py-1.5 rounded-xl text-xs font-extrabold transition-all border ${
-                    activeCategory === tab.id
-                      ? 'bg-emerald-600 text-white border-emerald-600 shadow-xs'
-                      : 'bg-white hover:bg-slate-50 text-slate-700 border-slate-200'
-                  }`}
-                >
-                  {tab.label}
-                </button>
+                { label: "Today's challenge", meta: 'Same set for everyone, resets daily', href: '/quizzes/random-test?mode=daily' },
+                { label: 'Random mixed test', meta: 'Choose subject and length', href: '/quizzes/random-test' },
+                { label: 'Interesting facts quiz', meta: 'Curated questions with notes', href: '/quizzes/random-test?mode=interesting' },
+              ].map((item) => (
+                <li key={item.href} className="border-t border-white/10 last:border-b">
+                  <Link href={item.href} className="group flex items-baseline justify-between gap-4 py-3.5">
+                    <span className="text-[15px] font-medium text-white group-hover:text-emerald-300 transition-colors">
+                      {item.label}
+                    </span>
+                    <span className="text-[12px] text-slate-400 text-right">{item.meta}</span>
+                  </Link>
+                </li>
               ))}
-            </div>
-          </div>
-
-          {/* Subject Cards Grid with Direct Sub-Section Links */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {filteredSubjects.map((subj) => {
-              const Icon = subj.icon;
-              return (
-                <div
-                  key={subj.id}
-                  className="bg-white rounded-2xl border border-slate-200/90 hover:border-emerald-300 shadow-xs hover:shadow-md transition-all duration-200 p-5 flex flex-col justify-between group"
-                >
-                  <div className="space-y-3.5">
-                    {/* Top Row: Icon + Count Badge + Share */}
-                    <div className="flex items-center justify-between gap-2">
-                      <div className={`w-11 h-11 rounded-xl border flex items-center justify-center shrink-0 ${subj.iconStyle} group-hover:scale-105 transition-transform`}>
-                        <Icon className="w-5 h-5" strokeWidth={2.25} />
-                      </div>
-                      <div className="flex items-center gap-1.5">
-                        <span className={`text-[11px] font-extrabold px-2.5 py-1 rounded-full border ${subj.badgeStyle}`}>
-                          {subj.badge}
-                        </span>
-                        <QuickShareButton
-                          path={subj.href}
-                          title={`${subj.name} — ${subj.badge}`}
-                          description={subj.desc}
-                          badge={subj.badge}
-                        />
-                      </div>
-                    </div>
-
-                    {/* Title & Description */}
-                    <div>
-                      <Link
-                        href={subj.href}
-                        className="text-base font-extrabold text-slate-900 group-hover:text-emerald-700 transition-colors block"
-                      >
-                        {subj.name}
-                      </Link>
-                      <p className="text-xs text-slate-500 mt-1 leading-relaxed line-clamp-2">
-                        {subj.desc}
-                      </p>
-                    </div>
-
-                    {/* Direct Sub-Section Chips */}
-                    <div className="space-y-1.5 pt-1">
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">
-                        Direct Sub-Sections:
-                      </span>
-                      <div className="flex flex-wrap gap-1.5">
-                        {subj.subLinks.map((sub) => (
-                          <Link
-                            key={sub.label}
-                            href={sub.href}
-                            className="text-[11px] font-semibold bg-slate-50 hover:bg-emerald-50 text-slate-700 hover:text-emerald-800 border border-slate-200/80 hover:border-emerald-200 px-2.5 py-1 rounded-lg transition-colors"
-                          >
-                            {sub.label}
-                          </Link>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Card Footer */}
-                  <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
-                    <div className="flex items-center gap-1.5 flex-wrap">
-                      {subj.features.slice(0, 2).map((feat) => (
-                        <span key={feat} className="text-[10px] font-bold text-slate-500 bg-slate-100 px-2 py-0.5 rounded">
-                          {feat}
-                        </span>
-                      ))}
-                    </div>
-                    <Link
-                      href={subj.href}
-                      className="text-xs font-extrabold text-emerald-700 hover:text-emerald-800 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform shrink-0"
-                    >
-                      <span>Start Prep</span>
-                      <ArrowRight className="w-3.5 h-3.5" strokeWidth={2.25} />
-                    </Link>
-                  </div>
-                </div>
-              );
-            })}
+            </ul>
           </div>
         </section>
 
-        {/* ═══════════════════════════════════════════════════════════════════
-            SECTION B: QUANTITATIVE APTITUDE 43-TOPIC INTERACTIVE EXPLORER
-        ═══════════════════════════════════════════════════════════════════ */}
-        <section
-          className="bg-gradient-to-br from-white via-amber-50/35 to-emerald-50/30 border border-slate-200/90 rounded-3xl p-6 md:p-8 shadow-xs space-y-5"
-          aria-label="Quantitative Aptitude 43 Topics Explorer"
-        >
-          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-slate-200/80 pb-4">
-            <div className="space-y-1">
-              <div className="inline-flex items-center gap-1.5 text-[11px] font-extrabold text-amber-800 bg-amber-100/80 border border-amber-200 px-3 py-0.5 rounded-full">
-                <Lightbulb className="w-3.5 h-3.5 text-amber-600" strokeWidth={2.25} />
-                <span>3,702 Solved Quantitative MCQs · 10 Per Page · Click-to-View Solutions</span>
-              </div>
-              <h2 className="text-lg md:text-2xl font-black text-slate-900">
-                Aptitude Test — Browse All 43 Chapters by Category
-              </h2>
-            </div>
+        {/* ───────────────────────── Aptitude ───────────────────────── */}
+        <section aria-label="Quantitative aptitude chapters">
+          <SectionHeader
+            eyebrow="Aptitude test"
+            title="43 chapters, 3,702 worked questions"
+            description="Ten questions per page, with a step-by-step solution you can reveal for each one."
+            href="/quizzes/aptitude"
+            linkLabel="Open aptitude hub"
+          />
 
-            <Link
-              href="/quizzes/aptitude"
-              className="self-start lg:self-auto bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-extrabold px-4 py-2.5 rounded-xl transition flex items-center gap-1.5 shadow-xs shrink-0"
-            >
-              <span>Open Full Aptitude Hub (43 Topics)</span>
-              <ChevronRight className="w-4 h-4" strokeWidth={2.25} />
-            </Link>
-          </div>
-
-          {/* 5 Category Tabs */}
-          <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
+          <div className="flex gap-6 overflow-x-auto no-scrollbar border-b border-slate-200 text-[13px] font-medium" role="tablist" aria-label="Aptitude categories">
             {APTITUDE_GROUPS.map((grp) => {
               const active = activeAptGroup === grp.id;
-              const count = APTITUDE_TOPICS.filter((t) => t.group === grp.id).length;
+              const count = APTITUDE_TOPICS.filter((tp) => tp.group === grp.id).length;
               return (
                 <button
                   key={grp.id}
                   type="button"
+                  role="tab"
+                  aria-selected={active}
                   onClick={() => setActiveAptGroup(grp.id)}
-                  className={`px-3.5 py-2 rounded-xl text-xs font-extrabold transition-all shrink-0 border flex items-center gap-2 ${
-                    active
-                      ? 'bg-slate-900 text-white border-slate-900 shadow-xs'
-                      : 'bg-white hover:bg-slate-50 text-slate-700 border-slate-200'
+                  className={`pb-2.5 -mb-px border-b-2 whitespace-nowrap transition-colors ${
+                    active ? 'border-slate-900 text-slate-900' : 'border-transparent text-slate-500 hover:text-slate-800'
                   }`}
                 >
-                  <span>{grp.label}</span>
-                  <span className={`text-[10px] px-1.5 py-0.2 rounded-full ${active ? 'bg-amber-400 text-slate-950' : 'bg-slate-100 text-slate-600'}`}>
-                    {count}
-                  </span>
+                  {grp.label}
+                  <span className="ml-1.5 text-slate-400 tabular-nums">{count}</span>
                 </button>
               );
             })}
           </div>
 
-          {/* Topics Grid for Active Group */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2.5">
+          {activeGroupMeta?.blurb && (
+            <p className="mt-4 text-[13px] text-slate-500">{activeGroupMeta.blurb}</p>
+          )}
+
+          <ul className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8">
             {groupTopics.map((topic) => (
-              <div
-                key={topic.slug}
-                className="bg-white hover:bg-emerald-50/70 border border-slate-200/90 hover:border-emerald-300 rounded-xl px-3 py-2.5 flex items-center justify-between gap-2 transition-all group shadow-2xs"
-              >
+              <li key={topic.slug} className="border-b border-slate-200">
                 <Link
                   href={`/quizzes/aptitude/${topic.slug}`}
-                  className="flex items-center gap-2.5 min-w-0 flex-1"
+                  className="group flex items-baseline justify-between gap-3 py-3"
                 >
-                  <span className="w-6 h-6 rounded-lg bg-amber-50 border border-amber-200/80 text-amber-800 text-[11px] font-extrabold flex items-center justify-center shrink-0">
-                    {topic.id}
-                  </span>
-                  <span className="text-xs font-bold text-slate-800 group-hover:text-emerald-800 truncate">
+                  <span className="text-sm text-slate-800 group-hover:text-emerald-800 transition-colors truncate">
+                    <span className="mr-3 text-[12px] text-slate-400 tabular-nums">
+                      {String(topic.id).padStart(2, '0')}
+                    </span>
                     {topic.title}
                   </span>
+                  <span className="text-[12px] text-slate-400 tabular-nums shrink-0">{topic.count}</span>
                 </Link>
-                <div className="flex items-center gap-1.5 shrink-0">
-                  <QuickShareButton
-                    path={`/quizzes/aptitude/${topic.slug}`}
-                    title={`${topic.title} — Aptitude MCQs (${topic.count} Questions)`}
-                    description={`Practice ${topic.count} ${topic.title} aptitude MCQs with step-by-step solutions on GovtJobs.pk.`}
-                    badge="Aptitude"
-                  />
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        {/* ───────────────────────── Mock exams ───────────────────────── */}
+        <section aria-label="Timed mock exams">
+          <SectionHeader
+            eyebrow="Mock exams"
+            title="Full-length papers under real conditions"
+            description="Countdown timer, instant grading and a complete answer key at the end."
+            href="/mock-tests"
+            linkLabel="All mock papers"
+          />
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border-t border-l border-slate-200">
+            {MOCK_EXAMS.map((exam) => (
+              <Link
+                key={exam.href}
+                href={exam.href}
+                className="group border-r border-b border-slate-200 p-6 flex flex-col hover:bg-slate-50/80 transition-colors"
+              >
+                <span className="text-[11px] font-medium uppercase tracking-[0.14em] text-slate-400">{exam.org}</span>
+                <h3 className="mt-3 text-[15px] font-semibold text-slate-900 group-hover:text-emerald-800 transition-colors">
+                  {exam.title}
+                </h3>
+                <p className="mt-2 text-[13px] text-slate-600 leading-relaxed">{exam.desc}</p>
+                <div className="mt-auto pt-5 flex items-baseline justify-between gap-3">
+                  <span className="text-[12px] text-slate-500 tabular-nums">{exam.meta}</span>
+                  <span className="text-[13px] font-medium text-emerald-800">Start →</span>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </section>
 
-        {/* ═══════════════════════════════════════════════════════════════════
-            SECTION C: FULL-LENGTH TIMED MOCK EXAMS
-        ═══════════════════════════════════════════════════════════════════ */}
-        <section className="space-y-5" aria-label="Full-length timed mock exams">
-          <div className="flex items-center justify-between border-b border-slate-200 pb-4">
-            <div>
-              <h2 className="text-xl md:text-2xl font-extrabold text-slate-900">
-                Full-Length Timed Mock Exams
-              </h2>
-              <p className="text-xs text-slate-500 mt-0.5">
-                Simulate real exam conditions with countdown timers, instant grading, and complete answer keys
-              </p>
-            </div>
-            <Link
-              href="/mock-tests"
-              className="text-xs font-bold text-emerald-700 hover:text-emerald-800 flex items-center gap-1 group"
-            >
-              <span>All Mock Papers</span>
-              <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {FEATURED_MOCK_EXAMS.map((exam) => {
-              const Icon = exam.icon;
-              return (
-                <div
-                  key={exam.href}
-                  className={`rounded-2xl border p-5 shadow-xs hover:shadow-md transition-all duration-200 flex flex-col justify-between group ${exam.accent}`}
-                >
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between gap-2">
-                      <div className={`w-10 h-10 rounded-xl border flex items-center justify-center ${exam.iconStyle}`}>
-                        <Icon className="w-5 h-5" strokeWidth={2.25} />
-                      </div>
-                      <div className="flex items-center gap-1.5">
-                        <span className="text-[10px] font-extrabold uppercase tracking-wider bg-white border border-slate-200 text-slate-700 px-2 py-0.5 rounded-full">
-                          {exam.org}
-                        </span>
-                        <QuickShareButton
-                          path={exam.href}
-                          title={`${exam.title} — ${exam.badge}`}
-                          description={exam.desc}
-                          badge={exam.org}
-                        />
-                      </div>
-                    </div>
-
-                    <Link href={exam.href} className="block">
-                      <h3 className="text-sm font-extrabold text-slate-900 group-hover:text-emerald-700 transition-colors">
-                        {exam.title}
-                      </h3>
-                      <p className="text-xs text-slate-600 mt-1 line-clamp-2 leading-relaxed">
-                        {exam.desc}
-                      </p>
-                    </Link>
-                  </div>
-
-                  <div className="mt-4 pt-3 border-t border-slate-200/70 flex items-center justify-between">
-                    <span className="text-[11px] font-extrabold text-slate-700 flex items-center gap-1">
-                      <Clock className="w-3.5 h-3.5 text-emerald-600" strokeWidth={2.25} />
-                      {exam.badge}
-                    </span>
-                    <Link
-                      href={exam.href}
-                      className="text-xs font-extrabold text-emerald-700 flex items-center gap-0.5 group-hover:translate-x-0.5 transition-transform"
-                    >
-                      Start <ChevronRight className="w-3.5 h-3.5" />
-                    </Link>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
-          <SectionShareBar
-            path="/"
-            title="GovtJobs.pk — 7,600+ Solved MCQs, 43 Aptitude Topics & Official Govt Jobs"
-            description="Practice free topic-wise MCQs for FPSC, PPSC, SPSC, STS, MDCAT & NTS with step-by-step solutions and official job alerts."
-            badge="Official Portal Preview"
+        {/* ───────────────────────── Jobs ───────────────────────── */}
+        <section aria-label="Latest government jobs">
+          <SectionHeader
+            eyebrow="Careers"
+            title={t('home.featuredJobs')}
+            titleClassName={isUr ? 'font-urdu leading-relaxed' : ''}
+            description="Recently posted federal and provincial vacancies."
+            href="/jobs"
+            linkLabel={t('home.viewAll')}
           />
-        </section>
 
-        {/* ═══════════════════════════════════════════════════════════════════
-            SECTION D: FEATURED GOVERNMENT JOBS
-        ═══════════════════════════════════════════════════════════════════ */}
-        <section aria-label="Featured jobs">
-          <div className="flex items-center justify-between border-b border-govt-border pb-4 mb-6">
-            <div>
-              <h2 className={`text-xl md:text-2xl font-extrabold text-govt-charcoal ${isUr ? 'font-urdu' : ''}`}>
-                {t('home.featuredJobs')}
-              </h2>
-              <p className="text-xs text-govt-muted mt-0.5">Latest verified government career opportunities</p>
-            </div>
-            <Link
-              href="/jobs"
-              className="text-xs font-bold text-govt-emerald hover:text-govt-emerald-dark flex items-center gap-1 transition-colors group"
-              id="view-all-jobs"
-            >
-              {t('home.viewAll')}
-              <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-            </Link>
-          </div>
-
-          {loading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {[1, 2, 3].map((i) => <SkeletonCard key={i} />)}
-            </div>
-          ) : jobs.length === 0 ? (
-            <div className="card-premium p-10 text-center space-y-2">
-              <Briefcase className="w-10 h-10 text-slate-300 mx-auto" />
-              <p className="text-sm font-semibold text-govt-muted">{t('home.noJobs')}</p>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 stagger-children">
-              {jobs.slice(0, 6).map((job) => (
-                <JobCard key={job._id} job={job} />
-              ))}
-            </div>
-          )}
-        </section>
-
-        {/* CLS-Safe Sponsored Ad Slot */}
-        <AdSlot format="horizontal" />
-
-        {/* ═══════════════════════════════════════════════════════════════════
-            SECTION E: LATEST ANNOUNCEMENTS & NOTIFICATIONS
-        ═══════════════════════════════════════════════════════════════════ */}
-        <section aria-label="Latest news" className="section-alt -mx-4 px-4 py-12 rounded-2xl">
-          <div className="max-w-7xl mx-auto">
-            <div className="flex items-center justify-between border-b border-govt-border pb-4 mb-6">
-              <div>
-                <h2 className={`text-xl md:text-2xl font-extrabold text-govt-charcoal ${isUr ? 'font-urdu' : ''}`}>
-                  {t('home.latestNews')}
-                </h2>
-                <p className="text-xs text-govt-muted mt-0.5">Exam schedules, syllabus updates, &amp; policy news</p>
-              </div>
-              <Link
-                href="/news"
-                className="text-xs font-bold text-govt-emerald hover:text-govt-emerald-dark flex items-center gap-1 transition-colors group"
-                id="view-all-news"
-              >
-                {t('home.viewAll')}
-                <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-              </Link>
-            </div>
-
+          <div className="border-t border-slate-200">
             {loading ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {[1, 2].map((i) => <SkeletonCard key={i} />)}
-              </div>
-            ) : news.length === 0 ? (
-              <div className="card-premium p-10 text-center space-y-2">
-                <Newspaper className="w-10 h-10 text-slate-300 mx-auto" />
-                <p className="text-sm font-semibold text-govt-muted">{t('news.noNews')}</p>
-              </div>
+              [1, 2, 3, 4].map((i) => (
+                <div key={i} className="py-4 border-b border-slate-200">
+                  <div className="h-4 w-2/3 bg-slate-100 rounded animate-pulse" />
+                  <div className="mt-2 h-3 w-1/3 bg-slate-100 rounded animate-pulse" />
+                </div>
+              ))
+            ) : jobs.length === 0 ? (
+              <p className="py-10 text-sm text-slate-500 border-b border-slate-200">{t('home.noJobs')}</p>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 stagger-children">
-                {news.slice(0, 4).map((item) => (
-                  <NewsCard key={item._id} news={item} />
-                ))}
-              </div>
+              jobs.slice(0, 6).map((job) => {
+                const title = isUr && job.titleUr ? job.titleUr : job.titleEn;
+                return (
+                  <Link
+                    key={job._id}
+                    href={`/jobs/${job._id}`}
+                    className="group grid grid-cols-1 sm:grid-cols-12 gap-1 sm:gap-6 py-4 border-b border-slate-200"
+                  >
+                    <div className="sm:col-span-8 min-w-0">
+                      <p className={`text-[15px] font-medium text-slate-900 group-hover:text-emerald-800 transition-colors truncate ${isUr ? 'font-urdu' : ''}`}>
+                        {title}
+                      </p>
+                      <p className="mt-0.5 text-[13px] text-slate-500 truncate">
+                        {[job.department, job.location].filter(Boolean).join(' · ')}
+                      </p>
+                    </div>
+                    <div className="sm:col-span-4 sm:text-right text-[13px] text-slate-500 self-center">
+                      {job.status === 'closing_soon' && <span className="text-amber-700 mr-2">Closing soon</span>}
+                      {job.status === 'closed' && <span className="text-slate-400 mr-2">Closed</span>}
+                      {job.deadline && <span className="tabular-nums">Apply by {formatDate(job.deadline)}</span>}
+                    </div>
+                  </Link>
+                );
+              })
             )}
           </div>
         </section>
 
-        {/* ═══════════════════════════════════════════════════════════════════
-            SECTION F: CTA BANNER
-        ═══════════════════════════════════════════════════════════════════ */}
-        <section
-          className="relative overflow-hidden bg-gradient-to-br from-white via-emerald-50/70 to-amber-50/50 text-slate-900 border border-emerald-200/80 rounded-2xl p-8 md:p-12 shadow-sm"
-          aria-label="Call to action"
-        >
-          <div className="relative flex flex-col md:flex-row items-center justify-between gap-6">
-            <div className="space-y-2.5 text-center md:text-left">
-              <h2 className="text-xl md:text-2xl font-extrabold text-slate-900">Ready to Ace Your Next Exam?</h2>
-              <p className="text-sm text-slate-600 max-w-lg leading-relaxed">
-                Practice 7,600+ solved MCQs across 11 subjects and 43 quantitative aptitude topics — with step-by-step solutions and zero fees.
-              </p>
+        <AdSlot format="horizontal" />
+
+        {/* ───────────────────────── News ───────────────────────── */}
+        <section aria-label="Latest announcements">
+          <SectionHeader
+            eyebrow="Announcements"
+            title={t('home.latestNews')}
+            titleClassName={isUr ? 'font-urdu leading-relaxed' : ''}
+            description="Exam schedules, syllabus changes and policy updates."
+            href="/news"
+            linkLabel={t('home.viewAll')}
+          />
+
+          {loading ? (
+            <div className="grid md:grid-cols-2 gap-x-10">
+              {[1, 2].map((i) => (
+                <div key={i} className="py-5 border-t border-slate-200">
+                  <div className="h-3 w-24 bg-slate-100 rounded animate-pulse" />
+                  <div className="mt-3 h-4 w-3/4 bg-slate-100 rounded animate-pulse" />
+                </div>
+              ))}
             </div>
-            <div className="flex flex-wrap items-center justify-center gap-3">
-              <Link
-                href="/quizzes/aptitude"
-                className="bg-amber-500 hover:bg-amber-600 text-white font-extrabold px-6 py-3 rounded-xl text-sm transition-all duration-200 shadow-xs flex items-center gap-2 whitespace-nowrap"
-              >
-                <Lightbulb className="w-4 h-4" strokeWidth={2.25} />
-                Aptitude Test (3,702 MCQs)
-              </Link>
-              <Link
-                href="/quizzes"
-                className="bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold px-6 py-3 rounded-xl text-sm transition-all duration-200 shadow-xs flex items-center gap-2 whitespace-nowrap"
-                id="cta-start-quiz"
-              >
-                <Zap className="w-4 h-4" strokeWidth={2.25} />
-                All 11 MCQ Subjects
-              </Link>
+          ) : news.length === 0 ? (
+            <p className="py-10 text-sm text-slate-500 border-t border-slate-200">{t('news.noNews')}</p>
+          ) : (
+            <div className="grid md:grid-cols-2 gap-x-10">
+              {news.slice(0, 4).map((item) => {
+                const title = isUr && item.titleUr ? item.titleUr : item.titleEn;
+                const body = stripHtml(isUr && item.bodyUr ? item.bodyUr : item.bodyEn);
+                return (
+                  <Link key={item._id} href={`/news/${item._id}`} className="group block py-5 border-t border-slate-200">
+                    <p className="text-[12px] text-slate-400">
+                      {formatDate(item.publishedAt || item.createdAt)}
+                      {item.category && <span className="ml-2 uppercase tracking-[0.12em]">{item.category}</span>}
+                    </p>
+                    <h3 className={`mt-2 text-[15px] font-medium text-slate-900 group-hover:text-emerald-800 transition-colors line-clamp-2 ${isUr ? 'font-urdu leading-relaxed' : ''}`}>
+                      {title}
+                    </h3>
+                    {body && <p className="mt-1.5 text-[13px] text-slate-500 leading-relaxed line-clamp-2">{body}</p>}
+                  </Link>
+                );
+              })}
             </div>
-          </div>
+          )}
         </section>
 
+        {/* ───────────────────────── Closing call to action ───────────────────────── */}
+        <section
+          className="border border-slate-200 rounded-lg p-8 sm:p-10 flex flex-col md:flex-row md:items-center justify-between gap-6"
+          aria-label="Get started"
+        >
+          <div className="max-w-xl">
+            <h2 className="text-xl sm:text-2xl font-semibold tracking-tight text-slate-900">
+              Start with a short practice set.
+            </h2>
+            <p className="mt-2 text-sm text-slate-600 leading-relaxed">
+              Pick any subject and answer at your own pace. No sign-up is needed to practise.
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-2.5">
+            <Link
+              href="/quizzes"
+              id="cta-start-quiz"
+              className="h-10 inline-flex items-center px-4 rounded-md bg-slate-900 hover:bg-slate-800 text-white text-sm font-medium transition-colors"
+            >
+              Browse subjects
+            </Link>
+            <Link
+              href="/quizzes/aptitude"
+              className="h-10 inline-flex items-center px-4 rounded-md border border-slate-300 hover:border-slate-900 text-slate-900 text-sm font-medium transition-colors"
+            >
+              Aptitude test
+            </Link>
+          </div>
+        </section>
       </div>
     </div>
   );

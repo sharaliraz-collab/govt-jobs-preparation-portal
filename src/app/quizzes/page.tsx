@@ -123,17 +123,17 @@ const PREP_SUBJECTS: SubjectCard[] = [
     name: 'Pakistan Studies & Affairs',
     alias: 'Pakistan',
     category: 'humanities',
-    countBadge: '364 MCQs · 15 Sections',
+    countBadge: '3,305 MCQs · 9 Topics + Sindhi',
     icon: Landmark,
     badgeBg: 'bg-emerald-50 text-emerald-800 border-emerald-200',
-    description: 'Indus Valley Civilization, 1947 Movement, Constitution, Geography, Economy, Water Resources & Governance.',
+    description: '3,305 solved MCQs covering Pakistan Movement, 1973 Constitution, Geography & Rivers, Provinces, Defense, Economy, Foreign Relations & Sindhi Bilingual questions.',
     subLinks: [
-      { label: 'Indus Valley', href: '/quizzes/pak-studies' },
+      { label: 'Pakistan Movement', href: '/quizzes/pak-studies' },
       { label: 'Constitution', href: '/quizzes/pak-studies' },
       { label: 'Geography', href: '/quizzes/pak-studies' },
-      { label: 'Economy', href: '/quizzes/pak-studies' },
+      { label: 'Defense & Economy', href: '/quizzes/pak-studies' },
     ],
-    footerLabel: '364 MCQs — 15 Sections (20 per page)'
+    footerLabel: '3,305 MCQs — 9 Topics & Sindhi Bilingual'
   },
   {
     id: 'islamic-studies',
@@ -303,7 +303,7 @@ export default function QuizzesPage() {
           <div className="max-w-2xl space-y-3">
             <div className="inline-flex items-center gap-2 bg-emerald-50 px-3.5 py-1 rounded-full text-xs font-extrabold text-emerald-800 border border-emerald-200">
               <CheckCircle2 className="w-4 h-4 text-emerald-600" strokeWidth={2.25} />
-              <span>12,700+ Solved MCQs · FPSC, PPSC, SPSC, STS &amp; MDCAT Prep</span>
+              <span>15,600+ Solved MCQs · FPSC, PPSC, SPSC, STS &amp; MDCAT Prep</span>
             </div>
 
             <h1 className={`text-2xl md:text-4xl font-black tracking-tight text-slate-900 ${isUr ? 'font-urdu' : ''}`}>
@@ -318,7 +318,7 @@ export default function QuizzesPage() {
           {/* Quick Stats Box */}
           <div className="grid grid-cols-2 gap-3 shrink-0">
             <div className="bg-white/90 border border-slate-200/90 rounded-2xl p-3.5 text-center shadow-2xs">
-              <div className="text-xl font-black text-emerald-700">12,700+</div>
+              <div className="text-xl font-black text-emerald-700">15,600+</div>
               <div className="text-[11px] font-bold text-slate-500">Solved MCQs</div>
             </div>
             <div className="bg-white/90 border border-slate-200/90 rounded-2xl p-3.5 text-center shadow-2xs">
@@ -332,7 +332,7 @@ export default function QuizzesPage() {
       {/* Social Link Preview & Share Bar */}
       <SectionShareBar
         path="/quizzes"
-        title="Free MCQ Practice Tests — 11 Subjects & 43 Aptitude Topics (12,700+ Solved MCQs)"
+        title="Free MCQ Practice Tests — 11 Subjects & 43 Aptitude Topics (15,600+ Solved MCQs)"
         description="Practice topic-wise MCQs for FPSC, PPSC, SPSC, STS, MDCAT & CSS with step-by-step solutions and instant grading."
         badge="MCQs Prep Hub"
       />

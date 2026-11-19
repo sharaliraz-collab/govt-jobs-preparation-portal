@@ -1,107 +1,150 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import axios from 'axios';
-import Loader from '@/components/Loader';
-import { SectionShareBar } from '@/components/ShareButtons';
+import rawMcqs from '@/data/pak-studies-pdf-mcqs.json';
 import {
-  Landmark, ArrowLeft, HelpCircle, CheckCircle2, XCircle, ChevronLeft, ChevronRight,
-  Award, Lock, Send, RotateCcw, Sparkles, AlertCircle, BookMarked, Clock, Languages
-} from 'lucide-react';
-import { IQuestion } from '@/lib/types';
+  cleanQuestionStem,
+  getTopicFromExplanation,
+  getCleanExplanation,
+  getWindowedPages,
+  getDynamicOptionGridClass,
+} from '@/lib/mcqDisplay';
 
-interface SectionDef {
-  id: number;
-  label: string;
-  title: string;
-  range: [number, number];
-  available: boolean;
+interface PakStudyQuestion {
+  id: string;
+  subject?: string;
+  textEn: string;
+  textUr?: string;
+  optionsEn: string[];
+  optionsUr?: string[];
+  correctIndex: number;
+  explanationEn?: string;
+  topic?: string;
 }
 
-const SECTIONS: SectionDef[] = [
-  { id: 1,  label: 'Section 1',  title: 'History, Evolution & Human Life',         range: [0, 24],   available: true },
-  { id: 2,  label: 'Section 2',  title: 'Civilizations & Indus Valley Origins',    range: [25, 49],  available: true },
-  { id: 3,  label: 'Section 3',  title: 'Indus Valley Art, Trade & Decline',      range: [50, 74],  available: true },
-  { id: 4,  label: 'Section 4',  title: 'Government, Constitution & State Organs', range: [75, 99],  available: true },
-  { id: 5,  label: 'Section 5',  title: 'Local Govt, Elections & Media Systems',   range: [100, 124], available: true },
-  { id: 6,  label: 'Section 6',  title: 'Media Bias, Stereotypes & Propaganda',    range: [125, 149], available: true },
-  { id: 7,  label: 'Section 7',  title: 'Geography & Features of South Asia',      range: [150, 174], available: true },
-  { id: 8,  label: 'Section 8',  title: 'Demographics & Cultures of South Asia',   range: [175, 199], available: true },
-  { id: 9,  label: 'Section 9',  title: 'Economics, Scarcity & Production Factors',range: [200, 224], available: true },
-  { id: 10, label: 'Section 10', title: 'Trade-offs, Public Goods & Market Demand', range: [225, 249], available: true },
-  { id: 11, label: 'Section 11', title: 'Ancient & Medieval Empires',             range: [250, 274], available: true },
-  { id: 12, label: 'Section 12', title: 'Leadership & Asian Geography',             range: [275, 299], available: true },
-  { id: 13, label: 'Section 13', title: 'Water Resources & Irrigation in Pakistan', range: [300, 324], available: true },
-  { id: 14, label: 'Section 14', title: 'Islamic History & Ottoman Era',           range: [325, 347], available: true },
-  { id: 15, label: 'Section 15', title: 'Modern Pakistan Governance & Global',     range: [348, 363], available: true },
-];
-
 const ITEMS_PER_PAGE = 20;
-const SUBJECT = 'Pakistan Studies';
 
-type LangMode = 'en' | 'sd' | 'both';
+function hasDistinctSindhi(q: PakStudyQuestion): boolean {
+  return Boolean(
+    q.textUr &&
+      q.textUr.trim() !== q.textEn.trim() &&
+      /[\u0600-\u06FF]/.test(q.textUr)
+  );
+}
+
+function resolveQuestionTopic(q: PakStudyQuestion): string {
+  if (q.explanationEn) {
+    const parsed = getTopicFromExplanation(q.explanationEn, '');
+    if (parsed) return parsed;
+  }
+  if (q.topic) return q.topic;
+  if (hasDistinctSindhi(q)) return 'Sindhi Bilingual';
+  return 'General Pakistan Studies';
+}
 
 export default function PakStudiesMCQsPage() {
-  const [activeSection, setActiveSection] = useState<SectionDef>(SECTIONS[0]);
-  const [allQuestions, setAllQuestions] = useState<IQuestion[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [fetchError, setFetchError] = useState('');
+  const [mcqs, setMcqs] = useState<PakStudyQuestion[]>(rawMcqs as PakStudyQuestion[]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [userAnswers, setUserAnswers] = useState<{ [qId: string]: number }>({});
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [langMode, setLangMode] = useState<LangMode>('en');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedTopic, setSelectedTopic] = useState<string>('ALL');
+  const [showSindhi, setShowSindhi] = useState(false);
+  const [selectedAnswers, setSelectedAnswers] = useState<Record<string, number>>({});
+  const [showExplanation, setShowExplanation] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
-    fetchAllQuestions();
+    let isMounted = true;
+    axios
+      .get('/api/questions?subject=Pakistan%20Studies', { timeout: 10000 })
+      .then((res) => {
+        if (isMounted && Array.isArray(res.data) && res.data.length > mcqs.length) {
+          setMcqs(
+            res.data.map((q: any) => ({
+              id: q.id || q._id,
+              subject: q.subject,
+              textEn: q.textEn,
+              textUr: q.textUr,
+              optionsEn: q.optionsEn,
+              optionsUr: q.optionsUr,
+              correctIndex: q.correctIndex,
+              explanationEn: q.explanationEn,
+              topic: q.topic,
+            }))
+          );
+        }
+      })
+      .catch(() => {});
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
-  const fetchAllQuestions = async () => {
-    setLoading(true);
-    setFetchError('');
-    try {
-      const res = await axios.get(`/api/questions?subject=${encodeURIComponent(SUBJECT)}`);
-      const data: IQuestion[] = Array.isArray(res.data) ? res.data : [];
-      data.sort((a: any, b: any) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
-      setAllQuestions(data);
-    } catch (err) {
-      console.error('Error fetching Pakistan Studies questions:', err);
-      setFetchError('Failed to load questions. Please refresh the page.');
-    } finally {
-      setLoading(false);
+  const sindhiCount = useMemo(
+    () => mcqs.filter((q) => hasDistinctSindhi(q)).length,
+    [mcqs]
+  );
+
+  const topics = useMemo(() => {
+    const counts: Record<string, number> = {};
+    for (const q of mcqs) {
+      const t = resolveQuestionTopic(q);
+      counts[t] = (counts[t] || 0) + 1;
     }
-  };
+    return Object.entries(counts).sort((a, b) => b[1] - a[1]);
+  }, [mcqs]);
 
-  const handleSectionChange = (sec: SectionDef) => {
-    if (!sec.available || sec.id === activeSection.id) return;
-    setActiveSection(sec);
-    setUserAnswers({});
-    setIsSubmitted(false);
+  const filteredMcqs = useMemo(() => {
+    const query = searchQuery.trim().toLowerCase();
+    return mcqs.filter((q) => {
+      if (selectedTopic !== 'ALL') {
+        const t = resolveQuestionTopic(q);
+        if (t !== selectedTopic) return false;
+      }
+      if (!query) return true;
+      return (
+        q.textEn.toLowerCase().includes(query) ||
+        (q.textUr ? q.textUr.toLowerCase().includes(query) : false) ||
+        q.optionsEn.some((opt) => opt.toLowerCase().includes(query))
+      );
+    });
+  }, [mcqs, searchQuery, selectedTopic]);
+
+  const totalPages = Math.max(1, Math.ceil(filteredMcqs.length / ITEMS_PER_PAGE));
+
+  useEffect(() => {
     setCurrentPage(1);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [searchQuery, selectedTopic]);
+
+  const currentMcqs = useMemo(() => {
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    return filteredMcqs.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+  }, [filteredMcqs, currentPage]);
+
+  const handleOptionSelect = (qId: string, optionIndex: number) => {
+    setSelectedAnswers((prev) => ({
+      ...prev,
+      [qId]: optionIndex,
+    }));
   };
 
-  const sectionQuestions: IQuestion[] = activeSection.available
-    ? allQuestions.slice(activeSection.range[0], activeSection.range[1] + 1)
-    : [];
+  const toggleExplanation = (qId: string) => {
+    setShowExplanation((prev) => ({
+      ...prev,
+      [qId]: !prev[qId],
+    }));
+  };
 
-  const totalPages = Math.max(1, Math.ceil(sectionQuestions.length / ITEMS_PER_PAGE));
-  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-  const currentQuestions = sectionQuestions.slice(startIndex, startIndex + ITEMS_PER_PAGE);
-
-  const answeredCount = Object.keys(userAnswers).length;
-  const sectionTotal = sectionQuestions.length;
-
-  let correctCount = 0;
-  sectionQuestions.forEach(q => {
-    if (userAnswers[q._id] === q.correctIndex) correctCount++;
-  });
-  const scorePercentage = sectionTotal > 0 ? Math.round((correctCount / sectionTotal) * 100) : 0;
-  const isPassed = scorePercentage >= 50;
-
-  const handleOptionSelect = (qId: string, optIdx: number) => {
-    if (isSubmitted || userAnswers[qId] !== undefined) return;
-    setUserAnswers(prev => ({ ...prev, [qId]: optIdx }));
+  const handleSindhiToggle = () => {
+    setShowSindhi((prev) => {
+      const next = !prev;
+      if (next && sindhiCount > 0 && selectedTopic === 'ALL') {
+        setSelectedTopic('Sindhi Bilingual');
+      } else if (!next && selectedTopic === 'Sindhi Bilingual') {
+        setSelectedTopic('ALL');
+      }
+      return next;
+    });
   };
 
   const handlePageChange = (newPage: number) => {
@@ -111,448 +154,396 @@ export default function PakStudiesMCQsPage() {
     }
   };
 
-  const handleSubmitTest = () => {
-    if (answeredCount === 0) {
-      if (!confirm('You have not answered any questions yet. Submit anyway?')) return;
-    }
-    setIsSubmitted(true);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+  const answeredCount = Object.keys(selectedAnswers).length;
+  const correctCount = Object.entries(selectedAnswers).reduce((acc, [qId, ansIdx]) => {
+    const found = mcqs.find((m) => m.id === qId);
+    return found && found.correctIndex === ansIdx ? acc + 1 : acc;
+  }, 0);
 
-  const handleRetake = () => {
-    setUserAnswers({});
-    setIsSubmitted(false);
-    setCurrentPage(1);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+  const windowedPages = getWindowedPages(currentPage, totalPages);
 
   return (
-    <div className="max-w-4xl mx-auto px-3 sm:px-4 py-6 space-y-5">
-      {/* Header Banner */}
-      <div className="bg-gradient-to-r from-emerald-950 via-green-900 to-emerald-950 text-white rounded-xl p-5 sm:p-6 shadow-md border border-emerald-800 relative overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute -top-10 -right-10 w-56 h-56 rounded-full opacity-15 bg-emerald-400 blur-3xl" />
-        </div>
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative z-10">
-          <div className="space-y-1">
-            <Link
-              href="/quizzes"
-              className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-200 hover:text-white transition mb-1"
-            >
-              <ArrowLeft className="w-3.5 h-3.5" />
-              <span>Back to MCQ Subjects</span>
+    <div className="text-slate-900 pb-12 font-sans selection:bg-slate-900 selection:text-white">
+      {/* Editorial Header */}
+      <div className="bg-white border border-slate-200/90 rounded-lg p-5 sm:p-6 mb-5">
+        <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-slate-500 mb-3">
+          <div className="flex items-center gap-2">
+            <Link href="/" className="hover:text-slate-900 transition-colors">
+              Home
             </Link>
-            <h1 className="text-lg sm:text-2xl font-black tracking-tight flex items-center gap-2">
-              <Landmark className="w-6 h-6 text-yellow-400 shrink-0" />
-              <span>Pakistan Studies MCQs (پاکستان اسٽڊيز)</span>
+            <span>/</span>
+            <Link href="/quizzes" className="hover:text-slate-900 transition-colors">
+              Subjects
+            </Link>
+            <span>/</span>
+            <span className="text-slate-900 font-medium">Pakistan Studies</span>
+          </div>
+
+          <div className="flex items-center gap-2">
+            {sindhiCount > 0 && (
+              <button
+                type="button"
+                onClick={handleSindhiToggle}
+                className={`px-2.5 py-1 rounded border text-[11px] font-medium transition-colors ${
+                  showSindhi
+                    ? 'bg-slate-900 text-white border-slate-900'
+                    : 'bg-white text-slate-700 border-slate-200 hover:border-slate-400'
+                }`}
+              >
+                {showSindhi ? 'All English Bank' : `Sindhi Bilingual (${sindhiCount})`}
+              </button>
+            )}
+            <Link
+              href="/quizzes/random-test?subject=Pakistan%20Studies&count=10"
+              className="px-2.5 py-1 rounded border border-slate-200 bg-slate-50 hover:border-slate-400 text-[11px] font-medium text-slate-800 transition-colors"
+            >
+              10-Q Quick Test →
+            </Link>
+          </div>
+        </div>
+
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+          <div className="max-w-2xl">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-500 mb-1.5">
+              Subject Archive · History, Constitution, Geography &amp; National Affairs
+            </p>
+            <h1 className="text-xl sm:text-2xl font-serif font-semibold tracking-tight text-slate-950">
+              Pakistan Studies MCQs
             </h1>
-            <p className="text-xs text-emerald-100/90 leading-relaxed">
-              {activeSection.label}: <span className="text-yellow-300 font-semibold">{activeSection.title}</span>
-              &nbsp;·&nbsp; {sectionTotal} Questions &nbsp;·&nbsp; {ITEMS_PER_PAGE} per page
+            <p className="mt-1.5 text-slate-600 text-xs sm:text-[13px] leading-relaxed">
+              Verified multiple-choice questions covering the Pakistan Movement, Constitutional
+              History, Geography &amp; Rivers, Provinces &amp; Heritage, Defense, Economy, and
+              Foreign Relations for FPSC, PPSC, SPSC, KPPSC, NTS, and CSS examinations.
             </p>
           </div>
-          <div className="bg-white/10 backdrop-blur-md px-4 py-2.5 rounded-lg border border-white/15 text-center shrink-0 min-w-[150px]">
-            <span className="text-[10px] font-bold text-emerald-200 uppercase tracking-wider block">Attempt Status</span>
-            <span className="text-sm font-extrabold text-yellow-300">
-              {answeredCount} / {sectionTotal} Answered
+
+          <div className="grid grid-cols-3 border border-slate-200 divide-x divide-slate-200 bg-slate-50/60 rounded-md shrink-0">
+            <div className="px-3.5 py-2">
+              <div className="text-sm sm:text-base font-semibold text-slate-950 tabular-nums">
+                {mcqs.length.toLocaleString()}
+              </div>
+              <div className="text-[10px] uppercase tracking-widest text-slate-500 font-medium mt-0.5">
+                Questions
+              </div>
+            </div>
+            <div className="px-3.5 py-2">
+              <div className="text-sm sm:text-base font-semibold text-slate-950 tabular-nums">
+                {answeredCount}
+              </div>
+              <div className="text-[10px] uppercase tracking-widest text-slate-500 font-medium mt-0.5">
+                Attempted
+              </div>
+            </div>
+            <div className="px-3.5 py-2">
+              <div className="text-sm sm:text-base font-semibold text-emerald-700 tabular-nums">
+                {correctCount}
+              </div>
+              <div className="text-[10px] uppercase tracking-widest text-slate-500 font-medium mt-0.5">
+                Correct
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Search & Topic Filter Bar */}
+      <div className="bg-white border border-slate-200/90 rounded-lg p-3.5 sm:p-4 mb-5 space-y-3">
+        <div className="flex flex-col sm:flex-row gap-2.5 items-stretch sm:items-center justify-between">
+          <div className="relative flex-1">
+            <input
+              type="text"
+              placeholder="Search questions or keywords (e.g., 1973 Constitution, Indus, Quaid-e-Azam, K2, CPEC)..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full px-3 py-1.5 text-xs sm:text-[13px] rounded-md border border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-slate-900 transition-colors"
+            />
+            {searchQuery && (
+              <button
+                type="button"
+                onClick={() => setSearchQuery('')}
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[11px] text-slate-500 hover:text-slate-900 font-medium"
+              >
+                Clear
+              </button>
+            )}
+          </div>
+
+          <div className="flex items-center justify-between sm:justify-end gap-3 text-[11px] text-slate-500 shrink-0">
+            <span>
+              Showing{' '}
+              <strong className="text-slate-900 font-semibold">
+                {filteredMcqs.length.toLocaleString()}
+              </strong>{' '}
+              items
+            </span>
+            <span className="text-slate-300">|</span>
+            <span>
+              Page <strong className="text-slate-900 font-semibold">{currentPage}</strong> of{' '}
+              <strong className="text-slate-900 font-semibold">{totalPages}</strong>
             </span>
           </div>
         </div>
-      </div>
 
-      {/* Prominent Sindhi Language Toggle Banner */}
-      <div className="bg-gradient-to-r from-emerald-800 via-teal-800 to-emerald-900 text-white rounded-xl p-3.5 sm:p-4 shadow-sm border border-emerald-700 flex flex-col sm:flex-row items-center justify-between gap-3">
-        <div className="flex items-center gap-2.5 text-xs font-bold">
-          <Languages className="w-5 h-5 text-yellow-300 shrink-0" />
-          <span className="font-sindhi font-lateefi text-sm sm:text-base leading-relaxed text-yellow-200" dir="rtl">
-            سنڌي ٻولي ۾ سوالن لاءِ ھتي ڪلڪ ڪريو 🌸
-          </span>
-        </div>
-        <div className="flex items-center gap-1 bg-black/30 p-1 rounded-lg border border-white/10 w-full sm:w-auto justify-center">
-          <button
-            onClick={() => setLangMode('en')}
-            className={`px-3 py-1.5 rounded-md text-[11px] font-bold transition ${
-              langMode === 'en' ? 'bg-white text-emerald-950 shadow-sm' : 'text-emerald-100 hover:text-white'
-            }`}
-          >
-            🇬🇧 English
-          </button>
-          <button
-            onClick={() => setLangMode('sd')}
-            className={`px-3 py-1.5 rounded-md text-xs font-bold transition font-sindhi font-lateefi ${
-              langMode === 'sd' ? 'bg-yellow-400 text-emerald-950 shadow-sm' : 'text-emerald-100 hover:text-white'
-            }`}
-          >
-            🇸🇩 سنڌي
-          </button>
-          <button
-            onClick={() => setLangMode('both')}
-            className={`px-3 py-1.5 rounded-md text-[11px] font-bold transition ${
-              langMode === 'both' ? 'bg-emerald-500 text-white shadow-sm' : 'text-emerald-100 hover:text-white'
-            }`}
-          >
-            🔄 Both (ٻئي ٻوليون)
-          </button>
-        </div>
-      </div>
-
-      {/* Section Tabs Bar */}
-      <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-        <div className="px-4 pt-3 pb-0">
-          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 flex items-center gap-1.5">
-            <BookMarked className="w-3 h-3 text-emerald-600" />
-            Select Pakistan Studies Section
-          </p>
-        </div>
-        <div className="flex overflow-x-auto gap-1 px-4 pb-0" style={{ scrollbarWidth: 'none' }}>
-          {SECTIONS.map((sec) => {
-            const isActive = sec.id === activeSection.id;
-            return (
+        {topics.length > 1 && (
+          <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-thin">
+            <button
+              type="button"
+              onClick={() => setSelectedTopic('ALL')}
+              className={`px-2.5 py-1 rounded text-[11px] font-medium whitespace-nowrap border transition-colors ${
+                selectedTopic === 'ALL'
+                  ? 'bg-slate-900 text-white border-slate-900'
+                  : 'bg-slate-50 text-slate-600 border-slate-200 hover:border-slate-300 hover:text-slate-900'
+              }`}
+            >
+              All Topics ({mcqs.length.toLocaleString()})
+            </button>
+            {topics.slice(0, 12).map(([topic, count]) => (
               <button
-                key={sec.id}
-                onClick={() => handleSectionChange(sec)}
-                title={`${sec.label}: ${sec.title}`}
-                className={`
-                  relative shrink-0 px-3.5 py-2.5 text-[11px] font-bold rounded-t-lg border-b-2 transition-all duration-200 whitespace-nowrap
-                  ${isActive
-                    ? 'border-b-2 border-emerald-600 bg-emerald-50 text-emerald-800'
-                    : 'border-transparent text-slate-500 hover:text-slate-800 hover:bg-slate-50 hover:border-slate-300'
+                key={topic}
+                type="button"
+                onClick={() => {
+                  setSelectedTopic(topic);
+                  if (topic === 'Sindhi Bilingual') {
+                    setShowSindhi(true);
                   }
-                `}
-              >
-                <span className="flex items-center gap-1.5">
-                  {isActive && <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 inline-block" />}
-                  {sec.label}
-                </span>
-                {isActive && (
-                  <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-emerald-600 rounded-t-full" />
-                )}
-              </button>
-            );
-          })}
-        </div>
-        <div className="h-px bg-slate-100 mt-0" />
-        <div className="flex items-center justify-between px-4 py-2 bg-slate-50 text-[11px]">
-          <span className="font-semibold text-slate-700 flex items-center gap-1.5">
-            <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
-            {activeSection.label}: <span className="text-emerald-800 font-bold ml-1">{activeSection.title}</span>
-            &nbsp;|&nbsp; {sectionTotal} Questions &nbsp;|&nbsp; {totalPages} {totalPages === 1 ? 'page' : 'pages'}
-          </span>
-          <span className="text-slate-400 font-medium hidden sm:flex items-center gap-1">
-            <Clock className="w-3 h-3" />
-            Total 364 MCQs (15 Sections)
-          </span>
-        </div>
-      </div>
-
-      {/* Error */}
-      {fetchError && (
-        <div className="bg-red-50 border border-red-300 rounded-xl p-4 flex items-center gap-3 text-xs text-red-800">
-          <AlertCircle className="w-5 h-5 text-red-500 shrink-0" />
-          <div className="flex-1">
-            <p className="font-bold">Error loading questions</p>
-            <p className="text-red-600">{fetchError}</p>
-          </div>
-          <button
-            onClick={fetchAllQuestions}
-            className="bg-red-100 hover:bg-red-200 border border-red-300 text-red-800 font-bold px-3 py-1.5 rounded-lg text-[11px] transition"
-          >
-            Retry
-          </button>
-        </div>
-      )}
-
-      {/* Score Result Banner */}
-      {isSubmitted && (
-        <div className={`p-5 rounded-xl border shadow-sm text-center space-y-3 ${
-          isPassed ? 'bg-emerald-50 border-emerald-300 text-emerald-950' : 'bg-red-50 border-red-300 text-red-950'
-        }`}>
-          <Award className="w-10 h-10 mx-auto" />
-          <h2 className="text-lg font-black">
-            {isPassed ? '🎉 SECTION PASSED!' : '⚠️ REVIEW YOUR ANSWERS'}
-          </h2>
-          <div className="flex justify-center items-center gap-8 text-xs font-bold pt-1">
-            <div>
-              <p className="text-[11px] text-slate-500 font-medium">Correct</p>
-              <p className="text-2xl font-black">{correctCount} / {sectionTotal}</p>
-            </div>
-            <div className="border-r border-slate-300 h-8" />
-            <div>
-              <p className="text-[11px] text-slate-500 font-medium">Score</p>
-              <p className="text-2xl font-black">{scorePercentage}%</p>
-            </div>
-            <div className="border-r border-slate-300 h-8" />
-            <div>
-              <p className="text-[11px] text-slate-500 font-medium">Attempted</p>
-              <p className="text-2xl font-black">{answeredCount}</p>
-            </div>
-          </div>
-          <button
-            onClick={handleRetake}
-            className="inline-flex items-center gap-1.5 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold px-4 py-2 rounded-lg transition"
-          >
-            <RotateCcw className="w-3.5 h-3.5" />
-            <span>Retake {activeSection.label}</span>
-          </button>
-        </div>
-      )}
-
-      {/* Top Pagination Bar */}
-      {!loading && sectionQuestions.length > 0 && (
-        <PaginationBar
-          currentPage={currentPage}
-          totalPages={totalPages}
-          startIndex={startIndex}
-          total={sectionQuestions.length}
-          perPage={ITEMS_PER_PAGE}
-          onChange={handlePageChange}
-        />
-      )}
-
-      {/* Questions List */}
-      {loading ? (
-        <Loader />
-      ) : allQuestions.length === 0 ? (
-        <div className="bg-white p-10 rounded-xl text-center border border-slate-200 space-y-2">
-          <HelpCircle className="w-10 h-10 text-slate-300 mx-auto" />
-          <p className="text-sm text-slate-700 font-bold">No Pakistan Studies questions found.</p>
-        </div>
-      ) : (
-        <div className="space-y-4">
-          {currentQuestions.map((q, idx) => {
-            const globalIndex = startIndex + idx;
-            const displayNumber = globalIndex + 1 + startIndex;
-            const selectedOpt = userAnswers[q._id];
-            const isAnswered = selectedOpt !== undefined;
-            const isCorrect = selectedOpt === q.correctIndex;
-
-            const isSdOnly = langMode === 'sd';
-            const isBoth = langMode === 'both';
-            const hasSindhi = Array.isArray(q.optionsUr) && q.optionsUr.length > 0 && q.textUr;
-
-            const questionTextEn = q.textEn;
-            const questionTextSd = hasSindhi ? q.textUr : q.textEn;
-
-            const displayOptions = isSdOnly && hasSindhi ? q.optionsUr : q.optionsEn;
-
-            return (
-              <div
-                key={q._id}
-                className={`bg-white rounded-xl border p-4 shadow-sm space-y-3 transition ${
-                  isSubmitted
-                    ? isCorrect
-                      ? 'border-emerald-300 bg-emerald-50/40'
-                      : selectedOpt !== undefined
-                      ? 'border-red-300 bg-red-50/30'
-                      : 'border-amber-200 bg-amber-50/20'
-                    : isAnswered
-                    ? 'border-blue-300 bg-blue-50/20'
-                    : 'border-slate-200 hover:border-slate-300'
+                }}
+                className={`px-2.5 py-1 rounded text-[11px] font-medium whitespace-nowrap border transition-colors ${
+                  selectedTopic === topic
+                    ? 'bg-slate-900 text-white border-slate-900'
+                    : 'bg-slate-50 text-slate-600 border-slate-200 hover:border-slate-300 hover:text-slate-900'
                 }`}
               >
-                {/* Question Text */}
-                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2.5">
-                  <div className="flex items-center justify-between sm:justify-start gap-2 shrink-0">
-                    <span className="min-w-[2rem] h-8 px-1.5 rounded-lg bg-emerald-800 text-white font-black text-xs tabular-nums flex items-center justify-center shrink-0 shadow-sm leading-none">
-                      {displayNumber}
-                    </span>
-                    {isSubmitted ? (
-                      <span className={`sm:hidden px-2 py-0.5 rounded-full text-[10px] font-extrabold flex items-center gap-1 shrink-0 ${
-                        isCorrect ? 'bg-emerald-100 text-emerald-800' : selectedOpt !== undefined ? 'bg-red-100 text-red-800' : 'bg-amber-100 text-amber-800'
-                      }`}>
-                        {isCorrect ? <><CheckCircle2 className="w-3 h-3" /><span>Correct</span></> : selectedOpt !== undefined ? <><XCircle className="w-3 h-3" /><span>Wrong</span></> : <span>Skipped</span>}
+                {topic} ({count})
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* MCQ List */}
+      {currentMcqs.length === 0 ? (
+        <div className="bg-white rounded-lg p-10 text-center border border-slate-200">
+          <h3 className="text-sm font-semibold text-slate-900 mb-1">
+            No matching questions found
+          </h3>
+          <p className="text-slate-500 text-xs mb-4">
+            No questions matched your filter or search query.
+          </p>
+          <button
+            type="button"
+            onClick={() => {
+              setSearchQuery('');
+              setSelectedTopic('ALL');
+            }}
+            className="px-3.5 py-1.5 bg-slate-900 text-white text-xs font-medium rounded-md hover:bg-slate-800 transition-colors"
+          >
+            Reset Filters
+          </button>
+        </div>
+      ) : (
+        <div className="space-y-3">
+          {currentMcqs.map((q, idx) => {
+            const globalNumber = (currentPage - 1) * ITEMS_PER_PAGE + idx + 1;
+            const userSelected = selectedAnswers[q.id];
+            const isAnswered = userSelected !== undefined;
+            const isRevealed = !!showExplanation[q.id];
+            const topicLabel = resolveQuestionTopic(q);
+            const cleanExplanation = getCleanExplanation(q.explanationEn);
+            const stemText = cleanQuestionStem(q.textEn);
+            const hasSindhiStem = showSindhi && hasDistinctSindhi(q);
+            const optionGridClass = getDynamicOptionGridClass(
+              q.optionsEn,
+              Boolean(hasSindhiStem)
+            );
+
+            return (
+              <article
+                key={q.id}
+                className="bg-white rounded-lg border border-slate-200/90 p-4 sm:p-5 transition-colors hover:border-slate-300"
+              >
+                <div className="flex flex-col gap-2.5">
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-500 bg-slate-100 px-2 py-0.5 rounded tabular-nums">
+                        Q.{globalNumber}
                       </span>
-                    ) : isAnswered ? (
-                      <span className="sm:hidden px-2 py-0.5 rounded-md text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-200 flex items-center gap-1 shrink-0">
-                        <Lock className="w-3 h-3 text-blue-600" />
-                        <span>Locked</span>
-                      </span>
-                    ) : null}
-                  </div>
-                  <div className="space-y-1 sm:pt-0.5 flex-1 min-w-0 w-full">
-                    {/* English text if not sd-only */}
-                    {langMode !== 'sd' && (
-                      <h3 className="mcq-question-text font-bold text-slate-900">
-                        {questionTextEn.replace(/_+/g, '______')}
-                      </h3>
-                    )}
-                    {/* Sindhi text if sd-only or both */}
-                    {(isSdOnly || isBoth) && hasSindhi && (
-                      <h3 className="text-sm sm:text-base font-bold font-sindhi font-lateefi text-emerald-950 leading-relaxed text-right break-words" dir="rtl">
-                        {questionTextSd}
-                      </h3>
-                    )}
-                  </div>
+                      {topicLabel && (
+                        <span className="text-[10px] font-medium text-slate-600 bg-slate-50 border border-slate-200/80 px-2 py-0.5 rounded">
+                          {topicLabel}
+                        </span>
+                      )}
+                    </div>
 
-                  {isSubmitted ? (
-                    <span className={`hidden sm:flex px-2 py-0.5 rounded-full text-[10px] font-extrabold items-center gap-1 shrink-0 ${
-                      isCorrect ? 'bg-emerald-100 text-emerald-800' : selectedOpt !== undefined ? 'bg-red-100 text-red-800' : 'bg-amber-100 text-amber-800'
-                    }`}>
-                      {isCorrect ? <><CheckCircle2 className="w-3 h-3" /><span>Correct</span></> : selectedOpt !== undefined ? <><XCircle className="w-3 h-3" /><span>Wrong</span></> : <span>Skipped</span>}
-                    </span>
-                  ) : isAnswered ? (
-                    <span className="hidden sm:flex px-2 py-0.5 rounded-md text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-200 items-center gap-1 shrink-0">
-                      <Lock className="w-3 h-3 text-blue-600" />
-                      <span>Locked</span>
-                    </span>
-                  ) : null}
-                </div>
-
-                {/* Options Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
-                  {displayOptions.map((optText, optIdx) => {
-                    const isSelected = selectedOpt === optIdx;
-                    const isRightOption = optIdx === q.correctIndex;
-                    const sdOptText = hasSindhi && Array.isArray(q.optionsUr) && q.optionsUr[optIdx] ? q.optionsUr[optIdx] : null;
-
-                    let optionStyle = 'border-slate-200 bg-white text-slate-800 hover:bg-slate-50 cursor-pointer';
-
-                    if (isSubmitted) {
-                      if (isRightOption) {
-                        optionStyle = 'border-emerald-500 bg-emerald-100/90 text-emerald-950 font-semibold shadow-sm cursor-default';
-                      } else if (isSelected && !isCorrect) {
-                        optionStyle = 'border-red-500 bg-red-100/90 text-red-950 font-semibold cursor-default';
-                      } else {
-                        optionStyle = 'border-slate-200 bg-slate-50 text-slate-400 opacity-60 cursor-default';
-                      }
-                    } else if (isAnswered) {
-                      if (isSelected) {
-                        optionStyle = 'border-blue-600 bg-blue-50 text-blue-950 font-semibold shadow-sm ring-1 ring-blue-500 cursor-default';
-                      } else {
-                        optionStyle = 'border-slate-200 bg-slate-50/70 text-slate-400 opacity-60 cursor-not-allowed';
-                      }
-                    }
-
-                    return (
-                      <button
-                        key={optIdx}
-                        type="button"
-                        disabled={isAnswered || isSubmitted}
-                        onClick={() => handleOptionSelect(q._id, optIdx)}
-                        className={`w-full text-left p-2.5 rounded-lg border text-xs transition flex items-center gap-2.5 ${optionStyle}`}
+                    {isAnswered && (
+                      <span
+                        className={`text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded ${
+                          userSelected === q.correctIndex
+                            ? 'bg-emerald-50 text-emerald-800 border border-emerald-200'
+                            : 'bg-rose-50 text-rose-800 border border-rose-200'
+                        }`}
                       >
-                        <div className={`w-5 h-5 rounded-md border shrink-0 flex items-center justify-center text-[10px] font-bold ${
-                          isSubmitted && isRightOption
-                            ? 'border-emerald-600 bg-emerald-600 text-white'
-                            : isSubmitted && isSelected && !isCorrect
-                            ? 'border-red-600 bg-red-600 text-white'
-                            : isSelected
-                            ? 'border-emerald-700 bg-emerald-700 text-white'
-                            : 'border-slate-300 text-slate-500'
-                        }`}>
-                          {String.fromCharCode(65 + optIdx)}
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          {langMode !== 'sd' && (
-                            <span className="font-medium leading-normal block mcq-option-text">{q.optionsEn[optIdx]}</span>
-                          )}
-                          {(isSdOnly || isBoth) && sdOptText && (
-                            <span className="font-sindhi font-lateefi font-bold text-sm text-emerald-950 block text-right" dir="rtl">
-                              {sdOptText}
-                            </span>
-                          )}
-                        </div>
+                        {userSelected === q.correctIndex ? 'Correct' : 'Incorrect'}
+                      </span>
+                    )}
+                  </div>
+
+                  <div>
+                    <h2 className="text-[14px] sm:text-[15px] font-medium text-slate-900 leading-relaxed">
+                      {stemText}
+                    </h2>
+                    {hasSindhiStem && (
+                      <p
+                        dir="rtl"
+                        className="mt-1.5 text-sm text-slate-700 leading-relaxed font-sindhi font-lateefi"
+                      >
+                        {cleanQuestionStem(q.textUr!)}
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Dynamic Compact Options Grid */}
+                  <div className={`${optionGridClass} pt-0.5`}>
+                    {q.optionsEn.map((optText, optIdx) => {
+                      const isOptionSelected = userSelected === optIdx;
+                      const isCorrectAnswer = optIdx === q.correctIndex;
+
+                      let btnStyle =
+                        'border-slate-200/90 bg-slate-50/40 text-slate-800 hover:bg-slate-100/70 hover:border-slate-300';
+                      let badgeStyle =
+                        'bg-white text-slate-600 border border-slate-200/90';
+
+                      if (isAnswered || isRevealed) {
+                        if (isCorrectAnswer) {
+                          btnStyle =
+                            'border-emerald-600 bg-emerald-50/80 text-emerald-950 font-medium';
+                          badgeStyle = 'bg-emerald-600 text-white border-emerald-600';
+                        } else if (isOptionSelected) {
+                          btnStyle =
+                            'border-rose-500 bg-rose-50/80 text-rose-950 font-medium';
+                          badgeStyle = 'bg-rose-600 text-white border-rose-600';
+                        } else {
+                          btnStyle =
+                            'border-slate-200/60 bg-slate-50/20 text-slate-400 opacity-75';
+                          badgeStyle = 'bg-slate-100 text-slate-400 border-slate-200';
+                        }
+                      }
+
+                      return (
+                        <button
+                          key={optIdx}
+                          type="button"
+                          onClick={() => handleOptionSelect(q.id, optIdx)}
+                          className={`text-left px-2.5 py-1.5 rounded-md border text-[12.5px] sm:text-[13px] leading-snug transition-colors flex items-center gap-2 ${btnStyle}`}
+                        >
+                          <span
+                            className={`w-4 h-4 rounded text-[10px] font-semibold flex items-center justify-center shrink-0 tabular-nums ${badgeStyle}`}
+                          >
+                            {String.fromCharCode(65 + optIdx)}
+                          </span>
+                          <div className="flex-1 min-w-0">
+                            <span className="block break-words">{optText}</span>
+                            {showSindhi &&
+                              q.optionsUr?.[optIdx] &&
+                              q.optionsUr[optIdx].trim() !== optText.trim() && (
+                                <span
+                                  dir="rtl"
+                                  className="block text-xs text-slate-600 mt-0.5 font-sindhi font-lateefi"
+                                >
+                                  {q.optionsUr[optIdx]}
+                                </span>
+                              )}
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  {/* Card Footer */}
+                  <div className="pt-2 border-t border-slate-100 flex flex-col gap-2">
+                    <div className="flex items-center justify-between">
+                      <button
+                        type="button"
+                        onClick={() => toggleExplanation(q.id)}
+                        className="text-[11px] font-medium text-slate-500 hover:text-slate-900 transition-colors underline-offset-4 hover:underline"
+                      >
+                        {isRevealed ? 'Hide Answer & Note' : 'View Answer'}
                       </button>
-                    );
-                  })}
+
+                      {(isAnswered || isRevealed) && (
+                        <span className="text-[11px] text-slate-600">
+                          Correct Option:{' '}
+                          <strong className="text-slate-900 font-semibold">
+                            {String.fromCharCode(65 + q.correctIndex)}
+                          </strong>
+                        </span>
+                      )}
+                    </div>
+
+                    {isRevealed && (
+                      <div className="bg-slate-50 border border-slate-200/80 rounded-md p-2.5 text-xs text-slate-700 leading-relaxed">
+                        <p className="font-medium text-slate-900">
+                          Correct Answer: ({String.fromCharCode(65 + q.correctIndex)}){' '}
+                          {q.optionsEn[q.correctIndex]}
+                        </p>
+                        {cleanExplanation && (
+                          <p className="mt-1 text-slate-600">{cleanExplanation}</p>
+                        )}
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
+              </article>
             );
           })}
         </div>
       )}
 
-      {/* Submit Test Button */}
-      {!isSubmitted && !loading && sectionQuestions.length > 0 && (
-        <div className="bg-slate-900 text-white p-5 rounded-xl border border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-md">
-          <div>
-            <h4 className="text-xs font-bold text-slate-200">Finished answering {activeSection.label}?</h4>
-            <p className="text-[11px] text-slate-400 mt-0.5">
-              {answeredCount} of {sectionTotal} answered &nbsp;·&nbsp; Click submit to calculate your score.
-            </p>
-          </div>
+      {/* Windowed Pagination */}
+      {totalPages > 1 && (
+        <div className="mt-7 flex flex-wrap items-center justify-center gap-1.5">
           <button
-            onClick={handleSubmitTest}
-            className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-extrabold px-6 py-2.5 rounded-lg transition shadow flex items-center justify-center gap-2 shrink-0"
+            type="button"
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+            className="px-3 py-1.5 rounded-md border border-slate-200 bg-white text-xs font-medium text-slate-700 hover:border-slate-400 disabled:opacity-40 disabled:pointer-events-none transition-colors"
           >
-            <Send className="w-4 h-4" />
-            <span>Submit &amp; Grade My Test</span>
+            Previous
+          </button>
+
+          {windowedPages.map((p, idx) =>
+            p === 'ellipsis' ? (
+              <span
+                key={`ellipsis-${idx}`}
+                className="px-1.5 py-1.5 text-xs text-slate-400 select-none"
+              >
+                ...
+              </span>
+            ) : (
+              <button
+                key={p}
+                type="button"
+                onClick={() => handlePageChange(p)}
+                className={`min-w-[32px] px-2.5 py-1.5 rounded-md text-xs font-medium border transition-colors tabular-nums ${
+                  currentPage === p
+                    ? 'bg-slate-900 text-white border-slate-900'
+                    : 'bg-white text-slate-700 border-slate-200 hover:border-slate-400'
+                }`}
+              >
+                {p}
+              </button>
+            )
+          )}
+
+          <button
+            type="button"
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            className="px-3 py-1.5 rounded-md border border-slate-200 bg-white text-xs font-medium text-slate-700 hover:border-slate-400 disabled:opacity-40 disabled:pointer-events-none transition-colors"
+          >
+            Next
           </button>
         </div>
       )}
-
-      {/* Bottom Pagination */}
-      {!loading && sectionQuestions.length > 0 && (
-        <PaginationBar
-          currentPage={currentPage}
-          totalPages={totalPages}
-          startIndex={startIndex}
-          total={sectionQuestions.length}
-          perPage={ITEMS_PER_PAGE}
-          onChange={handlePageChange}
-        />
-      )}
-
-      <SectionShareBar
-        path="/quizzes/pak-studies"
-        title="Pakistan Studies MCQs — 364 Solved Questions Across 15 Sections"
-        description="Practice Indus Valley, 1973 Constitution, Geography, Economy & Islamic History MCQs for FPSC, PPSC, SPSC & NTS."
-        badge="Pakistan Studies Prep"
-      />
-    </div>
-  );
-}
-
-function PaginationBar({
-  currentPage, totalPages, startIndex, total, perPage, onChange
-}: {
-  currentPage: number;
-  totalPages: number;
-  startIndex: number;
-  total: number;
-  perPage: number;
-  onChange: (p: number) => void;
-}) {
-  return (
-    <div className="flex flex-wrap items-center justify-between gap-3 bg-white px-4 py-3 rounded-xl border border-slate-200 shadow-sm text-xs">
-      <div className="flex items-center gap-2 text-slate-800 font-bold text-xs">
-        <Sparkles className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-        <span>Page {currentPage} of {totalPages}</span>
-        <span className="text-slate-400 font-normal text-[11px]">
-          (Q{startIndex + 1}–Q{Math.min(startIndex + perPage, total)})
-        </span>
-      </div>
-      <div className="flex items-center gap-1.5 flex-wrap">
-        <button
-          onClick={() => onChange(currentPage - 1)}
-          disabled={currentPage === 1}
-          className="px-2.5 py-1.5 rounded-lg border border-slate-200 bg-slate-50 hover:bg-slate-100 disabled:opacity-30 text-[11px] font-bold flex items-center gap-1 transition"
-        >
-          <ChevronLeft className="w-3.5 h-3.5" />
-          <span>Prev</span>
-        </button>
-        {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
-          <button
-            key={p}
-            onClick={() => onChange(p)}
-            className={`w-8 h-8 rounded-lg text-[11px] font-bold transition ${
-              p === currentPage
-                ? 'bg-emerald-700 text-white shadow-sm'
-                : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
-            }`}
-          >
-            {p}
-          </button>
-        ))}
-        <button
-          onClick={() => onChange(currentPage + 1)}
-          disabled={currentPage === totalPages}
-          className="px-2.5 py-1.5 rounded-lg border border-slate-200 bg-slate-50 hover:bg-slate-100 disabled:opacity-30 text-[11px] font-bold flex items-center gap-1 transition"
-        >
-          <span>Next</span>
-          <ChevronRight className="w-3.5 h-3.5" />
-        </button>
-      </div>
     </div>
   );
 }

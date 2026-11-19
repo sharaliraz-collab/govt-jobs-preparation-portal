@@ -56,6 +56,11 @@ export const SUBJECT_NAV_GROUPS: SubjectNavGroup[] = [
     category: 'Humanities & GK',
     items: [
       {
+        name: 'Pakistan Studies',
+        href: '/quizzes/pak-studies',
+        count: '3,305',
+      },
+      {
         name: 'Islamic Studies',
         href: '/quizzes/islamic-studies',
         count: '1,711',
@@ -64,11 +69,6 @@ export const SUBJECT_NAV_GROUPS: SubjectNavGroup[] = [
         name: 'World General Knowledge',
         href: '/quizzes/world-info',
         count: '420',
-      },
-      {
-        name: 'Pakistan Studies',
-        href: '/quizzes/pak-studies',
-        count: '364',
       },
     ],
   },
@@ -99,7 +99,7 @@ export const SUBJECT_NAV_GROUPS: SubjectNavGroup[] = [
       {
         name: 'All Subjects Directory',
         href: '/quizzes',
-        count: '12,736',
+        count: '15,677',
       },
     ],
   },
@@ -197,7 +197,7 @@ export default function SubjectSidebar() {
               Subjects
             </h2>
             <span className="text-[10px] font-medium text-slate-400 tabular-nums">
-              12,736 MCQs
+              15,677 MCQs
             </span>
           </div>
 

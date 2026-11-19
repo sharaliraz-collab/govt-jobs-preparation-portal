@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 import AdSlot from '@/components/AdSlot';
+import HabitStrip from '@/components/HabitStrip';
 import { APTITUDE_GROUPS, APTITUDE_TOPICS, AptitudeGroupId } from '@/data/aptitudeTopics';
 import { IJob, INews } from '@/lib/types';
 
@@ -32,6 +33,15 @@ const SUBJECT_BANKS: SubjectBank[] = [
     href: '/quizzes/aptitude',
     desc: '43 chapters with worked, step-by-step solutions for every question.',
     topics: ['Average', 'Percentage', 'Profit & Loss', 'Time & Work', 'Trains', 'Algebra'],
+  },
+  {
+    id: 'pak-studies',
+    name: 'Pakistan Studies',
+    group: 'Humanities',
+    count: '3,305 questions',
+    href: '/quizzes/pak-studies',
+    desc: 'Pakistan Movement, constitution, geography, defense, economy and Sindhi bilingual MCQs.',
+    topics: ['Pakistan Movement', 'Constitution', 'Geography', 'Economy'],
   },
   {
     id: 'general-science',
@@ -96,15 +106,6 @@ const SUBJECT_BANKS: SubjectBank[] = [
     desc: 'Grammar, vocabulary and comprehension in four sections.',
     topics: ['Parts of speech', 'Synonyms', 'Antonyms', 'Comprehension'],
   },
-  {
-    id: 'pak-studies',
-    name: 'Pakistan Studies',
-    group: 'Humanities',
-    count: '364 questions',
-    href: '/quizzes/pak-studies',
-    desc: 'History, constitution, geography and economy of Pakistan.',
-    topics: ['Indus Valley', 'Constitution', 'Geography', 'Economy'],
-  },
 ];
 
 const MOCK_EXAMS = [
@@ -140,17 +141,17 @@ const MOCK_EXAMS = [
 
 const POPULAR_LINKS = [
   { label: 'Aptitude', href: '/quizzes/aptitude' },
+  { label: 'Pakistan Studies', href: '/quizzes/pak-studies' },
   { label: 'General Science', href: '/quizzes/subject/general-science' },
   { label: 'Biology', href: '/quizzes/biology' },
   { label: 'Islamic Studies', href: '/quizzes/islamic-studies' },
-  { label: 'English', href: '/quizzes/english-grammar' },
   { label: 'MDCAT mock', href: '/mock-papers/mdcat' },
 ];
 
 const COMMISSIONS = ['FPSC', 'PPSC', 'SPSC', 'KPPSC', 'NTS', 'STS SIBA', 'MDCAT', 'CSS / PMS'];
 
 const STATS = [
-  { value: '12,700+', label: 'Solved MCQs' },
+  { value: '15,600+', label: 'Solved MCQs' },
   { value: '43', label: 'Aptitude chapters' },
   { value: '4', label: 'Timed mock exams' },
   { value: '500+', label: 'Job listings' },
@@ -300,7 +301,7 @@ export default function Home() {
             <Eyebrow>Pakistan government exams · FPSC · PPSC · SPSC · NTS</Eyebrow>
 
             <h1 className="mt-4 text-[2rem] sm:text-[2.6rem] leading-[1.12] font-semibold tracking-tight text-slate-900">
-              Prepare with 12,700+ solved MCQs and follow every government job in one place.
+              Prepare with 15,600+ solved MCQs and follow every government job in one place.
             </h1>
 
             <p className="mt-4 text-[15px] leading-relaxed text-slate-600 max-w-xl">
@@ -446,32 +447,15 @@ export default function Home() {
         {/* ───────────────────────── Daily practice ───────────────────────── */}
         <section className="bg-slate-900 text-white rounded-lg overflow-hidden" aria-label="Daily practice">
           <div className="grid md:grid-cols-12 gap-8 md:gap-12 p-8 sm:p-10">
-            <div className="md:col-span-6">
+            <div className="md:col-span-5">
               <Eyebrow tone="inverse">Daily practice</Eyebrow>
               <h2 className="mt-2 text-2xl sm:text-[1.7rem] font-semibold tracking-tight">
                 A new set of questions every day.
               </h2>
-              <p className="mt-3 text-sm text-slate-300 leading-relaxed max-w-md">
-                Take today&apos;s challenge, a random mixed test, or a short set of surprising facts.
-                Your streak and best score are saved on this device.
-              </p>
             </div>
-            <ul className="md:col-span-6 self-end">
-              {[
-                { label: "Today's challenge", meta: 'Same set for everyone, resets daily', href: '/quizzes/random-test?mode=daily' },
-                { label: 'Random mixed test', meta: 'Choose subject and length', href: '/quizzes/random-test' },
-                { label: 'Interesting facts quiz', meta: 'Curated questions with notes', href: '/quizzes/random-test?mode=interesting' },
-              ].map((item) => (
-                <li key={item.href} className="border-t border-white/10 last:border-b">
-                  <Link href={item.href} className="group flex items-baseline justify-between gap-4 py-3.5">
-                    <span className="text-[15px] font-medium text-white group-hover:text-emerald-300 transition-colors">
-                      {item.label}
-                    </span>
-                    <span className="text-[12px] text-slate-400 text-right">{item.meta}</span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
+            <div className="md:col-span-7 self-end">
+              <HabitStrip />
+            </div>
           </div>
         </section>
 

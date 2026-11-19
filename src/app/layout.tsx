@@ -34,10 +34,12 @@ export const metadata: Metadata = {
   ],
   icons: {
     icon: [
-      { url: '/favicon.ico' },
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/favicon.svg', type: 'image/svg+xml' },
       { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
       { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
-      { url: '/icon.png', sizes: '192x192', type: 'image/png' },
+      { url: '/favicon-48x48.png', sizes: '48x48', type: 'image/png' },
+      { url: '/android-chrome-192x192.png', sizes: '192x192', type: 'image/png' },
     ],
     shortcut: '/favicon.ico',
     apple: [
@@ -103,7 +105,7 @@ export const metadata: Metadata = {
     },
   },
   other: {
-    'theme-color': '#059669',
+    'theme-color': '#064E3B',
     'apple-mobile-web-app-capable': 'yes',
     'apple-mobile-web-app-status-bar-style': 'black-translucent',
     'apple-mobile-web-app-title': 'GovtJobs.pk',
@@ -128,7 +130,9 @@ const jsonLdWebsite = {
     url: siteUrl,
     logo: {
       '@type': 'ImageObject',
-      url: `${siteUrl}/og-image.png`,
+      url: `${siteUrl}/android-chrome-512x512.png`,
+      width: 512,
+      height: 512,
     },
   },
 };

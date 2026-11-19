@@ -289,7 +289,9 @@ const Navbar = () => {
             <img
               src="/logo.png"
               alt="GovtJobs.pk Logo"
-              className="w-7 h-7 rounded-full object-cover shrink-0"
+              width={28}
+              height={28}
+              className="w-7 h-7 rounded-md object-cover shrink-0 shadow-xs"
             />
             <span className={`text-[16px] font-semibold tracking-tight text-slate-900 whitespace-nowrap ${isUr ? 'font-urdu' : ''}`}>
               {t('nav.title')}

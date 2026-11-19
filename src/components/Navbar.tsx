@@ -130,6 +130,11 @@ const aptitudeMenuGroups = [
 
 const mockTestsSubPages = [
   {
+    label: '100-MCQ Screening Pattern (20 Free)',
+    href: '/quizzes/screening-test',
+    desc: 'Random FPSC/PPSC/SPSC blueprint · save progress in free account',
+  },
+  {
     label: 'MDCAT Full Mock Exam',
     href: '/mock-papers/mdcat',
     desc: 'Biology, Chemistry, Physics & English timed test',
@@ -189,6 +194,7 @@ const empSubPages = [
 ];
 
 const subjectNavItems: { label: string; href: string; hasDropdown?: 'aptitude' }[] = [
+  { label: '100-MCQ Screening Test', href: '/quizzes/screening-test' },
   { label: 'Daily Random Quiz', href: '/quizzes/random-test' },
   { label: 'Physics', href: '/quizzes/physics' },
   { label: 'Chemistry', href: '/quizzes/subject/chemistry' },

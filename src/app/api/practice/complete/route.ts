@@ -34,6 +34,7 @@ export async function POST(req: NextRequest) {
       totalQuestions,
       percentage: Number(body.percentage),
       bestRunStreak: Number(body.bestRunStreak) || 0,
+      subjectBreakdown: Array.isArray(body.subjectBreakdown) ? body.subjectBreakdown : undefined,
     });
 
     return NextResponse.json(result);

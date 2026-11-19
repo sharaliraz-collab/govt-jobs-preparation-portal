@@ -110,6 +110,13 @@ const SUBJECT_BANKS: SubjectBank[] = [
 
 const MOCK_EXAMS = [
   {
+    org: 'One-paper screening pattern',
+    title: 'Random 100-MCQ Exam Pattern (20 Free Starter)',
+    meta: '20 Free / 100 Full · 90 min',
+    desc: 'Freshly randomized English (20%), Pak Studies (20%), Science (20%), Islamiat (15%), Aptitude (15%) & World GK (10%). Create a free account to unlock Q21–100 & track progress.',
+    href: '/quizzes/screening-test',
+  },
+  {
     org: 'Medical entry test',
     title: 'MDCAT Full Mock (SIBA pattern)',
     meta: '200 MCQs · 180 min',
@@ -130,20 +137,13 @@ const MOCK_EXAMS = [
     desc: 'English, Pakistan Studies, Islamiat, current affairs, everyday science and maths.',
     href: '/mock-papers/ministry-of-defence',
   },
-  {
-    org: 'University admission',
-    title: 'SALU Khairpur Entry Test',
-    meta: '50 MCQs · 60 min',
-    desc: 'A solved model paper across English, GK, Islamic Studies, Biology and Physics.',
-    href: '/mock-papers/salu-entry-test',
-  },
 ];
 
 const POPULAR_LINKS = [
+  { label: '20-of-100 Screening Test', href: '/quizzes/screening-test' },
   { label: 'Aptitude', href: '/quizzes/aptitude' },
   { label: 'Pakistan Studies', href: '/quizzes/pak-studies' },
   { label: 'General Science', href: '/quizzes/subject/general-science' },
-  { label: 'Biology', href: '/quizzes/biology' },
   { label: 'Islamic Studies', href: '/quizzes/islamic-studies' },
   { label: 'MDCAT mock', href: '/mock-papers/mdcat' },
 ];

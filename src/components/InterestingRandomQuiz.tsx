@@ -81,7 +81,7 @@ const FUN_THEMES = [
   { value: 'Brain Teasers', label: 'Brain Teasers' },
 ];
 
-const COUNTS = [5, 10, 25, 50];
+const COUNTS = [10, 20, 50, 100];
 
 interface InterestingRandomQuizProps {
   variant?: 'compact' | 'arena';

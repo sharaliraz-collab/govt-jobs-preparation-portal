@@ -19,9 +19,12 @@ export async function GET(req: NextRequest) {
 
     const [recentSessions, dailyToday, aptitudeRows, recentForWeak] = await Promise.all([
       prisma.practiceSession.findMany({
-        where: { userId: authUser.id },
+        where: {
+          userId: authUser.id,
+          OR: [{ topicSlug: null }, { topicSlug: { not: 'pattern-breakdown' } }],
+        },
         orderBy: { completedAt: 'desc' },
-        take: 5,
+        take: 6,
       }),
       prisma.practiceSession.findFirst({
         where: { userId: authUser.id, mode: 'daily', practiceDate: today },
@@ -33,7 +36,7 @@ export async function GET(req: NextRequest) {
       prisma.practiceSession.findMany({
         where: { userId: authUser.id },
         orderBy: { completedAt: 'desc' },
-        take: 30,
+        take: 48,
         select: { subject: true, percentage: true },
       }),
     ]);
@@ -41,7 +44,7 @@ export async function GET(req: NextRequest) {
     const bySubject = new Map<string, { sum: number; n: number }>();
     for (const s of recentForWeak) {
       const subject = (s.subject || 'all').trim() || 'all';
-      if (subject === 'all') continue;
+      if (subject === 'all' || subject.startsWith('Screening Test')) continue;
       const cur = bySubject.get(subject) || { sum: 0, n: 0 };
       cur.sum += s.percentage;
       cur.n += 1;

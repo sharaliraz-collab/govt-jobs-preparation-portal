@@ -92,6 +92,11 @@ export const SUBJECT_NAV_GROUPS: SubjectNavGroup[] = [
     category: 'Practice Tools',
     items: [
       {
+        name: '100-MCQ Screening Pattern',
+        href: '/quizzes/screening-test',
+        count: '20 Free',
+      },
+      {
         name: 'Random Mock Test',
         href: '/quizzes/random-test',
         count: 'Timed',

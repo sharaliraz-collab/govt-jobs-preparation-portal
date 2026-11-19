@@ -128,14 +128,22 @@ export default function MyAccountPage() {
     <ProtectedRoute>
       <div className="bg-white text-slate-900 min-h-[60vh]">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10 space-y-10">
-          <header className="border-b border-slate-200 pb-6">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-emerald-700">Prep dashboard</p>
-            <h1 className={`mt-2 text-2xl sm:text-[1.7rem] font-semibold tracking-tight text-slate-900 ${isUr ? 'font-urdu' : ''}`}>
-              {t('nav.myAccount')}
-            </h1>
-            <p className="mt-1 text-sm text-slate-500">
-              Welcome back, <span className="font-medium text-slate-800">{user?.name}</span>
-            </p>
+          <header className="border-b border-slate-200 pb-6 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+            <div>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-emerald-700">Prep dashboard</p>
+              <h1 className={`mt-2 text-2xl sm:text-[1.7rem] font-semibold tracking-tight text-slate-900 ${isUr ? 'font-urdu' : ''}`}>
+                {t('nav.myAccount')}
+              </h1>
+              <p className="mt-1 text-sm text-slate-500">
+                Welcome back, <span className="font-medium text-slate-800">{user?.name}</span>
+              </p>
+            </div>
+            <Link
+              href="/quizzes/screening-test"
+              className="shrink-0 px-4 py-2 rounded-md bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold transition-colors"
+            >
+              Take Full 100-MCQ Screening Test →
+            </Link>
           </header>
 
           {loading ? (

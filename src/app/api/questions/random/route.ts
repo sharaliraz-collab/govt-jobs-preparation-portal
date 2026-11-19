@@ -165,7 +165,7 @@ export async function GET(request: Request) {
     const subject = searchParams.get('subject') || 'all';
     const category = searchParams.get('category') || 'all';
     const rawCount = parseInt(searchParams.get('count') || '10', 10);
-    const count = Number.isFinite(rawCount) ? Math.min(50, Math.max(1, rawCount)) : 10;
+    const count = Number.isFinite(rawCount) ? Math.min(100, Math.max(1, rawCount)) : 10;
     const dateParam = searchParams.get('date') || new Date().toISOString().slice(0, 10);
 
     // Build lookup of curiosity notes so random/daily hits also surface Did You Know when a curated item appears!
@@ -231,6 +231,12 @@ export async function GET(request: Request) {
         fallbackPool = ((mod as any).default ?? mod) as RandomQuizQuestion[];
       } else if (subject === 'Islamic Studies') {
         const mod = await import('@/data/islamic-pdf-mcqs.json');
+        fallbackPool = ((mod as any).default ?? mod) as RandomQuizQuestion[];
+      } else if (subject === 'Pakistan Studies') {
+        const mod = await import('@/data/pak-studies-pdf-mcqs.json');
+        fallbackPool = ((mod as any).default ?? mod) as RandomQuizQuestion[];
+      } else if (subject === 'General Science') {
+        const mod = await import('@/data/general-science-pdf-mcqs.json');
         fallbackPool = ((mod as any).default ?? mod) as RandomQuizQuestion[];
       }
       if (fallbackPool.length === 0) {

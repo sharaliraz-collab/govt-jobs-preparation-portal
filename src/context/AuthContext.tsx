@@ -3,6 +3,35 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { IUser } from '@/lib/types';
+import {
+  loadLocalStreakStats,
+  saveLocalStreakStats,
+  StreakStats,
+} from '@/lib/practiceStats';
+
+async function mergePracticeAfterAuth(token: string) {
+  try {
+    const local = loadLocalStreakStats();
+    const res = await axios.post(
+      '/api/practice/merge-local',
+      { stats: local },
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    if (res.data?.stats) {
+      const merged: StreakStats = {
+        dailyStreak: res.data.stats.dailyStreak ?? local.dailyStreak,
+        lastVisitDate: res.data.stats.lastVisitDate ?? local.lastVisitDate,
+        bestAccuracy: res.data.stats.bestAccuracy ?? local.bestAccuracy,
+        bestStreak: res.data.stats.bestStreak ?? local.bestStreak,
+        totalXP: res.data.stats.totalXP ?? local.totalXP,
+        testsCompleted: res.data.stats.testsCompleted ?? local.testsCompleted,
+      };
+      saveLocalStreakStats(merged);
+    }
+  } catch {
+    /* non-blocking */
+  }
+}
 
 interface AuthContextType {
   user: IUser | null;
@@ -58,6 +87,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     localStorage.setItem('govt_portal_token', newToken);
     setToken(newToken);
     setUser(userData);
+    await mergePracticeAfterAuth(newToken);
     return userData;
   };
 
@@ -67,6 +97,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     localStorage.setItem('govt_portal_token', newToken);
     setToken(newToken);
     setUser(userData);
+    await mergePracticeAfterAuth(newToken);
     return userData;
   };
 

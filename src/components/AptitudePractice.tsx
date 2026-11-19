@@ -2,6 +2,7 @@
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
+import axios from 'axios';
 import {
   ArrowLeft,
   ArrowRight,
@@ -24,6 +25,7 @@ import {
   AptitudeTopic,
 } from '@/data/aptitudeTopics';
 import { APTITUDE_THEME } from '@/lib/aptitudeTheme';
+import { useAuth } from '@/context/AuthContext';
 
 interface NavTopic {
   slug: string;
@@ -66,6 +68,7 @@ export default function AptitudePractice({
   prevTopic,
   nextTopic,
 }: Props) {
+  const { token } = useAuth();
   const theme = APTITUDE_THEME[topic.group];
   const TopicIcon = theme.icon;
 
@@ -79,25 +82,72 @@ export default function AptitudePractice({
   const [openSolutions, setOpenSolutions] = useState<Record<number, boolean>>({});
   const [loaded, setLoaded] = useState(false);
   const topRef = useRef<HTMLDivElement>(null);
+  const skipNextServerSave = useRef(false);
 
   const storageKey = `apt-progress:${topic.slug}`;
 
-  // restore saved progress for this topic
+  // restore: local first, then overlay server when logged in
   useEffect(() => {
-    try {
-      const saved = localStorage.getItem(storageKey);
-      if (saved) {
-        const parsed: Progress = JSON.parse(saved);
-        setAnswers(parsed.answers || {});
-        setRevealed(parsed.revealed || {});
-      }
-    } catch {
-      /* ignore corrupt storage */
-    }
-    setLoaded(true);
-  }, [storageKey]);
+    let cancelled = false;
+    setLoaded(false);
 
-  // persist progress
+    const hydrate = async () => {
+      let localAnswers: Record<number, number> = {};
+      let localRevealed: Record<number, boolean> = {};
+      try {
+        const saved = localStorage.getItem(storageKey);
+        if (saved) {
+          const parsed: Progress = JSON.parse(saved);
+          localAnswers = parsed.answers || {};
+          localRevealed = parsed.revealed || {};
+        }
+      } catch {
+        /* ignore */
+      }
+
+      if (token) {
+        try {
+          const res = await axios.get(`/api/practice/aptitude/${topic.slug}`, {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          const serverAnswers = (res.data?.answers || {}) as Record<string, number>;
+          const serverRevealed = (res.data?.revealed || {}) as Record<string, boolean>;
+          const mergedAnswers: Record<number, number> = { ...localAnswers };
+          const mergedRevealed: Record<number, boolean> = { ...localRevealed };
+          for (const [k, v] of Object.entries(serverAnswers)) {
+            const idx = Number(k);
+            if (Number.isFinite(idx) && mergedAnswers[idx] === undefined) mergedAnswers[idx] = v;
+          }
+          for (const [k, v] of Object.entries(serverRevealed)) {
+            const idx = Number(k);
+            if (Number.isFinite(idx) && v) mergedRevealed[idx] = true;
+          }
+          if (!cancelled) {
+            skipNextServerSave.current = true;
+            setAnswers(mergedAnswers);
+            setRevealed(mergedRevealed);
+          }
+        } catch {
+          if (!cancelled) {
+            setAnswers(localAnswers);
+            setRevealed(localRevealed);
+          }
+        }
+      } else if (!cancelled) {
+        setAnswers(localAnswers);
+        setRevealed(localRevealed);
+      }
+
+      if (!cancelled) setLoaded(true);
+    };
+
+    hydrate();
+    return () => {
+      cancelled = true;
+    };
+  }, [storageKey, token, topic.slug]);
+
+  // persist progress locally + debounced server save
   useEffect(() => {
     if (!loaded) return;
     try {
@@ -105,7 +155,27 @@ export default function AptitudePractice({
     } catch {
       /* storage may be unavailable */
     }
-  }, [answers, revealed, loaded, storageKey]);
+
+    if (!token) return;
+    if (skipNextServerSave.current) {
+      skipNextServerSave.current = false;
+      return;
+    }
+
+    const timer = window.setTimeout(() => {
+      axios
+        .put(
+          `/api/practice/aptitude/${topic.slug}`,
+          { answers, revealed },
+          { headers: { Authorization: `Bearer ${token}` } }
+        )
+        .catch(() => {
+          /* offline fallback is localStorage */
+        });
+    }, 600);
+
+    return () => window.clearTimeout(timer);
+  }, [answers, revealed, loaded, storageKey, token, topic.slug]);
 
   const goToPage = useCallback(
     (p: number) => {

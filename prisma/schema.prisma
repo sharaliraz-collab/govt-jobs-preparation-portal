@@ -30,6 +30,13 @@ enum Difficulty {
 
 // ===== Core Models =====
 
+enum PracticeMode {
+  daily
+  random
+  interesting
+  aptitude
+}
+
 model User {
   id         String   @id @default(uuid())
   name       String
@@ -40,11 +47,63 @@ model User {
   postedJobs Job[]    @relation("PostedJobs")
   attempts   QuizAttempt[]
   employeePosts EmployeePost[]
+  practiceStats UserPracticeStats?
+  practiceSessions PracticeSession[]
+  aptitudeProgress AptitudeProgress[]
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 
   @@index([email])
   @@index([role])
+}
+
+model UserPracticeStats {
+  id               String   @id @default(uuid())
+  userId           String   @unique
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  dailyStreak      Int      @default(0)
+  bestDailyStreak  Int      @default(0)
+  lastPracticeDate String   @default("") // YYYY-MM-DD Asia/Karachi
+  bestAccuracy     Int      @default(0)
+  totalXP          Int      @default(0)
+  testsCompleted   Int      @default(0)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model PracticeSession {
+  id              String       @id @default(uuid())
+  userId          String
+  user            User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  mode            PracticeMode
+  subject         String       @default("all")
+  topicSlug       String?
+  score           Int
+  totalQuestions  Int
+  percentage      Float
+  bestRunStreak   Int          @default(0)
+  practiceDate    String       // YYYY-MM-DD Asia/Karachi (for daily idempotency)
+  completedAt     DateTime     @default(now())
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+
+  @@index([userId, completedAt])
+  @@index([userId, mode])
+  @@index([userId, mode, practiceDate])
+}
+
+model AptitudeProgress {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  topicSlug String
+  answers   Json     @default("{}")
+  revealed  Json     @default("{}")
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+
+  @@unique([userId, topicSlug])
+  @@index([userId])
 }
 
 model Job {

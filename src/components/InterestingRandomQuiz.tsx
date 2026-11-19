@@ -25,6 +25,17 @@ import ShareButtons from '@/components/ShareButtons';
 import { absoluteUrl } from '@/lib/seo';
 import { cleanQuestionStem, getCleanExplanation } from '@/lib/mcqDisplay';
 import interestingBank from '@/data/interesting-questions.json';
+import { useAuth } from '@/context/AuthContext';
+import {
+  StreakStats,
+  DEFAULT_STREAK_STATS,
+  applySessionToStats,
+  computeEarnedXP,
+  getTodayStrPKT,
+  getYesterdayStrPKT,
+  loadLocalStreakStats,
+  saveLocalStreakStats,
+} from '@/lib/practiceStats';
 
 export type QuizMode = 'random' | 'daily' | 'interesting';
 
@@ -41,55 +52,11 @@ export interface ArenaQuestion {
   didYouKnow?: string;
 }
 
-interface StreakStats {
-  dailyStreak: number;
-  lastVisitDate: string;
-  bestAccuracy: number;
-  bestStreak: number;
-  totalXP: number;
-  testsCompleted: number;
-}
-
-const DEFAULT_STATS: StreakStats = {
-  dailyStreak: 0,
-  lastVisitDate: '',
-  bestAccuracy: 0,
-  bestStreak: 0,
-  totalXP: 0,
-  testsCompleted: 0,
-};
-
-const STORAGE_KEY = 'pak_prep_random_stats_v1';
-
-function getTodayStr(): string {
-  return new Date().toISOString().slice(0, 10);
-}
-
-function getYesterdayStr(): string {
-  const d = new Date();
-  d.setUTCDate(d.getUTCDate() - 1);
-  return d.toISOString().slice(0, 10);
-}
-
-function loadStats(): StreakStats {
-  if (typeof window === 'undefined') return DEFAULT_STATS;
-  try {
-    const raw = window.localStorage.getItem(STORAGE_KEY);
-    if (!raw) return DEFAULT_STATS;
-    return { ...DEFAULT_STATS, ...JSON.parse(raw) };
-  } catch {
-    return DEFAULT_STATS;
-  }
-}
-
-function saveStats(next: StreakStats) {
-  if (typeof window === 'undefined') return;
-  try {
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
-  } catch {
-    // ignore storage errors
-  }
-}
+const DEFAULT_STATS = DEFAULT_STREAK_STATS;
+const loadStats = loadLocalStreakStats;
+const saveStats = saveLocalStreakStats;
+const getTodayStr = getTodayStrPKT;
+const getYesterdayStr = getYesterdayStrPKT;
 
 const SUBJECT_OPTIONS = [
   { value: 'all', label: 'All Subjects Mix' },
@@ -131,6 +98,7 @@ export default function InterestingRandomQuiz({
   initialCategory = 'all',
   initialCount = 10,
 }: InterestingRandomQuizProps) {
+  const { token } = useAuth();
   const [stats, setStats] = useState<StreakStats>(DEFAULT_STATS);
 
   // Compact teaser state
@@ -158,6 +126,10 @@ export default function InterestingRandomQuiz({
   const [secondsLeft, setSecondsLeft] = useState<number>(0);
   const [elapsedSeconds, setElapsedSeconds] = useState<number>(0);
   const recordedResultRef = useRef<boolean>(false);
+  const modeRef = useRef(mode);
+  const subjectRef = useRef(subject);
+  modeRef.current = mode;
+  subjectRef.current = subject;
 
   // Initialize local stats & deterministic daily question on teaser
   useEffect(() => {
@@ -167,6 +139,35 @@ export default function InterestingRandomQuiz({
     for (let i = 0; i < today.length; i++) hash = (hash * 31 + today.charCodeAt(i)) >>> 0;
     setTeaserIdx(hash % Math.max(1, teaserPool.length));
   }, [teaserPool.length]);
+
+  // Prefer server stats when logged in
+  useEffect(() => {
+    if (!token) return;
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await axios.get('/api/practice/stats', {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (cancelled || !res.data?.stats) return;
+        const serverStats: StreakStats = {
+          dailyStreak: res.data.stats.dailyStreak ?? 0,
+          lastVisitDate: res.data.stats.lastVisitDate ?? '',
+          bestAccuracy: res.data.stats.bestAccuracy ?? 0,
+          bestStreak: res.data.stats.bestStreak ?? res.data.stats.bestDailyStreak ?? 0,
+          totalXP: res.data.stats.totalXP ?? 0,
+          testsCompleted: res.data.stats.testsCompleted ?? 0,
+        };
+        saveStats(serverStats);
+        setStats(serverStats);
+      } catch {
+        /* keep local */
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [token]);
 
   const loadArenaQuestions = useCallback(
     async (
@@ -236,30 +237,50 @@ export default function InterestingRandomQuiz({
         if (finalAnswers[q.id] === q.correctIndex) correctCount++;
       }
       const accuracy = Math.round((correctCount / finalQuestions.length) * 100);
-      const earnedXP = correctCount * 10 + bestRunStreak * 5 + (accuracy >= 80 ? 25 : 0);
-
-      const today = getTodayStr();
-      const yesterday = getYesterdayStr();
+      const earnedXP = computeEarnedXP(correctCount, bestRunStreak, accuracy);
       const prev = loadStats();
-      let nextDaily = prev.dailyStreak;
-      if (prev.lastVisitDate === today) {
-        nextDaily = Math.max(1, prev.dailyStreak);
-      } else if (prev.lastVisitDate === yesterday) {
-        nextDaily = prev.dailyStreak + 1;
-      } else {
-        nextDaily = 1;
-      }
-
-      const updated: StreakStats = {
-        dailyStreak: nextDaily,
-        lastVisitDate: today,
-        bestAccuracy: Math.max(prev.bestAccuracy, accuracy),
-        bestStreak: Math.max(prev.bestStreak, bestRunStreak),
-        totalXP: prev.totalXP + earnedXP,
-        testsCompleted: prev.testsCompleted + 1,
-      };
+      const updated = applySessionToStats(prev, {
+        accuracy,
+        bestRunStreak,
+        earnedXP,
+      });
       saveStats(updated);
       setStats(updated);
+
+      const authToken =
+        typeof window !== 'undefined' ? window.localStorage.getItem('govt_portal_token') : null;
+      if (authToken) {
+        axios
+          .post(
+            '/api/practice/complete',
+            {
+              mode: modeRef.current,
+              subject: subjectRef.current,
+              score: correctCount,
+              totalQuestions: finalQuestions.length,
+              percentage: accuracy,
+              bestRunStreak,
+            },
+            { headers: { Authorization: `Bearer ${authToken}` } }
+          )
+          .then((res) => {
+            if (res.data?.stats) {
+              const serverStats: StreakStats = {
+                dailyStreak: res.data.stats.dailyStreak ?? updated.dailyStreak,
+                lastVisitDate: res.data.stats.lastVisitDate ?? updated.lastVisitDate,
+                bestAccuracy: res.data.stats.bestAccuracy ?? updated.bestAccuracy,
+                bestStreak: res.data.stats.bestStreak ?? updated.bestStreak,
+                totalXP: res.data.stats.totalXP ?? updated.totalXP,
+                testsCompleted: res.data.stats.testsCompleted ?? updated.testsCompleted,
+              };
+              saveStats(serverStats);
+              setStats(serverStats);
+            }
+          })
+          .catch(() => {
+            /* local already saved */
+          });
+      }
     },
     []
   );

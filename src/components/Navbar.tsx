@@ -6,6 +6,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
 import { toggleLanguage } from '@/i18n/i18n';
 import { useAuth } from '@/context/AuthContext';
+import BrowserNotificationManager from '@/components/BrowserNotificationManager';
 
 /* ─── Navigation Data ─── */
 
@@ -276,28 +277,40 @@ const Navbar = () => {
         scrolled ? 'shadow-sm' : ''
       }`}
     >
-      {/* ───── 1. Top Utility Bar ───── */}
-      <div className="bg-slate-900 text-slate-300 px-4 py-1.5 text-[12px]">
-        <div className="max-w-6xl mx-auto flex justify-between items-center gap-3">
-          <span className="truncate tracking-wide">
-            Government jobs and exam preparation for Pakistan
-          </span>
+      {/* ───── 1. Top Utility Bar (with Blinking Pension Papers & Browser Alerts) ───── */}
+      <div className="bg-slate-900 text-slate-200 px-3 sm:px-4 py-1.5 text-[12px]">
+        <div className="max-w-6xl mx-auto flex justify-between items-center gap-2 sm:gap-3">
+          <div className="flex items-center gap-2 min-w-0">
+            <Link
+              href="/forms/pension-papers"
+              className="pension-blink-badge inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold tracking-wide shrink-0 transition-transform hover:scale-[1.02]"
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-amber-300 animate-ping" aria-hidden="true" />
+              <span>NEW · Pension Papers (Fill &amp; Print 16 A4) →</span>
+            </Link>
+            <span className="hidden md:inline truncate tracking-wide text-slate-400 text-[11.5px]">
+              Pakistan Government Jobs &amp; Exam Preparation
+            </span>
+          </div>
 
-          <button
-            onClick={toggleLanguage}
-            aria-label="Toggle language"
-            className="shrink-0 text-slate-200 hover:text-white font-medium transition-colors"
-          >
-            {isUr ? 'English' : 'اردو'}
-          </button>
+          <div className="flex items-center gap-2 shrink-0">
+            <BrowserNotificationManager />
+            <button
+              onClick={toggleLanguage}
+              aria-label="Toggle language"
+              className="shrink-0 px-2 py-0.5 rounded-full bg-white/10 hover:bg-white/20 text-slate-100 hover:text-white text-[11px] font-medium transition-colors"
+            >
+              {isUr ? 'English' : 'اردو'}
+            </button>
+          </div>
         </div>
       </div>
 
       {/* ───── 2. Main Desktop & Mobile Navbar ───── */}
       <div className="relative bg-white" onMouseLeave={handleMouseLeave}>
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between gap-6">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between gap-4 py-2.5">
           {/* Brand Logo */}
-          <Link href="/" className="flex items-center gap-2.5 shrink-0 py-3.5" aria-label="Go to homepage">
+          <Link href="/" className="flex items-center gap-2.5 shrink-0" aria-label="Go to homepage">
             <img
               src="/logo.png"
               alt="GovtJobs.pk Logo"
@@ -310,11 +323,11 @@ const Navbar = () => {
             </span>
           </Link>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-7 text-[14px] whitespace-nowrap" aria-label="Main navigation">
+          {/* Desktop Navigation — Soft Blue Rounded Pills */}
+          <nav className="hidden lg:flex items-center gap-2 text-[13px] whitespace-nowrap" aria-label="Main navigation">
             {[
               { key: null, href: '/', label: t('nav.home'), active: isActive('/') },
-              { key: 'mcqs' as const, href: '/quizzes', label: 'Subjects', active: activeDropdown === 'mcqs' || pathname === '/quizzes' },
+              { key: 'mcqs' as const, href: '/quizzes', label: 'Subjects', active: activeDropdown === 'mcqs' || pathname === '/quizzes' || pathname?.startsWith('/quizzes/') },
               { key: 'mocks' as const, href: '/mock-tests', label: 'Mock Exams', active: activeDropdown === 'mocks' || isActive('/mock-tests') || isActive('/mock-papers') },
               { key: 'jobs' as const, href: '/jobs', label: 'Jobs & Papers', active: activeDropdown === 'jobs' || isActive('/jobs') || isActive('/materials') || isActive('/forms') },
               { key: 'employees' as const, href: '/employees-corner', label: 'Employees', active: activeDropdown === 'employees' || isActive('/employees-corner') },
@@ -323,10 +336,10 @@ const Navbar = () => {
                 key={item.href}
                 href={item.href}
                 onMouseEnter={() => handleMouseEnter(item.key)}
-                className={`relative py-4 transition-colors ${
+                className={`px-3.5 py-1.5 rounded-lg border transition-colors ${
                   item.active
-                    ? 'text-slate-900 font-medium after:absolute after:left-0 after:right-0 after:bottom-0 after:h-[2px] after:bg-slate-900'
-                    : 'text-slate-600 hover:text-slate-900'
+                    ? 'bg-sky-700 text-white border-sky-700 font-semibold shadow-2xs'
+                    : 'bg-sky-50/90 text-sky-900 border-sky-200/80 hover:bg-sky-100 hover:border-sky-300 font-medium'
                 }`}
               >
                 {item.label}
@@ -335,31 +348,34 @@ const Navbar = () => {
           </nav>
 
           {/* User / Admin Actions */}
-          <div className="hidden lg:flex items-center gap-5 shrink-0 whitespace-nowrap text-[13px]">
+          <div className="hidden lg:flex items-center gap-2.5 shrink-0 whitespace-nowrap text-[13px]">
             {user ? (
               <>
                 <Link
                   href={isAdmin ? '/admin/dashboard' : '/my-account'}
-                  className="text-slate-700 hover:text-slate-900 font-medium transition-colors"
+                  className="px-3 py-1.5 rounded-lg bg-sky-50 border border-sky-200/80 text-sky-950 hover:bg-sky-100 font-medium transition-colors"
                 >
                   {isAdmin ? `Admin · ${user.name}` : user.name}
                 </Link>
                 <button
                   onClick={handleLogout}
                   aria-label="Logout"
-                  className="text-slate-500 hover:text-slate-900 transition-colors"
+                  className="px-2.5 py-1.5 rounded-lg border border-slate-200 text-slate-600 hover:text-slate-900 hover:border-slate-400 transition-colors"
                 >
                   {t('nav.logout')}
                 </button>
               </>
             ) : (
               <>
-                <Link href="/login" className="text-slate-600 hover:text-slate-900 font-medium transition-colors">
+                <Link
+                  href="/login"
+                  className="px-3 py-1.5 rounded-lg bg-sky-50/80 border border-sky-200/80 text-sky-900 hover:bg-sky-100 font-medium transition-colors"
+                >
                   {t('nav.login')}
                 </Link>
                 <Link
                   href="/register"
-                  className="h-8 inline-flex items-center px-3.5 rounded-md bg-slate-900 hover:bg-slate-800 text-white text-[13px] font-medium transition-colors"
+                  className="h-8 inline-flex items-center px-3.5 rounded-lg bg-sky-700 hover:bg-sky-800 text-white text-[13px] font-semibold transition-colors"
                 >
                   {t('nav.register')}
                 </Link>
@@ -370,7 +386,7 @@ const Navbar = () => {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="lg:hidden h-8 px-3 rounded-md border border-slate-300 text-[13px] font-medium text-slate-800 hover:border-slate-900 transition-colors"
+            className="lg:hidden h-8 px-3 rounded-lg border border-sky-200 bg-sky-50 text-[13px] font-semibold text-sky-950 hover:bg-sky-100 transition-colors"
             aria-label={mobileOpen ? 'Close navigation menu' : 'Open navigation menu'}
             aria-expanded={mobileOpen}
           >
@@ -378,13 +394,20 @@ const Navbar = () => {
           </button>
         </div>
 
-        {/* ───── Subject Sub-Navigation Bar ───── */}
-        <div className="border-t border-slate-200 bg-slate-50/50">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6">
+        {/* ───── Subject Sub-Navigation Bar (Soft Blue Rounded Pills + Blinking Pension Papers) ───── */}
+        <div className="border-t border-sky-100 bg-sky-50/40">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 py-2">
             <nav
-              className="flex items-center gap-6 overflow-x-auto no-scrollbar whitespace-nowrap text-[13px]"
+              className="flex items-center gap-2 overflow-x-auto no-scrollbar whitespace-nowrap text-[12px]"
               aria-label="Subject navigation"
             >
+              <Link
+                href="/forms/pension-papers"
+                onClick={() => setActiveDropdown(null)}
+                className="pension-blink-pill px-2.5 py-1 rounded-lg font-semibold shrink-0 transition-colors"
+              >
+                Pension Papers (16 A4)
+              </Link>
               {subjectNavItems.map((subj) => {
                 const active = isActive(subj.href) || (subj.hasDropdown && activeDropdown === subj.hasDropdown);
                 return (
@@ -393,10 +416,10 @@ const Navbar = () => {
                     href={subj.href}
                     onMouseEnter={() => handleMouseEnter(subj.hasDropdown ?? null)}
                     onClick={() => setActiveDropdown(null)}
-                    className={`py-2.5 border-b-2 -mb-px shrink-0 transition-colors ${
+                    className={`px-2.5 py-1 rounded-lg border shrink-0 transition-colors ${
                       active
-                        ? 'border-emerald-700 text-slate-900 font-medium'
-                        : 'border-transparent text-slate-600 hover:text-slate-900'
+                        ? 'bg-sky-700 text-white border-sky-700 font-semibold'
+                        : 'bg-white/90 text-sky-900 border-sky-200/80 hover:bg-sky-100 hover:border-sky-300 font-medium'
                     }`}
                   >
                     {subj.label}

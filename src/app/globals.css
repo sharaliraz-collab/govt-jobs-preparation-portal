@@ -326,3 +326,54 @@ html {
     page-break-inside: avoid !important;
   }
 }
+
+/* ─── Blinking Top Highlight for Official Pension Papers Studio ─── */
+@keyframes pensionTopBlink {
+  0%, 100% {
+    background-color: #047857;
+    border-color: #fbbf24;
+    color: #ffffff;
+    box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.55);
+  }
+  50% {
+    background-color: #f59e0b;
+    border-color: #fef3c7;
+    color: #0f172a;
+    box-shadow: 0 0 12px 2px rgba(251, 191, 36, 0.55);
+  }
+}
+
+@keyframes pensionPillBlink {
+  0%, 100% {
+    background-color: #fef3c7;
+    border-color: #f59e0b;
+    color: #78350f;
+    box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.35);
+  }
+  50% {
+    background-color: #0369a1;
+    border-color: #0284c7;
+    color: #ffffff;
+    box-shadow: 0 0 10px 1px rgba(3, 105, 161, 0.35);
+  }
+}
+
+.pension-blink-badge {
+  border: 1px solid #fbbf24;
+  animation: pensionTopBlink 1.8s ease-in-out infinite;
+}
+
+.pension-blink-pill {
+  border: 1px solid #f59e0b;
+  animation: pensionPillBlink 2.1s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pension-blink-badge,
+  .pension-blink-pill {
+    animation: none;
+    background-color: #047857;
+    border-color: #fbbf24;
+    color: #ffffff;
+  }
+}

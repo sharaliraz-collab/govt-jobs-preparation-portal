@@ -155,8 +155,9 @@ export function buildPensionPagesHtml(
 
   // ── PAGE 4: FORM 3 (PEN.) PART I ────────────────────────────────────
   pages.push(`
-    <h3>Form 3 (Pen.) – Part I<br>Application for Pension and Commutation</h3>
-    <p class="pp-c pp-sm"><i>(To be filled in and signed by the applicant himself)</i> – Page 3</p>
+    <p class="pp-r"><b>Page – 3</b></p>
+    <h3>First Page<br>Form 3 (Pen.) – Part I<br>Application for Pension and Commutation</h3>
+    <p class="pp-c pp-sm"><i>(To be filled in and signed by the applicant himself)</i></p>
     <p><b>To,</b><br>&nbsp;&nbsp;&nbsp;The ${fu('office', 80)}<br>&nbsp;&nbsp;&nbsp;${fu('ddoPlace', 80)}</p>
     <p><b>Sir,</b></p>
     <p class="pp-j">1. I have the honour to say that I have been permitted to retire / have retired from Government service with effect from ${dr} (Date). I, therefore, request that the pension admissible under the rules may kindly be sanctioned to me.</p>
@@ -188,8 +189,9 @@ export function buildPensionPagesHtml(
   // ── PAGE 5: FORM 3 (PEN.) PART II — SECTION (I) ─────────────────────
   pages.push(`
     <div class="pp-compact">
-      <h3>Part – II</h3>
-      <p class="pp-c pp-sm"><i>(To be completed by office / department receiving the application for pension)</i> – Page 4</p>
+      <p class="pp-r"><b>Page – 4</b></p>
+      <h3>Second Page · Part – II</h3>
+      <p class="pp-c pp-sm"><i>(To be completed by office / department receiving the application for pension)</i></p>
       <h4>Section (I)</h4>
       ${ln('1. Name of applicant*', N)}
       ${ln('2. Father’s / Husband’s Name*', fu('father', 56))}
@@ -236,7 +238,7 @@ export function buildPensionPagesHtml(
       ${ln('20. Date from which pension is to commence', v(c.from, 32))}
       <p>Office: ${fu('office', 58)}</p>
       ${sg('Signature of Head of Department')}
-      <p class="pp-footnote pp-cl">* Entries Nos. 1, 2, 3, 5 and 18 should be made in capital letters. ** Not required in the case of Gazetted Officers.</p>
+      <p class="pp-footnote pp-cl">* Entries Nos. 1, 2, 3, 5 and 18 should be made in capital letters. ** Not required in the case of Gazetted Officers. *** If the application is for a compensation pension or commutation, the nature of change of establishment which has given rise to the claim, should be fully stated.</p>
     </div>
   `);
 
@@ -259,7 +261,7 @@ export function buildPensionPagesHtml(
 
   pages.push(`
     <div class="pp-compact">
-      <p class="pp-r"><b>Page – 5</b></p>
+      <p class="pp-r"><b>Third Page · Page – 5</b></p>
       <h4>Section (2) – Calculation of Qualifying Service</h4>
       <table>
         <tr><th rowspan="2">Particulars</th><th colspan="2">Period</th><th rowspan="2">Y</th><th rowspan="2">M</th><th rowspan="2">D</th></tr>
@@ -319,7 +321,7 @@ export function buildPensionPagesHtml(
 
   // ── PAGE 7: SECTION (4) SPECIAL PENSION & SECTION (5) COMMUTATION ──
   pages.push(`
-    <p class="pp-r"><b>Page – 6</b></p>
+    <p class="pp-r"><b>Fourth Page · Page – 6</b></p>
     <h4>Section (4) – Calculation of Special Additional Pension</h4>
     ${(
       [
@@ -384,7 +386,7 @@ export function buildPensionPagesHtml(
   // ── PAGE 8: SECTION (6) REMARKS & SECTION (7) ORDERS ────────────────
   pages.push(`
     <div class="pp-compact">
-      <p class="pp-r"><b>Page – 7</b></p>
+      <p class="pp-r"><b>Fifth Page · Page – 7</b></p>
       <h4>Section (6) – Remarks by Head of Office / Department</h4>
       <p class="pp-sm"><i>To be completed only after receiving the pension application</i></p>
       ${[
@@ -422,7 +424,7 @@ export function buildPensionPagesHtml(
 
   pages.push(`
     <div class="pp-compact">
-      <p class="pp-r"><b>Page – 8</b></p>
+      <p class="pp-r"><b>Sixth Page · Page – 8</b></p>
       <h3>Part – II<br>Accountant General’s / Comptroller’s Office</h3>
       <p class="pp-c">(For and in the ${v('', 44)} office)</p>
       <p>(I) The calculations contained in the preceding pages have been checked.</p>
@@ -454,6 +456,7 @@ export function buildPensionPagesHtml(
   `);
 
   // ── PAGE 10: 4 D.D.O / HOD CERTIFICATES (SET I) ─────────────────────
+  const withCaste = `${W}, Surname / Caste ${fu('caste', 24)}, Designation ${ds}`;
   pages.push(`
     <div class="pp-certs">
       ${cert(
@@ -464,7 +467,7 @@ export function buildPensionPagesHtml(
       )}
       ${cert(
         'No Enquiry Certificate',
-        `<p>This is to certify that there is no Departmental / Anti-Corruption enquiry lying pending against ${own}, ${ret}.</p>${sg(
+        `<p>This is to certify that there is no Departmental / Anti-Corruption enquiry lying pending against ${withCaste}, ${ret}.</p>${sg(
           'D.D.O with Office Stamp'
         )}`
       )}
@@ -488,13 +491,13 @@ export function buildPensionPagesHtml(
     <div class="pp-certs">
       ${cert(
         'No Court / Fake Advance Case Certificate',
-        `<p>This is to certify that there is no Court case / House purchase (fake) advance case lying pending or in process in respect of ${W}, Designation ${ds}, ${ret}.</p>${sg(
+        `<p>This is to certify that there is no Court case / House purchase (fake) advance case lying pending or in process in respect of ${withCaste}, ${ret}.</p>${sg(
           'D.D.O with Office Stamp'
         )}`
       )}
       ${cert(
         'No Recovery / PAC / DAC Certificate',
-        `<p>This is to certify that ${W}, Designation ${ds}, has no recovery of Government / non-Government dues under the order of court, direction of Public Accounts Committee, Departmental proceeding, DAC or draft / audit para outstanding against ${objPronoun}.</p>${sg(
+        `<p>This is to certify that ${withCaste}, has no recovery of Government / non-Government dues under the order of court, direction of Public Accounts Committee, Departmental proceeding, DAC or draft / audit para outstanding against ${objPronoun}.</p>${sg(
           'D.D.O with Office Stamp'
         )}`
       )}
@@ -597,12 +600,19 @@ export function buildPensionPagesHtml(
 
   pages.push(`
     <h3>Descriptive Roll &amp; History of Pensioner</h3>
-    ${ln('1. Mr./Mst./Miss:', N)}
-    ${ln('2. Father’s / Husband’s Name:', fu('father', 66))}
-    ${ln('3. N.I.C No:', f('cnic', 38))}
-    ${ln('4. Date of Birth:', f('dob', 28))}
-    ${ln('5. Height:', f('height', 28))}
-    ${ln('6. Marks of identification:', f('marks', 72))}
+    <div style="display:flex;align-items:flex-start;gap:5mm;margin-top:2mm">
+      <div style="flex:1;min-width:0">
+        ${ln('1. Mr./Mst./Miss:', v(nm, 42))}
+        ${ln('2. Father’s / Husband’s Name:', fu('father', 42))}
+        ${ln('3. N.I.C No:', f('cnic', 34))}
+        ${ln('4. Date of Birth:', f('dob', 26))}
+        ${ln('5. Height:', f('height', 26))}
+        ${ln('6. Marks of identification:', f('marks', 44))}
+      </div>
+      <div style="width:35mm;height:44mm;border:1.2px solid #000;flex-shrink:0;display:flex;align-items:center;justify-content:center;text-align:center;font-size:8.5pt;line-height:1.3;padding:2mm">
+        Affix Attested<br>Passport Size<br>Photograph
+      </div>
+    </div>
     ${ln('7. Address:', fu('addr', 82))}
     <p><b>Account / IBAN No:</b> ${f('acct', 46)} &nbsp; <b>Name of Bank:</b> ${f('bank', 46)}</p>
     <p><b>SPECIMEN SIGNATURES OF PENSIONER</b></p>
@@ -649,7 +659,7 @@ export function buildPensionPagesHtml(
         <tr><th>Particulars</th><th style="width:35%">Rate (Rs.)</th></tr>
         ${lpR('Substantive / Basic Pay', formatMoney(+g('lastpay')))}
         ${lpR('Officiating Pay')}
-        ${lpR('Special / Personal Pay &amp; Allowances')}
+        ${lpR('Exchange Compensation Allowance')}
         ${lpR()}
         <tr><th>Deductions</th><th></th></tr>
         ${lpR('G.P. Fund / Benevolent Fund / Group Insurance')}

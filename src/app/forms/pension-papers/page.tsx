@@ -25,6 +25,7 @@ import {
   buildPensionSharePayload,
   decodePrefillHash,
 } from '@/lib/pensionShare';
+import { downloadOfficialFormPdf } from '@/lib/pdf/clientPdfDownload';
 
 const STORAGE_KEY = 'govtjobs_pension_draft_v2';
 const LEGACY_STORAGE_KEY = 'pen';
@@ -40,7 +41,7 @@ const STEPS: Array<{ id: StepId; label: string; short: string }> = [
   { id: 2, label: '2. Office & Bank', short: 'Office' },
   { id: 3, label: '3. Service & Pay', short: 'Service' },
   { id: 4, label: '4. Commutation', short: 'Commut.' },
-  { id: 5, label: '5. Verify & Print', short: 'Print' },
+  { id: 5, label: '5. Verify & PDF', short: 'PDF' },
 ];
 
 const PENSION_CLASSES = [
@@ -98,11 +99,11 @@ export default function PensionPapersStudioPage() {
   const [prefillBanner, setPrefillBanner] = useState<DecodedPrefill | null>(null);
   const [statusNotice, setStatusNotice] = useState('');
 
-  // Print selection & preview zoom
+  // PDF page selection & preview zoom
   const [selectedPages, setSelectedPages] = useState<boolean[]>(() =>
     PENSION_PAGES_META.map(() => true)
   );
-  const [singlePrintOverride, setSinglePrintOverride] = useState<number | null>(null);
+  const [pdfLoading, setPdfLoading] = useState<string | null>(null);
   const [zoomMode, setZoomMode] = useState<'fit' | '75' | '100'>('fit');
   const [fitScale, setFitScale] = useState<number>(0.85);
 
@@ -183,13 +184,6 @@ export default function PensionPapersStudioPage() {
     ro.observe(el);
     return () => ro.disconnect();
   }, [mobilePane]);
-
-  // Clear single-page print override after print dialog closes
-  useEffect(() => {
-    const onAfterPrint = () => setSinglePrintOverride(null);
-    window.addEventListener('afterprint', onAfterPrint);
-    return () => window.removeEventListener('afterprint', onAfterPrint);
-  }, []);
 
   const flashNotice = useCallback((msg: string) => {
     setStatusNotice(msg);
@@ -354,18 +348,45 @@ export default function PensionPapersStudioPage() {
     window.open(payload.whatsappHref, '_blank', 'noopener,noreferrer');
   };
 
-  const handlePrintSelected = () => {
-    if (selectedPageCount === 0) {
-      flashNotice('Select at least one page to print.');
+  const handleDownloadSelectedPdf = async () => {
+    if (pdfLoading) return;
+    const indices = selectedPages
+      .map((checked, idx) => (checked ? idx : -1))
+      .filter((idx) => idx >= 0);
+    if (indices.length === 0) {
+      flashNotice('Select at least one page to download as PDF.');
       return;
     }
-    setSinglePrintOverride(null);
-    window.setTimeout(() => window.print(), 60);
+    setPdfLoading('all');
+    try {
+      const filename = await downloadOfficialFormPdf({
+        formType: 'pension-papers',
+        data,
+        selectedPages: indices,
+      });
+      flashNotice(`Official PDF downloaded (${indices.length} pages): ${filename}`);
+    } catch (err) {
+      flashNotice(err instanceof Error ? err.message : 'Server PDF generation failed.');
+    } finally {
+      setPdfLoading(null);
+    }
   };
 
-  const handlePrintSinglePage = (pageIdx: number) => {
-    setSinglePrintOverride(pageIdx);
-    window.setTimeout(() => window.print(), 80);
+  const handleDownloadSinglePagePdf = async (pageIdx: number) => {
+    if (pdfLoading) return;
+    setPdfLoading(`page-${pageIdx}`);
+    try {
+      const filename = await downloadOfficialFormPdf({
+        formType: 'pension-papers',
+        data,
+        selectedPages: [pageIdx],
+      });
+      flashNotice(`Page ${pageIdx + 1} PDF downloaded: ${filename}`);
+    } catch (err) {
+      flashNotice(err instanceof Error ? err.message : 'Server PDF generation failed.');
+    } finally {
+      setPdfLoading(null);
+    }
   };
 
   const jumpToField = (step: StepId, fieldKey: string) => {
@@ -488,17 +509,20 @@ export default function PensionPapersStudioPage() {
                 <span className="text-slate-900 font-medium">Pension Papers Studio</span>
               </div>
               <h1 className="text-sm sm:text-base font-serif font-semibold text-slate-950 tracking-tight truncate">
-                Government Pension Papers — Fill Once &amp; Print All 16 Official A4 Pages
+                Government Pension Papers — Fill Once &amp; Download All 16 Official A4 PDF Pages
               </h1>
             </div>
 
             <div className="flex flex-wrap items-center gap-1.5">
               <button
                 type="button"
-                onClick={handlePrintSelected}
-                className="px-3.5 py-1.5 rounded-md bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-semibold transition-colors"
+                disabled={Boolean(pdfLoading)}
+                onClick={handleDownloadSelectedPdf}
+                className="px-3.5 py-1.5 rounded-md bg-emerald-700 hover:bg-emerald-800 disabled:opacity-60 text-white text-xs font-semibold transition-colors"
               >
-                Print / Save PDF ({selectedPageCount}/16)
+                {pdfLoading === 'all'
+                  ? 'Generating Official PDF...'
+                  : `Download PDF (${selectedPageCount}/16)`}
               </button>
               <button
                 type="button"
@@ -1619,15 +1643,15 @@ export default function PensionPapersStudioPage() {
               </div>
             )}
 
-            {/* STEP 5: ZERO-MISTAKE VERIFICATION & SELECTIVE PRINT */}
+            {/* STEP 5: ZERO-MISTAKE VERIFICATION & DIRECT SERVER PDF DOWNLOAD */}
             {activeStep === 5 && (
               <div className="space-y-4">
                 <div className="border-b border-slate-100 pb-2">
                   <h2 className="text-xs font-semibold uppercase tracking-wider text-slate-900">
-                    Step 5 — Zero-Mistake Check &amp; Selective Printing
+                    Step 5 — Zero-Mistake Check &amp; Direct PDF Download
                   </h2>
                   <p className="text-[11px] text-slate-500 mt-0.5">
-                    Checks common DAO / AG Sindh objection triggers before you print.
+                    Checks common DAO / AG Sindh objection triggers before generating your official PDF.
                   </p>
                 </div>
 
@@ -1669,11 +1693,11 @@ export default function PensionPapersStudioPage() {
                   </div>
                 )}
 
-                {/* Selective Page Print Picker */}
+                {/* Selective Page PDF Picker */}
                 <div className="border border-slate-200 rounded-md p-3 space-y-2.5">
                   <div className="flex items-center justify-between gap-2">
                     <span className="text-xs font-semibold text-slate-900">
-                      Pages to Print ({selectedPageCount} / 16)
+                      Pages to Include in PDF ({selectedPageCount} / 16)
                     </span>
                     <div className="flex items-center gap-2 text-[11px]">
                       <button
@@ -1727,10 +1751,13 @@ export default function PensionPapersStudioPage() {
 
                   <button
                     type="button"
-                    onClick={handlePrintSelected}
-                    className="w-full py-2.5 rounded-md bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-semibold transition-colors"
+                    disabled={Boolean(pdfLoading)}
+                    onClick={handleDownloadSelectedPdf}
+                    className="w-full py-2.5 rounded-md bg-emerald-700 hover:bg-emerald-800 disabled:opacity-60 text-white text-xs font-semibold transition-colors"
                   >
-                    Print / Save PDF ({selectedPageCount} Selected Pages)
+                    {pdfLoading === 'all'
+                      ? 'Generating Official PDF on Server...'
+                      : `Download Official PDF (${selectedPageCount} Selected Pages)`}
                   </button>
                   <button
                     type="button"
@@ -1740,7 +1767,7 @@ export default function PensionPapersStudioPage() {
                     }}
                     className="w-full py-2 rounded-md border border-slate-300 bg-white hover:border-slate-900 text-slate-900 text-xs font-semibold transition-colors"
                   >
-                    Send Filled Draft on WhatsApp to Office / Printer PC →
+                    Send Filled Draft on WhatsApp to Office / Clerk →
                   </button>
                 </div>
               </div>
@@ -1768,23 +1795,24 @@ export default function PensionPapersStudioPage() {
               ) : (
                 <button
                   type="button"
-                  onClick={handlePrintSelected}
-                  className="px-3.5 py-1.5 rounded bg-emerald-700 text-white text-xs font-semibold hover:bg-emerald-800"
+                  disabled={Boolean(pdfLoading)}
+                  onClick={handleDownloadSelectedPdf}
+                  className="px-3.5 py-1.5 rounded bg-emerald-700 disabled:opacity-60 text-white text-xs font-semibold hover:bg-emerald-800"
                 >
-                  Print Now
+                  {pdfLoading === 'all' ? 'Generating...' : 'Download PDF'}
                 </button>
               )}
             </div>
 
             <p className="text-[10px] text-slate-500 leading-relaxed pt-1">
-              Privacy guarantee: Everything you type stays inside this browser only — zero personal
-              records are sent to any server. Signature, official stamp, and thumb-impression boxes
-              always remain clean and blank for manual signing.
+              Direct Server PDF: Your draft stays saved locally in this browser. Clicking Download
+              PDF renders a crisp official A4 PDF with the GovtJobs.pk document footer and discards
+              temporary request data immediately — nothing is stored on our database.
             </p>
           </div>
         </aside>
 
-        {/* RIGHT PANE: PIXEL-PERFECT A4 LIVE PREVIEW & PRINT SHEETS */}
+        {/* RIGHT PANE: PIXEL-PERFECT A4 LIVE PREVIEW SHEETS */}
         <section
           ref={previewContainerRef}
           className={`p-3 sm:p-5 overflow-x-auto pp-print-root ${
@@ -1795,7 +1823,7 @@ export default function PensionPapersStudioPage() {
           <div className="pp-no-print bg-white border border-slate-200 rounded-lg p-3 mb-4 space-y-2.5">
             <div className="flex flex-wrap items-center justify-between gap-2">
               <div className="text-xs font-semibold text-slate-900">
-                Live A4 Print Preview — 16 Official Double-Bordered Sheets (210 × 297 mm)
+                Live A4 Preview — 16 Official Double-Bordered Sheets (210 × 297 mm)
               </div>
               <div className="flex items-center gap-1.5 text-[11px]">
                 <span className="text-slate-500 mr-1">Zoom:</span>
@@ -1840,8 +1868,7 @@ export default function PensionPapersStudioPage() {
           <div style={{ ['--pp-font' as string]: fontCss }}>
             {pagesHtml.map((html, idx) => {
               const meta = PENSION_PAGES_META[idx];
-              const included =
-                singlePrintOverride !== null ? singlePrintOverride === idx : selectedPages[idx];
+              const included = selectedPages[idx];
               const scaledW = Math.round(A4_WIDTH_PX * effectiveScale);
               const scaledH = Math.round(A4_HEIGHT_PX * effectiveScale);
 
@@ -1873,10 +1900,13 @@ export default function PensionPapersStudioPage() {
                     </label>
                     <button
                       type="button"
-                      onClick={() => handlePrintSinglePage(idx)}
-                      className="shrink-0 px-2 py-0.5 rounded border border-slate-300 bg-white hover:border-slate-900 text-[10px] font-semibold text-slate-800"
+                      disabled={Boolean(pdfLoading)}
+                      onClick={() => handleDownloadSinglePagePdf(idx)}
+                      className="shrink-0 px-2 py-0.5 rounded border border-slate-300 bg-white hover:border-slate-900 disabled:opacity-50 text-[10px] font-semibold text-slate-800"
                     >
-                      Print Only Page {meta.pageNo}
+                      {pdfLoading === `page-${idx}`
+                        ? 'Generating...'
+                        : `Download Page ${meta.pageNo} PDF`}
                     </button>
                   </div>
 

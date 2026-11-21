@@ -22,6 +22,7 @@ import {
   splitBoxesLeft,
   validateFo2Data,
 } from '@/lib/fo2Engine';
+import { downloadOfficialFormPdf } from '@/lib/pdf/clientPdfDownload';
 
 const DRAFT_KEY = 'govtjobs_fo2_draft_v1';
 const CASES_KEY = 'govtjobs_fo2_saved_cases_v1';
@@ -44,6 +45,7 @@ export default function Fo2PayrollFormStudioPage() {
   const [copiedMode, setCopiedMode] = useState<Fo2ShareMode | null>(null);
   const [prefillBanner, setPrefillBanner] = useState<DecodedFo2Prefill | null>(null);
   const [notice, setNotice] = useState('');
+  const [pdfLoading, setPdfLoading] = useState(false);
 
   const [zoomMode, setZoomMode] = useState<'fit' | '75' | '100'>('fit');
   const [fitScale, setFitScale] = useState<number>(0.72);
@@ -140,6 +142,22 @@ export default function Fo2PayrollFormStudioPage() {
     setNotice(msg);
     window.setTimeout(() => setNotice((prev) => (prev === msg ? '' : prev)), 3500);
   }, []);
+
+  const handleDownloadPdf = async () => {
+    if (pdfLoading) return;
+    setPdfLoading(true);
+    try {
+      const filename = await downloadOfficialFormPdf({
+        formType: 'fo2',
+        data,
+      });
+      flash(`Official A4 Landscape PDF downloaded: ${filename}`);
+    } catch (err) {
+      flash(err instanceof Error ? err.message : 'Failed to generate FO-2 PDF on server.');
+    } finally {
+      setPdfLoading(false);
+    }
+  };
 
   const issues = useMemo(() => validateFo2Data(data), [data]);
   const errorCount = useMemo(() => issues.filter((i) => i.level === 'error').length, [issues]);
@@ -317,10 +335,11 @@ export default function Fo2PayrollFormStudioPage() {
             <div className="flex flex-wrap items-center gap-1.5">
               <button
                 type="button"
-                onClick={() => window.print()}
-                className="px-3.5 py-1.5 rounded-lg bg-sky-700 hover:bg-sky-800 text-white text-xs font-semibold transition-colors"
+                disabled={pdfLoading}
+                onClick={handleDownloadPdf}
+                className="px-3.5 py-1.5 rounded-lg bg-sky-700 hover:bg-sky-800 disabled:opacity-60 text-white text-xs font-semibold transition-colors"
               >
-                Print / Save A4 Landscape PDF
+                {pdfLoading ? 'Generating Official PDF...' : 'Download A4 Landscape PDF'}
               </button>
               <button
                 type="button"
@@ -672,7 +691,7 @@ export default function Fo2PayrollFormStudioPage() {
                 { id: 'rows', label: `2. Rows (${filledRowCount}/10)` },
                 {
                   id: 'verify',
-                  label: errorCount > 0 ? `3. Check (${errorCount})` : '3. Verify & Print',
+                  label: errorCount > 0 ? `3. Check (${errorCount})` : '3. Verify & PDF',
                 },
               ] as const
             ).map((t) => (
@@ -1171,15 +1190,16 @@ export default function Fo2PayrollFormStudioPage() {
 
                 <button
                   type="button"
-                  onClick={() => window.print()}
-                  className="w-full py-2.5 rounded-lg bg-sky-700 hover:bg-sky-800 text-white text-xs font-semibold transition-colors"
+                  disabled={pdfLoading}
+                  onClick={handleDownloadPdf}
+                  className="w-full py-2.5 rounded-lg bg-sky-700 hover:bg-sky-800 disabled:opacity-60 text-white text-xs font-semibold transition-colors"
                 >
-                  Print / Save Official A4 Landscape PDF
+                  {pdfLoading ? 'Generating Official A4 Landscape PDF...' : 'Download Official A4 Landscape PDF'}
                 </button>
                 <p className="text-[11px] text-slate-500 leading-relaxed">
-                  Print tip: In Chrome / Edge print dialog, Paper Size is automatically set to{' '}
-                  <b>A4 Landscape (297 × 210 mm)</b> with <b>Margins: None</b>. Everything stays
-                  100% private inside your browser.
+                  Generated directly on the server as a true <b>A4 Landscape (297 × 210 mm)</b>{' '}
+                  vector PDF with exact character boxes and official GovtJobs.pk document footer. No
+                  print dialog or paper setup needed.
                 </p>
               </div>
             )}

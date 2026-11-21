@@ -1,11 +1,12 @@
 'use client';
 
-import React, { Suspense } from 'react';
+import React, { Suspense, useState } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
 import Loader from '@/components/Loader';
 import { QuickShareButton, SectionShareBar } from '@/components/ShareButtons';
+import { downloadOfficialFormPdf } from '@/lib/pdf/clientPdfDownload';
 import {
   Bell,
   FileText,
@@ -26,6 +27,24 @@ function EmployeesCornerContent() {
 
   const tabParam = searchParams.get('tab');
   const activeTab = tabParam || 'notifications';
+  const [downloadingId, setDownloadingId] = useState<number | null>(null);
+  const [downloadErr, setDownloadErr] = useState('');
+
+  const handleDownloadOfficialPdf = async (
+    id: number,
+    formType: 'fo1' | 'fo2',
+    payload: Record<string, unknown>
+  ) => {
+    setDownloadErr('');
+    setDownloadingId(id);
+    try {
+      await downloadOfficialFormPdf({ formType, data: payload });
+    } catch (err) {
+      setDownloadErr(err instanceof Error ? err.message : 'Could not download PDF from server.');
+    } finally {
+      setDownloadingId(null);
+    }
+  };
 
   const subPages = [
     { id: 'notifications', labelEn: 'Notifications', labelUr: 'نوٹیفیکیشنز', icon: Bell },
@@ -190,6 +209,12 @@ function EmployeesCornerContent() {
               <p className="text-xs text-govt-muted">Gazetted Officers Seniority Registers & Duty Rosters</p>
             </div>
 
+            {downloadErr && (
+              <div className="p-3 rounded-lg bg-rose-50 border border-rose-200 text-xs text-rose-800 font-medium">
+                {downloadErr}
+              </div>
+            )}
+
             <div className="divide-y divide-gray-100">
               {sampleFO1.map((item) => (
                 <div key={item.id} className="py-4 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:bg-slate-50 p-3 rounded-lg transition">
@@ -200,9 +225,21 @@ function EmployeesCornerContent() {
                     </h3>
                     <p className="text-[11px] text-slate-500">Date: {item.date}</p>
                   </div>
-                  <button className="bg-govt-emerald text-white text-xs font-bold px-4 py-2 rounded-lg flex items-center gap-1.5 shadow hover:bg-govt-emerald-dark transition shrink-0">
+                  <button
+                    type="button"
+                    disabled={downloadingId === item.id}
+                    onClick={() =>
+                      handleDownloadOfficialPdf(item.id, 'fo1', {
+                        title: item.titleEn,
+                        refNo: item.ref,
+                        date: item.date,
+                        remarks: 'Official FO-1 (PAY01) blank field office entry sheet generated on GovtJobs.pk',
+                      })
+                    }
+                    className="bg-govt-emerald text-white text-xs font-bold px-4 py-2 rounded-lg flex items-center gap-1.5 shadow hover:bg-govt-emerald-dark disabled:opacity-60 transition shrink-0"
+                  >
                     <Download className="w-3.5 h-3.5" />
-                    <span>Download FO1</span>
+                    <span>{downloadingId === item.id ? 'Generating PDF...' : 'Download FO1 PDF'}</span>
                   </button>
                 </div>
               ))}
@@ -213,12 +250,26 @@ function EmployeesCornerContent() {
         {/* FO2 TAB */}
         {activeTab === 'fo2' && (
           <div className="space-y-6">
-            <div className="border-b pb-3">
-              <h2 className={`text-xl font-extrabold text-govt-charcoal ${isUr ? 'font-urdu' : ''}`}>
-                FO2
-              </h2>
-              <p className="text-xs text-govt-muted">Efficiency & Discipline (E&D) Regulations and TA/DA Allowance Rules</p>
+            <div className="border-b pb-3 flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <h2 className={`text-xl font-extrabold text-govt-charcoal ${isUr ? 'font-urdu' : ''}`}>
+                  FO2 (FORM: PAY02)
+                </h2>
+                <p className="text-xs text-govt-muted">Official Payroll System Amendment Form &amp; Regulations</p>
+              </div>
+              <Link
+                href="/forms/fo2"
+                className="bg-sky-700 hover:bg-sky-800 text-white text-xs font-bold px-3.5 py-2 rounded-lg transition"
+              >
+                Fill &amp; Download FO-2 (A4 Landscape) →
+              </Link>
             </div>
+
+            {downloadErr && (
+              <div className="p-3 rounded-lg bg-rose-50 border border-rose-200 text-xs text-rose-800 font-medium">
+                {downloadErr}
+              </div>
+            )}
 
             <div className="divide-y divide-gray-100">
               {sampleFO2.map((item) => (
@@ -230,9 +281,18 @@ function EmployeesCornerContent() {
                     </h3>
                     <p className="text-[11px] text-slate-500">Date: {item.date}</p>
                   </div>
-                  <button className="bg-govt-emerald text-white text-xs font-bold px-4 py-2 rounded-lg flex items-center gap-1.5 shadow hover:bg-govt-emerald-dark transition shrink-0">
+                  <button
+                    type="button"
+                    disabled={downloadingId === item.id}
+                    onClick={() =>
+                      handleDownloadOfficialPdf(item.id, 'fo2', {
+                        officeOf: item.titleEn.toUpperCase(),
+                      })
+                    }
+                    className="bg-govt-emerald text-white text-xs font-bold px-4 py-2 rounded-lg flex items-center gap-1.5 shadow hover:bg-govt-emerald-dark disabled:opacity-60 transition shrink-0"
+                  >
                     <Download className="w-3.5 h-3.5" />
-                    <span>Download FO2</span>
+                    <span>{downloadingId === item.id ? 'Generating PDF...' : 'Download FO2 PDF'}</span>
                   </button>
                 </div>
               ))}

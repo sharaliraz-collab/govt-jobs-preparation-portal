@@ -30,6 +30,11 @@ export const SUBJECT_NAV_GROUPS: SubjectNavGroup[] = [
         highlight: true,
       },
       {
+        name: 'FO-2 Payroll Form (PAY02)',
+        href: '/forms/fo2',
+        count: 'A4',
+      },
+      {
         name: '100-MCQ Screening Pattern',
         href: '/quizzes/screening-test',
         count: '20 Free',
@@ -226,8 +231,8 @@ export default function SubjectSidebar() {
       </div>
 
       {/* Desktop Fixed-Height Scrollable Sticky Sidebar (Never Overlaps Navbar or Clips) */}
-      <aside className="hidden lg:block w-60 xl:w-64 shrink-0">
-        <div className="sticky top-[156px] max-h-[calc(100vh-172px)] overflow-y-auto bg-white border border-sky-200/90 rounded-xl p-3.5 shadow-2xs">
+      <aside className="hidden lg:block lg:sticky lg:top-[152px] lg:self-start w-60 xl:w-64 shrink-0">
+        <div className="max-h-[calc(100vh-168px)] overflow-y-auto bg-white border border-sky-200/90 rounded-xl p-3.5 shadow-2xs">
           {/* Always-Visible Mini User Progress Card */}
           <div className="mb-3 pb-3 border-b border-sky-100">
             <div className="flex items-center justify-between gap-2 mb-1.5">

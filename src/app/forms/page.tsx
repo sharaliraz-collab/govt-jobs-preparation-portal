@@ -94,6 +94,34 @@ export default function FormsPage() {
         </div>
       </div>
 
+      {/* Featured: FO-2 (FORM: PAY02) Payroll Amendment — A4 Landscape */}
+      <div className="rounded-xl border border-sky-200 bg-sky-50/70 text-slate-900 p-6 flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div className="space-y-1.5 max-w-2xl">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-sky-700">
+            PIFRA / SAP Payroll Tool · FORM: PAY02 (A4 Landscape)
+          </p>
+          <h2 className="text-xl sm:text-2xl font-serif font-semibold tracking-tight text-slate-950">
+            FO-2 (PAY02) Payroll System Amendment Form — Single Employee Entry
+          </h2>
+          <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+            Fill DDO Cost Center (6 boxes), Personnel Number (8 boxes), Grade (2 boxes), Salary
+            Start/Stop, 1-click PIFRA Wage Types &amp; 6-box right-aligned Rupees, and print
+            pixel-perfect A4 Landscape with official emblem.
+          </p>
+        </div>
+        <div className="flex flex-col gap-2 shrink-0">
+          <Link
+            href="/forms/fo2"
+            className="px-5 py-2.5 rounded-lg bg-sky-700 hover:bg-sky-800 text-white text-xs sm:text-sm font-semibold text-center whitespace-nowrap transition-colors"
+          >
+            Open FO-2 (PAY02) Studio →
+          </Link>
+          <span className="text-[10px] text-sky-800 text-center">
+            Exact 297 × 210 mm A4 Landscape · Free
+          </span>
+        </div>
+      </div>
+
       {/* Featured: Sindh Solar Energy Program */}
       <div className="relative overflow-hidden rounded-2xl border border-emerald-700 shadow-elevated"
         style={{ background: 'linear-gradient(135deg, #046a38 0%, #024d29 60%, #012b17 100%)' }}>

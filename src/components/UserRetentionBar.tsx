@@ -50,6 +50,7 @@ export default function UserRetentionBar() {
   const [weakSubject, setWeakSubject] = useState<WeakSubject | null>(null);
   const [unfinishedApt, setUnfinishedApt] = useState<UnfinishedAptitude | null>(null);
   const [pensionDraftName, setPensionDraftName] = useState<string>('');
+  const [fo2DraftLabel, setFo2DraftLabel] = useState<string>('');
   const [savedJobsCount, setSavedJobsCount] = useState<number>(0);
 
   // Refresh local browser progress on route changes so data stays live everywhere
@@ -73,6 +74,19 @@ export default function UserRetentionBar() {
       }
     } catch {
       setPensionDraftName('');
+    }
+
+    try {
+      const rawFo2 = window.localStorage.getItem('govtjobs_fo2_draft_v1');
+      if (rawFo2) {
+        const parsed = JSON.parse(rawFo2);
+        const label = (parsed?.employeeName || parsed?.ddoCode || '').trim();
+        setFo2DraftLabel(label);
+      } else {
+        setFo2DraftLabel('');
+      }
+    } catch {
+      setFo2DraftLabel('');
     }
   }, [pathname]);
 
@@ -120,8 +134,12 @@ export default function UserRetentionBar() {
     };
   }, [user, token, pathname]);
 
-  // Hide on admin & inside Pension Papers studio (studio has its own full live calc bar)
-  if (pathname.startsWith('/admin') || pathname.startsWith('/forms/pension-papers')) {
+  // Hide on admin & inside full-screen Fill & Print Form Studios (studios have their own live bars)
+  if (
+    pathname.startsWith('/admin') ||
+    pathname.startsWith('/forms/pension-papers') ||
+    pathname.startsWith('/forms/fo2')
+  ) {
     return null;
   }
 
@@ -212,6 +230,14 @@ export default function UserRetentionBar() {
               className="px-2.5 py-0.5 rounded-md bg-amber-50 border border-amber-300 text-amber-950 font-semibold hover:bg-amber-100 transition-colors shrink-0"
             >
               Resume Pension Draft: {pensionDraftName.slice(0, 18)} →
+            </Link>
+          )}
+          {fo2DraftLabel && (
+            <Link
+              href="/forms/fo2"
+              className="px-2.5 py-0.5 rounded-md bg-sky-100 border border-sky-300 text-sky-950 font-semibold hover:bg-sky-200/80 transition-colors shrink-0"
+            >
+              Resume FO-2: {fo2DraftLabel.slice(0, 18)} →
             </Link>
           )}
 

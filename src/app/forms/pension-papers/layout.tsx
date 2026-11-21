@@ -1,12 +1,13 @@
 import type { Metadata } from 'next';
+import { buildPageMetadata, SITE_URL } from '@/lib/seo';
 
-const BASE = 'https://govt-jobs-preparation-portal.vercel.app';
-const OG = `${BASE}/og-image.png`;
-
-export const metadata: Metadata = {
-  title: 'Government Pension Papers — Online Fill, Auto-Calculate & Print A4 (Form 3 Pen. & LPC) | GovtJobs.pk',
+export const metadata: Metadata = buildPageMetadata({
+  title:
+    'Government Pension Papers — Online Fill, Auto-Calculate & Print 16 Official A4 Pages (Form 3 Pen. & LPC)',
   description:
-    'Fill once and print all 16 official pixel-perfect A4 Government Pension Papers (Form 3 Pen. Part I & II, Qualifying Service, Commutation Calculator 28–60, 8 DDO/HOD Certificates, Sindh Consolidated Certificate, Descriptive Roll & A.T.C.5 Last-Pay Certificate). Zero calculation mistakes, 100% private in browser.',
+    'Fill employee details once and print all 16 pixel-perfect double-bordered A4 Government Pension Papers (Form 3 Pen. Part I & II, Auto Qualifying Service & Commutation in Figures & Words, 8 D.D.O/H.O.D Certificates, Sindh Consolidated Certificate, Descriptive Roll & A.T.C.5 Last-Pay Certificate). Share pre-filled links on WhatsApp to collect details error-free. 100% free & private.',
+  path: '/forms/pension-papers',
+  image: '/og-pension-papers.png',
   keywords: [
     'Pakistan pension papers online fill and print',
     'Sindh government pension papers form 3 pen',
@@ -15,21 +16,42 @@ export const metadata: Metadata = {
     'DDO no enquiry no dues certificate pension',
     'West Pakistan Civil Services Pension Rules 1963',
     'AG Sindh DAO pension case preparation',
+    'share pension form link on WhatsApp',
   ],
-  openGraph: {
-    type: 'website',
-    url: `${BASE}/forms/pension-papers`,
-    siteName: 'GovtJobs.pk',
-    title: 'Government Pension Papers — Fill Once & Print All 16 Official A4 Pages',
-    description:
-      'Free, private, error-checked pension papers generator for Pakistan & Sindh government employees and DDO offices. Auto-calculates qualifying service, gross/net pension, commutation lump sum in figures & words, and prints exact double-bordered A4 sheets.',
-    images: [{ url: OG, width: 1200, height: 630, alt: 'Government Pension Papers Fill & Print Studio' }],
-    locale: 'en_PK',
+});
+
+const jsonLdApp = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'GovtJobs.pk Government Pension Papers — Fill & Print Studio',
+  url: `${SITE_URL}/forms/pension-papers`,
+  applicationCategory: 'GovernmentService',
+  operatingSystem: 'Any',
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'PKR',
   },
-  robots: { index: true, follow: true },
-  alternates: { canonical: `${BASE}/forms/pension-papers` },
+  description:
+    'Free browser-based tool for Pakistan and Sindh government employees and D.D.O offices to fill, auto-calculate, verify, share via WhatsApp, and print all 16 official A4 Pension Papers (Form 3 Pen. & A.T.C.5 LPC).',
+  featureList: [
+    '16 Official Double-Bordered A4 Pension Sheets',
+    'Automatic Qualifying Service (Years, Months, Days) & 60-Year Superannuation Date',
+    '2001 Revised Commutation Table (Ages 28–60) & Automatic Rupees in Words',
+    'Pre-Print DAO / AG Sindh Mistake Verification Checklist',
+    'Private WhatsApp Prefill Link Sharing to Collect or Return Employee Details',
+    'Selective Single-Page and Full-Set A4 Printing',
+  ],
 };
 
 export default function PensionPapersLayout({ children }: { children: React.ReactNode }) {
-  return <>{children}</>;
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdApp) }}
+      />
+      {children}
+    </>
+  );
 }

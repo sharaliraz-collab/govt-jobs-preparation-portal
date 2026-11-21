@@ -19,6 +19,12 @@ import {
   validatePensionData,
 } from '@/lib/pensionEngine';
 import { buildPensionPagesHtml } from '@/lib/pensionPagesHtml';
+import {
+  DecodedPrefill,
+  SharePrefillMode,
+  buildPensionSharePayload,
+  decodePrefillHash,
+} from '@/lib/pensionShare';
 
 const STORAGE_KEY = 'govtjobs_pension_draft_v2';
 const LEGACY_STORAGE_KEY = 'pen';
@@ -82,9 +88,14 @@ export default function PensionPapersStudioPage() {
   const [showPayRows, setShowPayRows] = useState(false);
   const [showSpecialPension, setShowSpecialPension] = useState(false);
 
-  // Saved employee cases drawer
+  // Saved employee cases & WhatsApp Share drawers
   const [savedCases, setSavedCases] = useState<SavedPensionCase[]>([]);
   const [showCasesModal, setShowCasesModal] = useState(false);
+  const [showSharePanel, setShowSharePanel] = useState(false);
+  const [sharePhone, setSharePhone] = useState('');
+  const [shareNote, setShareNote] = useState('');
+  const [copiedMode, setCopiedMode] = useState<SharePrefillMode | null>(null);
+  const [prefillBanner, setPrefillBanner] = useState<DecodedPrefill | null>(null);
   const [statusNotice, setStatusNotice] = useState('');
 
   // Print selection & preview zoom
@@ -99,18 +110,41 @@ export default function PensionPapersStudioPage() {
   const pageRefs = useRef<Array<HTMLDivElement | null>>([]);
   const importInputRef = useRef<HTMLInputElement | null>(null);
 
-  // Load persisted draft & saved cases from browser localStorage
+  // Load persisted draft, saved cases, and any WhatsApp #prefill=... shared payload
   useEffect(() => {
     try {
+      let baseData: PensionFormData = { ...DEFAULT_PENSION_DATA };
       const savedDraft =
         window.localStorage.getItem(STORAGE_KEY) ||
         window.localStorage.getItem(LEGACY_STORAGE_KEY);
       if (savedDraft) {
         const parsed = JSON.parse(savedDraft);
         if (parsed && typeof parsed === 'object') {
-          setData({ ...DEFAULT_PENSION_DATA, ...parsed });
+          baseData = { ...baseData, ...parsed };
         }
       }
+
+      const incoming = decodePrefillHash(window.location.hash);
+      if (incoming) {
+        if (incoming.mode === 'office') {
+          // Keep existing personal details if any, or start clean personal fields with shared office details
+          baseData = { ...DEFAULT_PENSION_DATA, ...incoming.data };
+          setActiveStep(1);
+        } else {
+          baseData = { ...DEFAULT_PENSION_DATA, ...incoming.data };
+          setActiveStep(5);
+        }
+        setPrefillBanner(incoming);
+        // Scrub hash cleanly from address bar so page refresh preserves subsequent edits
+        try {
+          window.history.replaceState(null, '', window.location.pathname + window.location.search);
+        } catch {
+          /* ignore */
+        }
+      }
+
+      setData(baseData);
+
       const rawCases = window.localStorage.getItem(CASES_STORAGE_KEY);
       if (rawCases) {
         const parsedCases = JSON.parse(rawCases);
@@ -291,6 +325,35 @@ export default function PensionPapersStudioPage() {
     e.target.value = '';
   };
 
+  const handleCopyShareLink = async (mode: SharePrefillMode) => {
+    const payload = buildPensionSharePayload(mode, data, {
+      phone: sharePhone,
+      senderNote: shareNote,
+    });
+    try {
+      await navigator.clipboard.writeText(payload.shareUrl);
+      setCopiedMode(mode);
+      window.setTimeout(() => setCopiedMode((prev) => (prev === mode ? null : prev)), 2200);
+      flashNotice(
+        mode === 'tool'
+          ? 'Tool link copied — paste in WhatsApp for rich preview card.'
+          : mode === 'office'
+          ? 'Office pre-fill link copied — send to employee so they can add personal details.'
+          : 'Full draft link copied — send to clerk / printer PC to print all 16 pages.'
+      );
+    } catch {
+      flashNotice('Could not copy automatically — use the Share on WhatsApp button instead.');
+    }
+  };
+
+  const handleOpenWhatsApp = (mode: SharePrefillMode) => {
+    const payload = buildPensionSharePayload(mode, data, {
+      phone: sharePhone,
+      senderNote: shareNote,
+    });
+    window.open(payload.whatsappHref, '_blank', 'noopener,noreferrer');
+  };
+
   const handlePrintSelected = () => {
     if (selectedPageCount === 0) {
       flashNotice('Select at least one page to print.');
@@ -439,6 +502,20 @@ export default function PensionPapersStudioPage() {
               </button>
               <button
                 type="button"
+                onClick={() => {
+                  setShowSharePanel((v) => !v);
+                  setShowCasesModal(false);
+                }}
+                className={`px-3 py-1.5 rounded-md border text-xs font-semibold transition-colors ${
+                  showSharePanel
+                    ? 'bg-slate-900 text-white border-slate-900'
+                    : 'bg-emerald-50 text-emerald-900 border-emerald-300 hover:border-emerald-600'
+                }`}
+              >
+                Share on WhatsApp
+              </button>
+              <button
+                type="button"
                 onClick={handleSaveCase}
                 className="px-2.5 py-1.5 rounded-md border border-slate-300 bg-white hover:border-slate-500 text-slate-800 text-xs font-medium transition-colors"
               >
@@ -446,7 +523,10 @@ export default function PensionPapersStudioPage() {
               </button>
               <button
                 type="button"
-                onClick={() => setShowCasesModal((v) => !v)}
+                onClick={() => {
+                  setShowCasesModal((v) => !v);
+                  setShowSharePanel(false);
+                }}
                 className="px-2.5 py-1.5 rounded-md border border-slate-300 bg-white hover:border-slate-500 text-slate-800 text-xs font-medium transition-colors"
               >
                 Saved ({savedCases.length})
@@ -563,6 +643,199 @@ export default function PensionPapersStudioPage() {
               >
                 Dismiss
               </button>
+            </div>
+          )}
+
+          {prefillBanner && (
+            <div className="mt-2 px-3.5 py-2.5 rounded-md border border-emerald-300 bg-emerald-50 text-xs text-emerald-950 flex flex-wrap items-center justify-between gap-2">
+              <div className="space-y-0.5">
+                <p className="font-semibold">
+                  {prefillBanner.mode === 'office'
+                    ? 'Office & D.D.O details pre-filled from WhatsApp link — please enter your Personal, Bank & Service details.'
+                    : `Loaded shared pension draft${data.name ? ` for ${data.name}` : ''} — review Step 5 and click Print / Save PDF.`}
+                </p>
+                {prefillBanner.senderNote && (
+                  <p className="text-[11px] text-emerald-800">
+                    Sender note: {prefillBanner.senderNote}
+                  </p>
+                )}
+              </div>
+              <div className="flex items-center gap-2 shrink-0">
+                {prefillBanner.mode === 'office' ? (
+                  <button
+                    type="button"
+                    onClick={() => setShowSharePanel(true)}
+                    className="px-2.5 py-1 rounded bg-emerald-700 text-white text-[11px] font-semibold hover:bg-emerald-800"
+                  >
+                    Send Back on WhatsApp When Done
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={handleSaveCase}
+                    className="px-2.5 py-1 rounded bg-slate-900 text-white text-[11px] font-semibold hover:bg-slate-800"
+                  >
+                    Save to This PC&apos;s Cases
+                  </button>
+                )}
+                <button
+                  type="button"
+                  onClick={() => setPrefillBanner(null)}
+                  className="text-[11px] text-emerald-800 hover:text-emerald-950 underline"
+                >
+                  Dismiss
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* WhatsApp Collaborative Link Sharing Panel */}
+          {showSharePanel && (
+            <div className="mt-2.5 p-4 rounded-md border border-slate-300 bg-slate-50 space-y-3.5">
+              <div className="flex flex-wrap items-start justify-between gap-2">
+                <div>
+                  <h2 className="text-xs font-semibold text-slate-950 uppercase tracking-wider">
+                    Share on WhatsApp — Send Link to Add Details or Print
+                  </h2>
+                  <p className="text-[11px] text-slate-600 mt-0.5">
+                    Pre-filled details travel privately inside the URL hash (#prefill) and are never
+                    uploaded to any server.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setShowSharePanel(false)}
+                  className="px-2.5 py-1 rounded border border-slate-200 bg-white text-[11px] text-slate-600 hover:text-slate-900"
+                >
+                  Close
+                </button>
+              </div>
+
+              <div className="grid sm:grid-cols-2 gap-2.5">
+                <div>
+                  <label className="block text-[11px] font-medium text-slate-700 mb-1">
+                    Recipient WhatsApp Number (optional — e.g., 0300-1234567)
+                  </label>
+                  <input
+                    type="text"
+                    value={sharePhone}
+                    onChange={(e) => setSharePhone(e.target.value)}
+                    placeholder="Leave blank to choose contact or group in WhatsApp"
+                    className="w-full px-2.5 py-1.5 rounded border border-slate-300 bg-white text-xs text-slate-900 focus:outline-none focus:border-slate-900"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[11px] font-medium text-slate-700 mb-1">
+                    Short Note for Recipient (optional)
+                  </label>
+                  <input
+                    type="text"
+                    maxLength={140}
+                    value={shareNote}
+                    onChange={(e) => setShareNote(e.target.value)}
+                    placeholder="e.g., Please fill CNIC, DOB & Bank IBAN and send back by Friday"
+                    className="w-full px-2.5 py-1.5 rounded border border-slate-300 bg-white text-xs text-slate-900 focus:outline-none focus:border-slate-900"
+                  />
+                </div>
+              </div>
+
+              <div className="grid md:grid-cols-3 gap-2.5">
+                {/* Card 1: Clerk -> Employee */}
+                <div className="bg-white border border-slate-200 rounded-md p-3 flex flex-col justify-between gap-2.5">
+                  <div>
+                    <p className="text-[10px] font-semibold uppercase tracking-wider text-emerald-700">
+                      For D.D.O / Office Clerk → Employee
+                    </p>
+                    <h3 className="text-xs font-semibold text-slate-950 mt-0.5">
+                      Send Link to Employee to Add Details
+                    </h3>
+                    <p className="text-[11px] text-slate-600 mt-1 leading-relaxed">
+                      Pre-fills your Office, Department, D.D.O &amp; DAO station so the retiring
+                      employee only enters their own Name, CNIC, DOB &amp; Bank Account on phone.
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-1.5 pt-1">
+                    <button
+                      type="button"
+                      onClick={() => handleOpenWhatsApp('office')}
+                      className="flex-1 py-1.5 px-2.5 rounded bg-emerald-700 hover:bg-emerald-800 text-white text-[11px] font-semibold transition-colors"
+                    >
+                      WhatsApp Employee
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleCopyShareLink('office')}
+                      className="py-1.5 px-2.5 rounded border border-slate-300 bg-white hover:border-slate-600 text-[11px] font-medium text-slate-800"
+                    >
+                      {copiedMode === 'office' ? 'Copied' : 'Copy Link'}
+                    </button>
+                  </div>
+                </div>
+
+                {/* Card 2: Employee -> Clerk / Printer PC */}
+                <div className="bg-white border border-slate-200 rounded-md p-3 flex flex-col justify-between gap-2.5">
+                  <div>
+                    <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+                      For Employee → Clerk / Printer PC
+                    </p>
+                    <h3 className="text-xs font-semibold text-slate-950 mt-0.5">
+                      Send Filled Details Back to Print
+                    </h3>
+                    <p className="text-[11px] text-slate-600 mt-1 leading-relaxed">
+                      Packages all entered Personal, Service, Pay &amp; Bank details into one
+                      private link. Open on the office computer to verify &amp; print all 16 pages.
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-1.5 pt-1">
+                    <button
+                      type="button"
+                      onClick={() => handleOpenWhatsApp('full')}
+                      className="flex-1 py-1.5 px-2.5 rounded bg-slate-900 hover:bg-slate-800 text-white text-[11px] font-semibold transition-colors"
+                    >
+                      WhatsApp Full Draft
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleCopyShareLink('full')}
+                      className="py-1.5 px-2.5 rounded border border-slate-300 bg-white hover:border-slate-600 text-[11px] font-medium text-slate-800"
+                    >
+                      {copiedMode === 'full' ? 'Copied' : 'Copy Link'}
+                    </button>
+                  </div>
+                </div>
+
+                {/* Card 3: Clean Tool Share (Rich Preview Card) */}
+                <div className="bg-white border border-slate-200 rounded-md p-3 flex flex-col justify-between gap-2.5">
+                  <div>
+                    <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+                      For Staff Groups &amp; Colleagues
+                    </p>
+                    <h3 className="text-xs font-semibold text-slate-950 mt-0.5">
+                      Share Blank Tool Link (Rich Card)
+                    </h3>
+                    <p className="text-[11px] text-slate-600 mt-1 leading-relaxed">
+                      Shares the clean GovtJobs.pk Pension Papers Studio URL with full WhatsApp
+                      preview image so any employee can prepare their own papers free.
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-1.5 pt-1">
+                    <button
+                      type="button"
+                      onClick={() => handleOpenWhatsApp('tool')}
+                      className="flex-1 py-1.5 px-2.5 rounded border border-emerald-700 bg-emerald-50 hover:bg-emerald-100 text-emerald-950 text-[11px] font-semibold transition-colors"
+                    >
+                      Share in Group
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleCopyShareLink('tool')}
+                      className="py-1.5 px-2.5 rounded border border-slate-300 bg-white hover:border-slate-600 text-[11px] font-medium text-slate-800"
+                    >
+                      {copiedMode === 'tool' ? 'Copied' : 'Copy Link'}
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
           )}
 
@@ -1458,6 +1731,16 @@ export default function PensionPapersStudioPage() {
                     className="w-full py-2.5 rounded-md bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-semibold transition-colors"
                   >
                     Print / Save PDF ({selectedPageCount} Selected Pages)
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setShowSharePanel(true);
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }}
+                    className="w-full py-2 rounded-md border border-slate-300 bg-white hover:border-slate-900 text-slate-900 text-xs font-semibold transition-colors"
+                  >
+                    Send Filled Draft on WhatsApp to Office / Printer PC →
                   </button>
                 </div>
               </div>

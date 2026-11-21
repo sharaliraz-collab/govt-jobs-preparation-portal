@@ -41,14 +41,16 @@ export function buildPensionPagesHtml(
     a ? `<td>${a[0]}</td><td>${a[1]}</td><td>${a[2]}</td>` : '<td></td><td></td><td></td>';
 
   const sg = (label: string) => {
-    const showDdo =
-      /D\.D\.O|HEAD OF (THE )?DEPARTMENT|Head of (the )?Dep/i.test(label) && g('ddo');
-    const ddoBlock = showDdo
-      ? `<br><span class="pp-ddo">${esc(g('ddo'))}</span>${
-          g('ddod') ? `<br><span class="pp-ddo">${esc(g('ddod'))}</span>` : ''
-        }`
-      : '';
-    return `<div class="pp-sg"><i></i>${label}${ddoBlock}</div><div class="pp-cl"></div>`;
+    const isDdoOrHod = /D\.D\.O|HEAD OF (THE )?DEP(T|ARTMENT)/i.test(label);
+    const ddoName = g('ddo').trim();
+    const ddoDesig = g('ddod').trim();
+    if (isDdoOrHod && ddoName) {
+      const content = `<span class="pp-ddo">${esc(ddoName)}</span>${
+        ddoDesig ? `<br><span class="pp-ddo">${esc(ddoDesig)}</span>` : ''
+      }`;
+      return `<div class="pp-sg"><i></i>${content}</div><div class="pp-cl"></div>`;
+    }
+    return `<div class="pp-sg"><i></i>${label}</div><div class="pp-cl"></div>`;
   };
 
   const ln = (a: string, b: string) =>

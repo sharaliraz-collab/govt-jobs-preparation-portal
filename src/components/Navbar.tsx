@@ -168,6 +168,11 @@ const jobsResourcesSubPages = [
     desc: 'Downloadable FPSC, PPSC, SPSC & NTS study materials',
   },
   {
+    label: 'Pension Papers (Fill & Print A4)',
+    href: '/forms/pension-papers',
+    desc: 'All 16 official Form 3 (Pen.), certificates, commutation & LPC',
+  },
+  {
     label: 'Application & Challan Forms',
     href: '/forms',
     desc: 'Official fee challans, verification & recruitment forms',
@@ -185,6 +190,7 @@ const jobsResourcesSubPages = [
 ];
 
 const empSubPages = [
+  { label: 'Pension Papers — Fill & Print', path: '/forms/pension-papers', desc: '16 pixel-perfect A4 sheets & auto commutation' },
   { label: 'Official Notifications', path: '/employees-corner?tab=notifications', desc: 'Circulars & service updates' },
   { label: 'FO1 Service Portal', path: '/employees-corner?tab=fo1', desc: 'Field office records I' },
   { label: 'FO2 Service Portal', path: '/employees-corner?tab=fo2', desc: 'Field office records II' },

@@ -64,6 +64,36 @@ export default function FormsPage() {
         badge="Official Forms Portal"
       />
 
+      {/* Featured: Government Pension Papers — Fill & Print A4 Studio */}
+      <div className="rounded-xl border border-slate-900 bg-slate-950 text-white p-6 flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div className="space-y-1.5 max-w-2xl">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-emerald-300">
+            Official Civil Services Tool · Form 3 (Pen.) &amp; A.T.C.5 LPC
+          </p>
+          <h2 className="text-xl sm:text-2xl font-serif font-semibold tracking-tight text-white">
+            Government Pension Papers — Fill Once &amp; Print All 16 A4 Pages
+          </h2>
+          <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+            Stop filling pension papers by hand. Enter employee particulars once to auto-calculate
+            qualifying service, gross/net pension, commutation lump sum (in figures &amp; words),
+            all 8 DDO/HOD certificates, Sindh Consolidated Certificate, Descriptive Roll, and
+            A.T.C.5 Last-Pay Certificate — verified against DAO/AG mistakes and ready for exact A4
+            printing.
+          </p>
+        </div>
+        <div className="flex flex-col gap-2 shrink-0">
+          <Link
+            href="/forms/pension-papers"
+            className="px-5 py-2.5 rounded-md bg-emerald-600 hover:bg-emerald-500 text-white text-xs sm:text-sm font-semibold text-center whitespace-nowrap transition-colors"
+          >
+            Open Pension Papers Studio →
+          </Link>
+          <span className="text-[10px] text-slate-400 text-center">
+            100% Free · Stays Private in Your Browser
+          </span>
+        </div>
+      </div>
+
       {/* Featured: Sindh Solar Energy Program */}
       <div className="relative overflow-hidden rounded-2xl border border-emerald-700 shadow-elevated"
         style={{ background: 'linear-gradient(135deg, #046a38 0%, #024d29 60%, #012b17 100%)' }}>

@@ -86,9 +86,17 @@ function EmployeesCornerContent() {
           </p>
         </div>
 
-        <div className="bg-white px-4 py-2.5 rounded-xl border border-slate-200 text-slate-700 font-semibold text-xs flex items-center gap-2 shadow-xs">
-          <Building className="w-4 h-4 text-emerald-600" strokeWidth={2.25} />
-          <span>Establishment Division Service Desk</span>
+        <div className="flex flex-wrap items-center gap-2 shrink-0">
+          <Link
+            href="/forms/pension-papers"
+            className="bg-slate-900 hover:bg-slate-800 text-white px-4 py-2.5 rounded-lg font-semibold text-xs transition-colors"
+          >
+            Pension Papers — Fill &amp; Print (16 A4 Pages) →
+          </Link>
+          <div className="bg-white px-4 py-2.5 rounded-xl border border-slate-200 text-slate-700 font-semibold text-xs flex items-center gap-2 shadow-xs">
+            <Building className="w-4 h-4 text-emerald-600" strokeWidth={2.25} />
+            <span>Establishment Division Service Desk</span>
+          </div>
         </div>
       </div>
 

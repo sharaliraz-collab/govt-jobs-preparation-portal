@@ -1,0 +1,393 @@
+/* Official A4 Pension Papers Sheet & Print Isolation Styles */
+
+.pp-sheet {
+  position: relative;
+  width: 210mm;
+  height: 297mm;
+  padding: 13mm 15mm;
+  background: #ffffff;
+  color: #000000;
+  font-family: var(--pp-font, "Bookman Old Style", Bookman, "URW Bookman", Georgia, "Times New Roman", serif);
+  font-size: 11.5pt;
+  line-height: 1.38;
+  overflow: hidden;
+  box-shadow: 0 2px 14px rgba(15, 23, 42, 0.14);
+  box-sizing: border-box;
+  text-align: left;
+}
+
+/* Official Double Border Frame */
+.pp-sheet::before {
+  content: "";
+  position: absolute;
+  inset: 6mm;
+  border: 2.5px solid #000000;
+  pointer-events: none;
+}
+
+.pp-sheet::after {
+  content: "";
+  position: absolute;
+  inset: 7.8mm;
+  border: 0.8px solid #000000;
+  pointer-events: none;
+}
+
+.pp-sheet * {
+  box-sizing: border-box;
+  color: #000000;
+}
+
+.pp-sheet h3 {
+  margin: 5px 0 4px;
+  text-align: center;
+  font-size: 13.5pt;
+  font-weight: 700;
+  text-decoration: underline;
+  text-transform: uppercase;
+  line-height: 1.25;
+}
+
+.pp-sheet h4 {
+  margin: 6px 0 3px;
+  font-size: 11.5pt;
+  font-weight: 700;
+  text-decoration: underline;
+  line-height: 1.25;
+}
+
+.pp-sheet p {
+  margin: 3.5px 0;
+}
+
+.pp-sheet .pp-c { text-align: center; }
+.pp-sheet .pp-r { text-align: right; }
+.pp-sheet .pp-b { font-weight: 700; }
+.pp-sheet .pp-j { text-align: justify; }
+.pp-sheet .pp-sm { font-size: 10.2pt; line-height: 1.3; }
+.pp-sheet .pp-footnote { font-size: 9pt; line-height: 1.25; margin-top: 4px; }
+.pp-sheet .pp-ix { padding-left: 6mm; line-height: 1.45; }
+
+/* Dotted filled blank fields */
+.pp-sheet .pp-f {
+  display: inline-block;
+  border-bottom: 1px dotted #000000;
+  font-weight: 700;
+  font-style: italic;
+  padding: 0 3px;
+  vertical-align: bottom;
+}
+
+.pp-sheet .pp-ln {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 6px;
+  margin: 2.5px 0;
+}
+
+.pp-sheet .pp-ln > span:first-child {
+  white-space: nowrap;
+}
+
+.pp-sheet .pp-ln-val {
+  flex: 1;
+  text-align: left;
+}
+
+.pp-sheet .pp-dot {
+  flex: 1;
+  border-bottom: 1px dotted #000000;
+}
+
+.pp-sheet .pp-val {
+  font-weight: 700;
+  font-style: italic;
+  padding: 0 3px;
+}
+
+/* Official Tables */
+.pp-sheet table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 3.5px 0;
+  font-size: 10.5pt;
+}
+
+.pp-sheet td,
+.pp-sheet th {
+  border: 1px solid #000000;
+  padding: 2px 4px;
+  text-align: center;
+  line-height: 1.25;
+}
+
+.pp-sheet th {
+  font-weight: 700;
+  background: transparent;
+}
+
+.pp-sheet td:not(.l) {
+  font-weight: 700;
+  font-style: italic;
+}
+
+.pp-sheet td.l,
+.pp-sheet th.l {
+  text-align: left;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.pp-sheet table.pp-lp td,
+.pp-sheet table.pp-lp th {
+  border: 0;
+  border-bottom: 1px dotted #000000;
+  text-align: left;
+  height: 7mm;
+}
+
+/* Signature blocks — always blank for manual ink signature & stamp */
+.pp-sheet .pp-sg {
+  float: right;
+  text-align: center;
+  min-width: 58mm;
+  margin-top: 4px;
+  font-weight: 700;
+  font-size: 10.2pt;
+  line-height: 1.25;
+}
+
+.pp-sheet .pp-sg i {
+  display: block;
+  height: 11mm;
+  border-bottom: 1px solid #000000;
+  margin-bottom: 2px;
+}
+
+.pp-sheet .pp-ddo {
+  font-style: italic;
+  font-weight: 700;
+}
+
+.pp-sheet .pp-cl {
+  clear: both;
+}
+
+.pp-sheet .pp-dual-sig {
+  display: flex;
+  justify-content: space-between;
+  gap: 16mm;
+  margin-top: 5mm;
+}
+
+.pp-sheet .pp-sg-col {
+  flex: 1;
+  text-align: center;
+  font-weight: 700;
+  font-size: 10pt;
+}
+
+.pp-sheet .pp-sg-col i {
+  display: block;
+  height: 11mm;
+  border-bottom: 1px solid #000000;
+  margin-bottom: 2px;
+}
+
+/* Cover page */
+.pp-sheet .pp-cov {
+  padding-top: 28mm;
+}
+
+.pp-sheet .pp-cov-h1 {
+  font-size: 40pt;
+  letter-spacing: 0.1em;
+  line-height: 1.22;
+  margin: 16mm 0 12mm;
+  font-weight: 700;
+}
+
+.pp-sheet .pp-cov-h2 {
+  font-size: 20pt;
+  font-weight: 700;
+  margin: 6mm 0 8mm;
+}
+
+.pp-sheet .pp-cov-sub {
+  font-size: 13pt;
+  margin: 4mm 0;
+}
+
+.pp-sheet .pp-cov-meta {
+  font-size: 12pt;
+  margin: 3mm 0;
+}
+
+.pp-sheet .pp-cov-office {
+  font-size: 11pt;
+  margin-top: 8mm;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+/* Boxed Certificates */
+.pp-sheet .pp-bx {
+  border: 1px solid #000000;
+  padding: 5px 8px;
+  margin: 5px 0;
+}
+
+.pp-sheet .pp-cert-h {
+  margin: 0 0 3px !important;
+  font-size: 12pt !important;
+}
+
+/* Tighter density for high-content official pages (Part II, Sec 2/3, Sec 6/7, AG P.8, Sindh Cert, Rates, LPC) */
+.pp-sheet .pp-compact {
+  font-size: 10.2pt;
+  line-height: 1.28;
+}
+
+.pp-sheet .pp-compact h3 {
+  font-size: 12.2pt;
+  margin: 3px 0 3px;
+}
+
+.pp-sheet .pp-compact h4 {
+  font-size: 10.6pt;
+  margin: 4px 0 2px;
+}
+
+.pp-sheet .pp-compact p {
+  margin: 2px 0;
+}
+
+.pp-sheet .pp-compact table {
+  font-size: 9.4pt;
+  margin: 2.5px 0;
+}
+
+.pp-sheet .pp-compact td,
+.pp-sheet .pp-compact th {
+  padding: 1.5px 3.5px;
+}
+
+.pp-sheet .pp-compact .pp-sg i {
+  height: 9mm;
+}
+
+/* 4 stacked certificates per A4 sheet */
+.pp-sheet .pp-certs {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  font-size: 10.5pt;
+  line-height: 1.32;
+}
+
+.pp-sheet .pp-certs .pp-bx {
+  margin: 0;
+  padding: 6px 9px;
+}
+
+.pp-sheet .pp-certs .pp-sg i {
+  height: 10mm;
+}
+
+/* Commutation rates table compact */
+.pp-sheet table.pp-rates {
+  font-size: 9pt;
+}
+
+.pp-sheet table.pp-rates td,
+.pp-sheet table.pp-rates th {
+  padding: 1px 4px;
+  line-height: 1.18;
+}
+
+.pp-sheet table.pp-rates td.pp-hl {
+  background: #e2e8f0 !important;
+  font-weight: 700;
+}
+
+/* Screen preview scaling wrapper */
+.pp-preview-slot {
+  margin: 0 auto 18px;
+  position: relative;
+}
+
+.pp-preview-scale {
+  transform-origin: top left;
+}
+
+/* ─── BULLETPROOF A4 PRINT ISOLATION ─── */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 0;
+  }
+
+  html,
+  body {
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #ffffff !important;
+    background-image: none !important;
+    width: 210mm !important;
+    overflow: visible !important;
+  }
+
+  .pp-no-print {
+    display: none !important;
+  }
+
+  .pp-print-root {
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 210mm !important;
+    max-width: none !important;
+    overflow: visible !important;
+  }
+
+  .pp-preview-slot {
+    width: 210mm !important;
+    height: 297mm !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    break-after: page;
+    page-break-after: always;
+  }
+
+  .pp-preview-slot:last-child {
+    break-after: auto;
+    page-break-after: auto;
+  }
+
+  .pp-preview-slot.pp-skip-print {
+    display: none !important;
+  }
+
+  .pp-preview-scale-outer,
+  .pp-preview-scale {
+    transform: none !important;
+    width: 210mm !important;
+    height: 297mm !important;
+    overflow: hidden !important;
+  }
+
+  .pp-sheet {
+    margin: 0 !important;
+    box-shadow: none !important;
+    width: 210mm !important;
+    height: 297mm !important;
+  }
+
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}

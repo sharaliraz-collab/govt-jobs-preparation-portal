@@ -12,12 +12,24 @@ export default function AppShell({ children }: { children: ReactNode }) {
 
   return (
     <>
-      {!isAdminRoute && <Navbar />}
+      {!isAdminRoute && (
+        <div className="print:hidden">
+          <Navbar />
+        </div>
+      )}
       <main id="main-content" className="flex-grow">
         {children}
       </main>
-      {!isAdminRoute && <Footer />}
-      {!isAdminRoute && <MobileBottomNav />}
+      {!isAdminRoute && (
+        <div className="print:hidden">
+          <Footer />
+        </div>
+      )}
+      {!isAdminRoute && (
+        <div className="print:hidden">
+          <MobileBottomNav />
+        </div>
+      )}
     </>
   );
 }
